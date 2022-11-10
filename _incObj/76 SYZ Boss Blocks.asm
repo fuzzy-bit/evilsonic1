@@ -10,7 +10,8 @@ BossBlock:
 ; ===========================================================================
 Obj76_Index:	dc.w Obj76_Main-Obj76_Index
 		dc.w Obj76_Action-Obj76_Index
-		dc.w loc_19762-Obj76_Index
+		dc.w Obj76_Fall-Obj76_Index
+		dc.w Obj76_FallWithoutCheck-Obj76_Index
 ; ===========================================================================
 
 Obj76_Main:	; Routine 0
@@ -53,7 +54,7 @@ Obj76_Action:	; Routine 2
 		bmi.s	loc_19718
 
 loc_19712:
-		bsr.w	Obj76_Break
+		add.b	#2,obRoutine(a0) ; go to fall routine
 		bra.s	Obj76_Display
 ; ===========================================================================
 
@@ -84,26 +85,45 @@ Obj76_Display:
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 
-loc_19762:	; Routine 4
+Obj76_Fall:	; Routine 4
 		tst.b	obRender(a0)
 		bpl.s	Obj76_Delete
+		
+		move.w	#$582-32,d5
+		cmp.w	obY(a0), d5
+		blt.w	Obj76_Break
+		
 		jsr	(ObjectFall).l
 		jmp	(DisplaySprite).l
+		
+; ===========================================================================
+
+Obj76_FallWithoutCheck:	; Routine 8
+						; i fucking hate this but it works
+		tst.b	obRender(a0)
+		bpl.s	Obj76_Delete
+		
+		jsr	(ObjectFall).l
+		jmp	(DisplaySprite).l
+		
 ; ===========================================================================
 
 Obj76_Delete:
 		jmp	(DeleteObject).l
 
+; ===========================================================================
+
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
 
 Obj76_Break:
+		add.b	#2,obRoutine(a0) ; go to no-check fall routine
 		lea	Obj76_FragSpeed(pc),a4
 		lea	Obj76_FragPos(pc),a5
 		moveq	#1,d4
 		moveq	#3,d1
 		moveq	#$38,d2
-		addq.b	#2,obRoutine(a0)
+		
 		move.b	#8,obActWid(a0)
 		move.b	#8,obHeight(a0)
 		lea	(a0),a1

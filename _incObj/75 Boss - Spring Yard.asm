@@ -155,6 +155,7 @@ SYZBossRoam:
 		cmpi.w	#$2C08,d0
 		bgt.s	SYZBossStop
 		bra.s	SYZBossChangeDirection2
+
 ; ===========================================================================
 
 SYZBossChangeDirection:
@@ -174,16 +175,19 @@ SYZBossStop:
 
 SYZBossPrepareAttack:
 		subq.w	#1,d0
-		bgt.s		SYZBossPrepareAttackBob
-		
-		tst.b		$3D(a0)
-		bne.s	SYZBossPrepareAttackBob
+		bgt.s	SYZBossPrepareAttackBob
 		
 		move.w	(v_player+obX).w,d1
 		subi.w	#$2C00,d1
 		
 		asr.w	#5,d1
 		cmp.b	comparisonX(a0),d1
+		bne.s	SYZBossPrepareAttackBob
+		
+		tst.w	grabbedBlock(a0)
+		bne.w 	SYZBossBreakBlock
+		
+		tst.b	$3D(a0)
 		bne.s	SYZBossPrepareAttackBob
 		
 		moveq	#0,d0
@@ -209,11 +213,23 @@ SYZBossStartAttack:
 		move.b	obSubtype(a0),d0
 		move.w	SYZBossAttackIndex(pc,d0.w),d0
 		jmp	SYZBossAttackIndex(pc,d0.w)
+		
+SYZBossBreakBlock:
+		moveq	#-1,d0
+		move.w	grabbedBlock(a0),d0
+		beq.s	SYZBossRemoveBlock
+		movea.l	d0,a1
+		move.b	#$A,$29(a1)
+
+SYZBossRemoveBlock:
+		clr.w	grabbedBlock(a0)
+		bra.w	SYZShipBobbing
+		
 ; ===========================================================================
 SYZBossAttackIndex:	dc.w SYZBossAttack-SYZBossAttackIndex
 		dc.w SYZBossPrepareLifting-SYZBossAttackIndex
 		dc.w SYZBossStartGettingUp-SYZBossAttackIndex
-		dc.w SYZBossBreakBlock-SYZBossAttackIndex
+		dc.w SYZBossStabilize-SYZBossAttackIndex
 ; ===========================================================================
 
 SYZBossAttack:
@@ -300,23 +316,15 @@ SYZBossGetUpMove:
 		bra.w	SYZMoveBoss
 ; ===========================================================================
 
-SYZBossBreakBlock:
+SYZBossStabilize:
 		subq.w	#1,$3C(a0)
-		bgt.s	SYZBossShake1
-		bmi.s	SYZBossResumeMovement
-		moveq	#-1,d0
-		move.w	grabbedBlock(a0),d0
-		beq.s	SYZBossRemoveBlock
-		movea.l	d0,a1
-		move.b	#$A,$29(a1)
+		bgt.w	SYZBossShake1
+		bmi.w	SYZBossResumeMovement
 
-SYZBossRemoveBlock:
-		clr.w	grabbedBlock(a0)
-		bra.s	SYZBossShake1
 ; ===========================================================================
 
 SYZBossResumeMovement:
-		cmpi.w	#-$1E,$3C(a0)
+		cmpi.w	#-$4,$3C(a0)
 		bne.s	SYZBossShake1
 		clr.b	$29(a0)
 		subq.b	#2,ob2ndRout(a0)

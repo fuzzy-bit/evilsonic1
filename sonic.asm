@@ -5688,6 +5688,7 @@ loc_8B48:
 ; End of function Obj44_SolidWall2
 
 ; ===========================================================================
+		include	"Subroutines\Objects\ChaseObject.asm"
 
 		include	"_incObj\1E Ball Hog.asm"
 		include	"_incObj\20 Cannonball.asm"
@@ -5830,16 +5831,16 @@ M_Card_SLZ:	dc.b 9			; STAR LIGHT
 		dc.b $F8, 5, 0,	$42, $3C
 		even
 M_Card_SYZ:	dc.b $A			; SPRING YARD
-		dc.b $F8, 5, 0,	$3E, $AC
-		dc.b $F8, 5, 0,	$36, $BC
-		dc.b $F8, 5, 0,	$3A, $CC
-		dc.b $F8, 1, 0,	$20, $DC
-		dc.b $F8, 5, 0,	$2E, $E4
-		dc.b $F8, 5, 0,	$18, $F4
-		dc.b $F8, 5, 0,	$4A, $14
-		dc.b $F8, 5, 0,	0, $24
-		dc.b $F8, 5, 0,	$3A, $34
-		dc.b $F8, 5, 0,	$C, $44
+		dc.b	$F8, 5, 0, $35, $B8
+		dc.b	$F8, 5, 0, $49, $C7
+		dc.b	$F8, 5, 0, $2D, $D6
+		dc.b	$F8, 5, 0, $39, $E5
+		dc.b	$F8, 5, 0, $85, $F4
+		dc.b	$F8, 5, 0, $2D, $4
+		dc.b	$F8, 5, 0, $71, $13
+		dc.b	$F8, 5, 0, $39, $22
+		dc.b	$F8, 5, 0, $3D, $31
+		dc.b	$F8, 5, 0, $61, $40
 		even
 M_Card_SBZ:	dc.b $A			; SCRAP BRAIN
 		dc.b $F8, 5, 0,	$3E, $AC
