@@ -89,6 +89,7 @@ Obj76_Fall:	; Routine 4
 		tst.b	obRender(a0)
 		bpl.s	Obj76_Delete
 		
+		move.b	#$87,obColType(a0)
 		move.w	#$582-32,d5
 		cmp.w	obY(a0), d5
 		blt.w	Obj76_Break
@@ -118,6 +119,14 @@ Obj76_Delete:
 
 Obj76_Break:
 		add.b	#2,obRoutine(a0) ; go to no-check fall routine
+		
+		move.l 	a1, -(sp)
+		jsr	(FindFreeObj).l
+		move.b	#id_ExplosionBomb, 0(a1)
+		move.w	obX(a0), obX(a1)
+		move.w	obY(a0), obY(a1)
+		move.l 	(sp)+, a1
+		
 		lea	Obj76_FragSpeed(pc),a4
 		lea	Obj76_FragPos(pc),a5
 		moveq	#1,d4

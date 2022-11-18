@@ -114,8 +114,8 @@ loc_E0:
 	endif
 MEGADRIVE:	dc.b "SEGA MEGA DRIVE " ; Hardware system ID (Console name)
 Date:		dc.b "(C)SEGA 1991.APR" ; Copyright holder and release date (generally year)
-Title_Local:	dc.b "APRIL FOOLS IS A DEAD SPORT                     " ; Domestic name
-Title_Int:	dc.b "APRIL FOOLS IS A DEAD SPORT                     " ; International name
+Title_Local:	dc.b "SALT EATERS 32X                                 " ; Domestic name
+Title_Int:	dc.b "SALT EATERS 32X                                 " ; International name
 Serial:		if Revision=0
 		dc.b "GM 00001009-00"   ; Serial/version number (Rev 0)
 		else
@@ -377,7 +377,7 @@ Art_Text:	incbin	"artunc\menutext.bin" ; text used in level select and debug mod
 VBlank:
 		movem.l	d0-a6,-(sp)
 		tst.b	(v_vbla_routine).w
-		beq.s	VBla_00
+		beq.w	VBla_00
 		move.w	(vdp_control_port).l,d0
 		move.l	#$40000010,(vdp_control_port).l
 		move.l	(v_scrposy_dup).w,(vdp_data_port).l ; send screen y-axis pos. to VSRAM
@@ -412,7 +412,6 @@ VBla_Index:	dc.w VBla_00-VBla_Index, VBla_02-VBla_Index
 		dc.w VBla_14-VBla_Index, VBla_16-VBla_Index
 		dc.w VBla_0C-VBla_Index
 ; ===========================================================================
-
 VBla_00:
 		cmpi.b	#$80+id_Level,(v_gamemode).w
 		beq.s	@islevel
@@ -5689,6 +5688,7 @@ loc_8B48:
 
 ; ===========================================================================
 		include	"Subroutines\Objects\ChaseObject.asm"
+		include	"Subroutines\Objects\FindOtherObject.asm"
 
 		include	"_incObj\1E Ball Hog.asm"
 		include	"_incObj\20 Cannonball.asm"

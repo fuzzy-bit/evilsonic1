@@ -479,8 +479,8 @@ Obj75_FaceMain:	; Routine 4
 		movea.l	comparisonX(a0),a1
 		moveq	#0,d0
 		move.b	ob2ndRout(a1),d0
-		move.w	off_19546(pc,d0.w),d0
-		jsr	off_19546(pc,d0.w)
+		move.w	SYZBossFace(pc,d0.w),d0
+		jsr	SYZBossFace(pc,d0.w)
 		move.b	d1,obAnim(a0)
 		move.b	(a0),d0
 		cmp.b	(a1),d0
@@ -491,22 +491,22 @@ Obj75_FaceMain:	; Routine 4
 Obj75_FaceDelete:
 		jmp	(DeleteObject).l
 ; ===========================================================================
-off_19546:	dc.w loc_19574-off_19546, loc_19574-off_19546
-		dc.w loc_1955A-off_19546, loc_19552-off_19546
-		dc.w loc_19552-off_19546, loc_19556-off_19546
+SYZBossFace:	dc.w SYZBossFaceTestHurt-SYZBossFace, SYZBossFaceTestHurt-SYZBossFace
+		dc.w SYZBossFaceUnknown3-SYZBossFace, SYZBossFaceDefeated-SYZBossFace
+		dc.w SYZBossFaceDefeated-SYZBossFace, SYZBossFaceDefeated2-SYZBossFace
 ; ===========================================================================
 
-loc_19552:
+SYZBossFaceDefeated:
 		moveq	#$A,d1
 		rts	
 ; ===========================================================================
 
-loc_19556:
+SYZBossFaceDefeated2:
 		moveq	#6,d1
-		rts	
+		rts
 ; ===========================================================================
 
-loc_1955A:
+SYZBossFaceUnknown3:
 		moveq	#0,d0
 		move.b	obSubtype(a1),d0
 		move.w	off_19568(pc,d0.w),d0
@@ -517,25 +517,25 @@ off_19568:	dc.w loc_19570-off_19568, loc_19572-off_19568
 ; ===========================================================================
 
 loc_19570:
-		bra.s	loc_19574
+		bra.s	SYZBossFaceTestHurt
 ; ===========================================================================
 
 loc_19572:
 		moveq	#6,d1
 
-loc_19574:
-		tst.b	obColType(a1)
-		bne.s	loc_1957E
+SYZBossFaceTestHurt:
+		tst.b	obColType(a1)		; is eggman being hurt?
+		bne.s	SYZBossFaceTestLaugh	; if not, branch
 		moveq	#5,d1
 		rts	
 ; ===========================================================================
 
-loc_1957E:
+SYZBossFaceTestLaugh:
 		cmpi.b	#4,(v_player+obRoutine).w
-		bcs.s	locret_19588
+		bcs.s	SYZBossFaceTestLaugh_rts
 		moveq	#4,d1
 
-locret_19588:
+SYZBossFaceTestLaugh_rts:
 		rts	
 ; ===========================================================================
 

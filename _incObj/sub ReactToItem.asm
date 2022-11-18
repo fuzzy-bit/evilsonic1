@@ -278,9 +278,9 @@ HurtSonic:
 		move.w	#-$200, obVelX(a0)
 		move.w	#-$900, obVelY(a0) 			; /fling
 
-		jsr				(FindFreeObj).l				; find a free object slot
+		jsr		(FindFreeObj).l			; find a free object slot
 		move.b		#id_ExplosionBomb, 0(a1)	; create explosion object
-		move.w		obX(a0), obX(a1)			; copy sonic's X, Y positions to the explosion object
+		move.w		obX(a0), obX(a1)		; copy sonic's X, Y positions to the explosion object
 		move.w		obY(a0), obY(a1)
 		
 		btst	#6,obStatus(a0)	; is Sonic underwater?
