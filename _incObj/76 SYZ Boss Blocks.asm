@@ -5,28 +5,28 @@
 BossBlock:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
-		move.w	Obj76_Index(pc,d0.w),d1
-		jmp	Obj76_Index(pc,d1.w)
+		move.w	SYZBossBlockIndex(pc,d0.w),d1
+		jmp	SYZBossBlockIndex(pc,d1.w)
 ; ===========================================================================
-Obj76_Index:	dc.w Obj76_Main-Obj76_Index
-		dc.w Obj76_Action-Obj76_Index
-		dc.w Obj76_Fall-Obj76_Index
-		dc.w Obj76_FallWithoutCheck-Obj76_Index
+SYZBossBlockIndex:	dc.w SYZBossBlockMain-SYZBossBlockIndex
+		dc.w SYZBossBlockAction-SYZBossBlockIndex
+		dc.w SYZBossBlockFall-SYZBossBlockIndex
+		dc.w SYZBossBlockFallWithoutCheck-SYZBossBlockIndex
 ; ===========================================================================
 
-Obj76_Main:	; Routine 0
+SYZBossBlockMain:	; Routine 0
 		moveq	#0,d4
 		move.w	#$2C10,d5
 		moveq	#9,d6
 		lea	(a0),a1
-		bra.s	Obj76_MakeBlock
+		bra.s	SYZBossBlockMakeBlock
 ; ===========================================================================
 
-Obj76_Loop:
+SYZBossBlockLoop:
 		jsr	(FindFreeObj).l
-		bne.s	Obj76_ExitLoop
+		bne.s	SYZBossBlockExitLoop
 
-Obj76_MakeBlock:
+SYZBossBlockMakeBlock:
 		move.b	#id_BossBlock,(a1)
 		move.l	#Map_BossBlock,obMap(a1)
 		move.w	#$4000,obGfx(a1)
@@ -40,76 +40,76 @@ Obj76_MakeBlock:
 		addi.w	#$101,d4
 		addi.w	#$20,d5		; add $20 to next x-position
 		addq.b	#2,obRoutine(a1)
-		dbf	d6,Obj76_Loop	; repeat sequence 9 more times
+		dbf	d6,SYZBossBlockLoop	; repeat sequence 9 more times
 
-Obj76_ExitLoop:
+SYZBossBlockExitLoop:
 		rts	
 ; ===========================================================================
 
-Obj76_Action:	; Routine 2
+SYZBossBlockAction:	; Routine 2
 		move.b	$29(a0),d0
 		cmp.b	obSubtype(a0),d0
-		beq.s	Obj76_Solid
+		beq.s	SYZBossBlockSolid
 		tst.b	d0
-		bmi.s	loc_19718
+		bmi.s	SYZBossBlockPickUp
 
-loc_19712:
+SYZBossBlockAction2:
 		add.b	#2,obRoutine(a0) ; go to fall routine
-		bra.s	Obj76_Display
+		bra.s	SYZBossBlockDisplay
 ; ===========================================================================
 
-loc_19718:
+SYZBossBlockPickUp:
 		movea.l	$34(a0),a1
 		tst.b	obColProp(a1)
-		beq.s	loc_19712
+		beq.s	SYZBossBlockAction2
 		move.w	obX(a1),obX(a0)
 		move.w	obY(a1),obY(a0)
 		addi.w	#$2C,obY(a0)
 		cmpa.w	a0,a1
-		bcs.s	Obj76_Display
+		bcs.s	SYZBossBlockDisplay
 		move.w	obVelY(a1),d0
 		ext.l	d0
 		asr.l	#8,d0
 		add.w	d0,obY(a0)
-		bra.s	Obj76_Display
+		bra.s	SYZBossBlockDisplay
 ; ===========================================================================
 
-Obj76_Solid:
+SYZBossBlockSolid:
 		move.w	#$1B,d1
 		move.w	#$10,d2
 		move.w	#$11,d3
 		move.w	obX(a0),d4
 		jsr	(SolidObject).l
 
-Obj76_Display:
+SYZBossBlockDisplay:
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 
-Obj76_Fall:	; Routine 4
+SYZBossBlockFall:	; Routine 4
 		tst.b	obRender(a0)
-		bpl.s	Obj76_Delete
+		bpl.s	SYZBossBlockDelete
 		
 		move.b	#$87,obColType(a0)
 		move.w	#$582-32,d5
 		cmp.w	obY(a0), d5
-		blt.w	Obj76_Break
+		blt.w	SYZBossBlockBreak
 		
 		jsr	(ObjectFall).l
 		jmp	(DisplaySprite).l
 		
 ; ===========================================================================
 
-Obj76_FallWithoutCheck:	; Routine 8
+SYZBossBlockFallWithoutCheck:	; Routine 8
 						; i fucking hate this but it works
 		tst.b	obRender(a0)
-		bpl.s	Obj76_Delete
+		bpl.s	SYZBossBlockDelete
 		
 		jsr	(ObjectFall).l
 		jmp	(DisplaySprite).l
 		
 ; ===========================================================================
 
-Obj76_Delete:
+SYZBossBlockDelete:
 		jmp	(DeleteObject).l
 
 ; ===========================================================================
@@ -117,7 +117,7 @@ Obj76_Delete:
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
 
-Obj76_Break:
+SYZBossBlockBreak:
 		add.b	#2,obRoutine(a0) ; go to no-check fall routine
 		
 		move.l 	a1, -(sp)
@@ -127,8 +127,8 @@ Obj76_Break:
 		move.w	obY(a0), obY(a1)
 		move.l 	(sp)+, a1
 		
-		lea	Obj76_FragSpeed(pc),a4
-		lea	Obj76_FragPos(pc),a5
+		lea	SYZBossBlockFragSpeed(pc),a4
+		lea	SYZBossBlockFragPos(pc),a5
 		moveq	#1,d4
 		moveq	#3,d1
 		moveq	#$38,d2
@@ -136,24 +136,24 @@ Obj76_Break:
 		move.b	#8,obActWid(a0)
 		move.b	#8,obHeight(a0)
 		lea	(a0),a1
-		bra.s	Obj76_MakeFrag
+		bra.s	SYZBossBlockMakeFrag
 ; ===========================================================================
 
-Obj76_LoopFrag:
+SYZBossBlockLoopFrag:
 		jsr	(FindNextFreeObj).l
-		bne.s	loc_197D4
+		bne.s	SYZBossBlockPlaySfx
 
-Obj76_MakeFrag:
+SYZBossBlockMakeFrag:
 		lea	(a0),a2
 		lea	(a1),a3
 		moveq	#3,d3
 
-loc_197AA:
+SYZBossBlockMakeFrag2:
 		move.l	(a2)+,(a3)+
 		move.l	(a2)+,(a3)+
 		move.l	(a2)+,(a3)+
 		move.l	(a2)+,(a3)+
-		dbf	d3,loc_197AA
+		dbf	d3,SYZBossBlockMakeFrag2
 
 		move.w	(a4)+,obVelX(a1)
 		move.w	(a4)+,obVelY(a1)
@@ -163,19 +163,19 @@ loc_197AA:
 		add.w	d3,obY(a1)
 		move.b	d4,obFrame(a1)
 		addq.w	#1,d4
-		dbf	d1,Obj76_LoopFrag ; repeat sequence 3 more times
+		dbf	d1,SYZBossBlockLoopFrag ; repeat sequence 3 more times
 
-loc_197D4:
+SYZBossBlockPlaySfx:
 		sfx	sfx_Smash	; play smashing sound
 		rts
-; End of function Obj76_Break
+; End of function SYZBossBlockBreak
 
 ; ===========================================================================
-Obj76_FragSpeed:dc.w -$180, -$200
+SYZBossBlockFragSpeed:dc.w -$180, -$200
 		dc.w $180, -$200
 		dc.w -$100, -$100
 		dc.w $100, -$100
-Obj76_FragPos:	dc.w -8, -8
+SYZBossBlockFragPos:dc.w -8, -8
 		dc.w $10, 0
 		dc.w 0,	$10
 		dc.w $10, $10

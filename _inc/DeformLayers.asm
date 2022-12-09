@@ -165,7 +165,10 @@ Deform_MZ:
 		add.l	d1,d4
 		moveq	#0,d5
 		bsr.w	ScrollBlock1
-		move.w	#$200,d0
+		andi.w	#$7FF,d0
+		lsr.w	#5,d0
+		neg.w	d0
+		addi.w	#$26,d0
 		move.w	(v_screenposy).w,d1
 		subi.w	#$1C8,d1
 		bcs.s	loc_6402

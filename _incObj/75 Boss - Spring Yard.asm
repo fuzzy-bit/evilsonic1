@@ -1,53 +1,53 @@
 ; ---------------------------------------------------------------------------
 ; Object 75 - Eggman (SYZ)
-; soulja boy tell em
 ; ---------------------------------------------------------------------------
 
 BossSpringYard:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
-		move.w	Obj75_Index(pc,d0.w),d1
-		jmp	Obj75_Index(pc,d1.w)
+		move.w	SYZBossIndex(pc,d0.w),d1
+		jmp	SYZBossIndex(pc,d1.w)
 ; ===========================================================================
-Obj75_Index:	dc.w Obj75_Main-Obj75_Index
-		dc.w Obj75_ShipMain-Obj75_Index
-		dc.w Obj75_FaceMain-Obj75_Index
-		dc.w Obj75_FlameMain-Obj75_Index
-		dc.w Obj75_SpikeMain-Obj75_Index
+SYZBossIndex:	dc.w SYZBossMain-SYZBossIndex
+		dc.w SYZBossShipMain-SYZBossIndex
+		dc.w SYZBossFaceMain-SYZBossIndex
+		dc.w SYZBossFlameMain-SYZBossIndex
+		dc.w SYZBossSpikeMain-SYZBossIndex
 
-targetX:			equ $30
-targetY:			equ $38
+SYZBossTargetX:			equ $30
+SYZBossTargetY:			equ $38
+SYZBossTimer:			equ $3C
 
-comparisonX:	equ $34
-grabbedBlock:	equ $36
+SYZBossComparisonX:	equ $34
+SYZBossGrabbedBlock:	equ $36
 
-Obj75_ObjData:	dc.b 2,	0, 5		; routine number, animation, priority
+SYZBossObjData:	dc.b 2,	0, 5		; routine number, animation, priority
 		dc.b 4,	1, 5
 		dc.b 6,	7, 5
 		dc.b 8,	0, 5
 ; ===========================================================================
 
-Obj75_Main:	; Routine 0
+SYZBossMain:	; Routine 0
 		move.w	#$2DB0,obX(a0)
 		move.w	#$4DA,obY(a0)
-		move.w	obX(a0),targetX(a0)
-		move.w	obY(a0),targetY(a0)
+		move.w	obX(a0),SYZBossTargetX(a0)
+		move.w	obY(a0),SYZBossTargetY(a0)
 		move.b	#$F,obColType(a0)
 		move.b	#8,obColProp(a0) ; set number of hits to 8
-		lea	Obj75_ObjData(pc),a2
+		lea	SYZBossObjData(pc),a2
 		movea.l	a0,a1
 		moveq	#3,d1
-		bra.s	Obj75_LoadBoss
+		bra.s	SYZBossLoadBoss
 ; ===========================================================================
 
-Obj75_Loop:
+SYZBossLoop:
 		jsr	(FindNextFreeObj).l
-		bne.s	Obj75_ShipMain
+		bne.s	SYZBossShipMain
 		move.b	#id_BossSpringYard,(a1)
 		move.w	obX(a0),obX(a1)
 		move.w	obY(a0),obY(a1)
 
-Obj75_LoadBoss:
+SYZBossLoadBoss:
 		bclr	#0,obStatus(a0)
 		clr.b	ob2ndRout(a1)
 		move.b	(a2)+,obRoutine(a1)
@@ -57,14 +57,14 @@ Obj75_LoadBoss:
 		move.w	#$400,obGfx(a1)
 		move.b	#4,obRender(a1)
 		move.b	#$20,obActWid(a1)
-		move.l	a0,comparisonX(a1)
-		dbf	d1,Obj75_Loop	; repeat sequence 3 more times
+		move.l	a0,SYZBossComparisonX(a1)
+		dbf	d1,SYZBossLoop	; repeat sequence 3 more times
 
-Obj75_ShipMain:	; Routine 2
+SYZBossShipMain:	; Routine 2
 		moveq	#0,d0
 		move.b	ob2ndRout(a0),d0
-		move.w	Obj75_ShipIndex(pc,d0.w),d1
-		jsr	Obj75_ShipIndex(pc,d1.w)
+		move.w	SYZBossShipIndex(pc,d0.w),d1
+		jsr	SYZBossShipIndex(pc,d1.w)
 		lea	(Ani_Eggman).l,a1
 		jsr	(AnimateSprite).l
 		moveq	#3,d0
@@ -73,14 +73,14 @@ Obj75_ShipMain:	; Routine 2
 		or.b	d0,obRender(a0)
 		jmp	(DisplaySprite).l
 ; ===========================================================================
-Obj75_ShipIndex:dc.w SYZBossStart-Obj75_ShipIndex,	SYZBossRoam-Obj75_ShipIndex
-		dc.w SYZBossStartAttack-Obj75_ShipIndex,	SYZBossDefeated-Obj75_ShipIndex
-		dc.w SYZBossFlee-Obj75_ShipIndex,	SYZBossFlee4-Obj75_ShipIndex
+SYZBossShipIndex:dc.w SYZBossStart-SYZBossShipIndex,	SYZBossRoam-SYZBossShipIndex
+		dc.w SYZBossStartAttack-SYZBossShipIndex,	SYZBossDefeated-SYZBossShipIndex
+		dc.w SYZBossFlee-SYZBossShipIndex,	SYZBossFlee4-SYZBossShipIndex
 ; ===========================================================================
 
 SYZBossStart:
 		move.w	#-$100,obVelX(a0)
-		cmpi.w	#$2D38,targetX(a0)
+		cmpi.w	#$2D38,SYZBossTargetX(a0)
 		bcc.s	SYZShipBobbing
 		addq.b	#2,ob2ndRout(a0)
 
@@ -93,14 +93,14 @@ SYZShipBobbing:
 
 SYZMoveBoss:
 		bsr.w	BossMove
-		move.w	targetY(a0),obY(a0)
-		move.w	targetX(a0),obX(a0)
+		move.w	SYZBossTargetY(a0),obY(a0)
+		move.w	SYZBossTargetX(a0),obX(a0)
 
 SYZDamageBoss:
 		move.w	obX(a0),d0
 		subi.w	#$2C00,d0	; some offset stuff
 		lsr.w	#5,d0
-		move.b	d0,comparisonX(a0)		; before checking if we should damage the boss, we allow it to attack by setting the X comparison value
+		move.b	d0,SYZBossComparisonX(a0)		; before checking if we should damage the boss, we allow it to attack by setting the X comparison value
 		
 		cmpi.b	#6,ob2ndRout(a0)
 		bcc.s	SYZDamageBoss_rts
@@ -138,13 +138,13 @@ SYZBossPreventNoCollision:
 		moveq	#100,d0
 		bsr.w	AddPoints
 		move.b	#6,ob2ndRout(a0)
-		move.w	#$B4,$3C(a0)
+		move.w	#$B4,SYZBossTimer(a0)
 		clr.w	obVelX(a0)
 		rts	
 ; ===========================================================================
 
 SYZBossRoam:
-		move.w	targetX(a0),d0
+		move.w	SYZBossTargetX(a0),d0
 		move.w	#$140,obVelX(a0)
 		
 		btst	#0,obStatus(a0)
@@ -181,23 +181,23 @@ SYZBossPrepareAttack:
 		subi.w	#$2C00,d1
 		
 		asr.w	#5,d1
-		cmp.b	comparisonX(a0),d1
+		cmp.b	SYZBossComparisonX(a0),d1
 		bne.s	SYZBossPrepareAttackBob
 		
-		tst.w	grabbedBlock(a0)
+		tst.w	SYZBossGrabbedBlock(a0)
 		bne.w 	SYZBossBreakBlock
 		
 		tst.b	$3D(a0)
 		bne.s	SYZBossPrepareAttackBob
 		
 		moveq	#0,d0
-		move.b	comparisonX(a0),d0
+		move.b	SYZBossComparisonX(a0),d0
 		
 		asl.w	#5,d0
 		addi.w	#$2C10,d0
 		
-		move.w	d0,targetX(a0)
-		bsr.w	Obj75_FindBlocks
+		move.w	d0,SYZBossTargetX(a0)
+		bsr.w	SYZBossFindBlocks
 		
 		addq.b	#2,ob2ndRout(a0)
 		
@@ -216,13 +216,13 @@ SYZBossStartAttack:
 		
 SYZBossBreakBlock:
 		moveq	#-1,d0
-		move.w	grabbedBlock(a0),d0
+		move.w	SYZBossGrabbedBlock(a0),d0
 		beq.s	SYZBossRemoveBlock
 		movea.l	d0,a1
 		move.b	#$A,$29(a1)
 
 SYZBossRemoveBlock:
-		clr.w	grabbedBlock(a0)
+		clr.w	SYZBossGrabbedBlock(a0)
 		bra.w	SYZShipBobbing
 		
 ; ===========================================================================
@@ -234,20 +234,20 @@ SYZBossAttackIndex:	dc.w SYZBossAttack-SYZBossAttackIndex
 
 SYZBossAttack:
 		move.w	#$180,obVelY(a0)
-		move.w	targetY(a0),d0
+		move.w	SYZBossTargetY(a0),d0
 		
 		cmpi.w	#$556,d0
 		bcs.s	SYZBossAttackMove
-		move.w	#$556,targetY(a0)
-		clr.w	$3C(a0)
+		move.w	#$556,SYZBossTargetY(a0)
+		clr.w	SYZBossTimer(a0)
 		moveq	#-1,d0
-		move.w	grabbedBlock(a0),d0
+		move.w	SYZBossGrabbedBlock(a0),d0
 		beq.s	SYZBossAttackBreak
 		movea.l	d0,a1
 		move.b	#-1,$29(a1)
 		move.b	#-1,$29(a0)
-		move.l	a0,comparisonX(a1)
-		move.w	#$32,$3C(a0)
+		move.l	a0,SYZBossComparisonX(a1)
+		move.w	#$32,SYZBossTimer(a0)
 
 SYZBossAttackBreak:
 		clr.w	obVelY(a0)
@@ -258,11 +258,11 @@ SYZBossAttackMove:
 ; ===========================================================================
 
 SYZBossPrepareLifting:
-		subq.w	#1,$3C(a0)
+		subq.w	#1,SYZBossTimer(a0)
 		bpl.s	SYZBossCheckForUpdateGrabbing
 		addq.b	#2,obSubtype(a0)
 		move.w	#-$800,obVelY(a0)
-		tst.w	grabbedBlock(a0)
+		tst.w	SYZBossGrabbedBlock(a0)
 		bne.s	SYZBossSomeShitIdk
 		asr	obVelY(a0)
 
@@ -273,7 +273,7 @@ SYZBossSomeShitIdk:
 
 SYZBossCheckForUpdateGrabbing:
 		moveq	#0,d0
-		cmpi.w	#$1E,$3C(a0)
+		cmpi.w	#$1E,SYZBossTimer(a0)
 		bgt.s	SYZBossUpdateHurtStateGrabbing
 		moveq	#2,d0
 		btst	#1,$3D(a0)
@@ -281,25 +281,25 @@ SYZBossCheckForUpdateGrabbing:
 		neg.w	d0
 
 SYZBossUpdateHurtStateGrabbing:	; what a mouthful!
-		add.w	targetY(a0),d0
+		add.w	SYZBossTargetY(a0),d0
 		move.w	d0,obY(a0)
-		move.w	targetX(a0),obX(a0)
+		move.w	SYZBossTargetX(a0),obX(a0)
 		bra.w	SYZDamageBoss
 ; ===========================================================================
 
 SYZBossStartGettingUp:
 		move.w	#$4DA,d0
-		tst.w	grabbedBlock(a0)
+		tst.w	SYZBossGrabbedBlock(a0)
 		beq.s	SYZBossStartGettingUp2
 		subi.w	#$18,d0
 
 SYZBossStartGettingUp2:
-		cmp.w	targetY(a0),d0
+		cmp.w	SYZBossTargetY(a0),d0
 		blt.s	SYZBossGetUp
-		move.w	#8,$3C(a0)
-		tst.w	grabbedBlock(a0)
+		move.w	#8,SYZBossTimer(a0)
+		tst.w	SYZBossGrabbedBlock(a0)
 		beq.s	SYZBossStartGettingUp3
-		move.w	#$2D,$3C(a0)
+		move.w	#$2D,SYZBossTimer(a0)
 
 SYZBossStartGettingUp3:
 		addq.b	#2,obSubtype(a0)
@@ -317,14 +317,14 @@ SYZBossGetUpMove:
 ; ===========================================================================
 
 SYZBossStabilize:
-		subq.w	#1,$3C(a0)
+		subq.w	#1,SYZBossTimer(a0)
 		bgt.w	SYZBossShake1
 		bmi.w	SYZBossResumeMovement
 
 ; ===========================================================================
 
 SYZBossResumeMovement:
-		cmpi.w	#-$4,$3C(a0)
+		cmpi.w	#-$4,SYZBossTimer(a0)
 		bne.s	SYZBossShake1
 		clr.b	$29(a0)
 		subq.b	#2,ob2ndRout(a0)
@@ -334,24 +334,24 @@ SYZBossResumeMovement:
 
 SYZBossShake1:
 		moveq	#1,d0
-		tst.w	grabbedBlock(a0)
+		tst.w	SYZBossGrabbedBlock(a0)
 		beq.s	SYZBossStopShake1
 		moveq	#2,d0
 
 SYZBossStopShake1:
-		cmpi.w	#$4DA,targetY(a0)
+		cmpi.w	#$4DA,SYZBossTargetY(a0)
 		beq.s	SYZBossShake2
 		blt.s	SYZBossPositionAfterShake1
 		neg.w	d0
 
 SYZBossPositionAfterShake1:
-		tst.w	grabbedBlock(a0)
-		add.w	d0,targetY(a0)
+		tst.w	SYZBossGrabbedBlock(a0)
+		add.w	d0,SYZBossTargetY(a0)
 
 SYZBossShake2:
 		nop
 		moveq	#0,d0
-		tst.w	grabbedBlock(a0)
+		tst.w	SYZBossGrabbedBlock(a0)
 		beq.s	SYZBossPositionAfterShake2
 		moveq	#2,d0
 		btst	#0,$3D(a0)
@@ -359,9 +359,9 @@ SYZBossShake2:
 		neg.w	d0
 
 SYZBossPositionAfterShake2:
-		add.w	targetY(a0),d0
+		add.w	SYZBossTargetY(a0),d0
 		move.w	d0,obY(a0)
-		move.w	targetX(a0),8(a0)
+		move.w	SYZBossTargetX(a0),8(a0)
 
 SYZBossDamageOnResuming:
 		bra.w	SYZDamageBoss
@@ -369,34 +369,34 @@ SYZBossDamageOnResuming:
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
 
-Obj75_FindBlocks:
-		clr.w	grabbedBlock(a0)
+SYZBossFindBlocks:
+		clr.w	SYZBossGrabbedBlock(a0)
 		lea	(v_objspace+$40).w,a1
 		moveq	#$3E,d0
 		moveq	#$76,d1
-		move.b	comparisonX(a0),d2
+		move.b	SYZBossComparisonX(a0),d2
 
-Obj75_FindLoop:
+SYZBossFindLoop:
 		cmp.b	(a1),d1		; is object a SYZ boss block?
-		bne.s	Obj75_NotABlock	; if not, branch
+		bne.s	SYZBossNotABlock	; if not, branch
 		cmp.b	obSubtype(a1),d2
-		bne.s	Obj75_NotABlock
-		move.w	a1,grabbedBlock(a0)
-		bra.s	Obj75_FindLoop_rts
+		bne.s	SYZBossNotABlock
+		move.w	a1,SYZBossGrabbedBlock(a0)
+		bra.s	SYZBossFindLoop_rts
 ; ===========================================================================
 
-Obj75_NotABlock:
+SYZBossNotABlock:
 		lea	$40(a1),a1	; next object RAM entry
-		dbf	d0,Obj75_FindLoop
+		dbf	d0,SYZBossFindLoop
 
-Obj75_FindLoop_rts:
+SYZBossFindLoop_rts:
 		rts	
-; End of function Obj75_FindBlocks
+; End of function SYZBossFindBlocks
 
 ; ===========================================================================
 
 SYZBossDefeated:
-		subq.w	#1,$3C(a0)
+		subq.w	#1,SYZBossTimer(a0)
 		bmi.s	SYZBossSetDefeatStatus
 		bra.w	BossDefeated
 ; ===========================================================================
@@ -407,7 +407,7 @@ SYZBossSetDefeatStatus:
 		bset	#0,obStatus(a0)
 		bclr	#7,obStatus(a0)
 		clr.w	obVelX(a0)
-		move.w	#-1,$3C(a0)
+		move.w	#-1,SYZBossTimer(a0)
 		tst.b	(v_bossstatus).w
 		bne.s	SYZBossDamageWhileDefeated
 		move.b	#1,(v_bossstatus).w
@@ -417,7 +417,7 @@ SYZBossDamageWhileDefeated:
 ; ===========================================================================
 
 SYZBossFlee:
-		addq.w	#1,$3C(a0)
+		addq.w	#1,SYZBossTimer(a0)
 		beq.s	SYZBossFlee2
 		bpl.s	SYZBossFlee3
 		addi.w	#$18,obVelY(a0)
@@ -430,10 +430,10 @@ SYZBossFlee2:
 ; ===========================================================================
 
 SYZBossFlee3:
-		cmpi.w	#$20,$3C(a0)
+		cmpi.w	#$20,SYZBossTimer(a0)
 		bcs.s	SYZBossFleeSlowY
 		beq.s	SYZBossFleePlayMusic
-		cmpi.w	#$2A,$3C(a0)
+		cmpi.w	#$2A,SYZBossTimer(a0)
 		bcs.s	SYZBossFleeMove
 		addq.b	#2,ob2ndRout(a0)
 		bra.s	SYZBossFleeMove
@@ -463,20 +463,20 @@ SYZBossFlee4:
 
 SYZBossFleeCheckRender:
 		tst.b	obRender(a0)
-		bpl.s	Obj75_ShipDelete
+		bpl.s	SYZBossShipDelete
 
 SYZBossFleeMove2:
 		bsr.w	BossMove
 		bra.w	SYZShipBobbing
 ; ===========================================================================
 
-Obj75_ShipDelete:
+SYZBossShipDelete:
 		jmp	(DeleteObject).l
 ; ===========================================================================
 
-Obj75_FaceMain:	; Routine 4
+SYZBossFaceMain:	; Routine 4
 		moveq	#1,d1
-		movea.l	comparisonX(a0),a1
+		movea.l	SYZBossComparisonX(a0),a1
 		moveq	#0,d0
 		move.b	ob2ndRout(a1),d0
 		move.w	SYZBossFace(pc,d0.w),d0
@@ -484,11 +484,11 @@ Obj75_FaceMain:	; Routine 4
 		move.b	d1,obAnim(a0)
 		move.b	(a0),d0
 		cmp.b	(a1),d0
-		bne.s	Obj75_FaceDelete
-		bra.s	loc_195BE
+		bne.s	SYZBossFaceDelete
+		bra.s	SYZBossDisplayFace
 ; ===========================================================================
 
-Obj75_FaceDelete:
+SYZBossFaceDelete:
 		jmp	(DeleteObject).l
 ; ===========================================================================
 SYZBossFace:	dc.w SYZBossFaceTestHurt-SYZBossFace, SYZBossFaceTestHurt-SYZBossFace
@@ -509,18 +509,18 @@ SYZBossFaceDefeated2:
 SYZBossFaceUnknown3:
 		moveq	#0,d0
 		move.b	obSubtype(a1),d0
-		move.w	off_19568(pc,d0.w),d0
-		jmp	off_19568(pc,d0.w)
+		move.w	SYZBossFace2(pc,d0.w),d0
+		jmp	SYZBossFace2(pc,d0.w)
 ; ===========================================================================
-off_19568:	dc.w loc_19570-off_19568, loc_19572-off_19568
-		dc.w loc_19570-off_19568, loc_19570-off_19568
+SYZBossFace2:	dc.w SYZBossFaceTestHurtShort-SYZBossFace2, SYZBossFace2Unknown-SYZBossFace2
+		dc.w SYZBossFaceTestHurtShort-SYZBossFace2, SYZBossFaceTestHurtShort-SYZBossFace2
 ; ===========================================================================
 
-loc_19570:
+SYZBossFaceTestHurtShort:
 		bra.s	SYZBossFaceTestHurt
 ; ===========================================================================
 
-loc_19572:
+SYZBossFace2Unknown:
 		moveq	#6,d1
 
 SYZBossFaceTestHurt:
@@ -539,38 +539,38 @@ SYZBossFaceTestLaugh_rts:
 		rts	
 ; ===========================================================================
 
-Obj75_FlameMain:; Routine 6
+SYZBossFlameMain:; Routine 6
 		move.b	#7,obAnim(a0)
-		movea.l	comparisonX(a0),a1
+		movea.l	SYZBossComparisonX(a0),a1
 		cmpi.b	#$A,ob2ndRout(a1)
-		bne.s	loc_195AA
+		bne.s	SYZBossFaceFleeing
 		move.b	#$B,obAnim(a0)
 		tst.b	1(a0)
-		bpl.s	Obj75_FlameDelete
-		bra.s	loc_195B6
+		bpl.s	SYZBossFlameDelete
+		bra.s	SYZBossDisplayFaceShort
 ; ===========================================================================
 
-loc_195AA:
+SYZBossFaceFleeing:
 		tst.w	obVelX(a1)
-		beq.s	loc_195B6
+		beq.s	SYZBossDisplayFaceShort
 		move.b	#8,obAnim(a0)
 
-loc_195B6:
-		bra.s	loc_195BE
+SYZBossDisplayFaceShort:
+		bra.s	SYZBossDisplayFace
 ; ===========================================================================
 
-Obj75_FlameDelete:
+SYZBossFlameDelete:
 		jmp	(DeleteObject).l
 ; ===========================================================================
 
-loc_195BE:
+SYZBossDisplayFace:
 		lea	(Ani_Eggman).l,a1
 		jsr	(AnimateSprite).l
-		movea.l	comparisonX(a0),a1
+		movea.l	SYZBossComparisonX(a0),a1
 		move.w	obX(a1),obX(a0)
 		move.w	obY(a1),obY(a0)
 
-loc_195DA:
+SYZBossDisplayFace2:
 		move.b	obStatus(a1),obStatus(a0)
 		moveq	#3,d0
 		and.b	obStatus(a0),d0
@@ -579,58 +579,58 @@ loc_195DA:
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 
-Obj75_SpikeMain:; Routine 8
+SYZBossSpikeMain:; Routine 8
 		move.l	#Map_BossItems,obMap(a0)
 		move.w	#$246C,obGfx(a0)
 		move.b	#5,obFrame(a0)
-		movea.l	comparisonX(a0),a1
+		movea.l	SYZBossComparisonX(a0),a1
 		cmpi.b	#$A,ob2ndRout(a1)
-		bne.s	loc_1961C
+		bne.s	SYZBossSpikeOut
 		tst.b	obRender(a0)
-		bpl.s	Obj75_SpikeDelete
+		bpl.s	SYZBossSpikeDelete
 
-loc_1961C:
+SYZBossSpikeOut:
 		move.w	obX(a1),obX(a0)
 		move.w	obY(a1),obY(a0)
-		move.w	$3C(a0),d0
+		move.w	SYZBossTimer(a0),d0
 		cmpi.b	#4,ob2ndRout(a1)
-		bne.s	loc_19652
+		bne.s	SYZBossSpikeTimerCheck2
 		cmpi.b	#6,obSubtype(a1)
-		beq.s	loc_1964C
+		beq.s	SYZBossSpikeTimerCheck
 		tst.b	obSubtype(a1)
-		bne.s	loc_19658
+		bne.s	SYZBossSpikeIn
 		cmpi.w	#$94,d0
-		bge.s	loc_19658
+		bge.s	SYZBossSpikeIn
 		addq.w	#7,d0
-		bra.s	loc_19658
+		bra.s	SYZBossSpikeIn
 ; ===========================================================================
 
-loc_1964C:
-		tst.w	$3C(a1)
-		bpl.s	loc_19658
+SYZBossSpikeTimerCheck:
+		tst.w	SYZBossTimer(a1)
+		bpl.s	SYZBossSpikeIn
 
-loc_19652:
+SYZBossSpikeTimerCheck2:
 		tst.w	d0
-		ble.s	loc_19658
+		ble.s	SYZBossSpikeIn
 		subq.w	#5,d0
 
-loc_19658:
-		move.w	d0,$3C(a0)
+SYZBossSpikeIn:
+		move.w	d0,SYZBossTimer(a0)
 		asr.w	#2,d0
 		add.w	d0,obY(a0)
 		move.b	#8,obActWid(a0)
 		move.b	#$C,obHeight(a0)
 		clr.b	obColType(a0)
-		movea.l	comparisonX(a0),a1
+		movea.l	SYZBossComparisonX(a0),a1
 		tst.b	obColType(a1)
-		beq.s	loc_19688
+		beq.s	SYZBossDisplayFaceShort2
 		tst.b	$29(a1)
-		bne.s	loc_19688
+		bne.s	SYZBossDisplayFaceShort2
 		move.b	#$84,obColType(a0)
 
-loc_19688:
-		bra.w	loc_195DA
+SYZBossDisplayFaceShort2:
+		bra.w	SYZBossDisplayFace2
 ; ===========================================================================
 
-Obj75_SpikeDelete:
+SYZBossSpikeDelete:
 		jmp	(DeleteObject).l

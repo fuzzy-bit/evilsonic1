@@ -2180,6 +2180,8 @@ Tit_ChkLevSel:
 		btst	#bitA,(v_jpadhold1).w ; check if A is pressed
 		beq.w	PlayLevel	; if not, play level
 
+		music	mus_Model
+
 		moveq	#palid_LevelSel,d0
 		bsr.w	PalLoad2	; load level select palette
 		lea	(v_hscrolltablebuffer).w,a1

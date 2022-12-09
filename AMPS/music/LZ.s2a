@@ -1,6 +1,6 @@
 Labyrinth_Header:
 	sHeaderInit
-	sHeaderTempo	$02, $28
+	sHeaderTempo	$01, $01
 	sHeaderCh	$05, $03
 	sHeaderDAC	Labyrinth_DAC1, $00, $00
 	sHeaderDAC	Labyrinth_DAC2, $00, $00

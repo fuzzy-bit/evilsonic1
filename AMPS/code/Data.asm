@@ -64,7 +64,7 @@ MusicIndex:
 	ptrMusic GHZ, $30, LZ, $26, MZ, $1A, SLZ, $20, SYZ, $49, SBZ, $13, FZ, $18
 	ptrMusic Boss, $12, SS, $20, Invincibility, $20, Drowning, $00
 	ptrMusic Title, $00, GotThroughAct, $00, Emerald, $00, ExtraLife, $00
-	ptrMusic GameOver, $00, Continue, $00, Ending, $00, Credits, $00, SEGA, $00
+	ptrMusic GameOver, $00, Continue, $00, Ending, $00, Credits, $00, SEGA, $00, Model, $00
 
 MusCount =	__mus-MusOff		; number of installed music tracks
 SFXoff =	__mus			; first SFX ID
@@ -106,6 +106,7 @@ SampleList:
 	sample $00C2, Timpani, Stop, LowTimpani	; 85 - Low Timpani
 	sample $00B6, Timpani, Stop, FloorTimpani; 86 - Floor Timpani
 	sample $0100, Sega, Stop		; 87 - SEGA screen
+	sample $0100, Model, Stop		; 88 - Das Model
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Define volume envelopes and their data
@@ -201,7 +202,7 @@ SWF_Stop:	dcb.b $8000-(2*Z80E_Read*(MaxPitch/$100)),$80
 SWFR_Stop:	dcb.b Z80E_Read*(MaxPitch/$100),$00
 ; ---------------------------------------------------------------------------
 
-	incSWF	Kick, Timpani, Snare, Sega
+	incSWF	Kick, Timpani, Snare, Sega, Model
 	opt ae+				; enable automatic evens
 	list				; continue source listing
 ; ---------------------------------------------------------------------------
