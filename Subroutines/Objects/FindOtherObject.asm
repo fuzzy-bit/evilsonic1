@@ -10,7 +10,7 @@
 ;
 ; Returns:
 ;		d0: Target object is left (0) or right (2) of calling object
-;		d1: Target object is above (0) or below (2) of calling object
+;		d1: Target object is above (0) or below (2) calling object
 ; ===========================================================================
 FindOtherObject:
 		moveq	#0,d0			; d0 = 0 if other object is left of calling object, 2 if right of it

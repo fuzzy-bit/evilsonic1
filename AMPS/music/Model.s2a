@@ -5,7 +5,7 @@
 	sHeaderDAC	.DAC2, $00, dModel
 
 .DAC2	sComm	0, $00		; indicate sample is playing
-	dc.b nC4, $7F, sHold, $6E
+	dc.b nC4, $7F, sHold, $6F
 	sJump .DAC2
 	sComm	0, $01		; indicate sample has ended
 .DAC1	sStop

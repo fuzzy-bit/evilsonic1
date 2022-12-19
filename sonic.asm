@@ -5802,16 +5802,21 @@ M_Card_GHZ:	dc.b 5 			; GREEN HILL
 		dc.b $F8, 5, 0,	$3D, $E4-8
 		dc.b $F8, 5, 0,	$79, $F4-8
 		even
-M_Card_LZ:	dc.b 9			; LABYRINTH
-		dc.b $F8, 5, 0,	$26, $BC
-		dc.b $F8, 5, 0,	0, $CC
-		dc.b $F8, 5, 0,	4, $DC
-		dc.b $F8, 5, 0,	$4A, $EC
-		dc.b $F8, 5, 0,	$3A, $FC
-		dc.b $F8, 1, 0,	$20, $C
-		dc.b $F8, 5, 0,	$2E, $14
-		dc.b $F8, 5, 0,	$42, $24
-		dc.b $F8, 5, 0,	$1C, $34
+M_Card_LZ:	dc.b 12			; LABYRINTH
+		dc.b	$F8, 5, 0, $41, $80
+		dc.b	$F8, 5, 0, $3D, $8F
+		dc.b	$F8, 5, 0, $59, $9E
+		dc.b	$F8, 5, 0, $59, $AD
+		dc.b	$F8, 5, 0, $2D, $BC
+
+		dc.b	$F8, 5, 0, $69, $DA
+		dc.b	$F8, 5, 0, $65, $E9
+		dc.b	$F8, 5, 0, $65, $F8
+		dc.b	$F8, 5, 0, $69, $8
+
+		dc.b	$F8, 5, 0, $75, $26
+		dc.b	$F8, 5, 0, $3D, $35
+		dc.b	$F8, 5, 0, $89, $44
 		even
 M_Card_MZ:	dc.b 6			; MARBLE
 		dc.b $F8, 5, 0,	$2A, $CF
@@ -6150,7 +6155,6 @@ Obj_Index:
 ;  d0, d1, d2, d3
 ;  a1
 ; ---------------------------------------------------------------------------
-;loc_366D6:
 GetOrientationToPlayer:
 		moveq	#0,d0
 		moveq	#0,d1
