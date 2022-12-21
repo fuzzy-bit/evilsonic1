@@ -13,4 +13,5 @@ if not exist s1built.bin pause & exit
 ErrorHandler\convsym .lst s1built.bin -input asm68k_lst -inopt "/localSign=. /localJoin=. /ignoreMacroDefs+ /ignoreMacroExp- /addMacrosAsOpcodes+" -a
 .build\fixheadr.exe s1built.bin
 
+:: REMOVE AMPS DATA
 del AMPS\.Data

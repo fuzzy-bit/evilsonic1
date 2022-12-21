@@ -1,3 +1,4 @@
 s1built.md
-.lst
-.log
+*.lst
+*.log
+AMPS/.Data
