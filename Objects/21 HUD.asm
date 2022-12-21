@@ -13,13 +13,22 @@ HUD_Index:	dc.w HUD_Main-HUD_Index
 ; ===========================================================================
 
 HUD_Main:	; Routine 0
-		addq.b	#2,obRoutine(a0)
-		move.w	#$90,obX(a0)
 		move.w	#$108,obScreenY(a0)
 		move.l	#Map_HUD,obMap(a0)
 		move.w	#$6CA,obGfx(a0)
+		
+		move.w	 #$90, d0
+		cmp.w	obX(a0),d0	; has item reached the target position?
+		bgt.w	@Move
+		
+		addq.b	#2,obRoutine(a0)
 		move.b	#0,obRender(a0)
 		move.b	#0,obPriority(a0)
+		
+@Move:		
+		add.w	#2,obX(a0)	; change item's position
+		jmp	(DisplaySprite).l
+		rts
 
 HUD_Flash:	; Routine 2
 		tst.w	(v_rings).w	; do you have any rings?
