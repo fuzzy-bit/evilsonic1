@@ -471,3 +471,10 @@ SignpostArtLoad:
 	@exit:
 		rts
 ; End of function SignpostArtLoad 
+
+; ===========================================================================
+
+Demo_GHZ:	incbin	"Data\Demos\Intro - GHZ.bin"
+Demo_MZ:	incbin	"Data\Demos\Intro - MZ.bin"
+Demo_SYZ:	incbin	"Data\Demos\Intro - SYZ.bin"
+Demo_SS:	incbin	"Data\Demos\Intro - Special Stage.bin"
