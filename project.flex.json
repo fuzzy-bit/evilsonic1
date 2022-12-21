@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "bf0f3dcf-9460-4bd6-8bc1-1342f2c7c52c",
+    "node": "4f9bef27-0fe0-44f0-8a5b-f4d84c49d5de",
     "objects": [
         {
             "uuid": "bf0f3dcf-9460-4bd6-8bc1-1342f2c7c52c",
@@ -9,12 +9,12 @@
             "name": "TitleCardFontExtended",
             "palettes": [],
             "art": {
-                "path": "artnem/Title Screen Foreground.bin",
+                "path": "Data/Art/Nemesis/Title Screen Foreground.bin",
                 "compression": "Nemesis",
                 "offset": 0
             },
             "mappings": {
-                "path": "_maps/Title Card Font - Extended.asm",
+                "path": "Data/Mappings/Objects/Title Card Font - Extended.asm",
                 "label": ""
             },
             "dplcs": {
@@ -29,7 +29,7 @@
             "name": "OldTitleCardFont",
             "palettes": [],
             "art": {
-                "path": "artnem/Title Cards.bin",
+                "path": "Data/Art/Nemesis/Title Cards.bin",
                 "compression": "Nemesis",
                 "offset": 0
             },
@@ -49,17 +49,17 @@
             "name": "TitleCardFont",
             "palettes": [
                 {
-                    "path": "palette/Sonic.bin",
+                    "path": "Data/Palette/Sonic.bin",
                     "length": 1
                 }
             ],
             "art": {
-                "path": "artnem/Title Cards V2.bin",
+                "path": "Data/Art/Nemesis/Title Cards V2.bin",
                 "compression": "Nemesis",
                 "offset": 0
             },
             "mappings": {
-                "path": "_maps/Title Card Font.asm",
+                "path": "Data/Mappings/Objects/Title Card Font.asm",
                 "label": ""
             },
             "dplcs": {
@@ -74,7 +74,7 @@
             "name": "Sonic",
             "palettes": [
                 {
-                    "path": "palette/Sonic.bin",
+                    "path": "Data/Palette/Sonic.bin",
                     "length": 1
                 }
             ],
@@ -84,12 +84,12 @@
                 "offset": 0
             },
             "mappings": {
-                "path": "_maps/Sonic.asm",
+                "path": "Data/Mappings/Objects/Sonic.asm",
                 "label": ""
             },
             "dplcs": {
                 "enabled": true,
-                "path": "_maps/Sonic - Dynamic Gfx Script.asm",
+                "path": "Data/Mappings/Objects/Sonic - Dynamic Gfx Script.asm",
                 "label": ""
             }
         },
@@ -102,17 +102,17 @@
                     "name": "Buzzbomber",
                     "palettes": [
                         {
-                            "path": "palette/Sonic.bin",
+                            "path": "Data/Palette/Sonic.bin",
                             "length": 1
                         }
                     ],
                     "art": {
-                        "path": "artnem/Enemy Buzz Bomber.bin",
+                        "path": "Data/Art/Nemesis/Enemy Buzz Bomber.bin",
                         "compression": "Nemesis",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "_maps/Buzz Bomber.asm",
+                        "path": "Data/Mappings/Objects/Buzz Bomber.asm",
                         "label": "Map_Buzz_internal"
                     },
                     "dplcs": {
