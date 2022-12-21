@@ -350,7 +350,7 @@ ptr_GM_Credits:	bra.w	GM_Credits	; Credits ($1C)
 
 		rts
 ; ===========================================================================
-		include	"_inc\Chadwarden\Chadwarden.asm"
+		include	"Includes\Chadwarden\Chadwarden.asm"
 
 
 CheckSumError:
@@ -864,7 +864,7 @@ ClearScreen:
 ; End of function ClearScreen
 
 ; ===========================================================================
-		include	"_inc\PauseGame.asm"
+		include	"Includes\PauseGame.asm"
 
 		include	"Modules\Engine\Graphics\TilemapToVRAM.asm"
 
@@ -874,30 +874,30 @@ ClearScreen:
 		include	"Modules\Engine\Compression\Enigma.asm"
 		include	"Modules\Engine\Compression\Kosinski.asm"
 
-		include	"_inc\PaletteCycle.asm"
+		include	"Includes\PaletteCycle.asm"
 
-Pal_TitleCyc:	incbin	"palette\Cycle - Title Screen Water.bin"
-Pal_GHZCyc:	incbin	"palette\Cycle - GHZ.bin"
-Pal_LZCyc1:	incbin	"palette\Cycle - LZ Waterfall.bin"
-Pal_LZCyc2:	incbin	"palette\Cycle - LZ Conveyor Belt.bin"
-Pal_LZCyc3:	incbin	"palette\Cycle - LZ Conveyor Belt Underwater.bin"
-Pal_SBZ3Cyc1:	incbin	"palette\Cycle - SBZ3 Waterfall.bin"
-Pal_SLZCyc:	incbin	"palette\Cycle - SLZ.bin"
-Pal_SYZCyc1:	incbin	"palette\Cycle - SYZ1.bin"
-Pal_SYZCyc2:	incbin	"palette\Cycle - SYZ2.bin"
+Pal_TitleCyc:	incbin	"Data\Palette\Cycle - Title Screen Water.bin"
+Pal_GHZCyc:	incbin	"Data\Palette\Cycle - GHZ.bin"
+Pal_LZCyc1:	incbin	"Data\Palette\Cycle - LZ Waterfall.bin"
+Pal_LZCyc2:	incbin	"Data\Palette\Cycle - LZ Conveyor Belt.bin"
+Pal_LZCyc3:	incbin	"Data\Palette\Cycle - LZ Conveyor Belt Underwater.bin"
+Pal_SBZ3Cyc1:	incbin	"Data\Palette\Cycle - SBZ3 Waterfall.bin"
+Pal_SLZCyc:	incbin	"Data\Palette\Cycle - SLZ.bin"
+Pal_SYZCyc1:	incbin	"Data\Palette\Cycle - SYZ1.bin"
+Pal_SYZCyc2:	incbin	"Data\Palette\Cycle - SYZ2.bin"
 
-		include	"_inc\SBZ Palette Scripts.asm"
+		include	"Includes\SBZ Palette Scripts.asm"
 
-Pal_SBZCyc1:	incbin	"palette\Cycle - SBZ 1.bin"
-Pal_SBZCyc2:	incbin	"palette\Cycle - SBZ 2.bin"
-Pal_SBZCyc3:	incbin	"palette\Cycle - SBZ 3.bin"
-Pal_SBZCyc4:	incbin	"palette\Cycle - SBZ 4.bin"
-Pal_SBZCyc5:	incbin	"palette\Cycle - SBZ 5.bin"
-Pal_SBZCyc6:	incbin	"palette\Cycle - SBZ 6.bin"
-Pal_SBZCyc7:	incbin	"palette\Cycle - SBZ 7.bin"
-Pal_SBZCyc8:	incbin	"palette\Cycle - SBZ 8.bin"
-Pal_SBZCyc9:	incbin	"palette\Cycle - SBZ 9.bin"
-Pal_SBZCyc10:	incbin	"palette\Cycle - SBZ 10.bin"
+Pal_SBZCyc1:	incbin	"Data\Palette\Cycle - SBZ 1.bin"
+Pal_SBZCyc2:	incbin	"Data\Palette\Cycle - SBZ 2.bin"
+Pal_SBZCyc3:	incbin	"Data\Palette\Cycle - SBZ 3.bin"
+Pal_SBZCyc4:	incbin	"Data\Palette\Cycle - SBZ 4.bin"
+Pal_SBZCyc5:	incbin	"Data\Palette\Cycle - SBZ 5.bin"
+Pal_SBZCyc6:	incbin	"Data\Palette\Cycle - SBZ 6.bin"
+Pal_SBZCyc7:	incbin	"Data\Palette\Cycle - SBZ 7.bin"
+Pal_SBZCyc8:	incbin	"Data\Palette\Cycle - SBZ 8.bin"
+Pal_SBZCyc9:	incbin	"Data\Palette\Cycle - SBZ 9.bin"
+Pal_SBZCyc10:	incbin	"Data\Palette\Cycle - SBZ 10.bin"
 
 		include	"Modules\Engine\Graphics\Fading.asm"
 
@@ -1001,8 +1001,8 @@ loc_20BC:
 
 ; ===========================================================================
 
-Pal_Sega1:	incbin	"palette\Sega1.bin"
-Pal_Sega2:	incbin	"palette\Sega2.bin"
+Pal_Sega1:	incbin	"Data\Palette\Sega1.bin"
+Pal_Sega2:	incbin	"Data\Palette\Sega2.bin"
 
 ; ---------------------------------------------------------------------------
 ; Subroutines to load palettes
@@ -1090,31 +1090,31 @@ PalLoad4_Water:
 
 ; ===========================================================================
 
-		include	"_inc\Palette Pointers.asm"
+		include	"Includes\Palette Pointers.asm"
 
 ; ---------------------------------------------------------------------------
 ; Palette data
 ; ---------------------------------------------------------------------------
-Pal_SegaBG:	incbin	"palette\Sega Background.bin"
-Pal_Title:	incbin	"palette\Title Screen.bin"
-Pal_LevelSel:	incbin	"palette\Level Select.bin"
-Pal_Sonic:	incbin	"palette\Sonic.bin"
-Pal_GHZ:	incbin	"palette\Green Hill Zone.bin"
-Pal_LZ:		incbin	"palette\Labyrinth Zone.bin"
-Pal_LZWater:	incbin	"palette\Labyrinth Zone Underwater.bin"
-Pal_MZ:		incbin	"palette\Marble Zone.bin"
-Pal_SLZ:	incbin	"palette\Star Light Zone.bin"
-Pal_SYZ:	incbin	"palette\Spring Yard Zone.bin"
-Pal_SBZ1:	incbin	"palette\SBZ Act 1.bin"
-Pal_SBZ2:	incbin	"palette\SBZ Act 2.bin"
-Pal_Special:	incbin	"palette\Special Stage.bin"
-Pal_SBZ3:	incbin	"palette\SBZ Act 3.bin"
-Pal_SBZ3Water:	incbin	"palette\SBZ Act 3 Underwater.bin"
-Pal_LZSonWater:	incbin	"palette\Sonic - LZ Underwater.bin"
-Pal_SBZ3SonWat:	incbin	"palette\Sonic - SBZ3 Underwater.bin"
-Pal_SSResult:	incbin	"palette\Special Stage Results.bin"
-Pal_Continue:	incbin	"palette\Special Stage Continue Bonus.bin"
-Pal_Ending:	incbin	"palette\Ending.bin"
+Pal_SegaBG:	incbin	"Data\Palette\Sega Background.bin"
+Pal_Title:	incbin	"Data\Palette\Title Screen.bin"
+Pal_LevelSel:	incbin	"Data\Palette\Level Select.bin"
+Pal_Sonic:	incbin	"Data\Palette\Sonic.bin"
+Pal_GHZ:	incbin	"Data\Palette\Green Hill Zone.bin"
+Pal_LZ:		incbin	"Data\Palette\Labyrinth Zone.bin"
+Pal_LZWater:	incbin	"Data\Palette\Labyrinth Zone Underwater.bin"
+Pal_MZ:		incbin	"Data\Palette\Marble Zone.bin"
+Pal_SLZ:	incbin	"Data\Palette\Star Light Zone.bin"
+Pal_SYZ:	incbin	"Data\Palette\Spring Yard Zone.bin"
+Pal_SBZ1:	incbin	"Data\Palette\SBZ Act 1.bin"
+Pal_SBZ2:	incbin	"Data\Palette\SBZ Act 2.bin"
+Pal_Special:	incbin	"Data\Palette\Special Stage.bin"
+Pal_SBZ3:	incbin	"Data\Palette\SBZ Act 3.bin"
+Pal_SBZ3Water:	incbin	"Data\Palette\SBZ Act 3 Underwater.bin"
+Pal_LZSonWater:	incbin	"Data\Palette\Sonic - LZ Underwater.bin"
+Pal_SBZ3SonWat:	incbin	"Data\Palette\Sonic - SBZ3 Underwater.bin"
+Pal_SSResult:	incbin	"Data\Palette\Special Stage Results.bin"
+Pal_Continue:	incbin	"Data\Palette\Special Stage Continue Bonus.bin"
+Pal_Ending:	incbin	"Data\Palette\Ending.bin"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	wait for VBlank routines to complete
@@ -1773,7 +1773,7 @@ Demo_Level:
 ; ---------------------------------------------------------------------------
 ; Levels used in demos
 ; ---------------------------------------------------------------------------
-Demo_Levels:	incbin	"misc\Demo Level Order - Intro.bin"
+Demo_Levels:	incbin	"Data\Miscellaneous\Demo Level Order - Intro.bin"
 		even
 
 ; ---------------------------------------------------------------------------
@@ -1945,9 +1945,9 @@ LevSel_ChgLine:
 ; Level	select menu text
 ; ---------------------------------------------------------------------------
 LevelMenuText:	if Revision=0
-		incbin	"misc\Level Select Text.bin"
+		incbin	"Data\Miscellaneous\Level Select Text.bin"
 		else
-		incbin	"misc\Level Select Text (JP1).bin"
+		incbin	"Data\Miscellaneous\Level Select Text (JP1).bin"
 		endc
 		even
 ; ---------------------------------------------------------------------------
@@ -2324,8 +2324,8 @@ loc_3BC8:
 		rts
 ; ===========================================================================
 
-		include	"_inc\LZWaterFeatures.asm"
-		include	"_inc\MoveSonicInDemo.asm"
+		include	"Includes\LZWaterFeatures.asm"
+		include	"Includes\MoveSonicInDemo.asm"
 
 ; ---------------------------------------------------------------------------
 ; Collision index pointer loading subroutine
@@ -2355,7 +2355,7 @@ ColPointers:	dc.l Col_GHZ
 		zonewarning ColPointers,4
 ;		dc.l Col_GHZ ; Pointer for Ending is missing by default.
 
-		include	"_inc\Oscillatory Routines.asm"
+		include	"Includes\Oscillatory Routines.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	change synchronised animation variables (rings, giant rings)
@@ -2440,10 +2440,10 @@ SignpostArtLoad:
 ; End of function SignpostArtLoad
 
 ; ===========================================================================
-Demo_GHZ:	incbin	"demodata\Intro - GHZ.bin"
-Demo_MZ:	incbin	"demodata\Intro - MZ.bin"
-Demo_SYZ:	incbin	"demodata\Intro - SYZ.bin"
-Demo_SS:	incbin	"demodata\Intro - Special Stage.bin"
+Demo_GHZ:	incbin	"Data\Demos\Intro - GHZ.bin"
+Demo_MZ:	incbin	"Data\Demos\Intro - MZ.bin"
+Demo_SYZ:	incbin	"Data\Demos\Intro - SYZ.bin"
+Demo_SS:	incbin	"Data\Demos\Intro - Special Stage.bin"
 ; ===========================================================================
 
 ; ---------------------------------------------------------------------------
@@ -2834,9 +2834,9 @@ byte_4A3C:	dc.b 3,	0, 7, $92, 3, 0, 7, $90, 3, 0, 7, $8E, 3, 0, 7,	$8C
 byte_4ABC:	dc.b $10, 1, $18, 0, $18, 1, $20, 0, $20, 1, $28, 0, $28, 1
 		even
 
-Pal_SSCyc1:	incbin	"palette\Cycle - Special Stage 1.bin"
+Pal_SSCyc1:	incbin	"Data\Palette\Cycle - Special Stage 1.bin"
 		even
-Pal_SSCyc2:	incbin	"palette\Cycle - Special Stage 2.bin"
+Pal_SSCyc2:	incbin	"Data\Palette\Cycle - Special Stage 2.bin"
 		even
 
 ; ---------------------------------------------------------------------------
@@ -3038,10 +3038,10 @@ Cont_GotoLevel:
 		rts
 ; ===========================================================================
 
-		include	"_incObj\80 Continue Screen Elements.asm"
-		include	"_incObj\81 Continue Screen Sonic.asm"
-		include	"_anim\Continue Screen Sonic.asm"
-Map_ContScr:	include	"_maps\Continue Screen.asm"
+		include	"Objects\80 Continue Screen Elements.asm"
+		include	"Objects\81 Continue Screen Sonic.asm"
+		include	"Data\Animations\Continue Screen Sonic.asm"
+Map_ContScr:	include	"Data\Mappings\Objects\Continue Screen.asm"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -3274,13 +3274,13 @@ End_MoveSonExit:
 
 ; ===========================================================================
 
-		include	"_incObj\87 Ending Sequence Sonic.asm"
-		include "_anim\Ending Sequence Sonic.asm"
-		include	"_incObj\88 Ending Sequence Emeralds.asm"
-		include	"_incObj\89 Ending Sequence STH.asm"
-Map_ESon:	include	"_maps\Ending Sequence Sonic.asm"
-Map_ECha:	include	"_maps\Ending Sequence Emeralds.asm"
-Map_ESth:	include	"_maps\Ending Sequence STH.asm"
+		include	"Objects\87 Ending Sequence Sonic.asm"
+		include "Data\Animations\Ending Sequence Sonic.asm"
+		include	"Objects\88 Ending Sequence Emeralds.asm"
+		include	"Objects\89 Ending Sequence STH.asm"
+Map_ESon:	include	"Data\Mappings\Objects\Ending Sequence Sonic.asm"
+Map_ECha:	include	"Data\Mappings\Objects\Ending Sequence Emeralds.asm"
+Map_ESth:	include	"Data\Mappings\Objects\Ending Sequence STH.asm"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -3395,7 +3395,7 @@ EndDemo_Exit:
 ; ---------------------------------------------------------------------------
 ; Levels used in the end sequence demos
 ; ---------------------------------------------------------------------------
-EndDemo_Levels:	incbin	"misc\Demo Level Order - Ending.bin"
+EndDemo_Levels:	incbin	"Data\Miscellaneous\Demo Level Order - Ending.bin"
 
 ; ---------------------------------------------------------------------------
 ; Lamppost variables in the end sequence demo (Star Light Zone)
@@ -3478,37 +3478,37 @@ TryAg_Exit:
 
 ; ===========================================================================
 
-		include	"_incObj\8B Try Again & End Eggman.asm"
-		include "_anim\Try Again & End Eggman.asm"
-		include	"_incObj\8C Try Again Emeralds.asm"
-Map_EEgg:	include	"_maps\Try Again & End Eggman.asm"
+		include	"Objects\8B Try Again & End Eggman.asm"
+		include "Data\Animations\Try Again & End Eggman.asm"
+		include	"Objects\8C Try Again Emeralds.asm"
+Map_EEgg:	include	"Data\Mappings\Objects\Try Again & End Eggman.asm"
 
 ; ---------------------------------------------------------------------------
 ; Ending sequence demos
 ; ---------------------------------------------------------------------------
-Demo_EndGHZ1:	incbin	"demodata\Ending - GHZ1.bin"
+Demo_EndGHZ1:	incbin	"Data\Demos\Ending - GHZ1.bin"
 		even
-Demo_EndMZ:	incbin	"demodata\Ending - MZ.bin"
+Demo_EndMZ:	incbin	"Data\Demos\Ending - MZ.bin"
 		even
-Demo_EndSYZ:	incbin	"demodata\Ending - SYZ.bin"
+Demo_EndSYZ:	incbin	"Data\Demos\Ending - SYZ.bin"
 		even
-Demo_EndLZ:	incbin	"demodata\Ending - LZ.bin"
+Demo_EndLZ:	incbin	"Data\Demos\Ending - LZ.bin"
 		even
-Demo_EndSLZ:	incbin	"demodata\Ending - SLZ.bin"
+Demo_EndSLZ:	incbin	"Data\Demos\Ending - SLZ.bin"
 		even
-Demo_EndSBZ1:	incbin	"demodata\Ending - SBZ1.bin"
+Demo_EndSBZ1:	incbin	"Data\Demos\Ending - SBZ1.bin"
 		even
-Demo_EndSBZ2:	incbin	"demodata\Ending - SBZ2.bin"
+Demo_EndSBZ2:	incbin	"Data\Demos\Ending - SBZ2.bin"
 		even
-Demo_EndGHZ2:	incbin	"demodata\Ending - GHZ2.bin"
+Demo_EndGHZ2:	incbin	"Data\Demos\Ending - GHZ2.bin"
 		even
 
 		if Revision=0
-		include	"_inc\LevelSizeLoad & BgScrollSpeed.asm"
-		include	"_inc\DeformLayers.asm"
+		include	"Includes\LevelSizeLoad & BgScrollSpeed.asm"
+		include	"Includes\DeformLayers.asm"
 		else
-		include	"_inc\LevelSizeLoad & BgScrollSpeed (JP1).asm"
-		include	"_inc\DeformLayers (JP1).asm"
+		include	"Includes\LevelSizeLoad & BgScrollSpeed (JP1).asm"
+		include	"Includes\DeformLayers (JP1).asm"
 		endc
 
 
@@ -4575,9 +4575,9 @@ LevLoad_Row:
 		rts
 ; End of function LevelLayoutLoad2
 
-		include	"_inc\DynamicLevelEvents.asm"
+		include	"Includes\DynamicLevelEvents.asm"
 
-		include	"_incObj\11 Bridge (part 1).asm"
+		include	"Objects\11 Bridge (part 1).asm"
 
 ; ---------------------------------------------------------------------------
 ; Platform subroutine
@@ -4716,7 +4716,7 @@ Swing_Solid:
 
 ; ===========================================================================
 
-		include	"_incObj\11 Bridge (part 2).asm"
+		include	"Objects\11 Bridge (part 2).asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine allowing Sonic to walk or jump off	a platform
@@ -4749,10 +4749,10 @@ locret_75F2:
 		rts
 ; End of function ExitPlatform
 
-		include	"_incObj\11 Bridge (part 3).asm"
-Map_Bri:	include	"_maps\Bridge.asm"
+		include	"Objects\11 Bridge (part 3).asm"
+Map_Bri:	include	"Data\Mappings\Objects\Bridge.asm"
 
-		include	"_incObj\15 Swinging Platforms (part 1).asm"
+		include	"Objects\15 Swinging Platforms (part 1).asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	change Sonic's position with a platform
@@ -4798,20 +4798,20 @@ locret_7B62:
 		rts
 ; End of function MvSonicOnPtfm2
 
-		include	"_incObj\15 Swinging Platforms (part 2).asm"
-Map_Swing_GHZ:	include	"_maps\Swinging Platforms (GHZ).asm"
-Map_Swing_SLZ:	include	"_maps\Swinging Platforms (SLZ).asm"
-		include	"_incObj\17 Spiked Pole Helix.asm"
-Map_Hel:	include	"_maps\Spiked Pole Helix.asm"
-		include	"_incObj\18 Platforms.asm"
-Map_Plat_Unused:include	"_maps\Platforms (unused).asm"
-Map_Plat_GHZ:	include	"_maps\Platforms (GHZ).asm"
-Map_Plat_SYZ:	include	"_maps\Platforms (SYZ).asm"
-Map_Plat_SLZ:	include	"_maps\Platforms (SLZ).asm"
-		include	"_incObj\19.asm"
-Map_GBall:	include	"_maps\GHZ Ball.asm"
-		include	"_incObj\1A Collapsing Ledge (part 1).asm"
-		include	"_incObj\53 Collapsing Floors.asm"
+		include	"Objects\15 Swinging Platforms (part 2).asm"
+Map_Swing_GHZ:	include	"Data\Mappings\Objects\Swinging Platforms (GHZ).asm"
+Map_Swing_SLZ:	include	"Data\Mappings\Objects\Swinging Platforms (SLZ).asm"
+		include	"Objects\17 Spiked Pole Helix.asm"
+Map_Hel:	include	"Data\Mappings\Objects\Spiked Pole Helix.asm"
+		include	"Objects\18 Platforms.asm"
+Map_Plat_Unused:include	"Data\Mappings\Objects\Platforms (unused).asm"
+Map_Plat_GHZ:	include	"Data\Mappings\Objects\Platforms (GHZ).asm"
+Map_Plat_SYZ:	include	"Data\Mappings\Objects\Platforms (SYZ).asm"
+Map_Plat_SLZ:	include	"Data\Mappings\Objects\Platforms (SLZ).asm"
+		include	"Objects\19.asm"
+Map_GBall:	include	"Data\Mappings\Objects\GHZ Ball.asm"
+		include	"Objects\1A Collapsing Ledge (part 1).asm"
+		include	"Objects\53 Collapsing Floors.asm"
 
 ; ===========================================================================
 
@@ -4914,21 +4914,21 @@ locret_856E:
 ; Collision data for GHZ collapsing ledge
 ; ---------------------------------------------------------------------------
 Ledge_SlopeData:
-		incbin	"misc\GHZ Collapsing Ledge Heightmap.bin"
+		incbin	"Data\Miscellaneous\GHZ Collapsing Ledge Heightmap.bin"
 		even
 
-Map_Ledge:	include	"_maps\Collapsing Ledge.asm"
-Map_CFlo:	include	"_maps\Collapsing Floors.asm"
+Map_Ledge:	include	"Data\Mappings\Objects\Collapsing Ledge.asm"
+Map_CFlo:	include	"Data\Mappings\Objects\Collapsing Floors.asm"
 
-		include	"_incObj\1C Scenery.asm"
-Map_Scen:	include	"_maps\Scenery.asm"
+		include	"Objects\1C Scenery.asm"
+Map_Scen:	include	"Data\Mappings\Objects\Scenery.asm"
 
-		include	"_incObj\1D Unused Switch.asm"
-Map_Swi:	include	"_maps\Unused Switch.asm"
+		include	"Objects\1D Unused Switch.asm"
+Map_Swi:	include	"Data\Mappings\Objects\Unused Switch.asm"
 
-		include	"_incObj\2A SBZ Small Door.asm"
-		include	"_anim\SBZ Small Door.asm"
-Map_ADoor:	include	"_maps\SBZ Small Door.asm"
+		include	"Objects\2A SBZ Small Door.asm"
+		include	"Data\Animations\SBZ Small Door.asm"
+Map_ADoor:	include	"Data\Mappings\Objects\SBZ Small Door.asm"
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
@@ -5052,91 +5052,91 @@ loc_8B48:
 ; End of function Obj44_SolidWall2
 
 ; ===========================================================================
-		include	"_incObj\1E Ball Hog.asm"
-		include	"_incObj\20 Cannonball.asm"
-		include	"_incObj\24, 27 & 3F Explosions.asm"
-		include	"_anim\Ball Hog.asm"
-Map_Hog:	include	"_maps\Ball Hog.asm"
-Map_MisDissolve:include	"_maps\Buzz Bomber Missile Dissolve.asm"
-		include	"_maps\Explosions.asm"
+		include	"Objects\1E Ball Hog.asm"
+		include	"Objects\20 Cannonball.asm"
+		include	"Objects\24, 27 & 3F Explosions.asm"
+		include	"Data\Animations\Ball Hog.asm"
+Map_Hog:	include	"Data\Mappings\Objects\Ball Hog.asm"
+Map_MisDissolve:include	"Data\Mappings\Objects\Buzz Bomber Missile Dissolve.asm"
+		include	"Data\Mappings\Objects\Explosions.asm"
 
-		include	"_incObj\28 Animals.asm"
-		include	"_incObj\29 Points.asm"
-Map_Animal1:	include	"_maps\Animals 1.asm"
-Map_Animal2:	include	"_maps\Animals 2.asm"
-Map_Animal3:	include	"_maps\Animals 3.asm"
-Map_Poi:	include	"_maps\Points.asm"
+		include	"Objects\28 Animals.asm"
+		include	"Objects\29 Points.asm"
+Map_Animal1:	include	"Data\Mappings\Objects\Animals 1.asm"
+Map_Animal2:	include	"Data\Mappings\Objects\Animals 2.asm"
+Map_Animal3:	include	"Data\Mappings\Objects\Animals 3.asm"
+Map_Poi:	include	"Data\Mappings\Objects\Points.asm"
 
-		include	"_incObj\1F Crabmeat.asm"
-		include	"_anim\Crabmeat.asm"
-Map_Crab:	include	"_maps\Crabmeat.asm"
-		include	"_incObj\22 Buzz Bomber.asm"
-		include	"_incObj\23 Buzz Bomber Missile.asm"
-		include	"_anim\Buzz Bomber.asm"
-		include	"_anim\Buzz Bomber Missile.asm"
-Map_Buzz:	include	"_maps\Buzz Bomber.asm"
-Map_Missile:	include	"_maps\Buzz Bomber Missile.asm"
+		include	"Objects\1F Crabmeat.asm"
+		include	"Data\Animations\Crabmeat.asm"
+Map_Crab:	include	"Data\Mappings\Objects\Crabmeat.asm"
+		include	"Objects\22 Buzz Bomber.asm"
+		include	"Objects\23 Buzz Bomber Missile.asm"
+		include	"Data\Animations\Buzz Bomber.asm"
+		include	"Data\Animations\Buzz Bomber Missile.asm"
+Map_Buzz:	include	"Data\Mappings\Objects\Buzz Bomber.asm"
+Map_Missile:	include	"Data\Mappings\Objects\Buzz Bomber Missile.asm"
 
-		include	"_incObj\25 & 37 Rings.asm"
-		include	"_incObj\4B Giant Ring.asm"
-		include	"_incObj\7C Ring Flash.asm"
+		include	"Objects\25 & 37 Rings.asm"
+		include	"Objects\4B Giant Ring.asm"
+		include	"Objects\7C Ring Flash.asm"
 
-		include	"_anim\Rings.asm"
+		include	"Data\Animations\Rings.asm"
 		if Revision=0
-Map_Ring:	include	"_maps\Rings.asm"
+Map_Ring:	include	"Data\Mappings\Objects\Rings.asm"
 		else
-Map_Ring:		include	"_maps\Rings (JP1).asm"
+Map_Ring:		include	"Data\Mappings\Objects\Rings (JP1).asm"
 		endc
-Map_GRing:	include	"_maps\Giant Ring.asm"
-Map_Flash:	include	"_maps\Ring Flash.asm"
-		include	"_incObj\26 Monitor.asm"
-		include	"_incObj\2E Monitor Content Power-Up.asm"
-		include	"_incObj\26 Monitor (SolidSides subroutine).asm"
-		include	"_anim\Monitor.asm"
-Map_Monitor:	include	"_maps\Monitor.asm"
+Map_GRing:	include	"Data\Mappings\Objects\Giant Ring.asm"
+Map_Flash:	include	"Data\Mappings\Objects\Ring Flash.asm"
+		include	"Objects\26 Monitor.asm"
+		include	"Objects\2E Monitor Content Power-Up.asm"
+		include	"Objects\26 Monitor (SolidSides subroutine).asm"
+		include	"Data\Animations\Monitor.asm"
+Map_Monitor:	include	"Data\Mappings\Objects\Monitor.asm"
 
-		include	"_incObj\0E Title Screen Sonic.asm"
-		include	"_incObj\0F Press Start and TM.asm"
+		include	"Objects\0E Title Screen Sonic.asm"
+		include	"Objects\0F Press Start and TM.asm"
 
-		include	"_anim\Title Screen Sonic.asm"
-		include	"_anim\Press Start and TM.asm"
+		include	"Data\Animations\Title Screen Sonic.asm"
+		include	"Data\Animations\Press Start and TM.asm"
 
-Map_PSB:	include	"_maps\Press Start and TM.asm"
-Map_TSon:	include	"_maps\Title Screen Sonic.asm"
+Map_PSB:	include	"Data\Mappings\Objects\Press Start and TM.asm"
+Map_TSon:	include	"Data\Mappings\Objects\Title Screen Sonic.asm"
 
-		include	"_incObj\2B Chopper.asm"
-		include	"_anim\Chopper.asm"
-Map_Chop:	include	"_maps\Chopper.asm"
-		include	"_incObj\2C Jaws.asm"
-		include	"_anim\Jaws.asm"
-Map_Jaws:	include	"_maps\Jaws.asm"
-		include	"_incObj\2D Burrobot.asm"
-		include	"_anim\Burrobot.asm"
-Map_Burro:	include	"_maps\Burrobot.asm"
+		include	"Objects\2B Chopper.asm"
+		include	"Data\Animations\Chopper.asm"
+Map_Chop:	include	"Data\Mappings\Objects\Chopper.asm"
+		include	"Objects\2C Jaws.asm"
+		include	"Data\Animations\Jaws.asm"
+Map_Jaws:	include	"Data\Mappings\Objects\Jaws.asm"
+		include	"Objects\2D Burrobot.asm"
+		include	"Data\Animations\Burrobot.asm"
+Map_Burro:	include	"Data\Mappings\Objects\Burrobot.asm"
 
-		include	"_incObj\2F MZ Large Grassy Platforms.asm"
-		include	"_incObj\35 Burning Grass.asm"
-		include	"_anim\Burning Grass.asm"
-Map_LGrass:	include	"_maps\MZ Large Grassy Platforms.asm"
-Map_Fire:	include	"_maps\Fireballs.asm"
-		include	"_incObj\30 MZ Large Green Glass Blocks.asm"
-Map_Glass:	include	"_maps\MZ Large Green Glass Blocks.asm"
-		include	"_incObj\31 Chained Stompers.asm"
-		include	"_incObj\45 Sideways Stomper.asm"
-Map_CStom:	include	"_maps\Chained Stompers.asm"
-Map_SStom:	include	"_maps\Sideways Stomper.asm"
+		include	"Objects\2F MZ Large Grassy Platforms.asm"
+		include	"Objects\35 Burning Grass.asm"
+		include	"Data\Animations\Burning Grass.asm"
+Map_LGrass:	include	"Data\Mappings\Objects\MZ Large Grassy Platforms.asm"
+Map_Fire:	include	"Data\Mappings\Objects\Fireballs.asm"
+		include	"Objects\30 MZ Large Green Glass Blocks.asm"
+Map_Glass:	include	"Data\Mappings\Objects\MZ Large Green Glass Blocks.asm"
+		include	"Objects\31 Chained Stompers.asm"
+		include	"Objects\45 Sideways Stomper.asm"
+Map_CStom:	include	"Data\Mappings\Objects\Chained Stompers.asm"
+Map_SStom:	include	"Data\Mappings\Objects\Sideways Stomper.asm"
 
-		include	"_incObj\32 Button.asm"
-Map_But:	include	"_maps\Button.asm"
+		include	"Objects\32 Button.asm"
+Map_But:	include	"Data\Mappings\Objects\Button.asm"
 
-		include	"_incObj\33 Pushable Blocks.asm"
-Map_Push:	include	"_maps\Pushable Blocks.asm"
+		include	"Objects\33 Pushable Blocks.asm"
+Map_Push:	include	"Data\Mappings\Objects\Pushable Blocks.asm"
 
-		include	"_incObj\34 Title Cards.asm"
-		include	"_incObj\39 Game Over.asm"
-		include	"_incObj\3A Got Through Card.asm"
-		include	"_incObj\7E Special Stage Results.asm"
-		include	"_incObj\7F SS Result Chaos Emeralds.asm"
+		include	"Objects\34 Title Cards.asm"
+		include	"Objects\39 Game Over.asm"
+		include	"Objects\3A Got Through Card.asm"
+		include	"Objects\7E Special Stage Results.asm"
+		include	"Objects\7F SS Result Chaos Emeralds.asm"
 
 ; ---------------------------------------------------------------------------
 ; Sprite mappings - zone title cards
@@ -5257,7 +5257,7 @@ M_Card_FZ:	dc.b 5			; FINAL
 		dc.b $F8, 5, 0,	$26, $14
 		even
 
-Map_Over:	include	"_maps\Game Over.asm"
+Map_Over:	include	"Data\Mappings\Objects\Game Over.asm"
 
 ; ---------------------------------------------------------------------------
 ; Sprite mappings - "SONIC HAS PASSED" title card
@@ -5398,16 +5398,16 @@ byte_CDA8:	dc.b $F			; "SONIC GOT THEM ALL"
 		dc.b $F8, 5, 0,	$26, $78
 		even
 
-Map_SSRC:	include	"_maps\SS Result Chaos Emeralds.asm"
+Map_SSRC:	include	"Data\Mappings\Objects\SS Result Chaos Emeralds.asm"
 
-		include	"_incObj\36 Spikes.asm"
-Map_Spike:	include	"_maps\Spikes.asm"
-		include	"_incObj\3B Purple Rock.asm"
-		include	"_incObj\49 Waterfall Sound.asm"
-Map_PRock:	include	"_maps\Purple Rock.asm"
-		include	"_incObj\3C Smashable Wall.asm"
+		include	"Objects\36 Spikes.asm"
+Map_Spike:	include	"Data\Mappings\Objects\Spikes.asm"
+		include	"Objects\3B Purple Rock.asm"
+		include	"Objects\49 Waterfall Sound.asm"
+Map_PRock:	include	"Data\Mappings\Objects\Purple Rock.asm"
+		include	"Objects\3C Smashable Wall.asm"
 
-		include	"_incObj\sub SmashObject.asm"
+		include	"Objects\sub SmashObject.asm"
 
 ; ===========================================================================
 ; Smashed block	fragment speeds
@@ -5430,7 +5430,7 @@ Smash_FragSpd2:	dc.w -$600, -$600
 		dc.w -$600, $100
 		dc.w -$400, $500
 
-Map_Smash:	include	"_maps\Smashable Walls.asm"
+Map_Smash:	include	"Data\Mappings\Objects\Smashable Walls.asm"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -5458,128 +5458,128 @@ Obj_Index:
 				
 ; ===========================================================================
 
-		include	"_incObj\41 Springs.asm"
-		include	"_anim\Springs.asm"
-Map_Spring:	include	"_maps\Springs.asm"
+		include	"Objects\41 Springs.asm"
+		include	"Data\Animations\Springs.asm"
+Map_Spring:	include	"Data\Mappings\Objects\Springs.asm"
 
-		include	"_incObj\42 Newtron.asm"
-		include	"_anim\Newtron.asm"
-Map_Newt:	include	"_maps\Newtron.asm"
-		include	"_incObj\43 Roller.asm"
-		include	"_anim\Roller.asm"
-Map_Roll:	include	"_maps\Roller.asm"
+		include	"Objects\42 Newtron.asm"
+		include	"Data\Animations\Newtron.asm"
+Map_Newt:	include	"Data\Mappings\Objects\Newtron.asm"
+		include	"Objects\43 Roller.asm"
+		include	"Data\Animations\Roller.asm"
+Map_Roll:	include	"Data\Mappings\Objects\Roller.asm"
 
-		include	"_incObj\44 GHZ Edge Walls.asm"
-Map_Edge:	include	"_maps\GHZ Edge Walls.asm"
+		include	"Objects\44 GHZ Edge Walls.asm"
+Map_Edge:	include	"Data\Mappings\Objects\GHZ Edge Walls.asm"
 
-		include	"_incObj\13 Lava Ball Maker.asm"
-		include	"_incObj\14 Lava Ball.asm"
-		include	"_anim\Fireballs.asm"
+		include	"Objects\13 Lava Ball Maker.asm"
+		include	"Objects\14 Lava Ball.asm"
+		include	"Data\Animations\Fireballs.asm"
 
-		include	"_incObj\6D Flamethrower.asm"
-		include	"_anim\Flamethrower.asm"
-Map_Flame:	include	"_maps\Flamethrower.asm"
+		include	"Objects\6D Flamethrower.asm"
+		include	"Data\Animations\Flamethrower.asm"
+Map_Flame:	include	"Data\Mappings\Objects\Flamethrower.asm"
 
-		include	"_incObj\46 MZ Bricks.asm"
-Map_Brick:	include	"_maps\MZ Bricks.asm"
+		include	"Objects\46 MZ Bricks.asm"
+Map_Brick:	include	"Data\Mappings\Objects\MZ Bricks.asm"
 
-		include	"_incObj\12 Light.asm"
-Map_Light	include	"_maps\Light.asm"
-		include	"_incObj\47 Bumper.asm"
-		include	"_anim\Bumper.asm"
-Map_Bump:	include	"_maps\Bumper.asm"
+		include	"Objects\12 Light.asm"
+Map_Light	include	"Data\Mappings\Objects\Light.asm"
+		include	"Objects\47 Bumper.asm"
+		include	"Data\Animations\Bumper.asm"
+Map_Bump:	include	"Data\Mappings\Objects\Bumper.asm"
 
-		include	"_incObj\0D Signpost.asm" ; includes "GotThroughAct" subroutine
-		include	"_anim\Signpost.asm"
-Map_Sign:	include	"_maps\Signpost.asm"
+		include	"Objects\0D Signpost.asm" ; includes "GotThroughAct" subroutine
+		include	"Data\Animations\Signpost.asm"
+Map_Sign:	include	"Data\Mappings\Objects\Signpost.asm"
 
-		include	"_incObj\4C & 4D Lava Geyser Maker.asm"
-		include	"_incObj\4E Wall of Lava.asm"
-		include	"_incObj\54 Lava Tag.asm"
-Map_LTag:	include	"_maps\Lava Tag.asm"
-		include	"_anim\Lava Geyser.asm"
-		include	"_anim\Wall of Lava.asm"
-Map_Geyser:	include	"_maps\Lava Geyser.asm"
-Map_LWall:	include	"_maps\Wall of Lava.asm"
+		include	"Objects\4C & 4D Lava Geyser Maker.asm"
+		include	"Objects\4E Wall of Lava.asm"
+		include	"Objects\54 Lava Tag.asm"
+Map_LTag:	include	"Data\Mappings\Objects\Lava Tag.asm"
+		include	"Data\Animations\Lava Geyser.asm"
+		include	"Data\Animations\Wall of Lava.asm"
+Map_Geyser:	include	"Data\Mappings\Objects\Lava Geyser.asm"
+Map_LWall:	include	"Data\Mappings\Objects\Wall of Lava.asm"
 
-		include	"_incObj\40 Moto Bug.asm" ; includes "_incObj\sub RememberState.asm"
-		include	"_anim\Moto Bug.asm"
-Map_Moto:	include	"_maps\Moto Bug.asm"
-		include	"_incObj\4F.asm"
+		include	"Objects\40 Moto Bug.asm" ; includes "Objects\sub RememberState.asm"
+		include	"Data\Animations\Moto Bug.asm"
+Map_Moto:	include	"Data\Mappings\Objects\Moto Bug.asm"
+		include	"Objects\4F.asm"
 
-		include	"_incObj\50 Yadrin.asm"
-		include	"_anim\Yadrin.asm"
-Map_Yad:	include	"_maps\Yadrin.asm"
+		include	"Objects\50 Yadrin.asm"
+		include	"Data\Animations\Yadrin.asm"
+Map_Yad:	include	"Data\Mappings\Objects\Yadrin.asm"
 
-		include	"_incObj\sub SolidObject.asm"
+		include	"Objects\sub SolidObject.asm"
 
-		include	"_incObj\51 Smashable Green Block.asm"
-Map_Smab:	include	"_maps\Smashable Green Block.asm"
+		include	"Objects\51 Smashable Green Block.asm"
+Map_Smab:	include	"Data\Mappings\Objects\Smashable Green Block.asm"
 
-		include	"_incObj\52 Moving Blocks.asm"
-Map_MBlock:	include	"_maps\Moving Blocks (MZ and SBZ).asm"
-Map_MBlockLZ:	include	"_maps\Moving Blocks (LZ).asm"
+		include	"Objects\52 Moving Blocks.asm"
+Map_MBlock:	include	"Data\Mappings\Objects\Moving Blocks (MZ and SBZ).asm"
+Map_MBlockLZ:	include	"Data\Mappings\Objects\Moving Blocks (LZ).asm"
 
-		include	"_incObj\55 Basaran.asm"
-		include	"_anim\Basaran.asm"
-Map_Bas:	include	"_maps\Basaran.asm"
+		include	"Objects\55 Basaran.asm"
+		include	"Data\Animations\Basaran.asm"
+Map_Bas:	include	"Data\Mappings\Objects\Basaran.asm"
 
-		include	"_incObj\56 Floating Blocks and Doors.asm"
-Map_FBlock:	include	"_maps\Floating Blocks and Doors.asm"
+		include	"Objects\56 Floating Blocks and Doors.asm"
+Map_FBlock:	include	"Data\Mappings\Objects\Floating Blocks and Doors.asm"
 
-		include	"_incObj\57 Spiked Ball and Chain.asm"
-Map_SBall:	include	"_maps\Spiked Ball and Chain (SYZ).asm"
-Map_SBall2:	include	"_maps\Spiked Ball and Chain (LZ).asm"
-		include	"_incObj\58 Big Spiked Ball.asm"
-Map_BBall:	include	"_maps\Big Spiked Ball.asm"
-		include	"_incObj\59 SLZ Elevators.asm"
-Map_Elev:	include	"_maps\SLZ Elevators.asm"
-		include	"_incObj\5A SLZ Circling Platform.asm"
-Map_Circ:	include	"_maps\SLZ Circling Platform.asm"
-		include	"_incObj\5B Staircase.asm"
-Map_Stair:	include	"_maps\Staircase.asm"
-		include	"_incObj\5C Pylon.asm"
-Map_Pylon:	include	"_maps\Pylon.asm"
+		include	"Objects\57 Spiked Ball and Chain.asm"
+Map_SBall:	include	"Data\Mappings\Objects\Spiked Ball and Chain (SYZ).asm"
+Map_SBall2:	include	"Data\Mappings\Objects\Spiked Ball and Chain (LZ).asm"
+		include	"Objects\58 Big Spiked Ball.asm"
+Map_BBall:	include	"Data\Mappings\Objects\Big Spiked Ball.asm"
+		include	"Objects\59 SLZ Elevators.asm"
+Map_Elev:	include	"Data\Mappings\Objects\SLZ Elevators.asm"
+		include	"Objects\5A SLZ Circling Platform.asm"
+Map_Circ:	include	"Data\Mappings\Objects\SLZ Circling Platform.asm"
+		include	"Objects\5B Staircase.asm"
+Map_Stair:	include	"Data\Mappings\Objects\Staircase.asm"
+		include	"Objects\5C Pylon.asm"
+Map_Pylon:	include	"Data\Mappings\Objects\Pylon.asm"
 
-		include	"_incObj\1B Water Surface.asm"
-Map_Surf:	include	"_maps\Water Surface.asm"
-		include	"_incObj\0B Pole that Breaks.asm"
-Map_Pole:	include	"_maps\Pole that Breaks.asm"
-		include	"_incObj\0C Flapping Door.asm"
-		include	"_anim\Flapping Door.asm"
-Map_Flap:	include	"_maps\Flapping Door.asm"
+		include	"Objects\1B Water Surface.asm"
+Map_Surf:	include	"Data\Mappings\Objects\Water Surface.asm"
+		include	"Objects\0B Pole that Breaks.asm"
+Map_Pole:	include	"Data\Mappings\Objects\Pole that Breaks.asm"
+		include	"Objects\0C Flapping Door.asm"
+		include	"Data\Animations\Flapping Door.asm"
+Map_Flap:	include	"Data\Mappings\Objects\Flapping Door.asm"
 
-		include	"_incObj\71 Invisible Barriers.asm"
-Map_Invis:	include	"_maps\Invisible Barriers.asm"
+		include	"Objects\71 Invisible Barriers.asm"
+Map_Invis:	include	"Data\Mappings\Objects\Invisible Barriers.asm"
 
-		include	"_incObj\5D Fan.asm"
-Map_Fan:	include	"_maps\Fan.asm"
-		include	"_incObj\5E Seesaw.asm"
-Map_Seesaw:	include	"_maps\Seesaw.asm"
-Map_SSawBall:	include	"_maps\Seesaw Ball.asm"
-		include	"_incObj\5F Bomb Enemy.asm"
-		include	"_anim\Bomb Enemy.asm"
-Map_Bomb:	include	"_maps\Bomb Enemy.asm"
+		include	"Objects\5D Fan.asm"
+Map_Fan:	include	"Data\Mappings\Objects\Fan.asm"
+		include	"Objects\5E Seesaw.asm"
+Map_Seesaw:	include	"Data\Mappings\Objects\Seesaw.asm"
+Map_SSawBall:	include	"Data\Mappings\Objects\Seesaw Ball.asm"
+		include	"Objects\5F Bomb Enemy.asm"
+		include	"Data\Animations\Bomb Enemy.asm"
+Map_Bomb:	include	"Data\Mappings\Objects\Bomb Enemy.asm"
 
-		include	"_incObj\60 Orbinaut.asm"
-		include	"_anim\Orbinaut.asm"
-Map_Orb:	include	"_maps\Orbinaut.asm"
+		include	"Objects\60 Orbinaut.asm"
+		include	"Data\Animations\Orbinaut.asm"
+Map_Orb:	include	"Data\Mappings\Objects\Orbinaut.asm"
 
-		include	"_incObj\16 Harpoon.asm"
-		include	"_anim\Harpoon.asm"
-Map_Harp:	include	"_maps\Harpoon.asm"
-		include	"_incObj\61 LZ Blocks.asm"
-Map_LBlock:	include	"_maps\LZ Blocks.asm"
-		include	"_incObj\62 Gargoyle.asm"
-Map_Gar:	include	"_maps\Gargoyle.asm"
-		include	"_incObj\63 LZ Conveyor.asm"
-Map_LConv:	include	"_maps\LZ Conveyor.asm"
-		include	"_incObj\64 Bubbles.asm"
-		include	"_anim\Bubbles.asm"
-Map_Bub:	include	"_maps\Bubbles.asm"
-		include	"_incObj\65 Waterfalls.asm"
-		include	"_anim\Waterfalls.asm"
-Map_WFall	include	"_maps\Waterfalls.asm"
+		include	"Objects\16 Harpoon.asm"
+		include	"Data\Animations\Harpoon.asm"
+Map_Harp:	include	"Data\Mappings\Objects\Harpoon.asm"
+		include	"Objects\61 LZ Blocks.asm"
+Map_LBlock:	include	"Data\Mappings\Objects\LZ Blocks.asm"
+		include	"Objects\62 Gargoyle.asm"
+Map_Gar:	include	"Data\Mappings\Objects\Gargoyle.asm"
+		include	"Objects\63 LZ Conveyor.asm"
+Map_LConv:	include	"Data\Mappings\Objects\LZ Conveyor.asm"
+		include	"Objects\64 Bubbles.asm"
+		include	"Data\Animations\Bubbles.asm"
+Map_Bub:	include	"Data\Mappings\Objects\Bubbles.asm"
+		include	"Objects\65 Waterfalls.asm"
+		include	"Data\Animations\Waterfalls.asm"
+Map_WFall	include	"Data\Mappings\Objects\Waterfalls.asm"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -5671,9 +5671,9 @@ Sonic_Modes:	dc.w Sonic_MdNormal-Sonic_Modes
 		dc.w Sonic_MdJump2-Sonic_Modes
 
 ; ===========================================================================
-		include	"_incObj\Sonic Display.asm"
-		include	"_incObj\Sonic RecordPosition.asm"
-		include	"_incObj\Sonic Water.asm"
+		include	"Objects\Sonic Display.asm"
+		include	"Objects\Sonic RecordPosition.asm"
+		include	"Objects\Sonic Water.asm"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -5732,9 +5732,9 @@ loc_12EA6:
 		bsr.w	Sonic_Floor
 		rts
 
-		include	"_incObj\Sonic Move.asm"
-		include	"_incObj\Sonic RollSpeed.asm"
-		include	"_incObj\Sonic JumpDirection.asm"
+		include	"Objects\Sonic Move.asm"
+		include	"Objects\Sonic RollSpeed.asm"
+		include	"Objects\Sonic JumpDirection.asm"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -5755,23 +5755,23 @@ loc_12EA6:
 locret_13302:
 		rts
 
-		include	"_incObj\Sonic LevelBound.asm"
-		include	"_incObj\Sonic Roll.asm"
-		include	"_incObj\Sonic Jump.asm"
-		include	"_incObj\Sonic JumpHeight.asm"
-		include	"_incObj\Sonic SlopeResist.asm"
-		include	"_incObj\Sonic RollRepel.asm"
-		include	"_incObj\Sonic SlopeRepel.asm"
-		include	"_incObj\Sonic JumpAngle.asm"
-		include	"_incObj\Sonic Floor.asm"
-		include	"_incObj\Sonic ResetOnFloor.asm"
-		include	"_incObj\Sonic (part 2).asm"
-		include	"_incObj\Sonic Loops.asm"
-		include	"_incObj\Sonic Animate.asm"
-		include	"_anim\Sonic.asm"
-		include	"_incObj\Sonic LoadGfx.asm"
+		include	"Objects\Sonic LevelBound.asm"
+		include	"Objects\Sonic Roll.asm"
+		include	"Objects\Sonic Jump.asm"
+		include	"Objects\Sonic JumpHeight.asm"
+		include	"Objects\Sonic SlopeResist.asm"
+		include	"Objects\Sonic RollRepel.asm"
+		include	"Objects\Sonic SlopeRepel.asm"
+		include	"Objects\Sonic JumpAngle.asm"
+		include	"Objects\Sonic Floor.asm"
+		include	"Objects\Sonic ResetOnFloor.asm"
+		include	"Objects\Sonic (part 2).asm"
+		include	"Objects\Sonic Loops.asm"
+		include	"Objects\Sonic Animate.asm"
+		include	"Data\Animations\Sonic.asm"
+		include	"Objects\Sonic LoadGfx.asm"
 
-		include	"_incObj\0A Drowning Countdown.asm"
+		include	"Objects\0A Drowning Countdown.asm"
 
 
 ; ---------------------------------------------------------------------------
@@ -5812,20 +5812,20 @@ ResumeMusic:
 
 ; ===========================================================================
 
-		include	"_anim\Drowning Countdown.asm"
-Map_Drown:	include	"_maps\Drowning Countdown.asm"
+		include	"Data\Animations\Drowning Countdown.asm"
+Map_Drown:	include	"Data\Mappings\Objects\Drowning Countdown.asm"
 
-		include	"_incObj\38 Shield and Invincibility.asm"
-		include	"_incObj\4A Special Stage Entry (Unused).asm"
-		include	"_incObj\08 Water Splash.asm"
-		include	"_anim\Shield and Invincibility.asm"
-Map_Shield:	include	"_maps\Shield and Invincibility.asm"
-		include	"_anim\Special Stage Entry (Unused).asm"
-Map_Vanish:	include	"_maps\Special Stage Entry (Unused).asm"
-		include	"_anim\Water Splash.asm"
-Map_Splash:	include	"_maps\Water Splash.asm"
+		include	"Objects\38 Shield and Invincibility.asm"
+		include	"Objects\4A Special Stage Entry (Unused).asm"
+		include	"Objects\08 Water Splash.asm"
+		include	"Data\Animations\Shield and Invincibility.asm"
+Map_Shield:	include	"Data\Mappings\Objects\Shield and Invincibility.asm"
+		include	"Data\Animations\Special Stage Entry (Unused).asm"
+Map_Vanish:	include	"Data\Mappings\Objects\Special Stage Entry (Unused).asm"
+		include	"Data\Animations\Water Splash.asm"
+Map_Splash:	include	"Data\Mappings\Objects\Water Splash.asm"
 
-		include	"_incObj\Sonic AnglePos.asm"
+		include	"Objects\Sonic AnglePos.asm"
 
 ; ---------------------------------------------------------------------------
 ; Collision
@@ -6083,7 +6083,7 @@ loc_14E0A:
 locret_14E16:
 		rts
 
-		include	"_incObj\sub ObjFloorDist.asm"
+		include	"Objects\sub ObjFloorDist.asm"
 
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
@@ -6348,27 +6348,27 @@ locret_15098:
 
 ; ===========================================================================
 
-		include	"_incObj\66 Rotating Junction.asm"
-Map_Jun:	include	"_maps\Rotating Junction.asm"
-		include	"_incObj\67 Running Disc.asm"
-Map_Disc:	include	"_maps\Running Disc.asm"
-		include	"_incObj\68 Conveyor Belt.asm"
-		include	"_incObj\69 SBZ Spinning Platforms.asm"
-		include	"_anim\SBZ Spinning Platforms.asm"
-Map_Trap:	include	"_maps\Trapdoor.asm"
-Map_Spin:	include	"_maps\SBZ Spinning Platforms.asm"
-		include	"_incObj\6A Saws and Pizza Cutters.asm"
-Map_Saw:	include	"_maps\Saws and Pizza Cutters.asm"
-		include	"_incObj\6B SBZ Stomper and Door.asm"
-Map_Stomp:	include	"_maps\SBZ Stomper and Door.asm"
-		include	"_incObj\6C SBZ Vanishing Platforms.asm"
-		include	"_anim\SBZ Vanishing Platforms.asm"
-Map_VanP:	include	"_maps\SBZ Vanishing Platforms.asm"
-		include	"_incObj\6E Electrocuter.asm"
-		include	"_anim\Electrocuter.asm"
-Map_Elec:	include	"_maps\Electrocuter.asm"
-		include	"_incObj\6F SBZ Spin Platform Conveyor.asm"
-		include	"_anim\SBZ Spin Platform Conveyor.asm"
+		include	"Objects\66 Rotating Junction.asm"
+Map_Jun:	include	"Data\Mappings\Objects\Rotating Junction.asm"
+		include	"Objects\67 Running Disc.asm"
+Map_Disc:	include	"Data\Mappings\Objects\Running Disc.asm"
+		include	"Objects\68 Conveyor Belt.asm"
+		include	"Objects\69 SBZ Spinning Platforms.asm"
+		include	"Data\Animations\SBZ Spinning Platforms.asm"
+Map_Trap:	include	"Data\Mappings\Objects\Trapdoor.asm"
+Map_Spin:	include	"Data\Mappings\Objects\SBZ Spinning Platforms.asm"
+		include	"Objects\6A Saws and Pizza Cutters.asm"
+Map_Saw:	include	"Data\Mappings\Objects\Saws and Pizza Cutters.asm"
+		include	"Objects\6B SBZ Stomper and Door.asm"
+Map_Stomp:	include	"Data\Mappings\Objects\SBZ Stomper and Door.asm"
+		include	"Objects\6C SBZ Vanishing Platforms.asm"
+		include	"Data\Animations\SBZ Vanishing Platforms.asm"
+Map_VanP:	include	"Data\Mappings\Objects\SBZ Vanishing Platforms.asm"
+		include	"Objects\6E Electrocuter.asm"
+		include	"Data\Animations\Electrocuter.asm"
+Map_Elec:	include	"Data\Mappings\Objects\Electrocuter.asm"
+		include	"Objects\6F SBZ Spin Platform Conveyor.asm"
+		include	"Data\Animations\SBZ Spin Platform Conveyor.asm"
 
 off_164A6:	dc.w word_164B2-off_164A6, word_164C6-off_164A6, word_164DA-off_164A6
 		dc.w word_164EE-off_164A6, word_16502-off_164A6, word_16516-off_164A6
@@ -6380,23 +6380,23 @@ word_16502:	dc.w $10, $1B80, $1B14,	$670, $1BEF, $602, $1BEF, $640,	$1B14, $6AE
 word_16516:	dc.w $10, $1C80, $1C14,	$5E0, $1CEF, $572, $1CEF, $5B0,	$1C14, $61E
 ; ===========================================================================
 
-		include	"_incObj\70 Girder Block.asm"
-Map_Gird:	include	"_maps\Girder Block.asm"
-		include	"_incObj\72 Teleporter.asm"
+		include	"Objects\70 Girder Block.asm"
+Map_Gird:	include	"Data\Mappings\Objects\Girder Block.asm"
+		include	"Objects\72 Teleporter.asm"
 
-		include	"_incObj\78 Caterkiller.asm"
-		include	"_anim\Caterkiller.asm"
-Map_Cat:	include	"_maps\Caterkiller.asm"
+		include	"Objects\78 Caterkiller.asm"
+		include	"Data\Animations\Caterkiller.asm"
+Map_Cat:	include	"Data\Mappings\Objects\Caterkiller.asm"
 
-		include	"_incObj\79 Lamppost.asm"
-Map_Lamp:	include	"_maps\Lamppost.asm"
-		include	"_incObj\7D Hidden Bonuses.asm"
-Map_Bonus:	include	"_maps\Hidden Bonuses.asm"
+		include	"Objects\79 Lamppost.asm"
+Map_Lamp:	include	"Data\Mappings\Objects\Lamppost.asm"
+		include	"Objects\7D Hidden Bonuses.asm"
+Map_Bonus:	include	"Data\Mappings\Objects\Hidden Bonuses.asm"
 
-		include	"_incObj\8A Credits.asm"
-Map_Cred:	include	"_maps\Credits.asm"
+		include	"Objects\8A Credits.asm"
+Map_Cred:	include	"Data\Mappings\Objects\Credits.asm"
 
-		include	"_incObj\3D Boss - Green Hill (part 1).asm"
+		include	"Objects\3D Boss - Green Hill (part 1).asm"
 
 ; ---------------------------------------------------------------------------
 ; Defeated boss	subroutine
@@ -6454,50 +6454,50 @@ BossMove:
 
 ; ===========================================================================
 
-		include	"_incObj\3D Boss - Green Hill (part 2).asm"
-		include	"_incObj\48 Eggman's Swinging Ball.asm"
-		include	"_anim\Eggman.asm"
-Map_Eggman:	include	"_maps\Eggman.asm"
-Map_BossItems:	include	"_maps\Boss Items.asm"
-		include	"_incObj\77 Boss - Labyrinth.asm"
-		include	"_incObj\73 Boss - Marble.asm"
-		include	"_incObj\74 MZ Boss Fire.asm"
+		include	"Objects\3D Boss - Green Hill (part 2).asm"
+		include	"Objects\48 Eggman's Swinging Ball.asm"
+		include	"Data\Animations\Eggman.asm"
+Map_Eggman:	include	"Data\Mappings\Objects\Eggman.asm"
+Map_BossItems:	include	"Data\Mappings\Objects\Boss Items.asm"
+		include	"Objects\77 Boss - Labyrinth.asm"
+		include	"Objects\73 Boss - Marble.asm"
+		include	"Objects\74 MZ Boss Fire.asm"
 
 	Obj7A_Delete:
 		jmp	(DeleteObject).l
 
-		include	"_incObj\7A Boss - Star Light.asm"
-		include	"_incObj\7B SLZ Boss Spikeball.asm"
-Map_BSBall:	include	"_maps\SLZ Boss Spikeball.asm"
-		include	"_incObj\75 Boss - Spring Yard.asm"
-		include	"_incObj\76 SYZ Boss Blocks.asm"
-Map_BossBlock:	include	"_maps\SYZ Boss Blocks.asm"
+		include	"Objects\7A Boss - Star Light.asm"
+		include	"Objects\7B SLZ Boss Spikeball.asm"
+Map_BSBall:	include	"Data\Mappings\Objects\SLZ Boss Spikeball.asm"
+		include	"Objects\75 Boss - Spring Yard.asm"
+		include	"Objects\76 SYZ Boss Blocks.asm"
+Map_BossBlock:	include	"Data\Mappings\Objects\SYZ Boss Blocks.asm"
 
 loc_1982C:
 		jmp	(DeleteObject).l
 
-		include	"_incObj\82 Eggman - Scrap Brain 2.asm"
-		include	"_anim\Eggman - Scrap Brain 2 & Final.asm"
-Map_SEgg:	include	"_maps\Eggman - Scrap Brain 2.asm"
-		include	"_incObj\83 SBZ Eggman's Crumbling Floor.asm"
-Map_FFloor:	include	"_maps\SBZ Eggman's Crumbling Floor.asm"
-		include	"_incObj\85 Boss - Final.asm"
-		include	"_anim\FZ Eggman in Ship.asm"
-Map_FZDamaged:	include	"_maps\FZ Damaged Eggmobile.asm"
-Map_FZLegs:	include	"_maps\FZ Eggmobile Legs.asm"
-		include	"_incObj\84 FZ Eggman's Cylinders.asm"
-Map_EggCyl:	include	"_maps\FZ Eggman's Cylinders.asm"
-		include	"_incObj\86 FZ Plasma Ball Launcher.asm"
-		include	"_anim\Plasma Ball Launcher.asm"
-Map_PLaunch:	include	"_maps\Plasma Ball Launcher.asm"
-		include	"_anim\Plasma Balls.asm"
-Map_Plasma:	include	"_maps\Plasma Balls.asm"
+		include	"Objects\82 Eggman - Scrap Brain 2.asm"
+		include	"Data\Animations\Eggman - Scrap Brain 2 & Final.asm"
+Map_SEgg:	include	"Data\Mappings\Objects\Eggman - Scrap Brain 2.asm"
+		include	"Objects\83 SBZ Eggman's Crumbling Floor.asm"
+Map_FFloor:	include	"Data\Mappings\Objects\SBZ Eggman's Crumbling Floor.asm"
+		include	"Objects\85 Boss - Final.asm"
+		include	"Data\Animations\FZ Eggman in Ship.asm"
+Map_FZDamaged:	include	"Data\Mappings\Objects\FZ Damaged Eggmobile.asm"
+Map_FZLegs:	include	"Data\Mappings\Objects\FZ Eggmobile Legs.asm"
+		include	"Objects\84 FZ Eggman's Cylinders.asm"
+Map_EggCyl:	include	"Data\Mappings\Objects\FZ Eggman's Cylinders.asm"
+		include	"Objects\86 FZ Plasma Ball Launcher.asm"
+		include	"Data\Animations\Plasma Ball Launcher.asm"
+Map_PLaunch:	include	"Data\Mappings\Objects\Plasma Ball Launcher.asm"
+		include	"Data\Animations\Plasma Balls.asm"
+Map_Plasma:	include	"Data\Mappings\Objects\Plasma Balls.asm"
 
-		include	"_incObj\3E Prison Capsule.asm"
-		include	"_anim\Prison Capsule.asm"
-Map_Pri:	include	"_maps\Prison Capsule.asm"
+		include	"Objects\3E Prison Capsule.asm"
+		include	"Data\Animations\Prison Capsule.asm"
+Map_Pri:	include	"Data\Mappings\Objects\Prison Capsule.asm"
 
-		include	"_incObj\sub ReactToItem.asm"
+		include	"Objects\sub ReactToItem.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	show the special stage layout
@@ -6959,7 +6959,7 @@ SS_LayoutIndex:
 ; ---------------------------------------------------------------------------
 ; Special stage start locations
 ; ---------------------------------------------------------------------------
-SS_StartLoc:	include	"_inc\Start Location Array - Special Stages.asm"
+SS_StartLoc:	include	"Includes\Start Location Array - Special Stages.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	load special stage layout
@@ -7049,22 +7049,22 @@ loc_1B730:
 ; ===========================================================================
 
 SS_MapIndex:
-		include	"_inc\Special Stage Mappings & VRAM Pointers.asm"
+		include	"Includes\Special Stage Mappings & VRAM Pointers.asm"
 
-Map_SS_R:	include	"_maps\SS R Block.asm"
-Map_SS_Glass:	include	"_maps\SS Glass Block.asm"
-Map_SS_Up:	include	"_maps\SS UP Block.asm"
-Map_SS_Down:	include	"_maps\SS DOWN Block.asm"
-		include	"_maps\SS Chaos Emeralds.asm"
+Map_SS_R:	include	"Data\Mappings\Objects\SS R Block.asm"
+Map_SS_Glass:	include	"Data\Mappings\Objects\SS Glass Block.asm"
+Map_SS_Up:	include	"Data\Mappings\Objects\SS UP Block.asm"
+Map_SS_Down:	include	"Data\Mappings\Objects\SS DOWN Block.asm"
+		include	"Data\Mappings\Objects\SS Chaos Emeralds.asm"
 
-		include	"_incObj\09 Sonic in Special Stage.asm"
+		include	"Objects\09 Sonic in Special Stage.asm"
 
-		include	"_incObj\10.asm"
+		include	"Objects\10.asm"
 
-		include	"_inc\AnimateLevelGfx.asm"
+		include	"Includes\AnimateLevelGfx.asm"
 
-		include	"_incObj\21 HUD.asm"
-Map_HUD:	include	"_maps\HUD.asm"
+		include	"Objects\21 HUD.asm"
+Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
 
 ; ---------------------------------------------------------------------------
 ; Add points subroutine
@@ -7118,7 +7118,7 @@ AddPoints:
 		rts
 ; End of function AddPoints
 
-		include	"_inc\HUD_Update.asm"
+		include	"Includes\HUD_Update.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	load countdown numbers on the continue screen
@@ -7173,30 +7173,30 @@ loc_1C962:
 
 ; ===========================================================================
 
-		include	"_inc\HUD (part 2).asm"
+		include	"Includes\HUD (part 2).asm"
 
 Art_Hud:	incbin	"Data\Art\Uncompressed\HUD Numbers.bin" ; 8x16 pixel numbers on HUD
 		even
 Art_LivesNums:	incbin	"Data\Art\Uncompressed\Lives Counter Numbers.bin" ; 8x8 pixel numbers on lives counter
 		even
 
-		include	"_incObj\DebugMode.asm"
-		include	"_inc\DebugList.asm"
-		include	"_inc\LevelHeaders.asm"
-		include	"_inc\Pattern Load Cues.asm"
+		include	"Objects\DebugMode.asm"
+		include	"Includes\DebugList.asm"
+		include	"Includes\LevelHeaders.asm"
+		include	"Includes\Pattern Load Cues.asm"
 
 		if Revision=0
 Nem_SegaLogo:	incbin	"Data\Art\Nemesis\Sega Logo.bin"	; large Sega logo
 		even
-Eni_SegaLogo:	incbin	"tilemaps\Sega Logo.bin" ; large Sega logo (mappings)
+Eni_SegaLogo:	incbin	"Data\Mappings\TileMaps\Sega Logo.bin" ; large Sega logo (mappings)
 		even
 		else
 	Nem_SegaLogo:	incbin	"Data\Art\Nemesis\Sega Logo (JP1).bin" ; large Sega logo
 			even
-	Eni_SegaLogo:	incbin	"tilemaps\Sega Logo (JP1).bin" ; large Sega logo (mappings)
+	Eni_SegaLogo:	incbin	"Data\Mappings\TileMaps\Sega Logo (JP1).bin" ; large Sega logo (mappings)
 			even
 		endc
-Eni_Title:	incbin	"tilemaps\Title Screen.bin" ; title screen foreground (mappings)
+Eni_Title:	incbin	"Data\Mappings\TileMaps\Title Screen.bin" ; title screen foreground (mappings)
 		even
 Nem_TitleFg:	incbin	"Data\Art\Nemesis\Title Screen Foreground.bin"
 		even
@@ -7204,13 +7204,13 @@ Nem_TitleSonic:	incbin	"Data\Art\Nemesis\Title Screen Sonic.bin"
 		even
 Nem_TitleTM:	incbin	"Data\Art\Nemesis\Title Screen TM.bin"
 		even
-Eni_JapNames:	incbin	"tilemaps\Hidden Japanese Credits.bin" ; Japanese credits (mappings)
+Eni_JapNames:	incbin	"Data\Mappings\TileMaps\Hidden Japanese Credits.bin" ; Japanese credits (mappings)
 		even
 Nem_JapNames:	incbin	"Data\Art\Nemesis\Hidden Japanese Credits.bin"
 		even
 
-Map_Sonic:	include	"_maps\Sonic.asm"
-SonicDynPLC:	include	"_maps\Sonic - Dynamic Gfx Script.asm"
+Map_Sonic:	include	"Data\Mappings\Objects\Sonic.asm"
+SonicDynPLC:	include	"Data\Mappings\Objects\Sonic - Dynamic Gfx Script.asm"
 
 ; ---------------------------------------------------------------------------
 ; Uncompressed graphics	- Sonic
@@ -7243,18 +7243,18 @@ Nem_Goggle:	incbin	"Data\Art\Nemesis\Unused - Goggles.bin" ; unused goggles
 		else
 		endc
 
-Map_SSWalls:	include	"_maps\SS Walls.asm"
+Map_SSWalls:	include	"Data\Mappings\Objects\SS Walls.asm"
 
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - special stage
 ; ---------------------------------------------------------------------------
 Nem_SSWalls:	incbin	"Data\Art\Nemesis\Special Walls.bin" ; special stage walls
 		even
-Eni_SSBg1:	incbin	"tilemaps\SS Background 1.bin" ; special stage background (mappings)
+Eni_SSBg1:	incbin	"Data\Mappings\TileMaps\SS Background 1.bin" ; special stage background (mappings)
 		even
 Nem_SSBgFish:	incbin	"Data\Art\Nemesis\Special Birds & Fish.bin" ; special stage birds and fish background
 		even
-Eni_SSBg2:	incbin	"tilemaps\SS Background 2.bin" ; special stage background (mappings)
+Eni_SSBg2:	incbin	"Data\Mappings\TileMaps\SS Background 2.bin" ; special stage background (mappings)
 		even
 Nem_SSBgCloud:	incbin	"Data\Art\Nemesis\Special Clouds.bin" ; special stage clouds background
 		even
@@ -7525,50 +7525,50 @@ Nem_Squirrel:	incbin	"Data\Art\Nemesis\Animal Squirrel.bin"
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - primary patterns and block mappings
 ; ---------------------------------------------------------------------------
-Blk16_GHZ:	incbin	"map16\GHZ.bin"
+Blk16_GHZ:	incbin	"Data\Mappings\Levels\16\GHZ.bin"
 		even
 Nem_GHZ_1st:	incbin	"Data\Art\Nemesis\8x8 - GHZ1.bin"	; GHZ primary patterns
 		even
 Nem_GHZ_2nd:	incbin	"Data\Art\Nemesis\8x8 - GHZ2.bin"	; GHZ secondary patterns
 		even
-Blk256_GHZ:	incbin	"map256\GHZ.bin"
+Blk256_GHZ:	incbin	"Data\Mappings\Levels\256\GHZ.bin"
 		even
-Blk16_LZ:	incbin	"map16\LZ.bin"
+Blk16_LZ:	incbin	"Data\Mappings\Levels\16\LZ.bin"
 		even
 Nem_LZ:		incbin	"Data\Art\Nemesis\8x8 - LZ.bin"	; LZ primary patterns
 		even
-Blk256_LZ:	incbin	"map256\LZ.bin"
+Blk256_LZ:	incbin	"Data\Mappings\Levels\256\LZ.bin"
 		even
-Blk16_MZ:	incbin	"map16\MZ.bin"
+Blk16_MZ:	incbin	"Data\Mappings\Levels\16\MZ.bin"
 		even
 Nem_MZ:		incbin	"Data\Art\Nemesis\8x8 - MZ.bin"	; MZ primary patterns
 		even
 Blk256_MZ:	if Revision=0
-		incbin	"map256\MZ.bin"
+		incbin	"Data\Mappings\Levels\256\MZ.bin"
 		else
-		incbin	"map256\MZ (JP1).bin"
+		incbin	"Data\Mappings\Levels\256\MZ (JP1).bin"
 		endc
 		even
-Blk16_SLZ:	incbin	"map16\SLZ.bin"
+Blk16_SLZ:	incbin	"Data\Mappings\Levels\16\SLZ.bin"
 		even
 Nem_SLZ:	incbin	"Data\Art\Nemesis\8x8 - SLZ.bin"	; SLZ primary patterns
 		even
-Blk256_SLZ:	incbin	"map256\SLZ.bin"
+Blk256_SLZ:	incbin	"Data\Mappings\Levels\256\SLZ.bin"
 		even
-Blk16_SYZ:	incbin	"map16\SYZ.bin"
+Blk16_SYZ:	incbin	"Data\Mappings\Levels\16\SYZ.bin"
 		even
 Nem_SYZ:	incbin	"Data\Art\Nemesis\8x8 - SYZ.bin"	; SYZ primary patterns
 		even
-Blk256_SYZ:	incbin	"map256\SYZ.bin"
+Blk256_SYZ:	incbin	"Data\Mappings\Levels\256\SYZ.bin"
 		even
-Blk16_SBZ:	incbin	"map16\SBZ.bin"
+Blk16_SBZ:	incbin	"Data\Mappings\Levels\16\SBZ.bin"
 		even
 Nem_SBZ:	incbin	"Data\Art\Nemesis\8x8 - SBZ.bin"	; SBZ primary patterns
 		even
 Blk256_SBZ:	if Revision=0
-		incbin	"map256\SBZ.bin"
+		incbin	"Data\Mappings\Levels\256\SBZ.bin"
 		else
-		incbin	"map256\SBZ (JP1).bin"
+		incbin	"Data\Mappings\Levels\256\SBZ (JP1).bin"
 		endc
 		even
 ; ---------------------------------------------------------------------------
