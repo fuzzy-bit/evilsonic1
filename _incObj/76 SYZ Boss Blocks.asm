@@ -5,28 +5,28 @@
 BossBlock:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
-		move.w	SYZBossBlockIndex(pc,d0.w),d1
-		jmp	SYZBossBlockIndex(pc,d1.w)
+		move.w	@BlockIndex(pc,d0.w),d1
+		jmp	@BlockIndex(pc,d1.w)
 ; ===========================================================================
-SYZBossBlockIndex:	dc.w SYZBossBlockMain-SYZBossBlockIndex
-		dc.w SYZBossBlockAction-SYZBossBlockIndex
-		dc.w SYZBossBlockFall-SYZBossBlockIndex
-		dc.w SYZBossBlockFallWithoutCheck-SYZBossBlockIndex
+@BlockIndex:	dc.w @BlockMain-@BlockIndex
+		dc.w @BlockAction-@BlockIndex
+		dc.w @BlockFall-@BlockIndex
+		dc.w @BlockFallWithoutCheck-@BlockIndex
 ; ===========================================================================
 
-SYZBossBlockMain:	; Routine 0
+@BlockMain:	; Routine 0
 		moveq	#0,d4
 		move.w	#$2C10,d5
 		moveq	#9,d6
 		lea	(a0),a1
-		bra.s	SYZBossBlockMakeBlock
+		bra.s	@BlockMakeBlock
 ; ===========================================================================
 
-SYZBossBlockLoop:
+@BlockLoop:
 		jsr	(FindFreeObj).l
-		bne.s	SYZBossBlockExitLoop
+		bne.s	@BlockExitLoop
 
-SYZBossBlockMakeBlock:
+@BlockMakeBlock:
 		move.b	#id_BossBlock,(a1)
 		move.l	#Map_BossBlock,obMap(a1)
 		move.w	#$4000,obGfx(a1)
@@ -40,76 +40,76 @@ SYZBossBlockMakeBlock:
 		addi.w	#$101,d4
 		addi.w	#$20,d5		; add $20 to next x-position
 		addq.b	#2,obRoutine(a1)
-		dbf	d6,SYZBossBlockLoop	; repeat sequence 9 more times
+		dbf	d6,@BlockLoop	; repeat sequence 9 more times
 
-SYZBossBlockExitLoop:
+@BlockExitLoop:
 		rts	
 ; ===========================================================================
 
-SYZBossBlockAction:	; Routine 2
+@BlockAction:	; Routine 2
 		move.b	$29(a0),d0
 		cmp.b	obSubtype(a0),d0
-		beq.s	SYZBossBlockSolid
+		beq.s	@BlockSolid
 		tst.b	d0
-		bmi.s	SYZBossBlockPickUp
+		bmi.s	@BlockPickUp
 
-SYZBossBlockAction2:
+@BlockAction2:
 		add.b	#2,obRoutine(a0) ; go to fall routine
-		bra.s	SYZBossBlockDisplay
+		bra.s	@BlockDisplay
 ; ===========================================================================
 
-SYZBossBlockPickUp:
+@BlockPickUp:
 		movea.l	$34(a0),a1
 		tst.b	obColProp(a1)
-		beq.s	SYZBossBlockAction2
+		beq.s	@BlockAction2
 		move.w	obX(a1),obX(a0)
 		move.w	obY(a1),obY(a0)
 		addi.w	#$2C,obY(a0)
 		cmpa.w	a0,a1
-		bcs.s	SYZBossBlockDisplay
+		bcs.s	@BlockDisplay
 		move.w	obVelY(a1),d0
 		ext.l	d0
 		asr.l	#8,d0
 		add.w	d0,obY(a0)
-		bra.s	SYZBossBlockDisplay
+		bra.s	@BlockDisplay
 ; ===========================================================================
 
-SYZBossBlockSolid:
+@BlockSolid:
 		move.w	#$1B,d1
 		move.w	#$10,d2
 		move.w	#$11,d3
 		move.w	obX(a0),d4
 		jsr	(SolidObject).l
 
-SYZBossBlockDisplay:
+@BlockDisplay:
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 
-SYZBossBlockFall:	; Routine 4
+@BlockFall:	; Routine 4
 		tst.b	obRender(a0)
-		bpl.s	SYZBossBlockDelete
+		bpl.s	@BlockDelete
 		
 		move.b	#$87,obColType(a0)
 		move.w	#$582-32,d5
 		cmp.w	obY(a0), d5
-		blt.w	SYZBossBlockBreak
+		blt.w	@BlockBreak
 		
 		jsr	(ObjectFall).l
 		jmp	(DisplaySprite).l
 		
 ; ===========================================================================
 
-SYZBossBlockFallWithoutCheck:	; Routine 8
+@BlockFallWithoutCheck:	; Routine 8
 						; i fucking hate this but it works
 		tst.b	obRender(a0)
-		bpl.s	SYZBossBlockDelete
+		bpl.s	@BlockDelete
 		
 		jsr	(ObjectFall).l
 		jmp	(DisplaySprite).l
 		
 ; ===========================================================================
 
-SYZBossBlockDelete:
+@BlockDelete:
 		jmp	(DeleteObject).l
 
 ; ===========================================================================
@@ -117,7 +117,7 @@ SYZBossBlockDelete:
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
 
-SYZBossBlockBreak:
+@BlockBreak:
 		add.b	#2,obRoutine(a0) ; go to no-check fall routine
 		
 		move.l 	a1, -(sp)
@@ -127,8 +127,8 @@ SYZBossBlockBreak:
 		move.w	obY(a0), obY(a1)
 		move.l 	(sp)+, a1
 		
-		lea	SYZBossBlockFragSpeed(pc),a4
-		lea	SYZBossBlockFragPos(pc),a5
+		lea	@BlockFragSpeed(pc),a4
+		lea	@BlockFragPos(pc),a5
 		moveq	#1,d4
 		moveq	#3,d1
 		moveq	#$38,d2
@@ -136,24 +136,24 @@ SYZBossBlockBreak:
 		move.b	#8,obActWid(a0)
 		move.b	#8,obHeight(a0)
 		lea	(a0),a1
-		bra.s	SYZBossBlockMakeFrag
+		bra.s	@BlockMakeFrag
 ; ===========================================================================
 
-SYZBossBlockLoopFrag:
+@BlockLoopFrag:
 		jsr	(FindNextFreeObj).l
-		bne.s	SYZBossBlockPlaySfx
+		bne.s	@BlockPlaySfx
 
-SYZBossBlockMakeFrag:
+@BlockMakeFrag:
 		lea	(a0),a2
 		lea	(a1),a3
 		moveq	#3,d3
 
-SYZBossBlockMakeFrag2:
+@BlockMakeFrag2:
 		move.l	(a2)+,(a3)+
 		move.l	(a2)+,(a3)+
 		move.l	(a2)+,(a3)+
 		move.l	(a2)+,(a3)+
-		dbf	d3,SYZBossBlockMakeFrag2
+		dbf	d3,@BlockMakeFrag2
 
 		move.w	(a4)+,obVelX(a1)
 		move.w	(a4)+,obVelY(a1)
@@ -163,19 +163,19 @@ SYZBossBlockMakeFrag2:
 		add.w	d3,obY(a1)
 		move.b	d4,obFrame(a1)
 		addq.w	#1,d4
-		dbf	d1,SYZBossBlockLoopFrag ; repeat sequence 3 more times
+		dbf	d1,@BlockLoopFrag ; repeat sequence 3 more times
 
-SYZBossBlockPlaySfx:
+@BlockPlaySfx:
 		sfx	sfx_Smash	; play smashing sound
 		rts
-; End of function SYZBossBlockBreak
+; End of function @BlockBreak
 
 ; ===========================================================================
-SYZBossBlockFragSpeed:dc.w -$180, -$200
+@BlockFragSpeed:dc.w -$180, -$200
 		dc.w $180, -$200
 		dc.w -$100, -$100
 		dc.w $100, -$100
-SYZBossBlockFragPos:dc.w -8, -8
+@BlockFragPos:dc.w -8, -8
 		dc.w $10, 0
 		dc.w 0,	$10
 		dc.w $10, $10
