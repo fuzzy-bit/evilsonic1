@@ -11,10 +11,10 @@ Object Def: objdef\s1obj
 
 256x256 Tiles: ..\map256\SYZ.bin
 
-FG Layout: ..\levels\syz3.bin
-BG Layout: ..\levels\syzbg (JP1).bin
+FG Layout: ..\Data\Levels\LevelData\syz3.bin
+BG Layout: ..\Data\Levels\LevelData\syzbg (JP1).bin
 
-Objects:       ..\objpos\syz3.bin
+Objects:       ..\Data\Levels\Objects\syz3.bin
 
 Palettes-
 
@@ -32,10 +32,10 @@ Palettes-
    Number of entries: 48
    File:              ..\palette\Spring Yard Zone.bin
 
-Angle Array:             ..\collide\Angle Map.bin
-Collision Array:         ..\collide\Collision Array (Normal).bin
-Rotated Collision Array: ..\collide\Collision Array (Rotated).bin
+Angle Array:             ..\Data\Levels\Collision\Angle Map.bin
+Collision Array:         ..\Data\Levels\Collision\Collision Array (Normal).bin
+Rotated Collision Array: ..\Data\Levels\Collision\Collision Array (Rotated).bin
 
-Collision Index 1: ..\collide\SYZ.bin
+Collision Index 1: ..\Data\Levels\Collision\SYZ.bin
 
 -EOF-

@@ -91,7 +91,7 @@ LevSz_ChkLamp:
 		jsr	(Lamp_LoadInfo).l
 		move.w	(v_player+obX).w,d1
 		move.w	(v_player+obY).w,d0
-		bra.s	LevSz_SkipStartPos
+		bra.s	LevSz_StartPos
 ; ===========================================================================
 
 LevSz_StartLoc:
@@ -116,7 +116,7 @@ LevSz_SonicPos:
 		move.w	d0,(v_player+obY).w ; set Sonic's position on y-axis
 
 SetScreen:
-	LevSz_SkipStartPos:
+	LevSz_StartPos:
 		subi.w	#160,d1		; is Sonic more than 160px from left edge?
 		bcc.s	SetScr_WithinLeft ; if yes, branch
 		moveq	#0,d1

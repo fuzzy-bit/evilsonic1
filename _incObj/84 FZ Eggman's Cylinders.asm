@@ -2,7 +2,7 @@
 ; Object 84 - cylinder Eggman hides in (FZ)
 ; ---------------------------------------------------------------------------
 
-Obj84_Delete:
+DeletePlasmaBalls:
 		jmp	(DeleteObject).l
 ; ===========================================================================
 
@@ -108,7 +108,7 @@ loc_1A55C:
 		subi.w	#$140,d0
 		bmi.s	loc_1A578
 		tst.b	obRender(a0)
-		bpl.w	Obj84_Delete
+		bpl.w	DeletePlasmaBalls
 
 loc_1A578:
 		jmp	(DisplaySprite).l

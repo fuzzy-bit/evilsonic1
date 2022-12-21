@@ -11,10 +11,10 @@ Object Def: objdef\s1obj
 
 256x256 Tiles: ..\map256\SBZ (JP1).bin
 
-FG Layout: ..\levels\sbz1.bin
-BG Layout: ..\levels\sbz1bg.bin
+FG Layout: ..\Data\Levels\LevelData\sbz1.bin
+BG Layout: ..\Data\Levels\LevelData\sbz1bg.bin
 
-Objects:       ..\objpos\sbz1 (JP1).bin
+Objects:       ..\Data\Levels\Objects\sbz1 (JP1).bin
 
 Palettes-
 
@@ -32,10 +32,10 @@ Palettes-
    Number of entries: 48
    File:              ..\palette\SBZ Act 1.bin
 
-Angle Array:             ..\collide\Angle Map.bin
-Collision Array:         ..\collide\Collision Array (Normal).bin
-Rotated Collision Array: ..\collide\Collision Array (Rotated).bin
+Angle Array:             ..\Data\Levels\Collision\Angle Map.bin
+Collision Array:         ..\Data\Levels\Collision\Collision Array (Normal).bin
+Rotated Collision Array: ..\Data\Levels\Collision\Collision Array (Rotated).bin
 
-Collision Index 1: ..\collide\SBZ.bin
+Collision Index 1: ..\Data\Levels\Collision\SBZ.bin
 
 -EOF-

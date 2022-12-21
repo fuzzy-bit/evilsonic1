@@ -2,40 +2,40 @@
 ; Sonic start location array
 ; ---------------------------------------------------------------------------
 
-		incbin	"startpos\ghz1.bin"
-		incbin	"startpos\ghz2.bin"
-		incbin	"startpos\ghz3.bin"
+		incbin	"Data\Levels\StartPositions\ghz1.bin"
+		incbin	"Data\Levels\StartPositions\ghz2.bin"
+		incbin	"Data\Levels\StartPositions\ghz3.bin"
 		dc.w	$80,$A8
 
-		incbin	"startpos\lz1.bin"
-		incbin	"startpos\lz2.bin"
-		incbin	"startpos\lz3.bin"
-		incbin	"startpos\sbz3.bin"
+		incbin	"Data\Levels\StartPositions\lz1.bin"
+		incbin	"Data\Levels\StartPositions\lz2.bin"
+		incbin	"Data\Levels\StartPositions\lz3.bin"
+		incbin	"Data\Levels\StartPositions\sbz3.bin"
 
-		incbin	"startpos\mz1.bin"
-		incbin	"startpos\mz2.bin"
-		incbin	"startpos\mz3.bin"
+		incbin	"Data\Levels\StartPositions\mz1.bin"
+		incbin	"Data\Levels\StartPositions\mz2.bin"
+		incbin	"Data\Levels\StartPositions\mz3.bin"
 		dc.w	$80,$A8
 
-		incbin	"startpos\slz1.bin"
-		incbin	"startpos\slz2.bin"
-		incbin	"startpos\slz3.bin"
+		incbin	"Data\Levels\StartPositions\slz1.bin"
+		incbin	"Data\Levels\StartPositions\slz2.bin"
+		incbin	"Data\Levels\StartPositions\slz3.bin"
 		dc.w	$80,$A8
 
-		incbin	"startpos\syz1.bin"
-		incbin	"startpos\syz2.bin"
-		incbin	"startpos\syz3.bin"
+		incbin	"Data\Levels\StartPositions\syz1.bin"
+		incbin	"Data\Levels\StartPositions\syz2.bin"
+		incbin	"Data\Levels\StartPositions\syz3.bin"
 		dc.w	$80,$A8
 
-		incbin	"startpos\sbz1.bin"
-		incbin	"startpos\sbz2.bin"
-		incbin	"startpos\fz.bin"
+		incbin	"Data\Levels\StartPositions\sbz1.bin"
+		incbin	"Data\Levels\StartPositions\sbz2.bin"
+		incbin	"Data\Levels\StartPositions\fz.bin"
 		dc.w	$80,$A8
 
 		zonewarning StartLocArray,$10
 
-		incbin	"startpos\end1.bin"
-		incbin	"startpos\end2.bin"
+		incbin	"Data\Levels\StartPositions\end1.bin"
+		incbin	"Data\Levels\StartPositions\end2.bin"
 		dc.w	$80,$A8
 		dc.w	$80,$A8
 

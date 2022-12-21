@@ -6,10 +6,10 @@ Object Def: objdef\ssobj
 Layout Compression:  2
 Layout X Size:       64
 Layout Y Size:       64
-Layout Data:         ..\sslayout\4.bin
+Layout Data:         ..\Data\Levels\SpecialStages\4.bin
 
 Num Start Positions:  1
-Start Position 0:    ..\startpos\ss4.bin
+Start Position 0:    ..\Data\Levels\StartPositions\ss4.bin
 
 Palettes-
 

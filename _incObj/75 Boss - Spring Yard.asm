@@ -14,10 +14,10 @@ BossSpringYard:
 		dc.w @FlameMain-@Index
 		dc.w @SpikeMain-@Index
 
-@TargetX:			equ $30
-@TargetY:			equ $38
-@Timer:			equ $3C
-@PickUpFlag:		equ $3D
+@TargetX:	equ $30
+@TargetY:	equ $38
+@Timer:		equ $3C
+@PickUpFlag:	equ $3D
 
 @ComparisonX:	equ $34
 @GrabbedBlock:	equ $36

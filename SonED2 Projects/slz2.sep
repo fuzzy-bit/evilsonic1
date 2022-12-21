@@ -23,16 +23,16 @@ Metatile Tiles Page 0: ..\map256\SLZ.bin
 
 Layout Format:         0
 Layout Compression:    0
-FG Level Layout:       ..\levels\slz2.bin
+FG Level Layout:       ..\Data\Levels\LevelData\slz2.bin
 BG 128x128 Page:       0
-BG Level Layout:       ..\levels\slzbg.bin
+BG Level Layout:       ..\Data\Levels\LevelData\slzbg.bin
 
 Objects Format:        1
-Objects:               ..\objpos\slz2.bin
+Objects:               ..\Data\Levels\Objects\slz2.bin
 Rings Format:          0
 Misc Format:           0
 Num Start Positions:   1
-Start Position 0:      ..\startpos\slz2.bin
+Start Position 0:      ..\Data\Levels\StartPositions\slz2.bin
 
 Palettes-
 
@@ -51,13 +51,13 @@ Palettes-
    File:              ..\palette\Star Light Zone.bin
 
 Collision Map Format:    0
-Collision Array:         ..\collide\Collision Array (Normal).bin
-Rotated Collision Array: ..\collide\Collision Array (Rotated).bin
-Angle Array:             ..\collide\Angle Map.bin
+Collision Array:         ..\Data\Levels\Collision\Collision Array (Normal).bin
+Rotated Collision Array: ..\Data\Levels\Collision\Collision Array (Rotated).bin
+Angle Array:             ..\Data\Levels\Collision\Angle Map.bin
 
 Collision Index Format:      0
 Collision Index Compression: 0
-Collision Index:             ..\collide\SLZ.bin
+Collision Index:             ..\Data\Levels\Collision\SLZ.bin
 
 Game Name: Sonic 1
 

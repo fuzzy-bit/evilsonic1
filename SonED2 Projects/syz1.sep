@@ -23,16 +23,16 @@ Metatile Tiles Page 0: ..\map256\SYZ.bin
 
 Layout Format:         0
 Layout Compression:    0
-FG Level Layout:       ..\levels\syz1.bin
+FG Level Layout:       ..\Data\Levels\LevelData\syz1.bin
 BG 128x128 Page:       0
-BG Level Layout:       ..\levels\syzbg.bin
+BG Level Layout:       ..\Data\Levels\LevelData\syzbg.bin
 
 Objects Format:        1
-Objects:               ..\objpos\syz1.bin
+Objects:               ..\Data\Levels\Objects\syz1.bin
 Rings Format:          0
 Misc Format:           0
 Num Start Positions:   1
-Start Position 0:      ..\startpos\syz1.bin
+Start Position 0:      ..\Data\Levels\StartPositions\syz1.bin
 
 Palettes-
 
@@ -51,13 +51,13 @@ Palettes-
    File:              ..\palette\Spring Yard Zone.bin
 
 Collision Map Format:    0
-Collision Array:         ..\collide\Collision Array (Normal).bin
-Rotated Collision Array: ..\collide\Collision Array (Rotated).bin
-Angle Array:             ..\collide\Angle Map.bin
+Collision Array:         ..\Data\Levels\Collision\Collision Array (Normal).bin
+Rotated Collision Array: ..\Data\Levels\Collision\Collision Array (Rotated).bin
+Angle Array:             ..\Data\Levels\Collision\Angle Map.bin
 
 Collision Index Format:      0
 Collision Index Compression: 0
-Collision Index:             ..\collide\SYZ.bin
+Collision Index:             ..\Data\Levels\Collision\SYZ.bin
 
 Game Name: Sonic 1
 

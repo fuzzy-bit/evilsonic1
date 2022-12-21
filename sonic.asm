@@ -7610,43 +7610,43 @@ Nem_EndStH:	incbin	"artnem\Ending - StH Logo.bin"
 ; ---------------------------------------------------------------------------
 ; Collision data
 ; ---------------------------------------------------------------------------
-AngleMap:	incbin	"collide\Angle Map.bin"
+AngleMap:	incbin	"Data\Levels\Collision\Angle Map.bin"
 		even
-CollArray1:	incbin	"collide\Collision Array (Normal).bin"
+CollArray1:	incbin	"Data\Levels\Collision\Collision Array (Normal).bin"
 		even
-CollArray2:	incbin	"collide\Collision Array (Rotated).bin"
+CollArray2:	incbin	"Data\Levels\Collision\Collision Array (Rotated).bin"
 		even
-Col_GHZ:	incbin	"collide\GHZ.bin"	; GHZ index
+Col_GHZ:	incbin	"Data\Levels\Collision\GHZ.bin"	; GHZ index
 		even
-Col_LZ:		incbin	"collide\LZ.bin"	; LZ index
+Col_LZ:		incbin	"Data\Levels\Collision\LZ.bin"	; LZ index
 		even
-Col_MZ:		incbin	"collide\MZ.bin"	; MZ index
+Col_MZ:		incbin	"Data\Levels\Collision\MZ.bin"	; MZ index
 		even
-Col_SLZ:	incbin	"collide\SLZ.bin"	; SLZ index
+Col_SLZ:	incbin	"Data\Levels\Collision\SLZ.bin"	; SLZ index
 		even
-Col_SYZ:	incbin	"collide\SYZ.bin"	; SYZ index
+Col_SYZ:	incbin	"Data\Levels\Collision\SYZ.bin"	; SYZ index
 		even
-Col_SBZ:	incbin	"collide\SBZ.bin"	; SBZ index
+Col_SBZ:	incbin	"Data\Levels\Collision\SBZ.bin"	; SBZ index
 		even
 ; ---------------------------------------------------------------------------
 ; Special Stage layouts
 ; ---------------------------------------------------------------------------
-SS_1:		incbin	"sslayout\1.bin"
+SS_1:		incbin	"Data\Levels\SpecialStages\1.bin"
 		even
-SS_2:		incbin	"sslayout\2.bin"
+SS_2:		incbin	"Data\Levels\SpecialStages\2.bin"
 		even
-SS_3:		incbin	"sslayout\3.bin"
+SS_3:		incbin	"Data\Levels\SpecialStages\3.bin"
 		even
-SS_4:		incbin	"sslayout\4.bin"
+SS_4:		incbin	"Data\Levels\SpecialStages\4.bin"
 		even
 		if Revision=0
-SS_5:		incbin	"sslayout\5.bin"
+SS_5:		incbin	"Data\Levels\SpecialStages\5.bin"
 		even
-SS_6:		incbin	"sslayout\6.bin"
+SS_6:		incbin	"Data\Levels\SpecialStages\6.bin"
 		else
-	SS_5:		incbin	"sslayout\5 (JP1).bin"
+	SS_5:		incbin	"Data\Levels\SpecialStages\5 (JP1).bin"
 			even
-	SS_6:		incbin	"sslayout\6 (JP1).bin"
+	SS_6:		incbin	"Data\Levels\SpecialStages\6 (JP1).bin"
 		endc
 		even
 ; ---------------------------------------------------------------------------
@@ -7708,88 +7708,88 @@ Level_Index:
 		dc.w byte_6A320-Level_Index, byte_6A320-Level_Index, byte_6A320-Level_Index
 		dc.w byte_6A320-Level_Index, byte_6A320-Level_Index, byte_6A320-Level_Index
 
-Level_GHZ1:	incbin	"levels\ghz1.bin"
+Level_GHZ1:	incbin	"Data\Levels\LevelData\ghz1.bin"
 		even
 byte_68D70:	dc.b 0,	0, 0, 0
-Level_GHZ2:	incbin	"levels\ghz2.bin"
+Level_GHZ2:	incbin	"Data\Levels\LevelData\ghz2.bin"
 		even
 byte_68E3C:	dc.b 0,	0, 0, 0
-Level_GHZ3:	incbin	"levels\ghz3.bin"
+Level_GHZ3:	incbin	"Data\Levels\LevelData\ghz3.bin"
 		even
-Level_GHZbg:	incbin	"levels\ghzbg.bin"
+Level_GHZbg:	incbin	"Data\Levels\LevelData\ghzbg.bin"
 		even
 byte_68F84:	dc.b 0,	0, 0, 0
 byte_68F88:	dc.b 0,	0, 0, 0
 
-Level_LZ1:	incbin	"levels\lz1.bin"
+Level_LZ1:	incbin	"Data\Levels\LevelData\lz1.bin"
 		even
-Level_LZbg:	incbin	"levels\lzbg.bin"
+Level_LZbg:	incbin	"Data\Levels\LevelData\lzbg.bin"
 		even
 byte_69190:	dc.b 0,	0, 0, 0
-Level_LZ2:	incbin	"levels\lz2.bin"
+Level_LZ2:	incbin	"Data\Levels\LevelData\lz2.bin"
 		even
 byte_6922E:	dc.b 0,	0, 0, 0
-Level_LZ3:	incbin	"levels\lz3.bin"
+Level_LZ3:	incbin	"Data\Levels\LevelData\lz3.bin"
 		even
 byte_6934C:	dc.b 0,	0, 0, 0
-Level_SBZ3:	incbin	"levels\sbz3.bin"
+Level_SBZ3:	incbin	"Data\Levels\LevelData\sbz3.bin"
 		even
 byte_6940A:	dc.b 0,	0, 0, 0
 
-Level_MZ1:	incbin	"levels\mz1.bin"
+Level_MZ1:	incbin	"Data\Levels\LevelData\mz1.bin"
 		even
-Level_MZ1bg:	incbin	"levels\mz1bg.bin"
+Level_MZ1bg:	incbin	"Data\Levels\LevelData\mz1bg.bin"
 		even
-Level_MZ2:	incbin	"levels\mz2.bin"
+Level_MZ2:	incbin	"Data\Levels\LevelData\mz2.bin"
 		even
-Level_MZ2bg:	incbin	"levels\mz2bg.bin"
+Level_MZ2bg:	incbin	"Data\Levels\LevelData\mz2bg.bin"
 		even
 byte_6965C:	dc.b 0,	0, 0, 0
-Level_MZ3:	incbin	"levels\mz3.bin"
+Level_MZ3:	incbin	"Data\Levels\LevelData\mz3.bin"
 		even
-Level_MZ3bg:	incbin	"levels\mz3bg.bin"
+Level_MZ3bg:	incbin	"Data\Levels\LevelData\mz3bg.bin"
 		even
 byte_697E6:	dc.b 0,	0, 0, 0
 byte_697EA:	dc.b 0,	0, 0, 0
 
-Level_SLZ1:	incbin	"levels\slz1.bin"
+Level_SLZ1:	incbin	"Data\Levels\LevelData\slz1.bin"
 		even
-Level_SLZbg:	incbin	"levels\slzbg.bin"
+Level_SLZbg:	incbin	"Data\Levels\LevelData\slzbg.bin"
 		even
-Level_SLZ2:	incbin	"levels\slz2.bin"
+Level_SLZ2:	incbin	"Data\Levels\LevelData\slz2.bin"
 		even
-Level_SLZ3:	incbin	"levels\slz3.bin"
+Level_SLZ3:	incbin	"Data\Levels\LevelData\slz3.bin"
 		even
 byte_69B84:	dc.b 0,	0, 0, 0
 
-Level_SYZ1:	incbin	"levels\syz1.bin"
+Level_SYZ1:	incbin	"Data\Levels\LevelData\syz1.bin"
 		even
 Level_SYZbg:	if Revision=0
-		incbin	"levels\syzbg.bin"
+		incbin	"Data\Levels\LevelData\syzbg.bin"
 		else
-		incbin	"levels\syzbg (JP1).bin"
+		incbin	"Data\Levels\LevelData\syzbg (JP1).bin"
 		endc
 		even
 byte_69C7E:	dc.b 0,	0, 0, 0
-Level_SYZ2:	incbin	"levels\syz2.bin"
+Level_SYZ2:	incbin	"Data\Levels\LevelData\syz2.bin"
 		even
 byte_69D86:	dc.b 0,	0, 0, 0
-Level_SYZ3:	incbin	"levels\syz3.bin"
+Level_SYZ3:	incbin	"Data\Levels\LevelData\syz3.bin"
 		even
 byte_69EE4:	dc.b 0,	0, 0, 0
 byte_69EE8:	dc.b 0,	0, 0, 0
 
-Level_SBZ1:	incbin	"levels\sbz1.bin"
+Level_SBZ1:	incbin	"Data\Levels\LevelData\sbz1.bin"
 		even
-Level_SBZ1bg:	incbin	"levels\sbz1bg.bin"
+Level_SBZ1bg:	incbin	"Data\Levels\LevelData\sbz1bg.bin"
 		even
-Level_SBZ2:	incbin	"levels\sbz2.bin"
+Level_SBZ2:	incbin	"Data\Levels\LevelData\sbz2.bin"
 		even
-Level_SBZ2bg:	incbin	"levels\sbz2bg.bin"
+Level_SBZ2bg:	incbin	"Data\Levels\LevelData\sbz2bg.bin"
 		even
 byte_6A2F8:	dc.b 0,	0, 0, 0
 byte_6A2FC:	dc.b 0,	0, 0, 0
-Level_End:	incbin	"levels\ending.bin"
+Level_End:	incbin	"Data\Levels\LevelData\ending.bin"
 		even
 byte_6A320:	dc.b 0,	0, 0, 0
 
@@ -7849,93 +7849,93 @@ ObjPosSBZPlatform_Index:
 		dc.w ObjPos_SBZ1pf5-ObjPos_Index, ObjPos_SBZ1pf6-ObjPos_Index
 		dc.w ObjPos_SBZ1pf1-ObjPos_Index, ObjPos_SBZ1pf2-ObjPos_Index
 		dc.b $FF, $FF, 0, 0, 0,	0
-ObjPos_GHZ1:	incbin	"objpos\ghz1.bin"
+ObjPos_GHZ1:	incbin	"Data\Levels\Objects\ghz1.bin"
 		even
-ObjPos_GHZ2:	incbin	"objpos\ghz2.bin"
+ObjPos_GHZ2:	incbin	"Data\Levels\Objects\ghz2.bin"
 		even
 ObjPos_GHZ3:	if Revision=0
-		incbin	"objpos\ghz3.bin"
+		incbin	"Data\Levels\Objects\ghz3.bin"
 		else
-		incbin	"objpos\ghz3 (JP1).bin"
+		incbin	"Data\Levels\Objects\ghz3 (JP1).bin"
 		endc
 		even
 ObjPos_LZ1:	if Revision=0
-		incbin	"objpos\lz1.bin"
+		incbin	"Data\Levels\Objects\lz1.bin"
 		else
-		incbin	"objpos\lz1 (JP1).bin"
+		incbin	"Data\Levels\Objects\lz1 (JP1).bin"
 		endc
 		even
-ObjPos_LZ2:	incbin	"objpos\lz2.bin"
+ObjPos_LZ2:	incbin	"Data\Levels\Objects\lz2.bin"
 		even
 ObjPos_LZ3:	if Revision=0
-		incbin	"objpos\lz3.bin"
+		incbin	"Data\Levels\Objects\lz3.bin"
 		else
-		incbin	"objpos\lz3 (JP1).bin"
+		incbin	"Data\Levels\Objects\lz3 (JP1).bin"
 		endc
 		even
-ObjPos_SBZ3:	incbin	"objpos\sbz3.bin"
+ObjPos_SBZ3:	incbin	"Data\Levels\Objects\sbz3.bin"
 		even
-ObjPos_LZ1pf1:	incbin	"objpos\lz1pf1.bin"
+ObjPos_LZ1pf1:	incbin	"Data\Levels\Objects\lz1pf1.bin"
 		even
-ObjPos_LZ1pf2:	incbin	"objpos\lz1pf2.bin"
+ObjPos_LZ1pf2:	incbin	"Data\Levels\Objects\lz1pf2.bin"
 		even
-ObjPos_LZ2pf1:	incbin	"objpos\lz2pf1.bin"
+ObjPos_LZ2pf1:	incbin	"Data\Levels\Objects\lz2pf1.bin"
 		even
-ObjPos_LZ2pf2:	incbin	"objpos\lz2pf2.bin"
+ObjPos_LZ2pf2:	incbin	"Data\Levels\Objects\lz2pf2.bin"
 		even
-ObjPos_LZ3pf1:	incbin	"objpos\lz3pf1.bin"
+ObjPos_LZ3pf1:	incbin	"Data\Levels\Objects\lz3pf1.bin"
 		even
-ObjPos_LZ3pf2:	incbin	"objpos\lz3pf2.bin"
+ObjPos_LZ3pf2:	incbin	"Data\Levels\Objects\lz3pf2.bin"
 		even
 ObjPos_MZ1:	if Revision=0
-		incbin	"objpos\mz1.bin"
+		incbin	"Data\Levels\Objects\mz1.bin"
 		else
-		incbin	"objpos\mz1 (JP1).bin"
+		incbin	"Data\Levels\Objects\mz1 (JP1).bin"
 		endc
 		even
-ObjPos_MZ2:	incbin	"objpos\mz2.bin"
+ObjPos_MZ2:	incbin	"Data\Levels\Objects\mz2.bin"
 		even
-ObjPos_MZ3:	incbin	"objpos\mz3.bin"
+ObjPos_MZ3:	incbin	"Data\Levels\Objects\mz3.bin"
 		even
-ObjPos_SLZ1:	incbin	"objpos\slz1.bin"
+ObjPos_SLZ1:	incbin	"Data\Levels\Objects\slz1.bin"
 		even
-ObjPos_SLZ2:	incbin	"objpos\slz2.bin"
+ObjPos_SLZ2:	incbin	"Data\Levels\Objects\slz2.bin"
 		even
-ObjPos_SLZ3:	incbin	"objpos\slz3.bin"
+ObjPos_SLZ3:	incbin	"Data\Levels\Objects\slz3.bin"
 		even
-ObjPos_SYZ1:	incbin	"objpos\syz1.bin"
+ObjPos_SYZ1:	incbin	"Data\Levels\Objects\syz1.bin"
 		even
-ObjPos_SYZ2:	incbin	"objpos\syz2.bin"
+ObjPos_SYZ2:	incbin	"Data\Levels\Objects\syz2.bin"
 		even
 ObjPos_SYZ3:	if Revision=0
-		incbin	"objpos\syz3.bin"
+		incbin	"Data\Levels\Objects\syz3.bin"
 		else
-		incbin	"objpos\syz3 (JP1).bin"
+		incbin	"Data\Levels\Objects\syz3 (JP1).bin"
 		endc
 		even
 ObjPos_SBZ1:	if Revision=0
-		incbin	"objpos\sbz1.bin"
+		incbin	"Data\Levels\Objects\sbz1.bin"
 		else
-		incbin	"objpos\sbz1 (JP1).bin"
+		incbin	"Data\Levels\Objects\sbz1 (JP1).bin"
 		endc
 		even
-ObjPos_SBZ2:	incbin	"objpos\sbz2.bin"
+ObjPos_SBZ2:	incbin	"Data\Levels\Objects\sbz2.bin"
 		even
-ObjPos_FZ:	incbin	"objpos\fz.bin"
+ObjPos_FZ:	incbin	"Data\Levels\Objects\fz.bin"
 		even
-ObjPos_SBZ1pf1:	incbin	"objpos\sbz1pf1.bin"
+ObjPos_SBZ1pf1:	incbin	"Data\Levels\Objects\sbz1pf1.bin"
 		even
-ObjPos_SBZ1pf2:	incbin	"objpos\sbz1pf2.bin"
+ObjPos_SBZ1pf2:	incbin	"Data\Levels\Objects\sbz1pf2.bin"
 		even
-ObjPos_SBZ1pf3:	incbin	"objpos\sbz1pf3.bin"
+ObjPos_SBZ1pf3:	incbin	"Data\Levels\Objects\sbz1pf3.bin"
 		even
-ObjPos_SBZ1pf4:	incbin	"objpos\sbz1pf4.bin"
+ObjPos_SBZ1pf4:	incbin	"Data\Levels\Objects\sbz1pf4.bin"
 		even
-ObjPos_SBZ1pf5:	incbin	"objpos\sbz1pf5.bin"
+ObjPos_SBZ1pf5:	incbin	"Data\Levels\Objects\sbz1pf5.bin"
 		even
-ObjPos_SBZ1pf6:	incbin	"objpos\sbz1pf6.bin"
+ObjPos_SBZ1pf6:	incbin	"Data\Levels\Objects\sbz1pf6.bin"
 		even
-ObjPos_End:	incbin	"objpos\ending.bin"
+ObjPos_End:	incbin	"Data\Levels\Objects\ending.bin"
 		even
 ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 ; ===========================================================================

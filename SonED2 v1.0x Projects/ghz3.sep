@@ -11,10 +11,10 @@ Object Def: objdef\s1obj
 
 256x256 Tiles: ..\map256\GHZ.bin
 
-FG Layout: ..\levels\ghz3.bin
-BG Layout: ..\levels\ghzbg.bin
+FG Layout: ..\Data\Levels\LevelData\ghz3.bin
+BG Layout: ..\Data\Levels\LevelData\ghzbg.bin
 
-Objects:       ..\objpos\ghz3.bin
+Objects:       ..\Data\Levels\Objects\ghz3.bin
 
 Palettes-
 
@@ -32,10 +32,10 @@ Palettes-
    Number of entries: 48
    File:              ..\palette\Green Hill Zone.bin
 
-Angle Array:             ..\collide\Angle Map.bin
-Collision Array:         ..\collide\Collision Array (Normal).bin
-Rotated Collision Array: ..\collide\Collision Array (Rotated).bin
+Angle Array:             ..\Data\Levels\Collision\Angle Map.bin
+Collision Array:         ..\Data\Levels\Collision\Collision Array (Normal).bin
+Rotated Collision Array: ..\Data\Levels\Collision\Collision Array (Rotated).bin
 
-Collision Index 1: ..\collide\GHZ.bin
+Collision Index 1: ..\Data\Levels\Collision\GHZ.bin
 
 -EOF-
