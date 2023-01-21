@@ -1,14 +1,14 @@
 SpringYard_Header:
 	sHeaderInit
-	sHeaderTempo	$01, $01
+	sHeaderTempo	$02, $55
 	sHeaderCh	$05, $03
 	sHeaderDAC	SpringYard_DAC1
 	sHeaderDAC	SpringYard_DAC2
-	sHeaderFM	SpringYard_FM1, $E4, $11
-	sHeaderFM	SpringYard_FM2, $D8, $0B
-	sHeaderFM	SpringYard_FM3, $E4, $14
-	sHeaderFM	SpringYard_FM4, $E4, $18
-	sHeaderFM	SpringYard_FM5, $E4, $18
+	sHeaderFM	SpringYard_FM1, $F4, $11
+	sHeaderFM	SpringYard_FM2, $E8, $0B
+	sHeaderFM	SpringYard_FM3, $F4, $14
+	sHeaderFM	SpringYard_FM4, $F4, $18
+	sHeaderFM	SpringYard_FM5, $F4, $18
 	sHeaderPSG	SpringYard_PSG1, $D0+$0C, $30, $00, v06
 	sHeaderPSG	SpringYard_PSG2, $E8+$0C, $38, $00, vNone
 	sHeaderPSG	SpringYard_PSG3, $00, $28, $00, v04

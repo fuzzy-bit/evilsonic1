@@ -46,7 +46,7 @@ SonAni_Roll2:	dc.b $FE,  fr_Roll1,  fr_Roll2,  fr_Roll5,  fr_Roll3,  fr_Roll4,  
 SonAni_Push:	dc.b $FD,  fr_Push1,  fr_Push2,  fr_Push3,  fr_Push4,     afEnd,     afEnd, afEnd
 		even
 SonAni_Wait:	dc.b $17, fr_Stand, fr_Stand, fr_Stand, fr_Stand, fr_Stand, fr_Stand, fr_Stand, fr_Stand, fr_Stand
-		dc.b fr_Stand, fr_Stand, fr_Stand, fr_Wait2, fr_Wait1, fr_Wait2, fr_Wait1, fr_Wait2, fr_Wait3, afBack, 2
+		dc.b fr_Stand, fr_Stand, fr_Stand, fr_Wait2, fr_Wait1, fr_Wait1, fr_Wait1, fr_Wait2, fr_Wait3, afBack, 2
 		even
 SonAni_Balance:	dc.b $1F, fr_Balance1, fr_Balance2, afEnd
 		even
@@ -88,7 +88,7 @@ SonAni_Death:	dc.b 3,	fr_Death, afEnd
 		even
 SonAni_Shrink:	dc.b 3,	fr_Shrink1, fr_Shrink2, fr_Shrink3, fr_Shrink4, fr_Shrink5, fr_Null, afBack, 1
 		even
-SonAni_Hurt:	dc.b 1,	$58, $59, $5A, $5B, $5C, $5D, afEnd
+SonAni_Hurt:	dc.b 3,	fr_Injury, afEnd
 		even
 SonAni_WaterSlide:
 		dc.b 7, fr_Injury, fr_WaterSlide, afEnd

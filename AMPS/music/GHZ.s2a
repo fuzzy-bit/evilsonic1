@@ -1,14 +1,14 @@
 GreenHill_Header:
 	sHeaderInit
-	sHeaderTempo	$01, $01
+	sHeaderTempo	$01, $55
 	sHeaderCh	$05, $03
 	sHeaderDAC	GreenHill_DAC1, $00, $00
 	sHeaderDAC	GreenHill_DAC2, $00, $00
-	sHeaderFM	GreenHill_FM1, $E4, $12
+	sHeaderFM	GreenHill_FM1, $F4, $12
 	sHeaderFM	GreenHill_FM2, $00, $0B
-	sHeaderFM	GreenHill_FM3, $E4, $14
-	sHeaderFM	GreenHill_FM4, $E8, $08
-	sHeaderFM	GreenHill_FM5, $E8, $20
+	sHeaderFM	GreenHill_FM3, $F4, $14
+	sHeaderFM	GreenHill_FM4, $F4, $08
+	sHeaderFM	GreenHill_FM5, $F4, $20
 	sHeaderPSG	GreenHill_PSG1, $D0+$0C, $08, $00, v03
 	sHeaderPSG	GreenHill_PSG2, $D0+$0C, $08, $00, v06
 	sHeaderPSG	GreenHill_PSG3, $00, $18, $00, v04

@@ -5,7 +5,7 @@ Credits_Header:
 	sHeaderDAC	Credits_DAC1
 	sHeaderDAC	Credits_DAC2
 	sHeaderFM	Credits_FM1, $F4, $12
-	sHeaderFM	Credits_FM2, $F4, $12
+	sHeaderFM	Credits_FM2, $00, $0B
 	sHeaderFM	Credits_FM3, $F4, $14
 	sHeaderFM	Credits_FM4, $F4, $08
 	sHeaderFM	Credits_FM5, $F4, $20
@@ -18,18 +18,19 @@ Credits_Header:
 	; $36, $35, $30, $31,	$DF, $DF, $9F, $9F
 	; $07, $06, $09, $06,	$07, $06, $06, $08
 	; $20, $10, $10, $F8,	$19, $37, $13, $80
-	spAlgorithm	$03
-	spFeedback	$07
-	spDetune	$00, $00, $00, $00
-	spMultiple	$0F, $06, $01, $02
-	spRateScale	$03, $00, $00, $03
+	spAlgorithm	$00
+	spFeedback	$04
+	spDetune	$03, $03, $03, $03
+	spMultiple	$06, $00, $05, $01
+	spRateScale	$03, $02, $03, $02
 	spAttackRt	$1F, $1F, $1F, $1F
 	spAmpMod	$00, $00, $00, $00
-	spSustainRt	$0C, $00, $0A, $03
-	spSustainLv	$0F, $00, $05, $05
-	spDecayRt	$0F, $00, $00, $01
-	spReleaseRt	$03, $05, $05, $0C
-	spTotalLv	$22, $20, $22, $00
+	spSustainRt	$07, $09, $06, $06
+	spSustainLv	$02, $01, $01, $0F
+	spDecayRt	$07, $06, $06, $08
+	spReleaseRt	$00, $00, $00, $08
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$19, $13, $37, $00
 
 	; Patch $01
 	; $2C

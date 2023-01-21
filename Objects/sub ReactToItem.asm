@@ -274,15 +274,8 @@ HurtSonic:
 		move.b	#4,obRoutine(a0)
 		bsr.w	Sonic_ResetOnFloor
 		bset	#1,obStatus(a0)
-		
-		move.w	#-$200, obVelX(a0)
-		move.w	#-$900, obVelY(a0) 			; /fling
-
-		jsr		(FindFreeObj).l			; find a free object slot
-		move.b		#id_ExplosionBomb, 0(a1)	; create explosion object
-		move.w		obX(a0), obX(a1)		; copy sonic's X, Y positions to the explosion object
-		move.w		obY(a0), obY(a1)
-		
+		move.w	#-$400,obVelY(a0) ; make Sonic bounce away from the object
+		move.w	#-$200,obVelX(a0)
 		btst	#6,obStatus(a0)	; is Sonic underwater?
 		beq.s	@isdry		; if not, branch
 
@@ -299,16 +292,16 @@ HurtSonic:
 		move.w	#0,obInertia(a0)
 		move.b	#id_Hurt,obAnim(a0)
 		move.w	#120,$30(a0)	; set temp invincible time to 2 seconds
-		;move.w	#sfx_Death,d0	; load normal damage sound
-		;cmpi.b	#id_Spikes,(a2)	; was damage caused by spikes?
-		;bne.s	.sound		; if not, branch
-		;cmpi.b	#id_Harpoon,(a2) ; was damage caused by LZ harpoon?
-		;bne.s	.sound		; if not, branch
-		;move.w	#sfx_HitSpikes,d0 ; load spikes damage sound
+;		move.w	#sfx_Death,d0	; load normal damage sound
+;		cmpi.b	#id_Spikes,(a2)	; was damage caused by spikes?
+;		bne.s	@sound		; if not, branch
+;		cmpi.b	#id_Harpoon,(a2) ; was damage caused by LZ harpoon?
+;		bne.s	@sound		; if not, branch
+;		move.w	#sfx_HitSpikes,d0 ; load spikes damage sound
 
-;.sound:
+;	@sound:
 ;		jsr	(PlaySound_Special).l
-;		moveq	#-1,d0
+		moveq	#-1,d0
 		rts	
 ; ===========================================================================
 
@@ -336,13 +329,13 @@ KillSonic:
 		move.w	obY(a0),$38(a0)
 		move.b	#id_Death,obAnim(a0)
 		bset	#7,obGfx(a0)
-		moveq	#sfx_Death,d0	; play normal death sound
-		cmpi.b	#id_Spikes,(a2)	; check	if you were killed by spikes
-		bne.s	@sound
-		moveq	#sfx_SpikeHit,d0 ; play spikes death sound
-
-	@sound:
-		move.b	d0,mQueue+2.w
+		move.w	#sfx_Death,d0	; play normal death sound
+;		cmpi.b	#id_Spikes,(a2)	; check	if you were killed by spikes
+;		bne.s	@sound
+;		move.w	#sfx_HitSpikes,d0 ; play spikes death sound
+;
+;	@sound:
+;		jsr	(PlaySound_Special).l
 
 	@dontdie:
 		moveq	#-1,d0

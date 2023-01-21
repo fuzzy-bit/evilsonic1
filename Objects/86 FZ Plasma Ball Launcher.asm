@@ -76,7 +76,7 @@ BossPlasma:
 		tst.b	$29(a0)
 		beq.w	@NoFreeObject
 		
-		clr.b	$29(a0)
+		clr.b	$29(a0)		; remove the last plasma ball, from the last position
 		add.w	@DropXVelocity(a0),d0
 		andi.w	#$1E,d0
 		adda.w	d0,a2
@@ -167,7 +167,8 @@ BossPlasma:
 		beq.s	@Drop
 		jsr	(SpeedToPos).l
 		move.w	obX(a0),d0
-		sub.w	@DropXVelocity(a0),d0
+		sub.w	@DropXVelocity(a0),d0 	; stop spreading
+		
 		bcc.s	@Drop
 		clr.w	obVelX(a0)
 		add.w	d0,obX(a0)

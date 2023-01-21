@@ -37,6 +37,7 @@ vram_hscroll:	equ $FC00	; horizontal scroll table
 
 ; Game modes
 id_Sega:	equ ptr_GM_Sega-GameModeArray	; $00
+id_Retro:	equ ptr_GM_SRetro-GameModeArray	; $00
 id_Title:	equ ptr_GM_Title-GameModeArray	; $04
 id_Demo:	equ ptr_GM_Demo-GameModeArray	; $08
 id_Level:	equ ptr_GM_Level-GameModeArray	; $0C

@@ -51,8 +51,10 @@ SegaScreen:
 
 Sega_WaitPal:
 		move.b	#2,(v_vbla_routine).w
+		
 		bsr.w	WaitForVBla
 		bsr.w	DoChecksum
+		
 		move.b	(v_jpadpress1).w,d0		; is Start button pressed?
 		or.b	d0,v_csum_start.w		; if so, save it in a variable
 		bsr.w	PalCycle_Sega
@@ -62,6 +64,7 @@ Sega_WaitPal:
 		move.b	#$14,(v_vbla_routine).w
 		bsr.w	WaitForVBla
 		bsr.w	DoChecksum
+
 
 Sega_WaitEnd:
 		move.b	#2,(v_vbla_routine).w

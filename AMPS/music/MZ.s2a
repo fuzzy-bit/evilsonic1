@@ -1,14 +1,14 @@
 Marble_Header:
 	sHeaderInit
-	sHeaderTempo	$01, $01
+	sHeaderTempo	$02, $1C
 	sHeaderCh	$05, $03
 	sHeaderDAC	Marble_DAC1, $00, $00
 	sHeaderDAC	Marble_DAC2, $00, $00
-	sHeaderFM	Marble_FM1, $F0, $15
-	sHeaderFM	Marble_FM2, $F0, $0E
-	sHeaderFM	Marble_FM3, $F0, $15
-	sHeaderFM	Marble_FM4, $F0, $17
-	sHeaderFM	Marble_FM5, $D8, $17
+	sHeaderFM	Marble_FM1, $E8, $15
+	sHeaderFM	Marble_FM2, $E8, $0E
+	sHeaderFM	Marble_FM3, $E8, $15
+	sHeaderFM	Marble_FM4, $E8, $17
+	sHeaderFM	Marble_FM5, $E8, $17
 	sHeaderPSG	Marble_PSG1, $D0+$0C, $18, $00, v08
 	sHeaderPSG	Marble_PSG2, $D0+$0C, $28, $00, v08
 	sHeaderPSG	Marble_PSG3, $00+$0C, $18, $00, v09

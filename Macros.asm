@@ -257,3 +257,17 @@ zonewarning:	macro loc,elementsize
 		inform 1,"Size of \loc ($%h) does not match ZoneCount ($\#ZoneCount).",(@end-loc)/elementsize
 		endc
 		endm
+
+; ---------------------------------------------------------------------------
+; Macro to create a new object
+; - fuzzy
+; ---------------------------------------------------------------------------
+Instance:	macro id, register
+;Label	substr	instr('\0', '(') + 1, instr('\0', ')') - 1,'\0'
+;\Label\
+
+	if strcmp('\0','new')
+		jsr	(FindFreeObj).l
+		move.b	#id_\id, 0(\register)	; load object
+	endif
+	endm
