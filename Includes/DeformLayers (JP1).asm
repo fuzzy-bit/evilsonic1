@@ -239,6 +239,29 @@ Lz_Scroll_Data:
 
 
 Deform_MZ:
+		moveq	#0, d4
+		moveq	#0, d5
+		lea	v_hscrolltablebuffer.w, a1
+		move.b	(v_bgscroll_buffer).w, d6
+		
+		move.w	(v_screenposx).w, d2
+		neg.w	d2
+		swap	d2			;Puts plane A's X pos in topmost word
+		move.l	#224-1, d3
+	@SendScroll:
+		move.b	d6, d0
+		bchg.l	#7, d4			;This handles flipping the sign
+		add.w	d4, d0			;Adds flipped sign to wave
+		add.w	d5, d0
+		bsr.w	CalcSine
+		move.w	d0, d2
+		move.l	d2, (a1)+		;Send AAAA BBBB HScroll entry
+		addq.w	#1, d5			;Inc wave every line
+		dbra	d3, @SendScroll
+		add.b	#1, (v_bgscroll_buffer).w
+		rts
+		
+		
 	; block 1 - dungeon interior
 		move.w	(v_scrshiftx).w,d4
 		ext.l	d4
