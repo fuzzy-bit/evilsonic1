@@ -92,7 +92,7 @@ Cont_GotoLevel:
 		rts
 ; ===========================================================================
 
-		include	"Objects\80 Continue Screen Elements.asm"
-		include	"Objects\81 Continue Screen Sonic.asm"
+		include	"Objects\Screen-Space\Continue Screen Elements.asm"
+		include	"Objects\Screen-Space\Continue Screen Sonic.asm"
 		include	"Data\Animations\Continue Screen Sonic.asm"
 Map_ContScr:	include	"Data\Mappings\Objects\Continue Screen.asm" 

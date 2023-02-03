@@ -230,8 +230,8 @@ End_MoveSonExit:
 
 		include	"Objects\87 Ending Sequence Sonic.asm"
 		include "Data\Animations\Ending Sequence Sonic.asm"
-		include	"Objects\88 Ending Sequence Emeralds.asm"
-		include	"Objects\89 Ending Sequence STH.asm"
+		include	"Objects\Screen-Space\Ending Sequence Emeralds.asm"
+		include	"Objects\Screen-Space\Ending Sequence STH.asm"
 Map_ESon:	include	"Data\Mappings\Objects\Ending Sequence Sonic.asm"
 Map_ECha:	include	"Data\Mappings\Objects\Ending Sequence Emeralds.asm"
 Map_ESth:	include	"Data\Mappings\Objects\Ending Sequence STH.asm" 

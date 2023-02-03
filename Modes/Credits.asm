@@ -193,9 +193,9 @@ TryAg_Exit:
 
 ; ===========================================================================
 
-		include	"Objects\8B Try Again & End Eggman.asm"
+		include	"Objects\Screen-Space\Try Again & End Eggman.asm"
 		include "Data\Animations\Try Again & End Eggman.asm"
-		include	"Objects\8C Try Again Emeralds.asm"
+		include	"Objects\Screen-Space\Try Again Emeralds.asm"
 Map_EEgg:	include	"Data\Mappings\Objects\Try Again & End Eggman.asm"
 
 ; ---------------------------------------------------------------------------

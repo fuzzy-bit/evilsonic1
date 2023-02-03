@@ -15,11 +15,24 @@ BossBlock:
 ; ===========================================================================
 
 @BlockMain:	; Routine 0
-		moveq	#0,d4
-		move.w	#$2C10,d5
-		moveq	#9,d6
-		lea	(a0),a1
-		bra.s	@BlockMakeBlock
+		moveq	#0,d4		; subtype
+		move.w	#$2C10,d5	; x-position of the leftmost block
+		moveq	#9,d6		; loop counter (10 blocks)
+		
+		lea	(a0),a1		; start with the object
+		tst.b	obSubtype(a0)	; is the subtype NOT 0?
+		beq.s	@BlockMakeBlock
+		
+	@init:
+		move.l	#Map_BossBlock, obMap(a1) ; mappings
+		move.w	#$4000,obGfx(a1)	  ; graphics
+		move.b	#4,obRender(a1)		  ; something about rendering (i forgot :SAD:)
+		move.b	#$10,obActWid(a1)	  ; collision: width
+		move.b	#$10,obHeight(a1)	  ; collision: height
+		move.b	#3,obPriority(a1)	  ; priority
+		addq.b	#2,obRoutine(a1) 	  ; routine (won't kill everything)
+		rts
+
 ; ===========================================================================
 
 @BlockLoop:
@@ -100,7 +113,7 @@ BossBlock:
 ; ===========================================================================
 
 @BlockFallWithoutCheck:	; Routine 8
-						; i fucking hate this but it works
+			; i fucking hate this but it works
 		tst.b	obRender(a0)
 		bpl.s	@BlockDelete
 		
