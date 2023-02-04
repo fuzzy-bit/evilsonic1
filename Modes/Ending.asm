@@ -228,7 +228,7 @@ End_MoveSonExit:
 
 ; ===========================================================================
 
-		include	"Objects\87 Ending Sequence Sonic.asm"
+		include	"Objects\Gameplay\Ending Sequence Sonic.asm"
 		include "Data\Animations\Ending Sequence Sonic.asm"
 		include	"Objects\Screen-Space\Ending Sequence Emeralds.asm"
 		include	"Objects\Screen-Space\Ending Sequence STH.asm"

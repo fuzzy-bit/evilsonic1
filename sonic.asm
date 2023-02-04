@@ -1387,7 +1387,7 @@ LevLoad_Row:
 
 		include	"Includes\DynamicLevelEvents.asm"
 
-		include	"Objects\11 Bridge (part 1).asm"
+		include	"Objects\Level\Bridge (part 1).asm"
 
 ; ---------------------------------------------------------------------------
 ; Platform subroutine
@@ -1526,7 +1526,7 @@ Swing_Solid:
 
 ; ===========================================================================
 
-		include	"Objects\11 Bridge (part 2).asm"
+		include	"Objects\Level\Bridge (part 2).asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine allowing Sonic to walk or jump off	a platform
@@ -1559,10 +1559,10 @@ locret_75F2:
 		rts
 ; End of function ExitPlatform
 
-		include	"Objects\11 Bridge (part 3).asm"
+		include	"Objects\Level\Bridge (part 3).asm" ; TODO: Merge the entire bridge into this file
 Map_Bri:	include	"Data\Mappings\Objects\Bridge.asm"
 
-		include	"Objects\15 Swinging Platforms (part 1).asm"
+		include	"Objects\Level\Swinging Platforms (part 1).asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	change Sonic's position with a platform
@@ -1608,20 +1608,20 @@ locret_7B62:
 		rts
 ; End of function MvSonicOnPtfm2
 
-		include	"Objects\15 Swinging Platforms (part 2).asm"
+		include	"Objects\Level\Swinging Platforms (part 2).asm" ; TODO: Merge Part 1 -> Part 2
 Map_Swing_GHZ:	include	"Data\Mappings\Objects\Swinging Platforms (GHZ).asm"
 Map_Swing_SLZ:	include	"Data\Mappings\Objects\Swinging Platforms (SLZ).asm"
 		include	"Objects\Hazards\Spiked Pole Helix.asm"
 Map_Hel:	include	"Data\Mappings\Objects\Spiked Pole Helix.asm"
-		include	"Objects\18 Platforms.asm"
+		include	"Objects\Level\Platforms.asm"
 Map_Plat_Unused:include	"Data\Mappings\Objects\Platforms (unused).asm"
 Map_Plat_GHZ:	include	"Data\Mappings\Objects\Platforms (GHZ).asm"
 Map_Plat_SYZ:	include	"Data\Mappings\Objects\Platforms (SYZ).asm"
 Map_Plat_SLZ:	include	"Data\Mappings\Objects\Platforms (SLZ).asm"
-		include	"Objects\19.asm"
+		include	"Objects\Unused\19.asm"
 Map_GBall:	include	"Data\Mappings\Objects\GHZ Ball.asm"
-		include	"Objects\1A Collapsing Ledge (part 1).asm"
-		include	"Objects\53 Collapsing Floors.asm"
+		include	"Objects\Level\Collapsing Ledge.asm"
+		include	"Objects\Level\Collapsing Floors.asm"
 
 ; ===========================================================================
 
@@ -1730,13 +1730,13 @@ Ledge_SlopeData:
 Map_Ledge:	include	"Data\Mappings\Objects\Collapsing Ledge.asm"
 Map_CFlo:	include	"Data\Mappings\Objects\Collapsing Floors.asm"
 
-		include	"Objects\1C Scenery.asm"
+		include	"Objects\Level\Scenery.asm"
 Map_Scen:	include	"Data\Mappings\Objects\Scenery.asm"
 
-		include	"Objects\1D Unused Switch.asm"
+		include	"Objects\Unused\Unused Switch.asm"
 Map_Swi:	include	"Data\Mappings\Objects\Unused Switch.asm"
 
-		include	"Objects\2A SBZ Small Door.asm"
+		include	"Objects\Level\SBZ Small Door.asm"
 		include	"Data\Animations\SBZ Small Door.asm"
 Map_ADoor:	include	"Data\Mappings\Objects\SBZ Small Door.asm"
 
@@ -1863,15 +1863,15 @@ loc_8B48:
 
 ; ===========================================================================
 		include	"Objects\Badniks\Ball Hog.asm"
-		include	"Objects\20 Cannonball.asm"
-		include	"Objects\24, 27 & 3F Explosions.asm"
+		include	"Objects\Badniks\Cannonball.asm"
+		include	"Objects\Effects\Explosions.asm"
 		include	"Data\Animations\Ball Hog.asm"
 Map_Hog:	include	"Data\Mappings\Objects\Ball Hog.asm"
 Map_MisDissolve:include	"Data\Mappings\Objects\Buzz Bomber Missile Dissolve.asm"
 		include	"Data\Mappings\Objects\Explosions.asm"
 
-		include	"Objects\28 Animals.asm"
-		include	"Objects\29 Points.asm"
+		include	"Objects\Effects\Animals.asm"
+		include	"Objects\Gameplay\Points.asm"
 Map_Animal1:	include	"Data\Mappings\Objects\Animals 1.asm"
 Map_Animal2:	include	"Data\Mappings\Objects\Animals 2.asm"
 Map_Animal3:	include	"Data\Mappings\Objects\Animals 3.asm"
@@ -1887,9 +1887,9 @@ Map_Crab:	include	"Data\Mappings\Objects\Crabmeat.asm"
 Map_Buzz:	include	"Data\Mappings\Objects\Buzz Bomber.asm"
 Map_Missile:	include	"Data\Mappings\Objects\Buzz Bomber Missile.asm"
 
-		include	"Objects\25 & 37 Rings.asm"
-		include	"Objects\4B Giant Ring.asm"
-		include	"Objects\7C Ring Flash.asm"
+		include	"Objects\Gameplay\Rings.asm"
+		include	"Objects\Gameplay\Giant Ring.asm"
+		include	"Objects\Effects\Ring Flash.asm"
 
 		include	"Data\Animations\Rings.asm"
 		if Revision=0
@@ -1899,8 +1899,8 @@ Map_Ring:		include	"Data\Mappings\Objects\Rings (JP1).asm"
 		endc
 Map_GRing:	include	"Data\Mappings\Objects\Giant Ring.asm"
 Map_Flash:	include	"Data\Mappings\Objects\Ring Flash.asm"
-		include	"Objects\26 Monitor.asm"
-		include	"Objects\2E Monitor Content Power-Up.asm"
+		include	"Objects\Gameplay\Monitor.asm"
+		include	"Objects\Gameplay\Monitor Content Power-Up.asm"
 		include	"Engine\Collision\SolidSides.asm"
 		include	"Data\Animations\Monitor.asm"
 Map_Monitor:	include	"Data\Mappings\Objects\Monitor.asm"
@@ -1929,17 +1929,17 @@ Map_Burro:	include	"Data\Mappings\Objects\Burrobot.asm"
 		include	"Data\Animations\Burning Grass.asm"
 Map_LGrass:	include	"Data\Mappings\Objects\MZ Large Grassy Platforms.asm"
 Map_Fire:	include	"Data\Mappings\Objects\Fireballs.asm"
-		include	"Objects\30 MZ Large Green Glass Blocks.asm"
+		include	"Objects\Level\MZ Large Green Glass Blocks.asm"
 Map_Glass:	include	"Data\Mappings\Objects\MZ Large Green Glass Blocks.asm"
 		include	"Objects\Hazards\Chained Stompers.asm"
 		include	"Objects\Hazards\Sideways Stomper.asm"
 Map_CStom:	include	"Data\Mappings\Objects\Chained Stompers.asm"
 Map_SStom:	include	"Data\Mappings\Objects\Sideways Stomper.asm"
 
-		include	"Objects\32 Button.asm"
+		include	"Objects\Level\Button.asm"
 Map_But:	include	"Data\Mappings\Objects\Button.asm"
 
-		include	"Objects\33 Pushable Blocks.asm"
+		include	"Objects\Level\Pushable Blocks.asm"
 Map_Push:	include	"Data\Mappings\Objects\Pushable Blocks.asm"
 
 		include	"Objects\Screen-Space\Title Cards.asm"
@@ -2212,10 +2212,10 @@ Map_SSRC:	include	"Data\Mappings\Objects\SS Result Chaos Emeralds.asm"
 
 		include	"Objects\Hazards\Spikes.asm"
 Map_Spike:	include	"Data\Mappings\Objects\Spikes.asm"
-		include	"Objects\3B Purple Rock.asm"
-		include	"Objects\49 Waterfall Sound.asm"
+		include	"Objects\Level\Purple Rock.asm"
+		include	"Objects\Effects\Waterfall Sound.asm"
 Map_PRock:	include	"Data\Mappings\Objects\Purple Rock.asm"
-		include	"Objects\3C Smashable Wall.asm"
+		include	"Objects\Level\Smashable Wall.asm"
 
 		include	"Objects\sub SmashObject.asm"
 
@@ -2268,7 +2268,7 @@ Obj_Index:
 				
 ; ===========================================================================
 
-		include	"Objects\41 Springs.asm"
+		include	"Objects\Level\Springs.asm"
 		include	"Data\Animations\Springs.asm"
 Map_Spring:	include	"Data\Mappings\Objects\Springs.asm"
 
@@ -2279,7 +2279,7 @@ Map_Newt:	include	"Data\Mappings\Objects\Newtron.asm"
 		include	"Data\Animations\Roller.asm"
 Map_Roll:	include	"Data\Mappings\Objects\Roller.asm"
 
-		include	"Objects\44 GHZ Edge Walls.asm"
+		include	"Objects\Level\GHZ Edge Walls.asm"
 Map_Edge:	include	"Data\Mappings\Objects\GHZ Edge Walls.asm"
 
 		include	"Objects\Hazards\Lava Ball Maker.asm"
@@ -2290,16 +2290,16 @@ Map_Edge:	include	"Data\Mappings\Objects\GHZ Edge Walls.asm"
 		include	"Data\Animations\Flamethrower.asm"
 Map_Flame:	include	"Data\Mappings\Objects\Flamethrower.asm"
 
-		include	"Objects\46 MZ Bricks.asm"
+		include	"Objects\Level\MZ Bricks.asm"
 Map_Brick:	include	"Data\Mappings\Objects\MZ Bricks.asm"
 
-		include	"Objects\12 Light.asm"
+		include	"Objects\Level\Light.asm"
 Map_Light	include	"Data\Mappings\Objects\Light.asm"
-		include	"Objects\47 Bumper.asm"
+		include	"Objects\Level\Bumper.asm"
 		include	"Data\Animations\Bumper.asm"
 Map_Bump:	include	"Data\Mappings\Objects\Bumper.asm"
 
-		include	"Objects\0D Signpost.asm" ; includes "GotThroughAct" subroutine
+		include	"Objects\Gameplay\Signpost.asm" ; includes "GotThroughAct" subroutine
 		include	"Data\Animations\Signpost.asm"
 Map_Sign:	include	"Data\Mappings\Objects\Signpost.asm"
 
@@ -2315,7 +2315,7 @@ Map_LWall:	include	"Data\Mappings\Objects\Wall of Lava.asm"
 		include	"Objects\Badniks\Moto Bug.asm" ; includes "Objects\sub RememberState.asm"
 		include	"Data\Animations\Moto Bug.asm"
 Map_Moto:	include	"Data\Mappings\Objects\Moto Bug.asm"
-		include	"Objects\4F.asm"
+		include	"Objects\Unused\4F.asm"
 
 		include	"Objects\Badniks\Yadrin.asm"
 		include	"Data\Animations\Yadrin.asm"
@@ -2323,10 +2323,10 @@ Map_Yad:	include	"Data\Mappings\Objects\Yadrin.asm"
 
 		include	"Objects\sub SolidObject.asm"
 
-		include	"Objects\51 Smashable Green Block.asm"
+		include	"Objects\Level\Smashable Green Block.asm"
 Map_Smab:	include	"Data\Mappings\Objects\Smashable Green Block.asm"
 
-		include	"Objects\52 Moving Blocks.asm"
+		include	"Objects\Level\Moving Blocks.asm"
 Map_MBlock:	include	"Data\Mappings\Objects\Moving Blocks (MZ and SBZ).asm"
 Map_MBlockLZ:	include	"Data\Mappings\Objects\Moving Blocks (LZ).asm"
 
@@ -2334,7 +2334,7 @@ Map_MBlockLZ:	include	"Data\Mappings\Objects\Moving Blocks (LZ).asm"
 		include	"Data\Animations\Basaran.asm"
 Map_Bas:	include	"Data\Mappings\Objects\Basaran.asm"
 
-		include	"Objects\56 Floating Blocks and Doors.asm"
+		include	"Objects\Level\Floating Blocks and Doors.asm"
 Map_FBlock:	include	"Data\Mappings\Objects\Floating Blocks and Doors.asm"
 
 		include	"Objects\Hazards\Spiked Ball and Chain.asm"
@@ -2342,29 +2342,29 @@ Map_SBall:	include	"Data\Mappings\Objects\Spiked Ball and Chain (SYZ).asm"
 Map_SBall2:	include	"Data\Mappings\Objects\Spiked Ball and Chain (LZ).asm"
 		include	"Objects\Hazards\Big Spiked Ball.asm"
 Map_BBall:	include	"Data\Mappings\Objects\Big Spiked Ball.asm"
-		include	"Objects\59 SLZ Elevators.asm"
+		include	"Objects\Level\SLZ Elevators.asm"
 Map_Elev:	include	"Data\Mappings\Objects\SLZ Elevators.asm"
-		include	"Objects\5A SLZ Circling Platform.asm"
+		include	"Objects\Level\SLZ Circling Platform.asm"
 Map_Circ:	include	"Data\Mappings\Objects\SLZ Circling Platform.asm"
-		include	"Objects\5B Staircase.asm"
+		include	"Objects\Level\Staircase.asm"
 Map_Stair:	include	"Data\Mappings\Objects\Staircase.asm"
 		include	"Objects\Screen-Space\Pylon.asm"
 Map_Pylon:	include	"Data\Mappings\Objects\Pylon.asm"
 
-		include	"Objects\1B Water Surface.asm"
+		include	"Objects\Effects\Water Surface.asm"
 Map_Surf:	include	"Data\Mappings\Objects\Water Surface.asm"
-		include	"Objects\0B Pole that Breaks.asm"
+		include	"Objects\Level\Pole that Breaks.asm"
 Map_Pole:	include	"Data\Mappings\Objects\Pole that Breaks.asm"
-		include	"Objects\0C Flapping Door.asm"
+		include	"Objects\Level\Flapping Door.asm"
 		include	"Data\Animations\Flapping Door.asm"
 Map_Flap:	include	"Data\Mappings\Objects\Flapping Door.asm"
 
 		include	"Objects\Invisible\Invisible Barriers.asm"
 Map_Invis:	include	"Data\Mappings\Objects\Invisible Barriers.asm"
 
-		include	"Objects\5D Fan.asm"
+		include	"Objects\Level\Fan.asm"
 Map_Fan:	include	"Data\Mappings\Objects\Fan.asm"
-		include	"Objects\5E Seesaw.asm"
+		include	"Objects\Level\Seesaw.asm"
 Map_Seesaw:	include	"Data\Mappings\Objects\Seesaw.asm"
 Map_SSawBall:	include	"Data\Mappings\Objects\Seesaw Ball.asm"
 		include	"Objects\Badniks\Bomb Enemy.asm"
@@ -2378,20 +2378,20 @@ Map_Orb:	include	"Data\Mappings\Objects\Orbinaut.asm"
 		include	"Objects\Hazards\Harpoon.asm"
 		include	"Data\Animations\Harpoon.asm"
 Map_Harp:	include	"Data\Mappings\Objects\Harpoon.asm"
-		include	"Objects\61 LZ Blocks.asm"
+		include	"Objects\Level\LZ Blocks.asm"
 Map_LBlock:	include	"Data\Mappings\Objects\LZ Blocks.asm"
 		include	"Objects\Hazards\Gargoyle.asm"
 Map_Gar:	include	"Data\Mappings\Objects\Gargoyle.asm"
-		include	"Objects\63 LZ Conveyor.asm"
+		include	"Objects\Level\LZ Conveyor.asm"
 Map_LConv:	include	"Data\Mappings\Objects\LZ Conveyor.asm"
-		include	"Objects\64 Bubbles.asm"
+		include	"Objects\Gameplay\Bubbles.asm"
 		include	"Data\Animations\Bubbles.asm"
 Map_Bub:	include	"Data\Mappings\Objects\Bubbles.asm"
-		include	"Objects\65 Waterfalls.asm"
+		include	"Objects\Level\Waterfalls.asm"
 		include	"Data\Animations\Waterfalls.asm"
 Map_WFall	include	"Data\Mappings\Objects\Waterfalls.asm"
 		include "Objects\Sonic\Main.asm"
-		include	"Objects\0A Drowning Countdown.asm"
+		include	"Objects\Gameplay\Drowning Countdown.asm"
 
 
 ; ---------------------------------------------------------------------------
@@ -2435,9 +2435,9 @@ ResumeMusic:
 		include	"Data\Animations\Drowning Countdown.asm"
 Map_Drown:	include	"Data\Mappings\Objects\Drowning Countdown.asm"
 
-		include	"Objects\38 Shield and Invincibility.asm"
-		include	"Objects\4A Special Stage Entry (Unused).asm"
-		include	"Objects\08 Water Splash.asm"
+		include	"Objects\Gameplay\Shield and Invincibility.asm"
+		include	"Objects\Unused\Special Stage Entry (Unused).asm"
+		include	"Objects\Effects\Water Splash.asm"
 		include	"Data\Animations\Shield and Invincibility.asm"
 Map_Shield:	include	"Data\Mappings\Objects\Shield and Invincibility.asm"
 		include	"Data\Animations\Special Stage Entry (Unused).asm"
@@ -2968,12 +2968,12 @@ locret_15098:
 
 ; ===========================================================================
 
-		include	"Objects\66 Rotating Junction.asm"
+		include	"Objects\Level\Rotating Junction.asm"
 Map_Jun:	include	"Data\Mappings\Objects\Rotating Junction.asm"
-		include	"Objects\67 Running Disc.asm"
+		include	"Objects\Level\Running Disc.asm"
 Map_Disc:	include	"Data\Mappings\Objects\Running Disc.asm"
-		include	"Objects\68 Conveyor Belt.asm"
-		include	"Objects\69 SBZ Spinning Platforms.asm"
+		include	"Objects\Level\Conveyor Belt.asm"
+		include	"Objects\Level\SBZ Spinning Platforms.asm"
 		include	"Data\Animations\SBZ Spinning Platforms.asm"
 Map_Trap:	include	"Data\Mappings\Objects\Trapdoor.asm"
 Map_Spin:	include	"Data\Mappings\Objects\SBZ Spinning Platforms.asm"
@@ -2981,13 +2981,13 @@ Map_Spin:	include	"Data\Mappings\Objects\SBZ Spinning Platforms.asm"
 Map_Saw:	include	"Data\Mappings\Objects\Saws and Pizza Cutters.asm"
 		include	"Objects\Hazards\SBZ Stomper and Door.asm"
 Map_Stomp:	include	"Data\Mappings\Objects\SBZ Stomper and Door.asm"
-		include	"Objects\6C SBZ Vanishing Platforms.asm"
+		include	"Objects\Level\SBZ Vanishing Platforms.asm"
 		include	"Data\Animations\SBZ Vanishing Platforms.asm"
 Map_VanP:	include	"Data\Mappings\Objects\SBZ Vanishing Platforms.asm"
 		include	"Objects\Hazards\Electrocuter.asm"
 		include	"Data\Animations\Electrocuter.asm"
 Map_Elec:	include	"Data\Mappings\Objects\Electrocuter.asm"
-		include	"Objects\6F SBZ Spin Platform Conveyor.asm"
+		include	"Objects\Level\SBZ Spin Platform Conveyor.asm"
 		include	"Data\Animations\SBZ Spin Platform Conveyor.asm"
 
 off_164A6:	dc.w word_164B2-off_164A6, word_164C6-off_164A6, word_164DA-off_164A6
@@ -3000,23 +3000,21 @@ word_16502:	dc.w $10, $1B80, $1B14,	$670, $1BEF, $602, $1BEF, $640,	$1B14, $6AE
 word_16516:	dc.w $10, $1C80, $1C14,	$5E0, $1CEF, $572, $1CEF, $5B0,	$1C14, $61E
 ; ===========================================================================
 
-		include	"Objects\70 Girder Block.asm"
+		include	"Objects\Level\Girder Block.asm"
 Map_Gird:	include	"Data\Mappings\Objects\Girder Block.asm"
 		include	"Objects\Invisible\Teleporter.asm"
 
-		include	"Objects\78 Caterkiller.asm"
+		include	"Objects\Badniks\Caterkiller.asm"
 		include	"Data\Animations\Caterkiller.asm"
 Map_Cat:	include	"Data\Mappings\Objects\Caterkiller.asm"
 
-		include	"Objects\79 Lamppost.asm"
+		include	"Objects\Gameplay\Lamppost.asm"
 Map_Lamp:	include	"Data\Mappings\Objects\Lamppost.asm"
-		include	"Objects\7D Hidden Bonuses.asm"
+		include	"Objects\Gameplay\Hidden Bonuses.asm"
 Map_Bonus:	include	"Data\Mappings\Objects\Hidden Bonuses.asm"
 
 		include	"Objects\Screen-Space\Credits.asm"
 Map_Cred:	include	"Data\Mappings\Objects\Credits.asm"
-
-		include	"Objects\3D Boss - Green Hill (part 1).asm"
 
 ; ---------------------------------------------------------------------------
 ; Defeated boss	subroutine
@@ -3077,46 +3075,49 @@ BossMove:
 
 ; ===========================================================================
 
-		include	"Objects\3D Boss - Green Hill (part 2).asm"
-		include	"Objects\48 Eggman's Swinging Ball.asm"
+		include	"Objects\Bosses\Green Hill\Main.asm"
+		include	"Objects\Bosses\Green Hill\Eggman's Swinging Ball.asm"
+		
 		include	"Data\Animations\Eggman.asm"
 Map_Eggman:	include	"Data\Mappings\Objects\Eggman.asm"
 Map_BossItems:	include	"Data\Mappings\Objects\Boss Items.asm"
-		include	"Objects\77 Boss - Labyrinth.asm"
-		include	"Objects\73 Boss - Marble.asm"
-		include	"Objects\74 MZ Boss Fire.asm"
+
+		include	"Objects\Bosses\Labyrinth\Main.asm"
+		
+		include	"Objects\Bosses\Marble\Main.asm"
+		include	"Objects\Bosses\Marble\MZ Boss Fire.asm"
 
 	Obj7A_Delete:
 		jmp	(DeleteObject).l
 
-		include	"Objects\7A Boss - Star Light.asm"
-		include	"Objects\7B SLZ Boss Spikeball.asm"
+		include	"Objects\Bosses\Star Light\Main.asm"
+		include	"Objects\Bosses\Star Light\SLZ Boss Spikeball.asm"
 Map_BSBall:	include	"Data\Mappings\Objects\SLZ Boss Spikeball.asm"
-		include	"Objects\75 Boss - Spring Yard.asm"
-		include	"Objects\76 SYZ Boss Blocks.asm"
+		include	"Objects\Bosses\Spring Yard\Main.asm"
+		include	"Objects\Bosses\Spring Yard\SYZ Boss Blocks.asm"
 Map_BossBlock:	include	"Data\Mappings\Objects\SYZ Boss Blocks.asm"
 
 loc_1982C:
 		jmp	(DeleteObject).l
 
-		include	"Objects\82 Eggman - Scrap Brain 2.asm"
+		include	"Objects\Bosses\Eggman - Scrap Brain 2.asm"
 		include	"Data\Animations\Eggman - Scrap Brain 2 & Final.asm"
 Map_SEgg:	include	"Data\Mappings\Objects\Eggman - Scrap Brain 2.asm"
-		include	"Objects\83 SBZ Eggman's Crumbling Floor.asm"
+		include	"Objects\Bosses\SBZ Eggman's Crumbling Floor.asm"
 Map_FFloor:	include	"Data\Mappings\Objects\SBZ Eggman's Crumbling Floor.asm"
-		include	"Objects\85 Boss - Final.asm"
+		include	"Objects\Bosses\Final\Main.asm"
 		include	"Data\Animations\FZ Eggman in Ship.asm"
 Map_FZDamaged:	include	"Data\Mappings\Objects\FZ Damaged Eggmobile.asm"
 Map_FZLegs:	include	"Data\Mappings\Objects\FZ Eggmobile Legs.asm"
-		include	"Objects\84 FZ Eggman's Cylinders.asm"
+		include	"Objects\Bosses\Final\FZ Eggman's Cylinders.asm"
 Map_EggCyl:	include	"Data\Mappings\Objects\FZ Eggman's Cylinders.asm"
-		include	"Objects\86 FZ Plasma Ball Launcher.asm"
+		include	"Objects\Bosses\Final\FZ Plasma Ball Launcher.asm"
 		include	"Data\Animations\Plasma Ball Launcher.asm"
 Map_PLaunch:	include	"Data\Mappings\Objects\Plasma Ball Launcher.asm"
 		include	"Data\Animations\Plasma Balls.asm"
 Map_Plasma:	include	"Data\Mappings\Objects\Plasma Balls.asm"
 
-		include	"Objects\3E Prison Capsule.asm"
+		include	"Objects\Gameplay\Prison Capsule.asm"
 		include	"Data\Animations\Prison Capsule.asm"
 Map_Pri:	include	"Data\Mappings\Objects\Prison Capsule.asm"
 
@@ -3680,13 +3681,13 @@ Map_SS_Up:	include	"Data\Mappings\Objects\SS UP Block.asm"
 Map_SS_Down:	include	"Data\Mappings\Objects\SS DOWN Block.asm"
 		include	"Data\Mappings\Objects\SS Chaos Emeralds.asm"
 
-		include	"Objects\09 Sonic in Special Stage.asm"
+		include	"Objects\Gameplay\Sonic in Special Stage.asm"
 
-		include	"Objects\10.asm"
+		include	"Objects\Unused\10.asm"
 
 		include	"Includes\AnimateLevelGfx.asm"
 
-		include	"Objects\21 HUD.asm"
+		include	"Objects\Screen-Space\HUD.asm"
 Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
 
 ; ---------------------------------------------------------------------------
