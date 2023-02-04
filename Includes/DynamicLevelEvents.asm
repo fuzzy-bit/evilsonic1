@@ -521,9 +521,9 @@ off_71B2:	dc.w DLE_SYZ3main-off_71B2
 DLE_SYZ3main:
 		cmpi.w	#$2AC0,(v_screenposx).w
 		bcs.s	locret_71CE
-		bsr.w	FindFreeObj
-		bne.s	locret_71CE
-		move.b	#id_BossBlock,(a1) ; load blocks that boss picks up
+		;bsr.w	FindFreeObj
+		;bne.s	locret_71CE
+		;move.b	#id_BossBlock,(a1) ; load blocks that boss picks up
 		addq.b	#2,(v_dle_routine).w
 
 locret_71CE:

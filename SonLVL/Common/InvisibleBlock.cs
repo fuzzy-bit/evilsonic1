@@ -12,8 +12,8 @@ namespace S1ObjectDefinitions.Common
 
 		public override void Init(ObjectData data)
 		{
-			byte[] artfile = ObjectHelper.OpenArtFile("../artnem/Monitors.bin", CompressionType.Nemesis);
-			img = ObjectHelper.MapASMToBmp(artfile, "../_maps/Invisible Barriers.asm", 0, 0);
+			byte[] artfile = ObjectHelper.OpenArtFile("../Data/Art/Nemesis/Monitors.bin", CompressionType.Nemesis);
+			img = ObjectHelper.MapASMToBmp(artfile, "../Data/Mappings/Objects/Invisible Barriers.asm", 0, 0);
 		}
 
 		public override ReadOnlyCollection<byte> Subtypes

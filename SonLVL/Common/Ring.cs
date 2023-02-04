@@ -32,8 +32,8 @@ namespace S1ObjectDefinitions.Common
 
 		public override void Init(ObjectData data)
 		{
-			byte[] artfile = ObjectHelper.OpenArtFile("../artnem/Rings.bin", CompressionType.Nemesis);
-			img = ObjectHelper.MapASMToBmp(artfile, data.CustomProperties.GetValueOrDefault("revision", "0") == "1" ? "../_maps/Rings (JP1).asm" : "../_maps/Rings.asm", 0, 1);
+			byte[] artfile = ObjectHelper.OpenArtFile("../Data/Art/Nemesis/Rings.bin", CompressionType.Nemesis);
+			img = ObjectHelper.MapASMToBmp(artfile, data.CustomProperties.GetValueOrDefault("revision", "0") == "1" ? "../Data/Mappings/Objects/Rings (JP1).asm" : "../Data/Mappings/Objects/Rings.asm", 0, 1);
 		}
 
 		public override ReadOnlyCollection<byte> Subtypes

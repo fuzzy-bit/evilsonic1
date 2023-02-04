@@ -2,8 +2,8 @@
 <ObjDef xmlns="http://www.sonicretro.org" Name="Lamppost" Image="img" RememberState="true">
   <Images>
     <ImageFromMappings id="img">
-      <ArtFile filename="../artnem/Lamppost.bin"/>
-      <MapFile type="ASM" filename="../_maps/Lamppost.asm" frame="0" startpal="0"/>
+      <ArtFile filename="../Data/Art/Nemesis/Lamppost.bin"/>
+      <MapFile type="ASM" filename="../Data/Mappings/Objects/Lamppost.asm" frame="0" startpal="0"/>
     </ImageFromMappings>
   </Images>
   <Properties>
