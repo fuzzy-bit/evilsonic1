@@ -2,3 +2,5 @@ s1built.md
 *.lst
 *.log
 AMPS/.Data
+SonLVL/SonLVL.log
+SonLVL/dllcache/
