@@ -182,7 +182,7 @@ WaitForZ80:
 		btst	d0,(a1)		; has the Z80 stopped?
 		bne.s	WaitForZ80	; if not, branch
 
-		moveq	#endinit-initz80-1,d2
+		moveq	#$25,d2
 Z80InitLoop:
 		move.b	(a5)+,(a0)+
 		dbf	d2,Z80InitLoop
@@ -254,27 +254,32 @@ SetupValues:	dc.w $8000		; VDP register start number
 		dc.b $80		; VDP $97 - DMA fill VRAM
 		dc.l $40000080		; VRAM address 0
 
-initz80	z80prog 0
-		di
-		im	1
-		ld	hl,YM_Buffer1			; we need to clear from YM_Buffer1
-		ld	de,(YM_BufferEnd-YM_Buffer1)/8	; to end of Z80 RAM, setting it to 0FFh
+		dc.b $AF		; xor	a
+		dc.b $01, $D9, $1F	; ld	bc,1fd9h
+		dc.b $11, $27, $00	; ld	de,0027h
+		dc.b $21, $26, $00	; ld	hl,0026h
+		dc.b $F9		; ld	sp,hl
+		dc.b $77		; ld	(hl),a
+		dc.b $ED, $B0		; ldir
+		dc.b $DD, $E1		; pop	ix
+		dc.b $FD, $E1		; pop	iy
+		dc.b $ED, $47		; ld	i,a
+		dc.b $ED, $4F		; ld	r,a
+		dc.b $D1		; pop	de
+		dc.b $E1		; pop	hl
+		dc.b $F1		; pop	af
+		dc.b $08		; ex	af,af'
+		dc.b $D9		; exx
+		dc.b $C1		; pop	bc
+		dc.b $D1		; pop	de
+		dc.b $E1		; pop	hl
+		dc.b $F1		; pop	af
+		dc.b $F9		; ld	sp,hl
+		dc.b $F3		; di
+		dc.b $ED, $56		; im1
+		dc.b $36, $E9		; ld	(hl),e9h
+		dc.b $E9		; jp	(hl)
 
-.loop
-		ld	a,0FFh				; load 0FFh to a
-		rept 8
-			ld	(hl),a			; save a to address
-			inc	hl			; go to next address
-		endr
-
-		dec	de				; decrease loop counter
-		ld	a,d				; load d to a
-		zor	e				; check if both d and e are 0
-		jr	nz, .loop			; if no, clear more memoty
-.pc		jr	.pc				; trap CPU execution
-	z80prog
-		even
-endinit
 		dc.w $8104		; VDP display mode
 		dc.w $8F02		; VDP increment
 		dc.l $C0000000		; CRAM write mode
@@ -314,7 +319,7 @@ GameInit:
 		dbf	d6,@clearRAM	; clear RAM ($0000-$FDFF)
 
 		bsr.w	VDPSetupGame
-		jsr	LoadDualPCM
+		bsr.w	SoundDriverLoad
 		bsr.w	JoypadInit
 		move.b	#id_Sega,(v_gamemode).w ; set Game Mode to Sega Screen
 

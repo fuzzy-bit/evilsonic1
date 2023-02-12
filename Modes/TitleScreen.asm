@@ -9,6 +9,7 @@ TitleScreen:
 		command	mus_Reset	 ; fade reset music
 
 		disable_ints
+		bsr.w	SoundDriverLoad
 		lea	(vdp_control_port).l,a6
 		move.w	#$8004,(a6)	; 8-colour mode
 		move.w	#$8200+(vram_fg>>10),(a6) ; set foreground nametable address
