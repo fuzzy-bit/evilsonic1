@@ -4610,34 +4610,17 @@ ObjPos_End:	incbin	"Data\Levels\Objects\ending.bin"
 ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 ; ===========================================================================
 
-		include "AMPS/code/smps2asm.asm"
-		include "AMPS/code/68k.asm"
+	if Revision=0
+		dcb.b $62A,$FF
+		else
+		dcb.b $63C,$FF
+		endc
+		;dcb.b ($10000-(*%$10000))-(EndOfRom-SoundDriver),$FF
 
-DualPCM:
-		PUSHS					; store section information for Main
-Z80Code		SECTION	org(0), file("AMPS/.z80")	; create a new section for Dual PCM
-		z80prog 0				; init z80 program
-zchkoffs = 1
-		include "AMPS/code/z80.asm"		; code for Dual PCM
-DualPCM_sz:	z80prog					; end z80 program
-		POPS					; go back to Main section
+SoundDriver:	include "_inc\s1.sounddriver.asm"
 
-		PUSHS					; store section information for Main
-mergecode	SECTION	file("AMPS/.z80.dat"), org(0)	; create settings file for storing info about how to merge things
-		dc.l offset(DualPCM), Z80_Space		; store info about location of file and size available
-
-	if zchkoffs
-		rept zfuturec
-			popp zoff			; grab the location of the patch
-			popp zbyte			; grab the correct byte
-			dc.w zoff			; write the address
-			dc.b zbyte, '>'			; write the byte and separator
-		endr
-	endif
-		POPS					; go back to Main section
-
-	ds.b Z80_Space					; reserve space for the Z80 driver
-	even
-	opt ae+
-		include	"ErrorHandler/ErrorHandler.asm"
-EndOfRom:	END
+; end of 'ROM'
+		even
+	include	"ErrorHandler.asm"
+		even
+EndOfRom:
