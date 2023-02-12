@@ -137,9 +137,6 @@ TitleScreen:
 		;move.b	#id_PSBTM,(v_objspace+$100).w ; load object which hides part of Sonic
 		;move.b	#2,(v_objspace+$100+obFrame).w
 
-		move.b	#4,(v_vbla_routine).w	; we can not afford to run the sound driver too
-		bsr.w	WaitForVBla		; late, or we will lose the YM data and break music
-		music	mus_Title		; play title screen music
 		jsr	(ExecuteObjects).l
 		bsr.w	DeformLayers
 		;jsr	(BuildSprites).l
@@ -276,7 +273,7 @@ LevelSelect:
 		move.w	(v_levselsound).w,d0
 
 LevSel_PlaySnd:
-		move.b	d0,mQueue+2.w	; play that sound!
+		bsr.w PlaySound_Special
 		bra.s	LevelSelect
 ; ===========================================================================
 
@@ -643,12 +640,12 @@ LevelMenuText:	if Revision=0
 ; Music	playlist
 ; ---------------------------------------------------------------------------
 MusicList:
-		dc.b mus_GHZ	; GHZ
-		dc.b mus_LZ	; LZ
-		dc.b mus_MZ	; MZ
-		dc.b mus_SLZ	; SLZ
-		dc.b mus_SYZ	; SYZ
-		dc.b mus_SBZ	; SBZ
+		dc.b bgm_GHZ	; GHZ
+		dc.b bgm_LZ	; LZ
+		dc.b bgm_MZ	; MZ
+		dc.b bgm_SLZ	; SLZ
+		dc.b bgm_SYZ	; SYZ
+		dc.b bgm_SBZ	; SBZ
 		zonewarning MusicList,1
-		dc.b mus_FZ	; Ending
+		dc.b bgm_FZ	; Ending
 		even

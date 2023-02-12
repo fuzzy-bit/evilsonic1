@@ -13,8 +13,6 @@ Main		SECTION org(0)
 	include	"Variables.asm"
 	include	"Macros.asm"
 
-	include "AMPS/lang.asm"
-	include "AMPS/code/macro.asm"
 	include "ErrorHandler/debugger.asm"
 
 
@@ -387,7 +385,7 @@ VBlank:
 		jsr	VBla_Index(pc,d0.w)
 
 VBla_Music:
-		jsr	UpdateAMPS
+		jsr (UpdateMusic).l
 
 VBla_Exit:
 		addq.l	#1,(v_vbla_count).w
@@ -421,7 +419,9 @@ VBla_00:
 		dbf	d0,@waitPAL
 
 	@notPAL:
-		move.w	#1,(f_hbla_pal).w ; set HBlank flag
+		move.w	#1,(f_hbla_pal).w ; set HBlank flag		stopZ80
+		stopZ80
+		waitZ80
 		tst.b	(f_wtr_state).w	; is water above top of screen?
 		bne.s	@waterabove 	; if yes, branch
 
@@ -433,6 +433,8 @@ VBla_00:
 
 	@waterbelow:
 		move.w	(v_hbla_hreg).w,(a5)
+		;  move.b  ($FFFFF625).w,($FFFFFE07).w ; TODO: check this out
+		startZ80
 		bra.w	VBla_Music
 ; ===========================================================================
 
@@ -525,10 +527,13 @@ Demo_Time:
 ; ===========================================================================
 
 VBla_0A:
+		stopZ80
+		waitZ80
 		bsr.w	ReadJoypads
 		writeCRAM	v_pal_dry,$80,0
 		writeVRAM	v_spritetablebuffer,$280,vram_sprites
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
+		startZ80
 		bsr.w	PalCycle_SS
 		tst.b	(f_sonframechg).w ; has Sonic's sprite changed?
 		beq.s	@nochg		; if not, branch
@@ -546,6 +551,8 @@ VBla_0A:
 ; ===========================================================================
 
 VBla_0C:
+		stopZ80
+		waitZ80
 		bsr.w	ReadJoypads
 		tst.b	(f_wtr_state).w
 		bne.s	@waterabove
@@ -560,6 +567,7 @@ VBla_0C:
 		move.w	(v_hbla_hreg).w,(a5)
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
 		writeVRAM	v_spritetablebuffer,$280,vram_sprites
+		startZ80
 		tst.b	(f_sonframechg).w
 		beq.s	@nochg
 		writeVRAM	v_sgfx_buffer,$2E0,vram_sonic
@@ -591,10 +599,13 @@ VBla_12:
 ; ===========================================================================
 
 VBla_16:
+		stopZ80
+		waitZ80
 		bsr.w	ReadJoypads
 		writeCRAM	v_pal_dry,$80,0
 		writeVRAM	v_spritetablebuffer,$280,vram_sprites
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
+		startZ80
 		tst.b	(f_sonframechg).w
 		beq.s	@nochg
 		writeVRAM	v_sgfx_buffer,$2E0,vram_sonic
@@ -612,6 +623,8 @@ VBla_16:
 
 
 sub_106E:
+		stopZ80
+		waitZ80
 		bsr.w	ReadJoypads
 		tst.b	(f_wtr_state).w ; is water above top of screen?
 		bne.s	@waterabove	; if yes, branch
@@ -624,6 +637,7 @@ sub_106E:
 	@waterbelow:
 		writeVRAM	v_spritetablebuffer,$280,vram_sprites
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
+		startZ80
 		rts
 ; End of function sub_106E
 
@@ -688,7 +702,7 @@ loc_119E:
 		clr.b	($FFFFF64F).w
 		movem.l	d0-a6,-(sp)
 		bsr.w	Demo_Time
-		jsr	UpdateAMPS
+		jsr (UpdateMusic).l	
 		movem.l	(sp)+,d0-a6
 		rte
 ; End of function HBlank
@@ -701,10 +715,13 @@ loc_119E:
 
 
 JoypadInit:
+		stopZ80
+		waitZ80
 		moveq	#$40,d0
 		move.b	d0,($A10009).l	; init port 1 (joypad 1)
 		move.b	d0,($A1000B).l	; init port 2 (joypad 2)
 		move.b	d0,($A1000D).l	; init port 3 (expansion/extra)
+		startZ80
 		rts
 ; End of function JoypadInit
 
@@ -854,6 +871,31 @@ ClearScreen:
 ; End of function ClearScreen
 
 ; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to	load the sound driver
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+SoundDriverLoad:
+		nop	
+		stopZ80
+		resetZ80
+		lea	(Kos_Z80).l,a0	; load sound driver
+		lea	(z80_ram).l,a1	; target Z80 RAM
+		bsr.w	KosDec		; decompress
+		resetZ80a
+		nop	
+		nop	
+		nop	
+		nop	
+		resetZ80
+		startZ80
+		rts	
+; End of function SoundDriverLoad
+
+		include	"_incObj\sub PlaySound.asm"
 		include	"Includes\PauseGame.asm"
 
 		include	"Engine\Graphics\TilemapToVRAM.asm"
