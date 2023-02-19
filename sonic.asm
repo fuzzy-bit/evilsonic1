@@ -13,8 +13,6 @@ Main		SECTION org(0)
 	include	"Variables.asm"
 	include	"Macros.asm"
 
-	include "AMPS/lang.asm"
-	include "AMPS/code/macro.asm"
 	include "ErrorHandler/debugger.asm"
 
 
@@ -184,7 +182,7 @@ WaitForZ80:
 		btst	d0,(a1)		; has the Z80 stopped?
 		bne.s	WaitForZ80	; if not, branch
 
-		moveq	#endinit-initz80-1,d2
+                moveq   #$25,d2
 Z80InitLoop:
 		move.b	(a5)+,(a0)+
 		dbf	d2,Z80InitLoop
@@ -256,27 +254,11 @@ SetupValues:	dc.w $8000		; VDP register start number
 		dc.b $80		; VDP $97 - DMA fill VRAM
 		dc.l $40000080		; VRAM address 0
 
-initz80	z80prog 0
-		di
-		im	1
-		ld	hl,YM_Buffer1			; we need to clear from YM_Buffer1
-		ld	de,(YM_BufferEnd-YM_Buffer1)/8	; to end of Z80 RAM, setting it to 0FFh
+                dc.b $AF, 1, $D9, $1F, $11, $27, 0, $21, $26, 0, $F9, $77 ; Z80 instructions
+                dc.b $ED, $B0, $DD, $E1, $FD, $E1, $ED, $47, $ED, $4F
+                dc.b $D1, $E1, $F1, 8, $D9, $C1, $D1, $E1, $F1, $F9, $F3
+                dc.b $ED, $56, $36, $E9, $E9
 
-.loop
-		ld	a,0FFh				; load 0FFh to a
-		rept 8
-			ld	(hl),a			; save a to address
-			inc	hl			; go to next address
-		endr
-
-		dec	de				; decrease loop counter
-		ld	a,d				; load d to a
-		zor	e				; check if both d and e are 0
-		jr	nz, .loop			; if no, clear more memoty
-.pc		jr	.pc				; trap CPU execution
-	z80prog
-		even
-endinit
 		dc.w $8104		; VDP display mode
 		dc.w $8F02		; VDP increment
 		dc.l $C0000000		; CRAM write mode
@@ -316,7 +298,7 @@ GameInit:
 		dbf	d6,@clearRAM	; clear RAM ($0000-$FDFF)
 
 		bsr.w	VDPSetupGame
-		jsr	LoadDualPCM
+		jsr	SoundDriverLoad
 		bsr.w	JoypadInit
 		move.b	#id_Sega,(v_gamemode).w ; set Game Mode to Sega Screen
 
@@ -387,7 +369,7 @@ VBlank:
 		jsr	VBla_Index(pc,d0.w)
 
 VBla_Music:
-		jsr	UpdateAMPS
+		jsr	UpdateMusic
 
 VBla_Exit:
 		addq.l	#1,(v_vbla_count).w
@@ -688,7 +670,7 @@ loc_119E:
 		clr.b	($FFFFF64F).w
 		movem.l	d0-a6,-(sp)
 		bsr.w	Demo_Time
-		jsr	UpdateAMPS
+		jsr	UpdateMusic
 		movem.l	(sp)+,d0-a6
 		rte
 ; End of function HBlank
@@ -2422,7 +2404,7 @@ ResumeMusic:
 	@playselected:
 		endc
 
-		move.b	d0,mQueue+1.w
+		jsr	PlaySound
 
 	@over12:
 		move.w	#30,(v_air).w	; reset air to 30 seconds
@@ -4562,35 +4544,15 @@ ObjPos_End:	incbin	"Data\Levels\Objects\ending.bin"
 		even
 ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 ; ===========================================================================
+; ---------------------------------------------------------------------------
+; VEPS Sound Driver
+; ---------------------------------------------------------------------------
 
-		include "AMPS/code/smps2asm.asm"
-		include "AMPS/code/68k.asm"
+		include	"VEPS\VEPS.asm"
+		include	"VEPS\MegaPCM.asm"
+		include	"VEPS\utils.asm"
 
-DualPCM:
-		PUSHS					; store section information for Main
-Z80Code		SECTION	org(0), file("AMPS/.z80")	; create a new section for Dual PCM
-		z80prog 0				; init z80 program
-zchkoffs = 1
-		include "AMPS/code/z80.asm"		; code for Dual PCM
-DualPCM_sz:	z80prog					; end z80 program
-		POPS					; go back to Main section
+; ---------------------------------------------------------------------------
 
-		PUSHS					; store section information for Main
-mergecode	SECTION	file("AMPS/.z80.dat"), org(0)	; create settings file for storing info about how to merge things
-		dc.l offset(DualPCM), Z80_Space		; store info about location of file and size available
-
-	if zchkoffs
-		rept zfuturec
-			popp zoff			; grab the location of the patch
-			popp zbyte			; grab the correct byte
-			dc.w zoff			; write the address
-			dc.b zbyte, '>'			; write the byte and separator
-		endr
-	endif
-		POPS					; go back to Main section
-
-	ds.b Z80_Space					; reserve space for the Z80 driver
-	even
-	opt ae+
 		include	"ErrorHandler/ErrorHandler.asm"
 EndOfRom:	END

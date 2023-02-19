@@ -253,7 +253,7 @@ Tit_ChkLevSel:
 		move.l	d0,(a6)
 		dbf	d1,Tit_ClrScroll2 ; clear scroll data (in VRAM)
 
-		move.w	#MusOff,($FFFFFF84).w
+		;move.w	#MusOff,($FFFFFF84).w
 		bsr.w	LevSelTextLoad
 
 ; ---------------------------------------------------------------------------
@@ -276,7 +276,7 @@ LevelSelect:
 		move.w	(v_levselsound).w,d0
 
 LevSel_PlaySnd:
-		move.b	d0,mQueue+2.w	; play that sound!
+		jsr		PlaySound
 		bra.s	LevelSelect
 ; ===========================================================================
 
@@ -516,13 +516,13 @@ LevSel_SndTest:
 		beq.s	LevSel_Right	; if not, branch
 		subq.w	#1,d0		; subtract 1 from sound	test
 		bhs.s	LevSel_Right
-		moveq	#SFXoff+SFXcount-1,d0; if sound test moves below 0, set to max
+		moveq	#$60-1,d0; if sound test moves below 0, set to max ### FIX ME
 
 LevSel_Right:
 		btst	#bitR,d1	; is right pressed?
 		beq.s	LevSel_Refresh2	; if not, branch
 		addq.w	#1,d0		; add 1	to sound test
-		cmpi.w	#SFXoff+SFXcount,d0
+		cmpi.w	#$60,d0		; ### FIX ME
 		blo.s	LevSel_Refresh2
 		moveq	#0,d0		; if sound test	moves above $4F, set to	0
 

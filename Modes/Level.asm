@@ -130,7 +130,7 @@ Level_GetBgm:
 	Level_PlayBgm:
 		lea	(MusicList).l,a1 ; load	music playlist
 		move.b	(a1,d0.w),d0
-		move.b	d0,mQueue+1.w	; play music
+		jsr		PlaySound
 		move.b	#id_TitleCard,(v_objspace+$80).w ; load title card object
 
 Level_TtlCardLoop:
