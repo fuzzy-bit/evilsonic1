@@ -1,0 +1,12 @@
+94 - Countinue
+95 - Special Stage
+96 - GotEmerald
+97 - Ending Seqence
+98 - Inc
+99 - GotTrough
+9A - CountDown
+9B - TitleScreen
+9C - Boss
+9D - Credits
+9E - Game Over
+9F - Life
