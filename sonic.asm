@@ -13,6 +13,8 @@ Main		SECTION org(0)
 	include	"Variables.asm"
 	include	"Macros.asm"
 
+	include "AMPS/lang.asm"
+	include "AMPS/code/macro.asm"
 	include "ErrorHandler/debugger.asm"
 
 
@@ -182,7 +184,7 @@ WaitForZ80:
 		btst	d0,(a1)		; has the Z80 stopped?
 		bne.s	WaitForZ80	; if not, branch
 
-		moveq	#$25,d2
+		moveq	#endinit-initz80-1,d2
 Z80InitLoop:
 		move.b	(a5)+,(a0)+
 		dbf	d2,Z80InitLoop
@@ -254,32 +256,27 @@ SetupValues:	dc.w $8000		; VDP register start number
 		dc.b $80		; VDP $97 - DMA fill VRAM
 		dc.l $40000080		; VRAM address 0
 
-		dc.b $AF		; xor	a
-		dc.b $01, $D9, $1F	; ld	bc,1fd9h
-		dc.b $11, $27, $00	; ld	de,0027h
-		dc.b $21, $26, $00	; ld	hl,0026h
-		dc.b $F9		; ld	sp,hl
-		dc.b $77		; ld	(hl),a
-		dc.b $ED, $B0		; ldir
-		dc.b $DD, $E1		; pop	ix
-		dc.b $FD, $E1		; pop	iy
-		dc.b $ED, $47		; ld	i,a
-		dc.b $ED, $4F		; ld	r,a
-		dc.b $D1		; pop	de
-		dc.b $E1		; pop	hl
-		dc.b $F1		; pop	af
-		dc.b $08		; ex	af,af'
-		dc.b $D9		; exx
-		dc.b $C1		; pop	bc
-		dc.b $D1		; pop	de
-		dc.b $E1		; pop	hl
-		dc.b $F1		; pop	af
-		dc.b $F9		; ld	sp,hl
-		dc.b $F3		; di
-		dc.b $ED, $56		; im1
-		dc.b $36, $E9		; ld	(hl),e9h
-		dc.b $E9		; jp	(hl)
+initz80	z80prog 0
+		di
+		im	1
+		ld	hl,YM_Buffer1			; we need to clear from YM_Buffer1
+		ld	de,(YM_BufferEnd-YM_Buffer1)/8	; to end of Z80 RAM, setting it to 0FFh
 
+.loop
+		ld	a,0FFh				; load 0FFh to a
+		rept 8
+			ld	(hl),a			; save a to address
+			inc	hl			; go to next address
+		endr
+
+		dec	de				; decrease loop counter
+		ld	a,d				; load d to a
+		zor	e				; check if both d and e are 0
+		jr	nz, .loop			; if no, clear more memoty
+.pc		jr	.pc				; trap CPU execution
+	z80prog
+		even
+endinit
 		dc.w $8104		; VDP display mode
 		dc.w $8F02		; VDP increment
 		dc.l $C0000000		; CRAM write mode
@@ -319,7 +316,7 @@ GameInit:
 		dbf	d6,@clearRAM	; clear RAM ($0000-$FDFF)
 
 		bsr.w	VDPSetupGame
-		bsr.w	SoundDriverLoad
+		jsr	LoadDualPCM
 		bsr.w	JoypadInit
 		move.b	#id_Sega,(v_gamemode).w ; set Game Mode to Sega Screen
 
@@ -390,7 +387,7 @@ VBlank:
 		jsr	VBla_Index(pc,d0.w)
 
 VBla_Music:
-		jsr (UpdateMusic).l
+		jsr	UpdateAMPS
 
 VBla_Exit:
 		addq.l	#1,(v_vbla_count).w
@@ -424,9 +421,7 @@ VBla_00:
 		dbf	d0,@waitPAL
 
 	@notPAL:
-		move.w	#1,(f_hbla_pal).w ; set HBlank flag		stopZ80
-		stopZ80
-		waitZ80
+		move.w	#1,(f_hbla_pal).w ; set HBlank flag
 		tst.b	(f_wtr_state).w	; is water above top of screen?
 		bne.s	@waterabove 	; if yes, branch
 
@@ -438,8 +433,6 @@ VBla_00:
 
 	@waterbelow:
 		move.w	(v_hbla_hreg).w,(a5)
-		;  move.b  ($FFFFF625).w,($FFFFFE07).w ; TODO: check this out
-		startZ80
 		bra.w	VBla_Music
 ; ===========================================================================
 
@@ -532,13 +525,10 @@ Demo_Time:
 ; ===========================================================================
 
 VBla_0A:
-		stopZ80
-		waitZ80
 		bsr.w	ReadJoypads
 		writeCRAM	v_pal_dry,$80,0
 		writeVRAM	v_spritetablebuffer,$280,vram_sprites
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
-		startZ80
 		bsr.w	PalCycle_SS
 		tst.b	(f_sonframechg).w ; has Sonic's sprite changed?
 		beq.s	@nochg		; if not, branch
@@ -556,8 +546,6 @@ VBla_0A:
 ; ===========================================================================
 
 VBla_0C:
-		stopZ80
-		waitZ80
 		bsr.w	ReadJoypads
 		tst.b	(f_wtr_state).w
 		bne.s	@waterabove
@@ -572,7 +560,6 @@ VBla_0C:
 		move.w	(v_hbla_hreg).w,(a5)
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
 		writeVRAM	v_spritetablebuffer,$280,vram_sprites
-		startZ80
 		tst.b	(f_sonframechg).w
 		beq.s	@nochg
 		writeVRAM	v_sgfx_buffer,$2E0,vram_sonic
@@ -604,13 +591,10 @@ VBla_12:
 ; ===========================================================================
 
 VBla_16:
-		stopZ80
-		waitZ80
 		bsr.w	ReadJoypads
 		writeCRAM	v_pal_dry,$80,0
 		writeVRAM	v_spritetablebuffer,$280,vram_sprites
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
-		startZ80
 		tst.b	(f_sonframechg).w
 		beq.s	@nochg
 		writeVRAM	v_sgfx_buffer,$2E0,vram_sonic
@@ -628,8 +612,6 @@ VBla_16:
 
 
 sub_106E:
-		stopZ80
-		waitZ80
 		bsr.w	ReadJoypads
 		tst.b	(f_wtr_state).w ; is water above top of screen?
 		bne.s	@waterabove	; if yes, branch
@@ -642,7 +624,6 @@ sub_106E:
 	@waterbelow:
 		writeVRAM	v_spritetablebuffer,$280,vram_sprites
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
-		startZ80
 		rts
 ; End of function sub_106E
 
@@ -707,7 +688,7 @@ loc_119E:
 		clr.b	($FFFFF64F).w
 		movem.l	d0-a6,-(sp)
 		bsr.w	Demo_Time
-		jsr (UpdateMusic).l	
+		jsr	UpdateAMPS
 		movem.l	(sp)+,d0-a6
 		rte
 ; End of function HBlank
@@ -720,13 +701,10 @@ loc_119E:
 
 
 JoypadInit:
-		stopZ80
-		waitZ80
 		moveq	#$40,d0
 		move.b	d0,($A10009).l	; init port 1 (joypad 1)
 		move.b	d0,($A1000B).l	; init port 2 (joypad 2)
 		move.b	d0,($A1000D).l	; init port 3 (expansion/extra)
-		startZ80
 		rts
 ; End of function JoypadInit
 
@@ -876,31 +854,6 @@ ClearScreen:
 ; End of function ClearScreen
 
 ; ===========================================================================
-; ---------------------------------------------------------------------------
-; Subroutine to	load the sound driver
-; ---------------------------------------------------------------------------
-
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
-
-
-SoundDriverLoad:
-		nop	
-		stopZ80
-		resetZ80
-		lea	(Kos_Z80).l,a0	; load sound driver
-		lea	(z80_ram).l,a1	; target Z80 RAM
-		bsr.w	KosDec		; decompress
-		resetZ80a
-		nop	
-		nop	
-		nop	
-		nop	
-		resetZ80
-		startZ80
-		rts	
-; End of function SoundDriverLoad
-
-		include	"_incObj\sub PlaySound.asm"
 		include	"Includes\PauseGame.asm"
 
 		include	"Engine\Graphics\TilemapToVRAM.asm"
@@ -4610,17 +4563,34 @@ ObjPos_End:	incbin	"Data\Levels\Objects\ending.bin"
 ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 ; ===========================================================================
 
-	if Revision=0
-		dcb.b $62A,$FF
-		else
-		dcb.b $63C,$FF
-		endc
-		;dcb.b ($10000-(*%$10000))-(EndOfRom-SoundDriver),$FF
+		include "AMPS/code/smps2asm.asm"
+		include "AMPS/code/68k.asm"
 
-SoundDriver:	include "_inc\s1.sounddriver.asm"
+DualPCM:
+		PUSHS					; store section information for Main
+Z80Code		SECTION	org(0), file("AMPS/.z80")	; create a new section for Dual PCM
+		z80prog 0				; init z80 program
+zchkoffs = 1
+		include "AMPS/code/z80.asm"		; code for Dual PCM
+DualPCM_sz:	z80prog					; end z80 program
+		POPS					; go back to Main section
 
-; end of 'ROM'
-		even
-	include	"ErrorHandler.asm"
-		even
-EndOfRom:
+		PUSHS					; store section information for Main
+mergecode	SECTION	file("AMPS/.z80.dat"), org(0)	; create settings file for storing info about how to merge things
+		dc.l offset(DualPCM), Z80_Space		; store info about location of file and size available
+
+	if zchkoffs
+		rept zfuturec
+			popp zoff			; grab the location of the patch
+			popp zbyte			; grab the correct byte
+			dc.w zoff			; write the address
+			dc.b zbyte, '>'			; write the byte and separator
+		endr
+	endif
+		POPS					; go back to Main section
+
+	ds.b Z80_Space					; reserve space for the Z80 driver
+	even
+	opt ae+
+		include	"ErrorHandler/ErrorHandler.asm"
+EndOfRom:	END

@@ -82,31 +82,6 @@ copyTilemap:	macro source,loc,width,height
 		endm
 
 ; ---------------------------------------------------------------------------
-; stop the Z80
-; ---------------------------------------------------------------------------
-
-stopZ80:	macro
-		move.w	#$100,(z80_bus_request).l
-		endm
-
-; ---------------------------------------------------------------------------
-; wait for Z80 to stop
-; ---------------------------------------------------------------------------
-
-waitZ80:	macro
-	@wait:	btst	#0,(z80_bus_request).l
-		bne.s	@wait
-		endm
-
-; ---------------------------------------------------------------------------
-; start the Z80
-; ---------------------------------------------------------------------------
-
-startZ80:	macro
-		move.w	#0,(z80_bus_request).l
-		endm
-
-; ---------------------------------------------------------------------------
 ; reset the Z80
 ; ---------------------------------------------------------------------------
 
@@ -237,67 +212,25 @@ out_of_range:	macro exit,pos
 		cmpi.w	#128+320+192,d0
 		bhi.\0	exit
 		endm
-		
+
 ; ---------------------------------------------------------------------------
-; play a sound effect or music
-; input: track, terminate routine, branch or jump, move operand size
+; AMPS macros
 ; ---------------------------------------------------------------------------
 
-music:		macro track,terminate,branch,byte
-		  if OptimiseSound=1
-			move.b	#track,(v_snddriver_ram+v_playsnd1).l
-		    if terminate=1
-			rts
-		    endc
-		  else
-	 	    if byte=1
-			move.b	#track,d0
-		    else
-			move.w	#track,d0
-		    endc
-		    if branch=1
-		      if terminate=0
-			bsr.w	PlaySound
-		      else
-			bra.w	PlaySound
-		      endc
-		    else
-		      if terminate=0
-			jsr	(PlaySound).l
-		      else
-			jmp	(PlaySound).l
-		      endc
-		    endc
-		  endc
-		endm
+; Macro for playing a command
+command		macro id
+	move.b #id,mQueue.w
+    endm
 
-sfx:		macro track,terminate,branch,byte
-		  if OptimiseSound=1
-			move.b	#track,(v_snddriver_ram+v_playsnd2).l
-		    if terminate=1
-			rts
-		    endc
-		  else
-	 	    if byte=1
-			move.b	#track,d0
-		    else
-			move.w	#track,d0
-		    endc
-		    if branch=1
-		      if terminate=0
-			bsr.w	PlaySound_Special
-		      else
-			bra.w	PlaySound_Special
-		      endc
-		    else
-		      if terminate=0
-			jsr	(PlaySound_Special).l
-		      else
-			jmp	(PlaySound_Special).l
-		      endc
-		    endc
-		  endc
-		endm
+; Macro for playing music
+music		macro id
+	move.b #id,mQueue+1.w
+    endm
+
+; Macro for playing sound effect
+sfx		macro id
+	move.b #id,mQueue+2.w
+    endm
 
 ; ---------------------------------------------------------------------------
 ; bankswitch between SRAM and ROM
