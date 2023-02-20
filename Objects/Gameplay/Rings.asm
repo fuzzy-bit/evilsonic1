@@ -155,8 +155,7 @@ CollectRing:
 		moveq	#mus_ExtraLife,d0; play extra life music
 
 	@playsnd:
-		move.b	d0,mQueue+2.w
-		rts
+		jmp		PlaySound
 ; End of function CollectRing
 
 ; ===========================================================================

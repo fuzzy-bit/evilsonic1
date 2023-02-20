@@ -684,16 +684,16 @@ Obj09_RevStage:
 		sfx	sfx_ActionBlock	; play up/down sound
 
 Obj09_Tempo:
-		move.w	(v_ssrotate).w,d0	; NAT: load rotation speed to d0
-		bpl.s	.noneg			; branch if positive
-		neg.w	d0			; negative to positive
-
-.noneg
-		moveq	#$40,d1			; $40 is the base speed
-		sub.w	d0,d1			; sub the real speed from $40
-		asr.w	#1,d1			; halve the difference
-		add.w	#$20,d1			; add the base tempo of the song
-		move.b	d1,mTempo.w		; save as the new tempo
+;		move.w	(v_ssrotate).w,d0	; NAT: load rotation speed to d0
+;		bpl.s	.noneg			; branch if positive
+;		neg.w	d0			; negative to positive
+;
+;.noneg
+;		moveq	#$40,d1			; $40 is the base speed
+;		sub.w	d0,d1			; sub the real speed from $40
+;		asr.w	#1,d1			; halve the difference
+;		add.w	#$20,d1			; add the base tempo of the song
+;		move.b	d1,mTempo.w		; save as the new tempo
 		rts
 ; ===========================================================================
 

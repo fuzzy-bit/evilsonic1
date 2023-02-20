@@ -17,10 +17,9 @@ WSnd_Main:	; Routine 0
 		move.b	#4,obRender(a0)
 
 WSnd_PlaySnd:	; Routine 2
-	; this is to avoid overwriting any other sfx
-		tst.b	mQueue+2.w		; check if any sound was queued
-		bne.s	WSnd_ChkDel		; if was, skip
-		move.b	#sfx_Waterfall,mQueue+2.w; else, play this again
+		; this is to avoid overwriting any other sfx
+		move.b	#sfx_Waterfall, d0
+		jsr		PlaySound
 
 	WSnd_ChkDel:
 		out_of_range	DeleteObject

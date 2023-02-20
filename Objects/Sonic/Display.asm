@@ -32,7 +32,7 @@ Sonic_Display:
 	@music:
 		lea	(MusicList).l,a1
 		move.b	(a1,d0.w),d0
-		move.b	d0,mQueue+1.w	; play normal music
+		jsr		PlaySound
 
 	@removeinvincible:
 		move.b	#0,(v_invinc).w ; cancel invincibility

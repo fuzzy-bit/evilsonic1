@@ -94,6 +94,28 @@ resetZ80a:	macro
 		endm
 
 ; ---------------------------------------------------------------------------
+; Macro to start Z80
+; ---------------------------------------------------------------------------
+startZ80:	macro
+		move.w	#0,(z80_bus_request).l
+		endm
+
+
+; ---------------------------------------------------------------------------
+; Macro to stop Z80
+; ---------------------------------------------------------------------------
+stopZ80 macro
+		move.w	#$100,(z80_bus_request).l
+		nop
+		nop
+		nop
+
+@wait\@:btst	#0,(z80_bus_request).l
+		bne.s	@wait\@
+		endm
+
+
+; ---------------------------------------------------------------------------
 ; disable interrupts
 ; ---------------------------------------------------------------------------
 
@@ -219,17 +241,20 @@ out_of_range:	macro exit,pos
 
 ; Macro for playing a command
 command		macro id
-	move.b #id,mQueue.w
+	move.b #id, d0
+	jsr		PlaySound
     endm
 
 ; Macro for playing music
 music		macro id
-	move.b #id,mQueue+1.w
+	move.b 	#id, d0
+	jsr		PlaySound
     endm
 
 ; Macro for playing sound effect
 sfx		macro id
-	move.b #id,mQueue+2.w
+	move.b 	#id, d0
+	jsr		PlaySound
     endm
 
 ; ---------------------------------------------------------------------------

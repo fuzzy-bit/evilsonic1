@@ -18,7 +18,8 @@ v_objspace:	equ $FFFFD000	; object variable space ($40 bytes per object) ($2000 
 v_player:	equ v_objspace	; object variable space for Sonic ($40 bytes)
 v_lvlobjspace:	equ $FFFFD800	; level object variable space ($1800 bytes)
 
-Drvmem:		equ $FFFFF000 ; start of RAM for the sound driver data
+SoundDriverRAM:		equ $FFFFF000 ; start of RAM for the sound driver data
+SoundQueue:			equ $FFFFF00A
 
 v_gamemode:	equ $FFFFF600	; game mode (00=Sega; 04=Title; 08=Demo; 0C=Level; 10=SS; 14=Cont; 18=End; 1C=Credit; +8C=PreLevel)
 v_jpadhold2:	equ $FFFFF602	; joypad input - held, duplicate

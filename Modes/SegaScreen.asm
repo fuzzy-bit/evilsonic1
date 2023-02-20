@@ -44,7 +44,6 @@ SegaScreen:
 		move.w	#0,(v_pal_buffer+$12).w
 		move.w	#0,(v_pal_buffer+$10).w
 		clr.b	v_csum_start.w			; clear start button check
-		clr.b	mComm.w				; make sure playback wont be marked as ended
 		move.w	(v_vdp_buffer1).w,d0
 		ori.b	#$40,d0
 		move.w	d0,(vdp_control_port).l
@@ -155,7 +154,7 @@ DoChecksum:
 		jmp	CheckSumError(pc)		; we have a checksum error
 
 ChecksumEndChk:
-		tst.b	mComm.w				; check if playback has ended
+		;tst.b	mComm.w				; ### REPLACE THIS CHECK! mComm is removed!
 		bne.s	Sega_GotoTitle			; if yes, branch
 		tst.b	v_csum_start.w			; check if start button was pressed
 		bpl.s	Sega_Locret			; if not, do not return
