@@ -4,7 +4,7 @@
 
 SpecialStage:
 		sfx	sfx_EnterSS	; play special stage entry sound
-		command	mus_Reset	; fade reset music
+		command	mus_Stop	; fade reset music
 
 		bsr.w	PaletteWhiteOut
 		disable_ints

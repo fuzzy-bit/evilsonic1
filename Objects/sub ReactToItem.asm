@@ -292,16 +292,15 @@ HurtSonic:
 		move.w	#0,obInertia(a0)
 		move.b	#id_Hurt,obAnim(a0)
 		move.w	#120,$30(a0)	; set temp invincible time to 2 seconds
-;		move.w	#sfx_Death,d0	; load normal damage sound
-;		cmpi.b	#id_Spikes,(a2)	; was damage caused by spikes?
-;		bne.s	@sound		; if not, branch
-;		cmpi.b	#id_Harpoon,(a2) ; was damage caused by LZ harpoon?
-;		bne.s	@sound		; if not, branch
-;		move.w	#sfx_HitSpikes,d0 ; load spikes damage sound
+		move.w	#sfx_Death,d0	; load normal damage sound
+		cmpi.b	#id_Spikes,(a2)	; was damage caused by spikes?
+		bne.s	@sound		; if not, branch
+		cmpi.b	#id_Harpoon,(a2) ; was damage caused by LZ harpoon?
+		bne.s	@sound		; if not, branch
+		move.w	#sfx_HitSpikes,d0 ; load spikes damage sound
 
-;	@sound:
-;		jsr	(PlaySound_Special).l
-		moveq	#-1,d0
+	@sound:
+		jsr	(PlaySound).l
 		rts	
 ; ===========================================================================
 
@@ -330,12 +329,12 @@ KillSonic:
 		move.b	#id_Death,obAnim(a0)
 		bset	#7,obGfx(a0)
 		move.w	#sfx_Death,d0	; play normal death sound
-;		cmpi.b	#id_Spikes,(a2)	; check	if you were killed by spikes
-;		bne.s	@sound
-;		move.w	#sfx_HitSpikes,d0 ; play spikes death sound
-;
-;	@sound:
-;		jsr	(PlaySound_Special).l
+		cmpi.b	#id_Spikes,(a2)	; check	if you were killed by spikes
+		bne.s	@sound
+		move.w	#sfx_HitSpikes,d0 ; play spikes death sound
+
+	@sound:
+		jsr	(PlaySound).l
 
 	@dontdie:
 		moveq	#-1,d0

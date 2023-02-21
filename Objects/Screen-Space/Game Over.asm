@@ -70,7 +70,7 @@ Over_ChgMode:
 		tst.b	(v_continues).w	; do you have any continues?
 		bne.s	Over_Display	; if yes, branch
 		move.b	#id_Sega,(v_gamemode).w ; set mode to 0 (Sega screen)
-		command	mus_Reset	 ; fade reset music
+		command	mus_Stop	 ; fade reset music
 		bra.s	Over_Display
 ; ===========================================================================
 

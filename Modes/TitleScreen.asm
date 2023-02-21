@@ -6,8 +6,7 @@ TitleScreen:
 		command	mus_Stop	; stop music
 		bsr.w	ClearPLC
 		bsr.w	PaletteFadeOut
-		command	mus_Reset	 ; fade reset music
-
+		
 		disable_ints
 		lea	(vdp_control_port).l,a6
 		move.w	#$8004,(a6)	; 8-colour mode
@@ -272,12 +271,15 @@ LevelSelect:
 		move.w	(v_levselitem).w,d0
 		cmpi.w	#$14,d0		; have you selected item $14 (sound test)?
 		bne.s	LevSel_Level_SS	; if not, go to	Level/SS subroutine
-
 		move.w	(v_levselsound).w,d0
+		music 	v_levselsound
+		addi.w	#$80,d0
 
 LevSel_PlaySnd:
-		jsr		PlaySound
+		music 	mus_Credits
+		;jsr	PlaySound
 		bra.s	LevelSelect
+		
 ; ===========================================================================
 
 LevSel_Ending:

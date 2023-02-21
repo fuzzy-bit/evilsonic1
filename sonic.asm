@@ -136,6 +136,9 @@ Notes:		dc.b "                                                    " ; Notes (unu
 Region:		dc.b "JUE             " ; Region (Country code)
 EndOfHeader:
 
+BizhawkCompatibility:
+		dc.w 0
+
 ; ===========================================================================
 ; Crash/Freeze the 68000. Unlike Sonic 2, Sonic 1 uses the 68000 for playing music, so it stops too
 
