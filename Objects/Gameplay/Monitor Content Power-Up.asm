@@ -57,7 +57,7 @@ Pow_ChkSonic:
 	ExtraLife:
 		addq.b	#1,(v_lives).w	; add 1 to the number of lives you have
 		addq.b	#1,(f_lifecount).w ; update the lives counter
-		music	mus_ExtraLife	; play extra life music
+		sfx		sfx_register	; play extra life music
 		rts
 ; ===========================================================================
 

@@ -17,9 +17,10 @@ WSnd_Main:	; Routine 0
 		move.b	#4,obRender(a0)
 
 WSnd_PlaySnd:	; Routine 2
+		; fuck you
 		; this is to avoid overwriting any other sfx
-		move.b	#sfx_Waterfall, d0
-		jsr		PlaySound
+		;move.b	#sfx_Waterfall, d0
+		;jsr		PlaySound
 
 	WSnd_ChkDel:
 		out_of_range	DeleteObject

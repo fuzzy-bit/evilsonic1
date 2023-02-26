@@ -341,7 +341,7 @@ mus_syz: equ		$84
 mus_slz: equ		$85
 mus_sbz: equ		$86
 mus_invincibility: equ	$87
-mus_extralife: equ	$88
+mus_unused: equ	$88 ; unused slot for now
 mus_ss: equ		$89
 mus_title: equ		$8A
 mus_ending: equ		$8B
@@ -355,7 +355,7 @@ mus_credits: 	equ	$91
 mus_drowning: 	equ	$92
 mus_emerald: 	equ	$93
 
-mus_model: equ		$84
+mus_model: equ		$94
 
 ; Control
 mus_fadeout: equ	$E4 ; the stupidest fix ever

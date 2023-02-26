@@ -111,9 +111,9 @@ loc_E0:
 		dc.l ErrorTrap
 	endif
 MEGADRIVE:	dc.b "SEGA MEGA DRIVE " ; Hardware system ID (Console name)
-Date:		dc.b "(C)SEGA 1991.APR" ; Copyright holder and release date (generally year)
-Title_Local:	dc.b "SALT EATERS 32X                                 " ; Domestic name
-Title_Int:	dc.b "SALT EATERS 32X                                 " ; International name
+Date:		dc.b "(C)FUZZY 2023   " ; Copyright holder and release date (generally year)
+Title_Local:	dc.b "S1 ENGINE TEST                                  " ; Domestic name
+Title_Int:	dc.b "S1 ENGINE TEST                                  " ; International name
 Serial:		if Revision=0
 		dc.b "GM 00001009-00"   ; Serial/version number (Rev 0)
 		else
@@ -1948,28 +1948,28 @@ Map_Card:	dc.w M_Card_GHZ-Map_Card
 		dc.w M_Card_Act3-Map_Card
 		dc.w M_Card_Oval-Map_Card
 		dc.w M_Card_FZ-Map_Card
-M_Card_GHZ:	dc.b 5 			; GREEN HILL
-		dc.b $F8, 5, 0,	$71, $B4
-		dc.b $F8, 5, 0,	$4D, $C4
-		dc.b $F8, 5, 0,	$81, $D4-8
-		dc.b $F8, 5, 0,	$3D, $E4-8
-		dc.b $F8, 5, 0,	$79, $F4-8
+M_Card_GHZ:	dc.b 9 			; GREEN HILL
+		dc.b	$F8, 5, 0, $45, $B8
+		dc.b	$F8, 5, 0, $71, $C7
+		dc.b	$F8, 5, 0, $3D, $D6
+		dc.b	$F8, 5, 0, $3D, $E5
+		dc.b	$F8, 5, 0, $61, $F4
+
+		dc.b	$F8, 5, 0, $49, $13
+		dc.b	$F8, 5, 0, $4D, $26
+		dc.b	$F8, 5, 0, $59, $31
+		dc.b	$F8, 5, 0, $59, $40
 		even
-M_Card_LZ:	dc.b 12			; LABYRINTH
-		dc.b	$F8, 5, 0, $41, $80
-		dc.b	$F8, 5, 0, $3D, $8F
-		dc.b	$F8, 5, 0, $59, $9E
-		dc.b	$F8, 5, 0, $59, $AD
-		dc.b	$F8, 5, 0, $2D, $BC
-
-		dc.b	$F8, 5, 0, $69, $DA
-		dc.b	$F8, 5, 0, $65, $E9
-		dc.b	$F8, 5, 0, $65, $F8
-		dc.b	$F8, 5, 0, $69, $8
-
-		dc.b	$F8, 5, 0, $75, $26
-		dc.b	$F8, 5, 0, $3D, $35
-		dc.b	$F8, 5, 0, $89, $44
+M_Card_LZ:	dc.b 9			; LABYRINTH
+		dc.b	$F8, 5, 0, $59, $B8
+		dc.b	$F8, 5, 0, $2D, $C7
+		dc.b	$F8, 5, 0, $31, $D6
+		dc.b	$F8, 5, 0, $8D, $E5
+		dc.b	$F8, 5, 0, $71, $F4
+		dc.b	$F8, 5, 0, $4D, $8
+		dc.b	$F8, 5, 0, $61, $13
+		dc.b	$F8, 5, 0, $79, $22
+		dc.b	$F8, 5, 0, $49, $31
 		even
 M_Card_MZ:	dc.b 6			; MARBLE
 		dc.b $F8, 5, 0,	$2A, $CF
@@ -1979,40 +1979,44 @@ M_Card_MZ:	dc.b 6			; MARBLE
 		dc.b $F8, 5, 0,	$26, $10
 		dc.b $F8, 5, 0,	$10, $20
 		even
-M_Card_SLZ:	dc.b 9			; STAR LIGHT
-		dc.b $F8, 5, 0,	$3E, $B4
-		dc.b $F8, 5, 0,	$42, $C4
-		dc.b $F8, 5, 0,	0, $D4
-		dc.b $F8, 5, 0,	$3A, $E4
-		dc.b $F8, 5, 0,	$26, 4
-		dc.b $F8, 1, 0,	$20, $14
-		dc.b $F8, 5, 0,	$18, $1C
-		dc.b $F8, 5, 0,	$1C, $2C
-		dc.b $F8, 5, 0,	$42, $3C
-		even
-M_Card_SYZ:	dc.b $A			; SPRING YARD
-		dc.b	$F8, 5, 0, $35, $B8
-		dc.b	$F8, 5, 0, $49, $C7
+M_Card_SLZ:	dc.b 9		; STAR LIGHT
+		dc.b	$F8, 5, 0, $75, $B8
+		dc.b	$F8, 5, 0, $79, $C7
 		dc.b	$F8, 5, 0, $2D, $D6
-		dc.b	$F8, 5, 0, $39, $E5
-		dc.b	$F8, 5, 0, $85, $F4
-		dc.b	$F8, 5, 0, $2D, $4
-		dc.b	$F8, 5, 0, $71, $13
-		dc.b	$F8, 5, 0, $39, $22
-		dc.b	$F8, 5, 0, $3D, $31
-		dc.b	$F8, 5, 0, $61, $40
+		dc.b	$F8, 5, 0, $71, $E5
+
+		dc.b	$F8, 5, 0, $59, $4
+		dc.b	$F8, 5, 0, $4D, $17
+		dc.b	$F8, 5, 0, $45, $22
+		dc.b	$F8, 5, 0, $49, $31
+		dc.b	$F8, 5, 0, $79, $40
+
 		even
-M_Card_SBZ:	dc.b $A			; SCRAP BRAIN
-		dc.b $F8, 5, 0,	$3E, $AC
-		dc.b $F8, 5, 0,	8, $BC
-		dc.b $F8, 5, 0,	$3A, $CC
-		dc.b $F8, 5, 0,	0, $DC
-		dc.b $F8, 5, 0,	$36, $EC
-		dc.b $F8, 5, 0,	4, $C
-		dc.b $F8, 5, 0,	$3A, $1C
-		dc.b $F8, 5, 0,	0, $2C
-		dc.b $F8, 1, 0,	$20, $3C
-		dc.b $F8, 5, 0,	$2E, $44
+M_Card_SYZ:	dc.b 10		; SPRING YARD
+		dc.b	$F8, 5, 0, $75, $B0
+		dc.b	$F8, 5, 0, $69, $BF
+		dc.b	$F8, 5, 0, $71, $CE
+		dc.b	$F8, 5, 0, $4D, $E1
+		dc.b	$F8, 5, 0, $61, $EC
+		dc.b	$F8, 5, 0, $45, $FB
+
+		dc.b	$F8, 5, 0, $8D, $1A
+		dc.b	$F8, 5, 0, $2D, $29
+		dc.b	$F8, 5, 0, $71, $38
+		dc.b	$F8, 5, 0, $39, $47
+
+		even
+M_Card_SBZ:	dc.b 9		; CLOCK WORK
+		dc.b	$F8, 5, 0, $35, $B8
+		dc.b	$F8, 5, 0, $59, $C7
+		dc.b	$F8, 5, 0, $65, $D6
+		dc.b	$F8, 5, 0, $35, $E5
+		dc.b	$F8, 5, 0, $55, $F4
+
+		dc.b	$F8, 5, 0, $85, $13
+		dc.b	$F8, 5, 0, $65, $22
+		dc.b	$F8, 5, 0, $71, $31
+		dc.b	$F8, 5, 0, $55, $40
 		even
 M_Card_Zone:	dc.b 4			; ZONE
 		dc.b $F8, 5, 0,	$91, $E0
@@ -3719,7 +3723,7 @@ AddPoints:
 			bmi.s   @noextralife ; branch if Mega Drive is Japanese
 			addq.b  #1,(v_lives).w ; give extra life
 			addq.b  #1,(f_lifecount).w
-			music	mus_ExtraLife
+			sfx		sfx_register	; play extra life music
 		endc
 
 @locret_1C6B6:

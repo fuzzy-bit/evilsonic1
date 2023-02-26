@@ -45,35 +45,21 @@ Deform_Index:	dc.w Deform_GHZ-Deform_Index, Deform_LZ-Deform_Index
 
 
 Deform_GHZ:
-		moveq	#0, d4
-		moveq	#0, d5
-		lea	v_hscrolltablebuffer.w, a1
-		move.b	(v_bgscroll_buffer).w, d6
-		
-		move.w	(v_screenposx).w, d2	; FG scrolling
-		neg.w	d2
-		move.w 	d2, d7
-		asr.w 	#3, d7
-		
-		swap	d2			;Puts plane A's X pos in topmost word
-		
-		move.l	#224-1, d3
-	@SendScroll:
-		move.b	d6, d0
-		; bchg.l	#6, d4			;This handles flipping the sign
-		add.w	d4, d0			;Adds flipped sign to wave
-		add.w	d5, d0
-		bsr.w	CalcSine
-		asr.w 	#5, d0
-		move.w	d0, d2
-		
-		add.w 	d7, d2
-		move.l	d2, (a1)+		;Send AAAA BBBB HScroll entry
-		addq.w	#1, d5			;Inc wave every line
-		dbra	d3, @SendScroll
-		add.b	#1, (v_bgscroll_buffer).w
-		
-		rts
+	; block 3 - distant mountains
+		move.w	(v_scrshiftx).w,d4
+		ext.l	d4
+		asl.l	#5,d4
+		move.l	d4,d1
+		asl.l	#1,d4
+		add.l	d1,d4
+		moveq	#0,d6
+		bsr.w	BGScroll_Block3
+	; block 2 - hills & waterfalls
+		move.w	(v_scrshiftx).w,d4
+		ext.l	d4
+		asl.l	#7,d4
+		moveq	#0,d6
+		bsr.w	BGScroll_Block2
 		
 
 	; calculate Y position

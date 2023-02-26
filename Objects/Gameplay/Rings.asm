@@ -152,7 +152,7 @@ CollectRing:
 	@got100:
 		addq.b	#1,(v_lives).w	; add 1 to the number of lives you have
 		addq.b	#1,(f_lifecount).w ; update the lives counter
-		moveq	#mus_ExtraLife,d0; play extra life music
+		moveq	#sfx_register,d0; play extra life music
 
 	@playsnd:
 		jmp		PlaySound
