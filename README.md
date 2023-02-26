@@ -1,6 +1,5 @@
 # S1 Engine Test
 Known issues:
-- Graphics for signpost don't load if you die
 - Sprite priority is not reset on respawn
 - Music can be weird, experimental sound driver
 - Camera or tiles act up on respawn
@@ -9,5 +8,10 @@ Known issues:
 - Drowning softlocks the game, doesn't restart level music
 - Songs are in a weird order
 - Music fades out when it's supposed to stop, and vice versa
+- Speed shoes' music modifier applies only after the effect wears off
+- Not all title cards are replaced
+- Ring counter doesn't get updated after death
+- Objects sometimes do not re-appear upon respawning until you move the camera away
+- Dying with invincibility does not reset the music, only the state
 
-Maybe objects should reset on respawn due to how broken it is in MZ. I don't know.
+Clear object RAM and whatnot on respawn, and find a way to undo level events.
