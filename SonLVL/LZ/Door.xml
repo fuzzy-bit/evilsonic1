@@ -2,12 +2,12 @@
 <ObjDef xmlns="http://www.sonicretro.org" Name="Door" Image="vertical" RememberState="true">
   <Images>
     <ImageFromMappings id="vertical">
-      <ArtFile filename="../artnem/LZ Vertical Door.bin"/>
-      <MapFile type="ASM" filename="../_maps/Floating Blocks and Doors.asm" frame="6" startpal="2"/>
+      <ArtFile filename="../Data/Art/Nemesis/LZ Vertical Door.bin"/>
+      <MapFile type="ASM" filename="../Data/Mappings/Objects/Floating Blocks and Doors.asm" frame="6" startpal="2"/>
     </ImageFromMappings>
     <ImageFromMappings id="horizontal">
-      <ArtFile filename="../artnem/LZ Horizontal Door.bin" offset="1088"/>
-      <MapFile type="ASM" filename="../_maps/Floating Blocks and Doors.asm" frame="7" startpal="2"/>
+      <ArtFile filename="../Data/Art/Nemesis/LZ Horizontal Door.bin" offset="1088"/>
+      <MapFile type="ASM" filename="../Data/Mappings/Objects/Floating Blocks and Doors.asm" frame="7" startpal="2"/>
     </ImageFromMappings>
   </Images>
   <Properties>

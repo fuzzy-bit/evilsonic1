@@ -2,8 +2,8 @@
 <ObjDef xmlns="http://www.sonicretro.org" Name="Pole" Image="img1">
   <Images>
     <ImageFromMappings id="img1">
-      <ArtFile filename="../artnem/LZ Breakable Pole.bin"/>
-      <MapFile type="ASM" filename="../_maps/Pole that Breaks.asm" frame="0" startpal="2"/>
+      <ArtFile filename="../Data/Art/Nemesis/LZ Breakable Pole.bin"/>
+      <MapFile type="ASM" filename="../Data/Mappings/Objects/Pole that Breaks.asm" frame="0" startpal="2"/>
     </ImageFromMappings>
   </Images>
   <Properties>

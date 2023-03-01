@@ -2,20 +2,20 @@
 <ObjDef xmlns="http://www.sonicretro.org" Name="Block/Cork" Image="cork" DefaultSubtype="27">
   <Images>
     <ImageFromMappings id="fallingplatform">
-      <ArtFile filename="../artnem/LZ Horizontal Door.bin"/>
-      <MapFile type="ASM" filename="../_maps/LZ Blocks.asm" frame="0" startpal="2"/>
+      <ArtFile filename="../Data/Art/Nemesis/LZ Horizontal Door.bin"/>
+      <MapFile type="ASM" filename="../Data/Mappings/Objects/LZ Blocks.asm" frame="0" startpal="2"/>
     </ImageFromMappings>
     <ImageFromMappings id="wideplatform">
-      <ArtFile filename="../artnem/LZ Rising Platform.bin" offset="3360"/>
-      <MapFile type="ASM" filename="../_maps/LZ Blocks.asm" frame="1" startpal="2"/>
+      <ArtFile filename="../Data/Art/Nemesis/LZ Rising Platform.bin" offset="3360"/>
+      <MapFile type="ASM" filename="../Data/Mappings/Objects/LZ Blocks.asm" frame="1" startpal="2"/>
     </ImageFromMappings>
     <ImageFromMappings id="cork">
-      <ArtFile filename="../artnem/LZ Cork.bin" offset="9024"/>
-      <MapFile type="ASM" filename="../_maps/LZ Blocks.asm" frame="2" startpal="2"/>
+      <ArtFile filename="../Data/Art/Nemesis/LZ Cork.bin" offset="9024"/>
+      <MapFile type="ASM" filename="../Data/Mappings/Objects/LZ Blocks.asm" frame="2" startpal="2"/>
     </ImageFromMappings>
     <ImageFromMappings id="staticplatform">
-      <ArtFile filename="../artnem/LZ 32x32 Block.bin" offset="48960" />
-      <MapFile type="ASM" filename="../_maps/LZ Blocks.asm" frame="3" startpal="3"/>
+      <ArtFile filename="../Data/Art/Nemesis/LZ 32x32 Block.bin" offset="48960" />
+      <MapFile type="ASM" filename="../Data/Mappings/Objects/LZ Blocks.asm" frame="3" startpal="3"/>
     </ImageFromMappings>
   </Images>
   <Subtypes>

@@ -11,9 +11,9 @@ namespace S1ObjectDefinitions.SBZ
 
 		public override void Init(ObjectData data)
 		{
-			byte[] artfile = ObjectHelper.OpenArtFile("../artnem/SBZ Flaming Pipe.bin", CompressionType.Nemesis);
+			byte[] artfile = ObjectHelper.OpenArtFile("../Data/Art/Nemesis/SBZ Flaming Pipe.bin", CompressionType.Nemesis);
 			for (int i = 0; i < labels.Length; i++)
-				imgs.Add(ObjectHelper.MapASMToBmp(artfile, "../_maps/Flamethrower.asm", labels[i], 0));
+				imgs.Add(ObjectHelper.MapASMToBmp(artfile, "../Data/Mappings/Objects/Flamethrower.asm", labels[i], 0));
 		}
 
 		public override ReadOnlyCollection<byte> Subtypes
