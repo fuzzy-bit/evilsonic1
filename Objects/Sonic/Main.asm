@@ -294,15 +294,17 @@ Sonic_ResetLevel: ; Routine 8
 		subq.w	#1,$3A(a0)	; subtract 1 from time delay
 		bne.s	locret_13914
 
-		; TODO: Find out why the DPLCs for the signpost break after dying
-		move.b	#4,obRoutine(a0)
-		jsr 	LevSz_ChkLamp
-		jsr 	LoadTilesFromStart
-		move.b	#1,	f_timecount
-		
-		; Old death code
-		;move.b	#id_SonicPlayer,(v_player).w ; load Sonic object
-		;move.w	#1,(f_restart).w ; restart the level
+		if Respawn=1
+			; TODO: Find out why the DPLCs for the signpost break after dying
+			move.b	#4,obRoutine(a0)
+			jsr 	LevSz_ChkLamp
+			jsr 	LoadTilesFromStart
+			move.b	#1,	f_timecount
+		else
+			; Old death code
+			move.b	#id_SonicPlayer,(v_player).w ; load Sonic object
+			move.w	#1,(f_restart).w ; restart the level
+		endc
 
 locret_13914:
 		rts

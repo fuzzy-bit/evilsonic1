@@ -24,6 +24,7 @@ AddressSRAM:	equ 3	; 0 = odd+even; 2 = even only; 3 = odd only
 ; Change to 1 to build the later vesion, dubbed REV01, which includes various bugfixes and enhancements
 ; Change to 2 to build the version from Sonic Mega Collection, dubbed REVXB, which fixes the infamous "spike bug"
 Revision:	equ 1
+Respawn: 	equ 0
 
 ZoneCount:	equ 6	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
 

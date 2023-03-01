@@ -15,3 +15,11 @@ Known issues:
 - Dying with invincibility does not reset the music, only the state
 
 Clear object RAM and whatnot on respawn, and find a way to undo level events.
+
+# Credits
+- Code: Fuzzy, Vladikcomper, Varion, Rivet, VladislavSavvateev
+- Music: Jet, Vladikcomper
+- MegaPCM + VEPS Sound Driver: Vladikcomper
+- 32X Assistance: Varion
+- Levels: Fuzzy
+- Original Game: SEGA, Sonic Team
