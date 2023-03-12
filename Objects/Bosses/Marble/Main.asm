@@ -12,13 +12,14 @@ Obj73_TargetY:			equ $38
 
 Obj73_FaceStatus:		equ $34
 Obj73_FlashTimer:		equ $3E
+Obj73_DelayTimer:		equ $3C
 
 @Index:	
 		dc.w @Main-@Index
 		dc.w @ShipMain-@Index
-		dc.w Obj73_FaceMain-@Index
-		dc.w Obj73_FlameMain-@Index
-		dc.w Obj73_TubeMain-@Index
+		dc.w @FaceMain-@Index
+		dc.w @FlameMain-@Index
+		dc.w @TubeMain-@Index
 
 @ObjData:	
 		; routine number, animation, sprite priority
@@ -89,8 +90,8 @@ Obj73_FlashTimer:		equ $3E
 		dc.w @MoveIn-@ShipIndex
 		dc.w @RunBoss-@ShipIndex
 		dc.w @OnDefeated-@ShipIndex
+		dc.w @Fall-@ShipIndex
 		dc.w @Flee-@ShipIndex
-		dc.w @loc_18582-@ShipIndex
 ; ===========================================================================
 
 @MoveIn:
@@ -158,7 +159,7 @@ Obj73_FlashTimer:		equ $3E
 		bsr.w	AddPoints
 		
 		move.b	#4, ob2ndRout(a0)
-		move.w	#$B4, $3C(a0)
+		move.w	#$B4, Obj73_DelayTimer(a0)
 		clr.w	obVelX(a0)
 
 		rts	
@@ -274,7 +275,7 @@ Obj73_FlashTimer:		equ $3E
 		tst.w	obVelY(a0)
 		beq.s	@CancelBottomLava
 		clr.w	obVelY(a0)
-		move.w	#$50, $3C(a0)
+		move.w	#$50, Obj73_DelayTimer(a0)
 		bchg	#0, obStatus(a0)
 		jsr	(FindFreeObj).l
 		bne.s	@CancelBottomLava
@@ -285,7 +286,7 @@ Obj73_FlashTimer:		equ $3E
 		move.b	#1, obSubtype(a1)
 
 @CancelBottomLava:
-		subq.w	#1, $3C(a0)
+		subq.w	#1, Obj73_DelayTimer(a0)
 		bne.s	@MakeBottomLava_rts
 		addq.b	#2, obSubtype(a0)
 
@@ -294,7 +295,7 @@ Obj73_FlashTimer:		equ $3E
 ; ===========================================================================
 
 @OnDefeated:
-		subq.w	#1, $3C(a0)
+		subq.w	#1, Obj73_DelayTimer(a0)
 		bmi.s	@StartFleeing
 		bra.w	BossDefeated
 ; ===========================================================================
@@ -305,9 +306,11 @@ Obj73_FlashTimer:		equ $3E
 		
 		clr.w	obVelX(a0)
 		addq.b	#2, ob2ndRout(a0)
-		move.w	#-$26, $3C(a0)
+		move.w	#-$26, Obj73_DelayTimer(a0)
+
 		tst.b	(v_bossstatus).w
 		bne.s	@StartFleeing_rts
+		
 		move.b	#1, (v_bossstatus).w
 		clr.w	obVelY(a0)
 
@@ -315,147 +318,152 @@ Obj73_FlashTimer:		equ $3E
 		rts	
 ; ===========================================================================
 
-@Flee:
-		addq.w	#1, $3C(a0)
-		beq.s	@loc_18544
-		bpl.s	@loc_1854E
-		cmpi.w	#$270, Obj73_TargetY(a0)
-		bcc.s	@loc_18544
-		addi.w	#$18, obVelY(a0)
-		bra.s	@loc_1857A
+@Fall:
+		addq.w	#1, Obj73_DelayTimer(a0) ; done with the falling timer?
+		beq.s	@StopFalling ; just in case the targt y check does nothing ig
+		bpl.s	@Fall2 ; keep fleeing
+		
+		cmpi.w	#$270, Obj73_TargetY(a0) ; has the target y reached its target (also)
+		bcc.s	@StopFalling ; balls in my face
+
+		addi.w	#$18, obVelY(a0) ; he just keeps going
+		bra.s	@MoveAndCheckHit
 ; ===========================================================================
 
-@loc_18544:
+@StopFalling:
 		clr.w	obVelY(a0)
-		clr.w	$3C(a0)
-		bra.s	@loc_1857A
+		clr.w	Obj73_DelayTimer(a0)
+		bra.s	@MoveAndCheckHit
 ; ===========================================================================
 
-@loc_1854E:
-		cmpi.w	#$30, $3C(a0)
-		bcs.s	@loc_18566
-		beq.s	@loc_1856C
-		cmpi.w	#$38, $3C(a0)
-		bcs.s	@loc_1857A
+@Fall2:
+		cmpi.w	#$30, Obj73_DelayTimer(a0)
+		bcs.s	@GetBackUp
+		beq.s	@ResetMusic
+
+		cmpi.w	#$38, Obj73_DelayTimer(a0)
+		bcs.s	@MoveAndCheckHit
+
 		addq.b	#2, ob2ndRout(a0)
-		bra.s	@loc_1857A
+		bra.s	@MoveAndCheckHit
 ; ===========================================================================
 
-@loc_18566:
+@GetBackUp:
 		subq.w	#8, obVelY(a0)
-		bra.s	@loc_1857A
+		bra.s	@MoveAndCheckHit
 ; ===========================================================================
 
-@loc_1856C:
+@ResetMusic:
 		clr.w	obVelY(a0)
 		music	mus_MZ		; play MZ music
 
-@loc_1857A:
+@MoveAndCheckHit:
 		bsr.w	BossMove
 		bra.w	@CheckHit
 ; ===========================================================================
 
-@loc_18582:
+@Flee:
 		move.w	#$500, obVelX(a0)
 		move.w	#-$40, obVelY(a0)
 		cmpi.w	#$1960, (v_limitright2).w
-		bcc.s	@loc_1859C
+		bcc.s	@RemoveShipOutOfBounds
 		addq.w	#2, (v_limitright2).w
-		bra.s	@loc_185A2
+		bra.s	@MoveFleeing
 ; ===========================================================================
 
-@loc_1859C:
+@RemoveShipOutOfBounds:
 		tst.b	obRender(a0)
-		bpl.s	Obj73_ShipDel
+		bpl.s	@DeleteShip
 
-@loc_185A2:
+@MoveFleeing:
 		bsr.w	BossMove
 		bra.w	@CheckHit
 ; ===========================================================================
 
-Obj73_ShipDel:
+@DeleteShip:
 		jmp	(DeleteObject).l
 ; ===========================================================================
 
-Obj73_FaceMain:	; Routine 4
+@FaceMain:	; Routine 4
 		moveq	#0, d0
 		moveq	#1, d1
 		movea.l	Obj73_FaceStatus(a0), a1
 		move.b	ob2ndRout(a1), d0
 		subq.w	#2, d0
-		bne.s	loc_185D2
+		bne.s	@IHaveNoClue
 		btst	#1, obSubtype(a1)
-		beq.s	loc_185DA
+		beq.s	@CheckHurt
 		tst.w	obVelY(a1)
-		bne.s	loc_185DA
+		bne.s	@CheckHurt
 		moveq	#4, d1
-		bra.s	loc_185EE
+		bra.s	@SetFaceGraphics
 ; ===========================================================================
 
-loc_185D2:
+@IHaveNoClue:
 		subq.b	#2, d0
-		bmi.s	loc_185DA
+		bmi.s	@CheckHurt
 		moveq	#$A, d1
-		bra.s	loc_185EE
+		bra.s	@SetFaceGraphics
 ; ===========================================================================
 
-loc_185DA:
-		tst.b	obColType(a1)
-		bne.s	loc_185E4
+@CheckHurt:
+		tst.b	obColType(a1) ; are we in the hurting state?
+		bne.s	@CheckSonicHurt ; if not, go fuck yourself
+
 		moveq	#5, d1
-		bra.s	loc_185EE
+		bra.s	@SetFaceGraphics
 ; ===========================================================================
 
-loc_185E4:
-		cmpi.b	#4, (v_player+obRoutine).w
-		bcs.s	loc_185EE
-		moveq	#4, d1
+@CheckSonicHurt:
+		cmpi.b	#4, (v_player+obRoutine).w ; is sonic hurt?
+		bcs.s	@SetFaceGraphics ; if not, just do neutral face
+		moveq	#4, d1 ; muahahahahahahahaaha >:D
 
-loc_185EE:
+@SetFaceGraphics:
 		move.b	d1, obAnim(a0)
 		subq.b	#4, d0
-		bne.s	loc_18602
+		bne.s	@ShowFace
 		move.b	#6, obAnim(a0)
 		tst.b	obRender(a0)
-		bpl.s	Obj73_FaceDel
+		bpl.s	@DeleteFace
 
-loc_18602:
-		bra.s	Obj73_Display
+@ShowFace:
+		bra.s	@ShowFlame
 ; ===========================================================================
 
-Obj73_FaceDel:
+@DeleteFace:
 		jmp	(DeleteObject).l
 ; ===========================================================================
 
-Obj73_FlameMain:; Routine 6
+@FlameMain:; Routine 6
 		move.b	#7, obAnim(a0)
 		movea.l	Obj73_FaceStatus(a0), a1
 		cmpi.b	#8, ob2ndRout(a1)
-		blt.s	loc_1862A
+		blt.s	@CheckXMovement
 		move.b	#$B, obAnim(a0)
 		tst.b	obRender(a0)
-		bpl.s	Obj73_FlameDel
-		bra.s	loc_18636
+		bpl.s	@DeleteFlame
+		bra.s	@ShowFlameFromMain
 ; ===========================================================================
 
-loc_1862A:
-		tst.w	obVelX(a1)
-		beq.s	loc_18636
-		move.b	#8, obAnim(a0)
+@CheckXMovement:
+		tst.w	obVelX(a1) ; are we moving?
+		beq.s	@ShowFlameFromMain ; if not, don't change the animation
+		move.b	#8, obAnim(a0) ; engage!!!
 
-loc_18636:
-		bra.s	Obj73_Display
+@ShowFlameFromMain:
+		bra.s	@ShowFlame
 ; ===========================================================================
 
-Obj73_FlameDel:
+@DeleteFlame:
 		jmp	(DeleteObject).l
 ; ===========================================================================
 
-Obj73_Display:
+@ShowFlame:
 		lea	(Ani_Eggman).l, a1
 		jsr	(AnimateSprite).l
 
-loc_1864A:
+@UpdateFace:
 		movea.l	Obj73_FaceStatus(a0), a1
 		move.w	obX(a1), obX(a0)
 		move.w	obY(a1), obY(a0)
@@ -467,19 +475,19 @@ loc_1864A:
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 
-Obj73_TubeMain:	; Routine 8
+@TubeMain:	; Routine 8
 		movea.l	Obj73_FaceStatus(a0), a1
 		cmpi.b	#8, ob2ndRout(a1)
-		bne.s	loc_18688
+		bne.s	@ShowTube
 		tst.b	obRender(a0)
-		bpl.s	Obj73_TubeDel
+		bpl.s	@DeleteTube
 
-loc_18688:
+@ShowTube:
 		move.l	#Map_BossItems, obMap(a0)
 		move.w	#$246C, obGfx(a0)
 		move.b	#4, obFrame(a0)
-		bra.s	loc_1864A
+		bra.s	@UpdateFace
 ; ===========================================================================
 
-Obj73_TubeDel:
+@DeleteTube:
 		jmp	(DeleteObject).l
