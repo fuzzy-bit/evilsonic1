@@ -116,7 +116,7 @@ ptr_Girder:		dc.l Girder		; $70
 ptr_Invisibarrier:	dc.l Invisibarrier
 ptr_Teleport:		dc.l Teleport
 ptr_BossMarble:		dc.l BossMarble
-ptr_BossFire:		dc.l BossFire
+ptr_BossMissile:	dc.l BossMissile
 ptr_BossSpringYard:	dc.l BossSpringYard
 ptr_BossBlock:		dc.l BossBlock
 ptr_BossLabyrinth:	dc.l BossLabyrinth
@@ -260,7 +260,7 @@ id_Girder:		equ ((ptr_Girder-Obj_Index)/4)+1		; $70
 id_Invisibarrier:	equ ((ptr_Invisibarrier-Obj_Index)/4)+1
 id_Teleport:		equ ((ptr_Teleport-Obj_Index)/4)+1
 id_BossMarble:		equ ((ptr_BossMarble-Obj_Index)/4)+1
-id_BossFire:		equ ((ptr_BossFire-Obj_Index)/4)+1
+id_BossMissile:		equ ((ptr_BossMissile-Obj_Index)/4)+1
 id_BossSpringYard:	equ ((ptr_BossSpringYard-Obj_Index)/4)+1
 id_BossBlock:		equ ((ptr_BossBlock-Obj_Index)/4)+1
 id_BossLabyrinth:	equ ((ptr_BossLabyrinth-Obj_Index)/4)+1

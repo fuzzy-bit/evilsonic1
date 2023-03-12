@@ -83,6 +83,7 @@ MegaPCM:
 		DAC_Entry		$09, Tom2, pcm					; $9A	- Tom-2 Lo-Mid
 		DAC_Entry		$0F, Tom2, pcm					; $9B	- Tom-2 Low
 		DAC_Entry		$03, SonicCD_Yes, pcm+pri+panLR ; $9C	- Sonic CD Yes
+		DAC_Entry		$01, GreatSuccess, pcm			; $9D	- Borat
 
 MegaPCM_End:
 
@@ -117,4 +118,6 @@ MegaPCM_End:
 		IncludeDAC		SegaPCM, bin
 		IncludeDAC		SonicCD_Yes, snd
 
+		; Fuzzy ------------------------------
+		IncludeDAC		GreatSuccess, wav
 		even

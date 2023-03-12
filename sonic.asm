@@ -3075,7 +3075,7 @@ Map_BossItems:	include	"Data\Mappings\Objects\Boss Items.asm"
 		include	"Objects\Bosses\Labyrinth\Main.asm"
 		
 		include	"Objects\Bosses\Marble\Main.asm"
-		include	"Objects\Bosses\Marble\MZ Boss Fire.asm"
+		include	"Objects\Bosses\Marble\Missile.asm"
 
 	Obj7A_Delete:
 		jmp	(DeleteObject).l

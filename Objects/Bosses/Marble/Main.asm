@@ -6,13 +6,16 @@ BossMarble:
 		move.b	obRoutine(a0), d0
 		move.w	@Index(pc, d0.w), d1
 		jmp	@Index(pc, d1.w)
-; ===========================================================================
-Obj73_TargetX:			equ $30
-Obj73_TargetY:			equ $38
 
-Obj73_FaceStatus:		equ $34
-Obj73_FlashTimer:		equ $3E
-Obj73_DelayTimer:		equ $3C
+; ===========================================================================
+@Bounces:			equ $2C ; missile's bounces
+
+@TargetX:			equ $30
+@TargetY:			equ $38
+
+@FaceStatus:		equ $34
+@FlashTimer:		equ $3E
+@DelayTimer:		equ $3C
 
 @Index:	
 		dc.w @Main-@Index
@@ -31,8 +34,8 @@ Obj73_DelayTimer:		equ $3C
 ; ===========================================================================
 
 @Main:	; Routine 0
-		move.w	obX(a0), Obj73_TargetX(a0)
-		move.w	obY(a0), Obj73_TargetY(a0)
+		move.w	obX(a0), @TargetX(a0)
+		move.w	obY(a0), @TargetY(a0)
 		move.b	#$F, obColType(a0)
 		move.b	#8, obColProp(a0) ; set number of hits to 8
 
@@ -64,7 +67,7 @@ Obj73_DelayTimer:		equ $3C
 		move.b	#4, obRender(a1)
 		move.b	#$20, obActWid(a1)
 
-		move.l	a0, Obj73_FaceStatus(a1)
+		move.l	a0, @FaceStatus(a1)
 		
 		dbf	d1, @Loop	; repeat sequence 3 more times
 
@@ -83,7 +86,9 @@ Obj73_DelayTimer:		equ $3C
 
 		andi.b	#$FC, obRender(a0)
 		or.b	d0, obRender(a0)
-		
+
+		bsr.w 	@BobShip
+
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 @ShipIndex:
@@ -95,16 +100,10 @@ Obj73_DelayTimer:		equ $3C
 ; ===========================================================================
 
 @MoveIn:
-		move.b	$3F(a0), d0
-		addq.b	#2, $3F(a0)
-		jsr	(CalcSine).l
-
-		asr.w	#2, d0
-		move.w	d0, obVelY(a0)
 		move.w	#-$100, obVelX(a0)
 		bsr.w	BossMove
 
-		cmpi.w	#$1910, Obj73_TargetX(a0) ; are we done with the intro?
+		cmpi.w	#$1910, @TargetX(a0) ; are we done with the intro?
 		bne.s	@IntroRandomFace ; fuck you o'm straight
 
 		addq.b	#2, ob2ndRout(a0)
@@ -113,11 +112,11 @@ Obj73_DelayTimer:		equ $3C
 
 @IntroRandomFace:
 		jsr	(RandomNumber).l
-		move.b	d0, Obj73_FaceStatus(a0)
+		move.b	d0, @FaceStatus(a0)
 
 @CheckHit:
-		move.w	Obj73_TargetY(a0), obY(a0) ; apply our target position
-		move.w	Obj73_TargetX(a0), obX(a0)
+		move.w	@TargetY(a0), obY(a0) ; apply our target position
+		move.w	@TargetX(a0), obX(a0)
 
 		cmpi.b	#4, ob2ndRout(a0) ; are we on the face routine?
 		bcc.s	@rts
@@ -128,10 +127,10 @@ Obj73_DelayTimer:		equ $3C
 		tst.b	obColType(a0) ; check the collision type, no duplicate hits
 		bne.s	@rts
 
-		tst.b	Obj73_FlashTimer(a0) ; still flashing?
+		tst.b	@FlashTimer(a0) ; still flashing?
 		bne.s	@Flash ; eye candy!
 
-		move.b	#$28, Obj73_FlashTimer(a0) ; set flash timer
+		move.b	#$28, @FlashTimer(a0) ; set flash timer
 		sfx	sfx_BossHit	; play boss damage sound
 
 @Flash:
@@ -145,12 +144,22 @@ Obj73_DelayTimer:		equ $3C
 
 @SetCollisionOnFlash:
 		move.w	d0, (a1)
-		subq.b	#1, Obj73_FlashTimer(a0)
+		subq.b	#1, @FlashTimer(a0)
 		bne.s	@rts ; gtfo if flash timer is over
 		
 		move.b	#$F, obColType(a0)
 
 @rts:
+		rts
+
+; ===========================================================================
+@BobShip:
+		move.b	$3F(a0), d0
+		addq.b	#2, $3F(a0)
+		jsr	(CalcSine).l
+
+		asr.w	#2, d0
+		move.w	d0, obVelY(a0)
 		rts
 ; ===========================================================================
 
@@ -159,7 +168,7 @@ Obj73_DelayTimer:		equ $3C
 		bsr.w	AddPoints
 		
 		move.b	#4, ob2ndRout(a0)
-		move.w	#$B4, Obj73_DelayTimer(a0)
+		move.w	#$B4, @DelayTimer(a0)
 		clr.w	obVelX(a0)
 
 		rts	
@@ -177,87 +186,62 @@ Obj73_DelayTimer:		equ $3C
 ; ===========================================================================
 @ShipIndex2:	
 		dc.w @ControlDirection-@ShipIndex2
-		dc.w @MakeBottomLava-@ShipIndex2
-		dc.w @ControlDirection-@ShipIndex2
-		dc.w @MakeBottomLava-@ShipIndex2
+		dc.w @FireMissile-@ShipIndex2
+		dc.w @Wait-@ShipIndex2
 ; ===========================================================================
 
 @ControlDirection:
 		tst.w	obVelX(a0) ; is eggman not moving?
-		bne.s	@CheckFireball ; gang shit
+		bne.s	@SwapMove ; gang shit
 		
 		moveq	#$40, d0
-		cmpi.w	#$22C, Obj73_TargetY(a0) ; have we reached the other side?
-		beq.s	@SwapSides ; we're good to go
+		bsr.s	@Swap ; we're good to go
 		bcs.s	@ContinueMoving ; less than $22C, keep going
 
 		neg.w	d0
 
 @ContinueMoving:
-		move.w	d0, obVelY(a0)
 		bra.w	BossMove
 ; ===========================================================================
 
-@SwapSides:
+@Swap:
 		move.w	#$200, obVelX(a0)
-		move.w	#$100, obVelY(a0)
 		btst	#0, obStatus(a0) ; is bit 0 clear
-		bne.s	@CheckFireball ; if true, check if we should shoot fireball
+		bne.s	@SwapMove ; if true, check if we should shoot fireball
+
+		tst.b	obRender(a0)
+		beq.s 	@SwapMove
 
 		neg.w	obVelX(a0)
 
-@CheckFireball:
-		cmpi.b	#$18, Obj73_FlashTimer(a0) ; shoot fireball if flash timer >= #$18
-		bcc.s	@FireLava ; pew pew
-		
+@SwapMove:
 		bsr.w	BossMove
-		subq.w	#4, obVelY(a0)
-
-@FireLava:
-		subq.b	#1, Obj73_FaceStatus(a0)
-		bcc.s	@IsShipRight
-
-		jsr	(FindFreeObj).l
-		bne.s	@RandomFace
-		move.b	#id_LavaBall, 0(a1) ; load lava ball object
-		move.w	#$2E8, obY(a1)	; set Y	position
-
-		jsr	(RandomNumber).l
-		andi.l	#$FFFF, d0
-		divu.w	#$50, d0
-		swap	d0
-
-		addi.w	#$1878, d0
-		move.w	d0, obX(a1)
-		lsr.b	#7, d1
-		move.w	#$FF, obSubtype(a1)
 
 @RandomFace:
 		jsr	(RandomNumber).l
 		andi.b	#$1F, d0
 		addi.b	#$40, d0
-		move.b	d0, Obj73_FaceStatus(a0)
+		move.b	d0, @FaceStatus(a0)
 
 @IsShipRight:
 		btst	#0, obStatus(a0)
 		beq.s	@IsShipLeft
-		cmpi.w	#$1910, Obj73_TargetX(a0)
+		cmpi.w	#$1910, @TargetX(a0)
 		blt.s	@FireLava_rts
-		move.w	#$1910, Obj73_TargetX(a0)
-		bra.s	@Dive
+		move.w	#$1910, @TargetX(a0)
+		bra.s	@StopMoving
 ; ===========================================================================
 
 @IsShipLeft:
-		cmpi.w	#$1830, Obj73_TargetX(a0)
+		cmpi.w	#$1830, @TargetX(a0)
 		bgt.s	@FireLava_rts
-		move.w	#$1830, Obj73_TargetX(a0)
+		move.w	#$1830, @TargetX(a0)
 
-@Dive:
+@StopMoving:
 		clr.w	obVelX(a0)
-		move.w	#-$180, obVelY(a0)
-		cmpi.w	#$22C, Obj73_TargetY(a0)
+		cmpi.w	#$22C, @TargetY(a0)
 		bcc.s	@StartFiring
-		neg.w	obVelY(a0)
+		rts
 
 @StartFiring:
 		addq.b	#2, obSubtype(a0) ; make the fireball
@@ -266,36 +250,43 @@ Obj73_DelayTimer:		equ $3C
 		rts	
 ; ===========================================================================
 
-@MakeBottomLava:
+@FireMissile:
 		bsr.w	BossMove
-		move.w	Obj73_TargetY(a0), d0
-		subi.w	#$22C, d0
-		bgt.s	@MakeBottomLava_rts
 		move.w	#$22C, d0
-		tst.w	obVelY(a0)
-		beq.s	@CancelBottomLava
-		clr.w	obVelY(a0)
-		move.w	#$50, Obj73_DelayTimer(a0)
+		move.w	#$10, @DelayTimer(a0)
 		bchg	#0, obStatus(a0)
-		jsr	(FindFreeObj).l
-		bne.s	@CancelBottomLava
-		move.w	Obj73_TargetX(a0), obX(a1)
-		move.w	Obj73_TargetY(a0), obY(a1)
+		jsr		(FindFreeObj).l
+		bne.s	@CancelLava
+		move.w	@TargetX(a0), obX(a1)
+		move.w	@TargetY(a0), obY(a1)
 		addi.w	#$18, obY(a1)
-		move.b	#id_BossFire, (a1)	; load lava ball object
-		move.b	#1, obSubtype(a1)
+		
+		move.b	#id_BossMissile, (a1)	; load lava ball object
+		move.w 	#1, @Bounces(a0)
 
-@CancelBottomLava:
-		subq.w	#1, Obj73_DelayTimer(a0)
-		bne.s	@MakeBottomLava_rts
+		subi.w	#$5,obY(a1)
+		move.w	#$100,obVelY(a1) ; move missile downwards
+
+@CancelLava:
 		addq.b	#2, obSubtype(a0)
-
-@MakeBottomLava_rts:
 		rts	
+
+; ===========================================================================
+@Wait:
+		bsr.w 	@BobShip
+		bsr.w	BossMove
+		
+		subq.w	#1, @DelayTimer(a0)
+		bne.s	@Wait_rts
+
+		move.b	#0, obSubtype(a0)
+
+@Wait_rts:
+		rts
 ; ===========================================================================
 
 @OnDefeated:
-		subq.w	#1, Obj73_DelayTimer(a0)
+		subq.w	#1, @DelayTimer(a0)
 		bmi.s	@StartFleeing
 		bra.w	BossDefeated
 ; ===========================================================================
@@ -306,7 +297,7 @@ Obj73_DelayTimer:		equ $3C
 		
 		clr.w	obVelX(a0)
 		addq.b	#2, ob2ndRout(a0)
-		move.w	#-$26, Obj73_DelayTimer(a0)
+		move.w	#-$26, @DelayTimer(a0)
 
 		tst.b	(v_bossstatus).w
 		bne.s	@StartFleeing_rts
@@ -319,11 +310,11 @@ Obj73_DelayTimer:		equ $3C
 ; ===========================================================================
 
 @Fall:
-		addq.w	#1, Obj73_DelayTimer(a0) ; done with the falling timer?
+		addq.w	#1, @DelayTimer(a0) ; done with the falling timer?
 		beq.s	@StopFalling ; just in case the targt y check does nothing ig
 		bpl.s	@Fall2 ; keep fleeing
 		
-		cmpi.w	#$270, Obj73_TargetY(a0) ; has the target y reached its target (also)
+		cmpi.w	#$270, @TargetY(a0) ; has the target y reached its target (also)
 		bcc.s	@StopFalling ; balls in my face
 
 		addi.w	#$18, obVelY(a0) ; he just keeps going
@@ -332,16 +323,16 @@ Obj73_DelayTimer:		equ $3C
 
 @StopFalling:
 		clr.w	obVelY(a0)
-		clr.w	Obj73_DelayTimer(a0)
+		clr.w	@DelayTimer(a0)
 		bra.s	@MoveAndCheckHit
 ; ===========================================================================
 
 @Fall2:
-		cmpi.w	#$30, Obj73_DelayTimer(a0)
+		cmpi.w	#$30, @DelayTimer(a0)
 		bcs.s	@GetBackUp
 		beq.s	@ResetMusic
 
-		cmpi.w	#$38, Obj73_DelayTimer(a0)
+		cmpi.w	#$38, @DelayTimer(a0)
 		bcs.s	@MoveAndCheckHit
 
 		addq.b	#2, ob2ndRout(a0)
@@ -387,7 +378,7 @@ Obj73_DelayTimer:		equ $3C
 @FaceMain:	; Routine 4
 		moveq	#0, d0
 		moveq	#1, d1
-		movea.l	Obj73_FaceStatus(a0), a1
+		movea.l	@FaceStatus(a0), a1
 		move.b	ob2ndRout(a1), d0
 		subq.w	#2, d0
 		bne.s	@IHaveNoClue
@@ -437,7 +428,7 @@ Obj73_DelayTimer:		equ $3C
 
 @FlameMain:; Routine 6
 		move.b	#7, obAnim(a0)
-		movea.l	Obj73_FaceStatus(a0), a1
+		movea.l	@FaceStatus(a0), a1
 		cmpi.b	#8, ob2ndRout(a1)
 		blt.s	@CheckXMovement
 		move.b	#$B, obAnim(a0)
@@ -464,7 +455,7 @@ Obj73_DelayTimer:		equ $3C
 		jsr	(AnimateSprite).l
 
 @UpdateFace:
-		movea.l	Obj73_FaceStatus(a0), a1
+		movea.l	@FaceStatus(a0), a1
 		move.w	obX(a1), obX(a0)
 		move.w	obY(a1), obY(a0)
 		move.b	obStatus(a1), obStatus(a0)
@@ -476,7 +467,7 @@ Obj73_DelayTimer:		equ $3C
 ; ===========================================================================
 
 @TubeMain:	; Routine 8
-		movea.l	Obj73_FaceStatus(a0), a1
+		movea.l	@FaceStatus(a0), a1
 		cmpi.b	#8, ob2ndRout(a1)
 		bne.s	@ShowTube
 		tst.b	obRender(a0)

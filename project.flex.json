@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "d229d58a-6649-4899-857f-08f5406de745",
+    "node": "1ee137aa-b760-4dff-bac9-24c0c454e58d",
     "objects": [
         {
             "uuid": "bf0f3dcf-9460-4bd6-8bc1-1342f2c7c52c",
@@ -91,7 +91,8 @@
                 "enabled": true,
                 "path": "Data/Mappings/Objects/Sonic - Dynamic Gfx Script.asm",
                 "label": ""
-            }
+            },
+            "expanded": true
         },
         {
             "uuid": "d229d58a-6649-4899-857f-08f5406de745",
@@ -105,6 +106,32 @@
             },
             "mappings": {
                 "path": "..\\..\\Program Files\\flex2\\blood_mappings.bin",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "name": "Bosses",
+            "children": [],
+            "isDirectory": true,
+            "expanded": true
+        },
+        {
+            "uuid": "1ee137aa-b760-4dff-bac9-24c0c454e58d",
+            "format": "Sonic 1.js",
+            "name": "SLZ Spikeball Shrapnel",
+            "palettes": [],
+            "art": {
+                "path": "Data\\Art\\Nemesis\\Enemy Bomb.bin",
+                "compression": "Nemesis",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Data\\Mappings\\Objects\\SLZ Boss Spikeball.asm",
                 "label": ""
             },
             "dplcs": {
