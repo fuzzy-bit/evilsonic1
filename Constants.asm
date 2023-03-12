@@ -8,6 +8,7 @@ Z80_Space =	$80C			; The amount of space reserved for Z80 driver. The compressor
 vdp_data_port:		equ $C00000
 vdp_control_port:	equ $C00004
 vdp_counter:		equ $C00008
+vdp_debug:			equ $C0001C
 
 psg_input:		equ $C00011
 

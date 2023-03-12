@@ -92,18 +92,20 @@ BossMarble:
 
 		andi.b	#$FC, obRender(a0)
 		or.b	d0, obRender(a0)
-
+		
+		cmp.b	#6, ob2ndRout(a0)
+		beq.s 	@DoNotBob
 		bsr.w 	@BobShip
 
+@DoNotBob:
 		jmp	(DisplaySprite).l
 
 ; ===========================================================================
 @ShipIndex:
 		dc.w @MoveIn-@ShipIndex
 		dc.w @RunBoss-@ShipIndex
-		dc.w @OnDefeated-@ShipIndex
+		dc.w @StartFalling-@ShipIndex
 		dc.w @Fall-@ShipIndex
-		dc.w @Flee-@ShipIndex
 ; ===========================================================================
 
 @MoveIn:
@@ -177,8 +179,7 @@ BossMarble:
 		bsr.w	AddPoints
 		
 		move.b	#4, ob2ndRout(a0)
-		move.w	#$B4, @DelayTimer(a0)
-		clr.w	obVelX(a0)
+		move.w	#$50, @DelayTimer(a0)
 
 		rts	
 
@@ -226,7 +227,6 @@ BossMarble:
 		bmi.s 	@SwitchMissileType
 
 		move.b 	#-$3, obVelY(a1)
-		move.b 	obVelX(a0), obVelX(a1)
 
 @SwitchMissileType:
 		neg.b 	@MissileTypeFlag(a0)
@@ -235,7 +235,7 @@ BossMarble:
 ; ===========================================================================
 
 @Swap:
-		move.w	#$200, obVelX(a0)
+		move.w	#$150, obVelX(a0)
 		btst	#0, obStatus(a0) ; is bit 0 clear
 		bne.s	@SwapMove ; if true, check if we should shoot a missile
 
@@ -328,95 +328,58 @@ BossMarble:
 
 ; ===========================================================================
 
-@OnDefeated:
+@StartFalling:
 		subq.w	#1, @DelayTimer(a0)
-		bmi.s	@StartFleeing
-		bra.w	BossDefeated
-		
-; ===========================================================================
-
-@StartFleeing:
-		bset	#0, obStatus(a0) ; flip eggman's sprite
 		bclr	#7, obStatus(a0)
 		
-		clr.w	obVelX(a0)
 		addq.b	#2, ob2ndRout(a0)
 		move.w	#-$26, @DelayTimer(a0)
 
 		tst.b	(v_bossstatus).w
-		bne.s	@StartFleeing_rts
+		bne.s	@StartFalling_rts
 		
 		move.b	#1, (v_bossstatus).w
-		clr.w	obVelY(a0)
+		move.w 	#-$500, @MissileTimer(a0)
 
-@StartFleeing_rts:
+@StartFalling_rts:
 		rts	
 ; ===========================================================================
 
 @Fall:
-		addq.w	#1, @DelayTimer(a0) ; done with the falling timer?
-		beq.s	@StopFalling ; just in case the targt y check does nothing ig
-		bpl.s	@Fall2 ; keep fleeing
-		
-		cmpi.w	#$270, @TargetY(a0) ; has the target y reached its target (also)
-		bcc.s	@StopFalling ; balls in my face
+		bsr.w	BossDefeated
+		cmpi.w	#0, @MissileTimer(a0)
+		bpl.s 	@Fall2
 
-		addi.w	#$18, obVelY(a0) ; he just keeps going
-		bra.s	@MoveAndCheckHit
-; ===========================================================================
+		jsr		(ObjFloorDist).l
+		cmpi.w	#$C, d1
+		ble.s	@Bounce
 
-@StopFalling:
-		clr.w	obVelY(a0)
-		clr.w	@DelayTimer(a0)
-		bra.s	@MoveAndCheckHit
+		jsr		ObjectFall
+		rts
+
+@Bounce:
+		move.w	@MissileTimer(a0), obVelY(a0)
+		addi.w 	#$130, @MissileTimer(a0)
+		jsr		SpeedToPos
+
+		rts
 ; ===========================================================================
 
 @Fall2:
-		cmpi.w	#$30, @DelayTimer(a0)
-		bcs.s	@GetBackUp
-		beq.s	@ResetMusic
+		jsr		ObjectFall
 
-		cmpi.w	#$38, @DelayTimer(a0)
-		bcs.s	@MoveAndCheckHit
-
-		addq.b	#2, ob2ndRout(a0)
-		bra.s	@MoveAndCheckHit
-; ===========================================================================
-
-@GetBackUp:
-		subq.w	#8, obVelY(a0)
-		bra.s	@MoveAndCheckHit
-; ===========================================================================
-
-@ResetMusic:
-		clr.w	obVelY(a0)
-		music	mus_MZ		; play MZ music
-
-@MoveAndCheckHit:
-		bsr.w	BossMove
-		bra.w	@CheckHit
-; ===========================================================================
-
-@Flee:
-		move.w	#$500, obVelX(a0)
-		move.w	#-$40, obVelY(a0)
-		cmpi.w	#$1960, (v_limitright2).w
-		bcc.s	@RemoveShipOutOfBounds
-		addq.w	#2, (v_limitright2).w
-		bra.s	@MoveFleeing
-; ===========================================================================
-
-@RemoveShipOutOfBounds:
 		tst.b	obRender(a0)
 		bpl.s	@DeleteShip
+		rts
 
-@MoveFleeing:
-		bsr.w	BossMove
-		bra.w	@CheckHit
 ; ===========================================================================
 
 @DeleteShip:
-		jmp	(DeleteObject).l
+		music	mus_MZ		; play MZ music
+		add.w	#300, (v_limitright2).w
+
+		jsr	(DeleteObject).l
+
 ; ===========================================================================
 
 @FaceMain:	; Routine 4
@@ -491,7 +454,8 @@ BossMarble:
 ; ===========================================================================
 
 @DeleteFlame:
-		jmp	(DeleteObject).l
+		jmp	(DeleteObject).l ; does _NOT_ unload child objects :V
+		
 ; ===========================================================================
 
 @ShowFlame:

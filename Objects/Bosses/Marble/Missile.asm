@@ -13,6 +13,7 @@ BossMissile:
 		dc.w @HandlePhysics-@Index
 		dc.w @Delete-@Index
 
+@Parent:	equ $3C
 @Bounces:	equ $2C
 
 ; ===========================================================================
