@@ -8,7 +8,10 @@ BossMarble:
 		jmp	@Index(pc, d1.w)
 
 ; ===========================================================================
+
 @Bounces:			equ $2C ; missile's bounces
+@MissileTimer:		equ $2C
+@MissileTypeFlag:	equ $26
 
 @TargetX:			equ $30
 @TargetY:			equ $38
@@ -44,6 +47,7 @@ BossMarble:
 		moveq	#3, d1
 		
 		bra.s	@LoadBoss
+
 ; ===========================================================================
 
 @Loop:
@@ -70,7 +74,9 @@ BossMarble:
 		move.l	a0, @FaceStatus(a1)
 		
 		dbf	d1, @Loop	; repeat sequence 3 more times
-
+		move.b	#$30, @MissileTimer(a0)
+		move.b 	#$1, @MissileTypeFlag(a0)
+		
 @ShipMain:	; Routine 2
 		moveq	#0, d0
 
@@ -90,6 +96,7 @@ BossMarble:
 		bsr.w 	@BobShip
 
 		jmp	(DisplaySprite).l
+
 ; ===========================================================================
 @ShipIndex:
 		dc.w @MoveIn-@ShipIndex
@@ -153,6 +160,7 @@ BossMarble:
 		rts
 
 ; ===========================================================================
+
 @BobShip:
 		move.b	$3F(a0), d0
 		addq.b	#2, $3F(a0)
@@ -161,6 +169,7 @@ BossMarble:
 		asr.w	#2, d0
 		move.w	d0, obVelY(a0)
 		rts
+
 ; ===========================================================================
 
 @Defeat:
@@ -172,6 +181,7 @@ BossMarble:
 		clr.w	obVelX(a0)
 
 		rts	
+
 ; ===========================================================================
 
 @RunBoss:
@@ -183,6 +193,7 @@ BossMarble:
 		
 		andi.b	#6, obSubtype(a0)
 		bra.w	@CheckHit
+
 ; ===========================================================================
 @ShipIndex2:	
 		dc.w @ControlDirection-@ShipIndex2
@@ -191,6 +202,10 @@ BossMarble:
 ; ===========================================================================
 
 @ControlDirection:
+		subi.b	#1, @MissileTimer(a0)
+		tst.b 	@MissileTimer(a0) ; bruh
+		bmi.s 	@FireAndReset
+
 		tst.w	obVelX(a0) ; is eggman not moving?
 		bne.s	@SwapMove ; gang shit
 		
@@ -202,6 +217,21 @@ BossMarble:
 
 @ContinueMoving:
 		bra.w	BossMove
+
+@FireAndReset:
+		move.b	#$23,  @MissileTimer(a0)
+		bsr.w 	@MakeMissile
+		sub.w 	#$5, obY(a1)
+		tst.b 	@MissileTypeFlag(a0)
+		bmi.s 	@SwitchMissileType
+
+		move.b 	#-$3, obVelY(a1)
+		move.b 	obVelX(a0), obVelX(a1)
+
+@SwitchMissileType:
+		neg.b 	@MissileTypeFlag(a0)
+		rts
+
 ; ===========================================================================
 
 @Swap:
@@ -230,6 +260,7 @@ BossMarble:
 		blt.s	@FireLava_rts
 		move.w	#$1910, @TargetX(a0)
 		bra.s	@StopMoving
+
 ; ===========================================================================
 
 @IsShipLeft:
@@ -244,10 +275,11 @@ BossMarble:
 		rts
 
 @StartFiring:
-		addq.b	#2, obSubtype(a0) ; make the fireball
+		addq.b	#2, obSubtype(a0) ; make the missile
 
 @FireLava_rts:
 		rts	
+
 ; ===========================================================================
 
 @FireMissile:
@@ -255,14 +287,9 @@ BossMarble:
 		move.w	#$22C, d0
 		move.w	#$10, @DelayTimer(a0)
 		bchg	#0, obStatus(a0)
-		jsr		(FindFreeObj).l
-		bne.s	@CancelLava
-		move.w	@TargetX(a0), obX(a1)
-		move.w	@TargetY(a0), obY(a1)
-		addi.w	#$18, obY(a1)
 		
-		move.b	#id_BossMissile, (a1)	; load lava ball object
-		move.w 	#1, @Bounces(a0)
+		Instance.new	BossMissile, a1	; load lava ball object
+		bsr.s 	@MakeMissile
 
 		subi.w	#$5,obY(a1)
 		move.w	#$100,obVelY(a1) ; move missile downwards
@@ -272,10 +299,25 @@ BossMarble:
 		rts	
 
 ; ===========================================================================
+
+@MakeMissile:
+		Instance.new	BossMissile, a1	; load lava ball object
+		move.w 	#0, @Bounces(a1) ; meh, default bounces. only a move so it shouldn't use too many cycles
+		move.w	@TargetX(a0), obX(a1)
+		move.w	@TargetY(a0), obY(a1)
+		addi.w	#$18, obY(a1)
+
+		subi.w	#$5,obY(a1)
+		move.w	#$100,obVelY(a1) ; move missile downwards
+		
+		rts
+
+; ===========================================================================
+
 @Wait:
 		bsr.w 	@BobShip
 		bsr.w	BossMove
-		
+
 		subq.w	#1, @DelayTimer(a0)
 		bne.s	@Wait_rts
 
@@ -283,6 +325,7 @@ BossMarble:
 
 @Wait_rts:
 		rts
+
 ; ===========================================================================
 
 @OnDefeated:

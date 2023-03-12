@@ -38,7 +38,7 @@ BossMissile:
 
 @HandlePhysics:	; Routine 4
 		jsr		(ObjFloorDist).l
-		cmpi.w	#4, d1		; has ball hit the floor?
+		cmpi.w	#$4, d1		; has ball hit the floor?
 		ble.s	@Bounce
 
 		jsr		ObjectFall
