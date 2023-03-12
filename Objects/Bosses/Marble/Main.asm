@@ -256,17 +256,17 @@ BossMarble:
 @IsShipRight:
 		btst	#0, obStatus(a0)
 		beq.s	@IsShipLeft
-		cmpi.w	#$1910, @TargetX(a0)
+		cmpi.w	#$1930, @TargetX(a0)
 		blt.s	@FireLava_rts
-		move.w	#$1910, @TargetX(a0)
+		move.w	#$1930, @TargetX(a0)
 		bra.s	@StopMoving
 
 ; ===========================================================================
 
 @IsShipLeft:
-		cmpi.w	#$1830, @TargetX(a0)
+		cmpi.w	#$1810, @TargetX(a0)
 		bgt.s	@FireLava_rts
-		move.w	#$1830, @TargetX(a0)
+		move.w	#$1810, @TargetX(a0)
 
 @StopMoving:
 		clr.w	obVelX(a0)
