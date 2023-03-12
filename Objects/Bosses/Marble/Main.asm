@@ -237,7 +237,7 @@ BossMarble:
 @Swap:
 		move.w	#$200, obVelX(a0)
 		btst	#0, obStatus(a0) ; is bit 0 clear
-		bne.s	@SwapMove ; if true, check if we should shoot fireball
+		bne.s	@SwapMove ; if true, check if we should shoot a missile
 
 		tst.b	obRender(a0)
 		beq.s 	@SwapMove
@@ -257,7 +257,7 @@ BossMarble:
 		btst	#0, obStatus(a0)
 		beq.s	@IsShipLeft
 		cmpi.w	#$1930, @TargetX(a0)
-		blt.s	@FireLava_rts
+		blt.s	@IsShipRight_rts
 		move.w	#$1930, @TargetX(a0)
 		bra.s	@StopMoving
 
@@ -265,7 +265,7 @@ BossMarble:
 
 @IsShipLeft:
 		cmpi.w	#$1810, @TargetX(a0)
-		bgt.s	@FireLava_rts
+		bgt.s	@IsShipRight_rts
 		move.w	#$1810, @TargetX(a0)
 
 @StopMoving:
@@ -277,7 +277,7 @@ BossMarble:
 @StartFiring:
 		addq.b	#2, obSubtype(a0) ; make the missile
 
-@FireLava_rts:
+@IsShipRight_rts:
 		rts	
 
 ; ===========================================================================
@@ -288,20 +288,20 @@ BossMarble:
 		move.w	#$10, @DelayTimer(a0)
 		bchg	#0, obStatus(a0)
 		
-		Instance.new	BossMissile, a1	; load lava ball object
+		Instance.new	BossMissile, a1	; load missile object
 		bsr.s 	@MakeMissile
 
 		subi.w	#$5,obY(a1)
 		move.w	#$100,obVelY(a1) ; move missile downwards
 
-@CancelLava:
+@CancelMissile:
 		addq.b	#2, obSubtype(a0)
 		rts	
 
 ; ===========================================================================
 
 @MakeMissile:
-		Instance.new	BossMissile, a1	; load lava ball object
+		Instance.new	BossMissile, a1	; load missile object
 		move.w 	#0, @Bounces(a1) ; meh, default bounces. only a move so it shouldn't use too many cycles
 		move.w	@TargetX(a0), obX(a1)
 		move.w	@TargetY(a0), obY(a1)
@@ -332,6 +332,7 @@ BossMarble:
 		subq.w	#1, @DelayTimer(a0)
 		bmi.s	@StartFleeing
 		bra.w	BossDefeated
+		
 ; ===========================================================================
 
 @StartFleeing:
