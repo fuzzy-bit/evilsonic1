@@ -13,6 +13,7 @@ Known issues:
 - Ring counter doesn't get updated after death
 - Objects sometimes do not re-appear upon respawning until you move the camera away
 - Dying with invincibility does not reset the music, only the state
+- Roller graphics are incorrect, display Caterkiller art when rolling.
 
 Clear object RAM and whatnot on respawn, and find a way to undo level events.
 
