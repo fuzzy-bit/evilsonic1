@@ -1,8 +1,33 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "1ee137aa-b760-4dff-bac9-24c0c454e58d",
+    "node": "26d7558b-4c2c-47d6-b1ba-daab20a2e044",
     "objects": [
+        {
+            "uuid": "26d7558b-4c2c-47d6-b1ba-daab20a2e044",
+            "format": "Sonic 1.js",
+            "name": "SS Walls",
+            "palettes": [
+                {
+                    "path": "Data\\Palette\\Special Stage.bin",
+                    "length": 1
+                }
+            ],
+            "art": {
+                "path": "Data\\Art\\Nemesis\\Special Walls.bin",
+                "compression": "Nemesis",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Data\\Mappings\\Objects\\SS Walls.asm",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
         {
             "uuid": "bf0f3dcf-9460-4bd6-8bc1-1342f2c7c52c",
             "format": "Sonic 1.js",
@@ -118,7 +143,8 @@
             "name": "Bosses",
             "children": [],
             "isDirectory": true,
-            "expanded": true
+            "expanded": true,
+            "uuid": "9a26d755-8b4c-4ce7-96b1-badaab20a2e0"
         },
         {
             "uuid": "1ee137aa-b760-4dff-bac9-24c0c454e58d",
