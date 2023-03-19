@@ -360,8 +360,8 @@ mus_model: equ		$94
 ; Control
 mus_fadeout: equ	$E4 ; the stupidest fix ever
 mus_sega: equ		$E1
-mus_shoesoff: equ	$E3
 mus_shoeson: equ	$E2
+mus_shoesoff: equ	$E3
 mus_stop: equ		$E0
 
 ; Sound Effects

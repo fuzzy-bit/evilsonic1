@@ -38,14 +38,15 @@ vram_hscroll:	equ $FC00	; horizontal scroll table
 
 ; Game modes
 id_Sega:	equ ptr_GM_Sega-GameModeArray	; $00
-id_Retro:	equ ptr_GM_SRetro-GameModeArray	; $00
-id_Title:	equ ptr_GM_Title-GameModeArray	; $04
-id_Demo:	equ ptr_GM_Demo-GameModeArray	; $08
-id_Level:	equ ptr_GM_Level-GameModeArray	; $0C
-id_Special:	equ ptr_GM_Special-GameModeArray; $10
-id_Continue:	equ ptr_GM_Cont-GameModeArray	; $14
-id_Ending:	equ ptr_GM_Ending-GameModeArray	; $18
-id_Credits:	equ ptr_GM_Credits-GameModeArray; $1C
+id_Retro:	equ ptr_GM_Menu-GameModeArray	; $04
+id_Title:	equ ptr_GM_Title-GameModeArray	; $08
+id_Demo:	equ ptr_GM_Demo-GameModeArray	; $0C
+id_Level:	equ ptr_GM_Level-GameModeArray	; $10
+id_Special:	equ ptr_GM_Special-GameModeArray; $14
+id_Continue:	equ ptr_GM_Cont-GameModeArray	; $18
+id_Ending:	equ ptr_GM_Ending-GameModeArray	; $1C
+id_Credits:	equ ptr_GM_Credits-GameModeArray; $20
+id_Tails:	equ ptr_GM_Tails-GameModeArray; $24
 
 ; Levels
 id_GHZ:		equ 0

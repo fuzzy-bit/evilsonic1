@@ -308,7 +308,7 @@ GameInit:
 
 MainGameLoop:
 		move.b	(v_gamemode).w,d0 ; load Game Mode
-		andi.w	#$1C,d0	; limit Game Mode value to $1C max (change to a maximum of 7C to add more game modes)
+		andi.w	#$7C,d0	; limit Game Mode value to $1C max (change to a maximum of 7C to add more game modes)
 		jsr	GameModeArray(pc,d0.w) ; jump to apt location in ROM
 		bra.s	MainGameLoop	; loop indefinitely
 
@@ -319,15 +319,16 @@ MainGameLoop:
 ; ---------------------------------------------------------------------------
 
 GameModeArray:
-ptr_GM_Sega:	bra.w	SegaScreen	; Sega Screen ($00)
-ptr_GM_Title:	bra.w	TitleScreen	; Title	Screen ($04)
-ptr_GM_Demo:	bra.w	Level	; Demo Mode ($08)
-ptr_GM_Level:	bra.w	Level	; Normal Level ($0C)
-ptr_GM_Special:	bra.w	SpecialStage	; Special Stage	($10)
-ptr_GM_Cont:	bra.w	Continue	; Continue Screen ($14)
-ptr_GM_Ending:	bra.w	Ending	; End of game sequence ($18)
-ptr_GM_Credits:	bra.w	Credits	; Credits ($1C)
-
+		ptr_GM_Sega:	bra.w	SegaScreen	; Sega Screen ($00)
+		ptr_GM_Title:	bra.w	TitleScreen	; Title	Screen ($04)
+		ptr_GM_Menu:	bra.w 	Menu 	; Menu ($08)
+		ptr_GM_Demo:	bra.w	Level	; Demo Mode ($0C)
+		ptr_GM_Level:	bra.w	Level	; Normal Level ($10)
+		ptr_GM_Special:	bra.w	SpecialStage	; Special Stage	($14)
+		ptr_GM_Cont:	bra.w	Continue	; Continue Screen ($18)
+		ptr_GM_Ending:	bra.w	Ending	; End of game sequence ($1C)
+		ptr_GM_Credits:	bra.w	Credits	; Credits ($20)
+		ptr_GM_Tails:	jmp		TailsEasterEgg	; LOL DRAMA ($24)
 		rts
 ; ===========================================================================
 
@@ -2775,5 +2776,7 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 ; Error Handler
 ; ---------------------------------------------------------------------------
 		include	"ErrorHandler/ErrorHandler.asm"
+
+		include	"Modes\TailsEasterEgg.asm"
 
 EndOfRom:	END

@@ -200,6 +200,7 @@ BossMarble:
 		dc.w @ControlDirection-@ShipIndex2
 		dc.w @FireMissile-@ShipIndex2
 		dc.w @Wait-@ShipIndex2
+		dc.w @CheckPhase2-@ShipIndex2
 ; ===========================================================================
 
 @ControlDirection:
@@ -288,6 +289,7 @@ BossMarble:
 		move.w	#$10, @DelayTimer(a0)
 		bchg	#0, obStatus(a0)
 		
+		; this sub routine spawn penis
 		Instance.new	BossMissile, a1	; load missile object
 		bsr.s 	@MakeMissile
 
@@ -321,9 +323,16 @@ BossMarble:
 		subq.w	#1, @DelayTimer(a0)
 		bne.s	@Wait_rts
 
-		move.b	#0, obSubtype(a0)
+		add.b	#2, obSubtype(a0)
 
 @Wait_rts:
+		rts
+
+; ===========================================================================
+
+; this subroutine will check if its phase 2 but it doesnt rnLmao 
+@CheckPhase2:
+		add.b	#2, obSubtype(a0)
 		rts
 
 ; ===========================================================================
