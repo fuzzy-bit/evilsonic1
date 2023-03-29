@@ -23,6 +23,6 @@ Clear object RAM and whatnot on respawn, and find a way to undo level events.
 - Code: Fuzzy, Vladikcomper, Varion, Rivet, VladislavSavvateev
 - Music: Jet, Vladikcomper
 - MegaPCM + VEPS Sound Driver: Vladikcomper
-- 32X Assistance: Varion
+- MegaCD Assistance: KatKuriN
 - Levels: Fuzzy
 - Original Game: SEGA, Sonic Team
