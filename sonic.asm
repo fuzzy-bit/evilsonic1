@@ -251,8 +251,8 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 ; ---------------------------------------------------------------------------
 ; Interrupts
 ; ---------------------------------------------------------------------------
-		include "Engine/VBlank.asm"
-		include "Engine/HBlank.asm"
+		include "Engine/Interrupts/VBlank.asm"
+		include "Engine/Interrupts/HBlank.asm"
 		
 ; ---------------------------------------------------------------------------
 ; Input

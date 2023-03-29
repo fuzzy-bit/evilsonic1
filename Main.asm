@@ -1,5 +1,5 @@
 
-	include	"Engine/CD/Common.i"
+	include	"Engine/MegaCD/Common.asm"
 
 ; -------------------------------------------------------------------------
 ; Header
@@ -20,7 +20,7 @@
 	dc.l	$00007800			; SP load size
 	dc.l	$00000000			; SP entry offset
 	dc.l	$00000000			; SP work RAM size
-        dc.b	"        "                      ; Build date (blank)
+    dc.b	"        "          ; Build date (blank)
 
 	align	$100, $20
 
