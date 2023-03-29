@@ -296,3 +296,17 @@ Instance:	macro id, register
 		move.b	#id_\id, 0(\register)	; load object
 	endif
 	endm
+
+; ---------------------------------------------------------------------------
+; Macro to initialize a sprite
+; - fuzzy
+; ---------------------------------------------------------------------------
+Sprite:	macro X, Y, Size, StartTile
+	if strcmp('\0','new')
+	    move.l    #$78000003, vdp_control_port
+		move.w    \Y, vdp_data_port        ;Y position
+		move.w    \Size, vdp_data_port        ;sprite size 0 (8x8px) and sprite link 0 (0 ends the sprite list)
+		move.w    \StartTile, vdp_data_port        ;Sprite starting tile (same as a tile)
+		move.w    \X, vdp_data_port        ;X position
+	endif
+	endm
