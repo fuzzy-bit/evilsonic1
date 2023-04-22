@@ -1,6 +1,17 @@
 ; ---------------------------------------------------------------------------
 ; Level
 ; ---------------------------------------------------------------------------
+load_randompalette:
+		lea     ($FFFFFB00).w,a1
+load_randompalette2:
+		move.w  #$1F,d6
+
+load_randompalette3:
+		jsr     (randomnumber).l
+		andi.w  #$666,d0
+		move.l  d0,(a1)+
+		dbf     d6,load_randompalette3
+		rts
 
 Level:
 		bset	#7,(v_gamemode).w ; add $80 to screen mode (for pre level sequence)
@@ -267,7 +278,7 @@ Level_ClrCardArt:
 
 Level_StartGame:
 		bclr	#7,(v_gamemode).w ; subtract $80 from mode to end pre-level stuff
-
+		
 ; ---------------------------------------------------------------------------
 ; Main level loop (when	all title card and loading sequences are finished)
 ; ---------------------------------------------------------------------------
@@ -289,7 +300,6 @@ Level_MainLoop:
 		bne.s	Level_DoScroll	; if yes, branch
 		cmpi.b	#6,(v_player+obRoutine).w ; has Sonic just died?
 		bhs.s	Level_SkipScroll ; if yes, branch
-
 	Level_DoScroll:
 		bsr.w	DeformLayers
 

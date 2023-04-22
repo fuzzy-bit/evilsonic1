@@ -214,16 +214,20 @@ React_Enemy:
 		cmp.w	obY(a1),d0
 		bcc.s	@bounceup
 		neg.w	obVelY(a0)
-		rts	
+		bsr.s 	@changepalette		
 ; ===========================================================================
 
 	@bouncedown:
 		addi.w	#$100,obVelY(a0)
-		rts	
+		bsr.s 	@changepalette	
 
 	@bounceup:
-		subi.w	#$100,obVelY(a0)
-		rts	
+		subi.w	#$100,obVelY(a0)	
+	
+	@changepalette:
+		lea     ($FFFFFB40).w,a1
+		jsr     (load_randompalette2).l
+		rts
 
 @points:	dc.w 10, 20, 50, 100	; points awarded div 10
 

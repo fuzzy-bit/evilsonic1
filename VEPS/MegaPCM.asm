@@ -84,7 +84,7 @@ MegaPCM:
 		DAC_Entry		$0F, Tom2, pcm					; $9B	- Tom-2 Low
 		DAC_Entry		$03, SonicCD_Yes, pcm+pri+panLR ; $9C	- Sonic CD Yes
 		DAC_Entry		$01, GreatSuccess, pcm			; $9D	- Borat
-		DAC_Entry		$01, Uni, pcm+loop				; $9E	- Uni
+		DAC_Entry		$03, Starichok, pcm				; $9E	- Starichok
 		DAC_Entry		$08, Tails, pcm+loop			; $9F	- Tails
 
 MegaPCM_End:
@@ -122,6 +122,6 @@ MegaPCM_End:
 
 		; Fuzzy ------------------------------
 		IncludeDAC		GreatSuccess, wav
-		IncludeDAC		Uni, wav
+		IncludeDAC		Starichok, raw
 		IncludeDAC		Tails, wav
 		even

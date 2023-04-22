@@ -10,15 +10,11 @@ Map_ContScr_internal:
 		dc.w M_Cont_Mini1-Map_ContScr_internal
 		dc.w M_Cont_Mini1-Map_ContScr_internal
 		dc.w M_Cont_Mini2-Map_ContScr_internal
-M_Cont_text:	dc.b $B
-		dc.b $F8, 5, 0,	$88, $C4 ; "CONTINUE", stars and countdown
-		dc.b $F8, 5, 0,	$B2, $D4
-		dc.b $F8, 5, 0,	$AE, $E4
-		dc.b $F8, 5, 0,	$C2, $F4
-		dc.b $F8, 1, 0,	$A0, 4
-		dc.b $F8, 5, 0,	$AE, $C
-		dc.b $F8, 5, 0,	$C6, $1C
-		dc.b $F8, 5, 0,	$90, $2C
+M_Cont_text:	dc.b $6
+		dc.b $F8, 5, 0,	$C4, $E7
+		dc.b $F8, 5, 0,	$D0, $F7
+		dc.b $F8, 5, 0,	$C4, 7
+		
 		dc.b $38, 5, $20, $21, $E8
 		dc.b $38, 5, $20, $21, 8
 		dc.b $36, 5, 1,	$FC, $F8
