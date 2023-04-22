@@ -227,6 +227,7 @@ React_Enemy:
 	@changepalette:
 		lea     ($FFFFFB40).w,a1
 		jsr     (load_randompalette2).l
+		jsr     (set_randomsound).l
 		rts
 
 @points:	dc.w 10, 20, 50, 100	; points awarded div 10
@@ -275,6 +276,7 @@ HurtSonic:
 
 	@hasshield:
 		move.b	#0,(v_shield).w	; remove shield
+		jsr     (set_randomsound2).l
 		move.b	#4,obRoutine(a0)
 		bsr.w	Sonic_ResetOnFloor
 		bset	#1,obStatus(a0)

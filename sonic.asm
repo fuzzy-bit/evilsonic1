@@ -2676,5 +2676,6 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 		include	"ErrorHandler/ErrorHandler.asm"
 
 		include	"Modes\TailsEasterEgg.asm"
+		include	"Includes\Randomizers.asm"
 
 EndOfRom:	END

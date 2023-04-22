@@ -1,18 +1,6 @@
 ; ---------------------------------------------------------------------------
 ; Level
 ; ---------------------------------------------------------------------------
-load_randompalette:
-		lea     ($FFFFFB00).w,a1
-load_randompalette2:
-		move.w  #$1F,d6
-
-load_randompalette3:
-		jsr     (randomnumber).l
-		andi.w  #$666,d0
-		move.l  d0,(a1)+
-		dbf     d6,load_randompalette3
-		rts
-
 Level:
 		bset	#7,(v_gamemode).w ; add $80 to screen mode (for pre level sequence)
 		tst.w	(f_demo).w
@@ -239,15 +227,13 @@ Level_Demo:
 		move.w	#510,(v_demolength).w
 
 Level_ChkWaterPal:
-		cmpi.b	#id_LZ,(v_zone).w ; is level LZ/SBZ3?
-		bne.s	Level_Delay	; if not, branch
-		moveq	#palid_LZWater,d0 ; palette $B (LZ underwater)
-		cmpi.b	#3,(v_act).w	; is level SBZ3?
-		bne.s	Level_WtrNotSbz	; if not, branch
-		moveq	#palid_SBZ3Water,d0 ; palette $D (SBZ3 underwater)
+		cmpi.b  #3,($ffFFFE11).w
+		beq.s   level_waterpal2
+		cmpi.b  #1,($FffFFE10).w
+		bne.s   Level_Delay
 
-	Level_WtrNotSbz:
-		bsr.w	PalLoad4_Water
+level_waterpal2:
+		jsr  	load_randomwaterpalette
 
 Level_Delay:
 		move.w	#3,d1
