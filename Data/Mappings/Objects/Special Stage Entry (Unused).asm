@@ -15,19 +15,19 @@ Map_Vanish_internal:
 		dc.b 0,	4, 0, 1, 0
 		dc.b 8,	0, $10,	0, 8
 @flash2:	dc.b 3
-		dc.b $F0, $D, 0, 3, $F0
-		dc.b 0,	$C, 0, $B, $F0
-		dc.b 8,	$D, $10, 3, $F0
+		dc.b $F0, $D, 0, 3, $FF, $F0
+		dc.b 0,	$C, 0, $B, $FF, $F0
+		dc.b 8,	$D, $10, 3, $FF, $F0
 @flash3:	dc.b 5
-		dc.b $E4, $E, 0, $F, $F4
-		dc.b $EC, 2, 0,	$1B, $EC
-		dc.b $FC, $C, 0, $1E, $F4
-		dc.b 4,	$E, $10, $F, $F4
-		dc.b 4,	1, $10,	$1B, $EC
+		dc.b $E4, $E, 0, $F, $FF, $F4
+		dc.b $EC, 2, 0,	$1B, $FF, $EC
+		dc.b $FC, $C, 0, $1E, $FF, $F4
+		dc.b 4,	$E, $10, $F, $FF, $F4
+		dc.b 4,	1, $10,	$1B, $FF, $EC
 @sparkle1:	dc.b 9
-		dc.b $F0, 8, 0,	$22, $F8
-		dc.b $F8, $E, 0, $25, $F0
-		dc.b $10, 8, 0,	$31, $F0
+		dc.b $F0, 8, 0,	$22, $FF, $F8
+		dc.b $F8, $E, 0, $25, $FF, $F0
+		dc.b $10, 8, 0,	$31, $FF, $F0
 		dc.b 0,	5, 0, $34, $10
 		dc.b $F8, 0, 8,	$25, $10
 		dc.b $F0, 0, $18, $36, $18
@@ -35,11 +35,11 @@ Map_Vanish_internal:
 		dc.b 0,	0, 8, $25, $28
 		dc.b $F8, 0, 0,	$25, $30
 @sparkle2:	dc.b $12
-		dc.b 0,	0, $18,	$25, $F0
-		dc.b $F8, 4, 0,	$38, $F8
+		dc.b 0,	0, $18,	$25, $FF, $F0
+		dc.b $F8, 4, 0,	$38, $FF, $F8
 		dc.b $F0, 0, 0,	$26, 8
 		dc.b 0,	0, 0, $25, 0
-		dc.b 8,	0, $18,	$25, $F8
+		dc.b 8,	0, $18,	$25, $FF, $F8
 		dc.b $10, 0, $10, $26, 0
 		dc.b 8,	0, $10,	$38, 8
 		dc.b $F8, 0, 0,	$29, $10

@@ -19,35 +19,35 @@ Map_SSWalls_internal:
 		dc.w byte_2C5D8-Map_SSWalls_internal
 		dc.w byte_2C5DE-Map_SSWalls_internal
 byte_2C584:	dc.b 1
-		dc.b $F4, $A, 0, 0, $F4
+		dc.b $F4, $A, 0, 0, $FF, $F4
 byte_2C58A:	dc.b 1
-		dc.b $F0, $F, 0, 9, $F0
+		dc.b $F0, $F, 0, 9, $FF, $F0
 byte_2C590:	dc.b 1
-		dc.b $F0, $F, 0, $19, $F0
+		dc.b $F0, $F, 0, $19, $FF, $F0
 byte_2C596:	dc.b 1
-		dc.b $F0, $F, 0, $29, $F0
+		dc.b $F0, $F, 0, $29, $FF, $F0
 byte_2C59C:	dc.b 1
-		dc.b $F0, $F, 0, $39, $F0
+		dc.b $F0, $F, 0, $39, $FF, $F0
 byte_2C5A2:	dc.b 1
-		dc.b $F0, $F, 0, $49, $F0
+		dc.b $F0, $F, 0, $49, $FF, $F0
 byte_2C5A8:	dc.b 1
-		dc.b $F0, $F, 0, $59, $F0
+		dc.b $F0, $F, 0, $59, $FF, $F0
 byte_2C5AE:	dc.b 1
-		dc.b $F0, $F, 0, $69, $F0
+		dc.b $F0, $F, 0, $69, $FF, $F0
 byte_2C5B4:	dc.b 1
-		dc.b $F0, $F, 0, $79, $F0
+		dc.b $F0, $F, 0, $79, $FF, $F0
 byte_2C5BA:	dc.b 1
-		dc.b $F0, $F, 0, $89, $F0
+		dc.b $F0, $F, 0, $89, $FF, $F0
 byte_2C5C0:	dc.b 1
-		dc.b $F0, $F, 0, $99, $F0
+		dc.b $F0, $F, 0, $99, $FF, $F0
 byte_2C5C6:	dc.b 1
-		dc.b $F0, $F, 0, $A9, $F0
+		dc.b $F0, $F, 0, $A9, $FF, $F0
 byte_2C5CC:	dc.b 1
-		dc.b $F0, $F, 0, $B9, $F0
+		dc.b $F0, $F, 0, $B9, $FF, $F0
 byte_2C5D2:	dc.b 1
-		dc.b $F0, $F, 0, $C9, $F0
+		dc.b $F0, $F, 0, $C9, $FF, $F0
 byte_2C5D8:	dc.b 1
-		dc.b $F0, $F, 0, $D9, $F0
+		dc.b $F0, $F, 0, $D9, $FF, $F0
 byte_2C5DE:	dc.b 1
-		dc.b $F0, $F, 0, $E9, $F0
+		dc.b $F0, $F, 0, $E9, $FF, $F0
 		even

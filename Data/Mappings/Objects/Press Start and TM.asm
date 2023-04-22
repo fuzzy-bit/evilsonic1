@@ -14,36 +14,36 @@ byte_A7CD:	dc.b 0,	$C, 0, $F0, 0
 		dc.b 0,	8, 0, $F8, $60
 		dc.b 0,	8, 0, $FB, $78
 M_PSB_Limiter:	dc.b $1E		; sprite line limiter
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $B8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $D8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
+		dc.b $F8, $F, 0, 0, $FF, $80
 M_PSB_TM:	dc.b 1			; "TM"
-		dc.b $FC, 4, 0,	0, $F8
+		dc.b $FC, 4, 0,	0, $FF, $F8
 		even

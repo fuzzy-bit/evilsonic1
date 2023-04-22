@@ -8,9 +8,9 @@ Map_Bonus_internal:
 		dc.w @100-Map_Bonus_internal
 @blank:		dc.b 0
 @10000:		dc.b 1
-		dc.b $F4, $E, 0, 0, $F0
+		dc.b $F4, $E, 0, 0, $FF, $F0
 @1000:		dc.b 1
-		dc.b $F4, $E, 0, $C, $F0
+		dc.b $F4, $E, 0, $C, $FF, $F0
 @100:		dc.b 1
-		dc.b $F4, $E, 0, $18, $F0
+		dc.b $F4, $E, 0, $18, $FF, $F0
 		even
