@@ -9,7 +9,7 @@ Map_Sign_internal:
 		dc.w @sonic-Map_Sign_internal
 @eggman:	dc.b 3
 		dc.b $F0, $B, 0, 0, $FF, $E8
-		dc.b $F0, $B, 8, 0, 0
+		dc.b $F0, $B, 8, 0, $00, 0
 		dc.b $10, 1, 0,	$38, $FF, $FC
 @spin1:		dc.b 2
 		dc.b $F0, $F, 0, $C, $FF, $F0
@@ -22,6 +22,6 @@ Map_Sign_internal:
 		dc.b $10, 1, 8,	$38, $FF, $FC
 @sonic:		dc.b 3
 		dc.b $F0, $B, 0, $20, $FF, $E8
-		dc.b $F0, $B, 0, $2C, 0
+		dc.b $F0, $B, 0, $2C, $00, 0
 		dc.b $10, 1, 0,	$38, $FF, $FC
 		even

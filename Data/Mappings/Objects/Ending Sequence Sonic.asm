@@ -28,7 +28,7 @@ M_ESon_Conf2:	dc.b 2
 		dc.b $FC, $E, 8, $30, $FF, $F0
 M_ESon_Leap1:	dc.b 3
 		dc.b $EC, 6, 0,	$3C, $FF, $F0 ; leaping
-		dc.b $EC, 6, 8,	$3C, 0
+		dc.b $EC, 6, 8,	$3C, $00, 0
 		dc.b 4,	$D, 0, $42, $FF, $F0
 M_ESon_Leap2:	dc.b 7
 		dc.b $B2, $C, 0, $4A, $FF, $F8 ; leaping #2

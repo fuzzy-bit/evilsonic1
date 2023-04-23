@@ -9,6 +9,6 @@ Map_Push_internal:
 @four:		dc.b 4
 		dc.b $F0, $F, 0, 8, $FF, $C0	; row of 4 blocks
 		dc.b $F0, $F, 0, 8, $FF, $E0
-		dc.b $F0, $F, 0, 8, 0
+		dc.b $F0, $F, 0, 8, $00, 0
 		dc.b $F0, $F, 0, 8, $20
 		even

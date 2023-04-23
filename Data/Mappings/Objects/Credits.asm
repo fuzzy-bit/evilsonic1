@@ -22,7 +22,7 @@ Map_Cred_internal:
 		dc.b $F8, 5, 0,	$3E, $FF, $D8
 		dc.b $F8, 5, 0,	$E, $FF, $E8
 		dc.b $F8, 5, 0,	4, $FF, $F8
-		dc.b $F8, 9, 0,	8, 8
+		dc.b $F8, 9, 0,	8, $00, 8
 		dc.b $F8, 5, 0,	$2E, $28
 		dc.b $F8, 5, 0,	$3E, $38
 		dc.b $F8, 5, 0,	4, $48
@@ -36,12 +36,12 @@ Map_Cred_internal:
 		dc.b $D8, 5, 0,	$12, $FF, $D0
 		dc.b $D8, 5, 0,	$16, $FF, $E0
 		dc.b $D8, 5, 0,	4, $FF, $F0
-		dc.b $D8, 5, 0,	$1A, 0
+		dc.b $D8, 5, 0,	$1A, $00, 0
 		dc.b 8,	5, 0, $1E, $FF, $C8
 		dc.b 8,	5, 0, 4, $FF, $D8
 		dc.b 8,	5, 0, $22, $FF, $E8
 		dc.b 8,	5, 0, $26, $FF, $F8
-		dc.b 8,	5, 0, $16, 8
+		dc.b 8,	5, 0, $16, $00, 8
 		dc.b 8,	5, 0, $2A, $20
 		dc.b 8,	5, 0, 4, $30
 		dc.b 8,	5, 0, $2E, $44
@@ -55,7 +55,7 @@ Map_Cred_internal:
 		dc.b $D8, 9, 0,	8, $FF, $E0
 		dc.b 8,	5, 0, $2A, $FF, $E8
 		dc.b 8,	5, 0, $32, $FF, $F8
-		dc.b 8,	5, 0, $36, 8
+		dc.b 8,	5, 0, $36, $00, 8
 @character:	dc.b $18		 ; CHARACTER DESIGN BIGISLAND
 		dc.b $D8, 5, 0,	$1E, $FF, $88
 		dc.b $D8, 5, 0,	$3A, $FF, $98
@@ -65,7 +65,7 @@ Map_Cred_internal:
 		dc.b $D8, 5, 0,	$1E, $FF, $D8
 		dc.b $D8, 5, 0,	$3E, $FF, $E8
 		dc.b $D8, 5, 0,	$E, $FF, $F8
-		dc.b $D8, 5, 0,	$22, 8
+		dc.b $D8, 5, 0,	$22, $00, 8
 		dc.b $D8, 5, 0,	$42, $20
 		dc.b $D8, 5, 0,	$E, $30
 		dc.b $D8, 5, 0,	$2E, $40
@@ -77,7 +77,7 @@ Map_Cred_internal:
 		dc.b 8,	5, 0, 0, $FF, $D8
 		dc.b 8,	1, 0, $46, $FF, $E8
 		dc.b 8,	5, 0, $2E, $FF, $F0
-		dc.b 8,	5, 0, $16, 0
+		dc.b 8,	5, 0, $16, $00, 0
 		dc.b 8,	5, 0, 4, $10
 		dc.b 8,	5, 0, $1A, $20
 		dc.b 8,	5, 0, $42, $30
@@ -90,13 +90,13 @@ Map_Cred_internal:
 		dc.b $D0, 5, 0,	$1A, $FF, $E8
 		dc.b 0,	5, 0, $4C, $FF, $E8
 		dc.b 0,	1, 0, $46, $FF, $F8
-		dc.b 0,	5, 0, $1A, 4
+		dc.b 0,	5, 0, $1A, $00, 4
 		dc.b 0,	5, 0, $2A, $14
 		dc.b 0,	5, 0, 4, $24
 		dc.b $20, 5, 0,	$12, $FF, $D0
 		dc.b $20, 5, 0,	$3A, $FF, $E0
 		dc.b $20, 5, 0,	$E, $FF, $F0
-		dc.b $20, 5, 0,	$1A, 0
+		dc.b $20, 5, 0,	$1A, $00, 0
 		dc.b $20, 1, 0,	$46, $10
 		dc.b $20, 5, 0,	$50, $18
 		dc.b $20, 5, 0,	$22, $30
@@ -109,7 +109,7 @@ Map_Cred_internal:
 		dc.b $D8, 5, 0,	$1A, $FF, $C8
 		dc.b $D8, 5, 0,	$54, $FF, $D8
 		dc.b $D8, 5, 0,	$12, $FF, $F8
-		dc.b $D8, 5, 0,	$22, 8
+		dc.b $D8, 5, 0,	$22, $00, 8
 		dc.b $D8, 5, 0,	$26, $18
 		dc.b $D8, 5, 0,	$42, $28
 		dc.b $D8, 5, 0,	$32, $38
@@ -122,7 +122,7 @@ Map_Cred_internal:
 		dc.b 8,	5, 0, $3E, $FF, $CC
 		dc.b 8,	5, 0, $26, $FF, $DC
 		dc.b 8,	5, 0, $1A, $FF, $F8
-		dc.b 8,	5, 0, 4, 8
+		dc.b 8,	5, 0, 4, $00, 8
 		dc.b 8,	5, 0, $58, $18
 		dc.b 8,	5, 0, 4, $28
 		dc.b 8,	9, 0, 8, $38
@@ -136,7 +136,7 @@ Map_Cred_internal:
 		dc.b $D0, 5, 0,	$1A, $FF, $C8
 		dc.b $D0, 5, 0,	$54, $FF, $D8
 		dc.b $D0, 5, 0,	$12, $FF, $F8
-		dc.b $D0, 5, 0,	$22, 8
+		dc.b $D0, 5, 0,	$22, $00, 8
 		dc.b $D0, 5, 0,	$26, $18
 		dc.b $D0, 5, 0,	0, $28
 		dc.b $D0, 5, 0,	$22, $38
@@ -146,12 +146,12 @@ Map_Cred_internal:
 		dc.b 0,	1, 0, $46, $FF, $E0
 		dc.b 0,	9, 0, 8, $FF, $E8
 		dc.b 0,	1, 0, $46, $FF, $FC
-		dc.b 0,	5, 0, $3E, 4
+		dc.b 0,	5, 0, $3E, $00, 4
 		dc.b 0,	5, 0, 4, $14
 		dc.b $20, 9, 0,	8, $FF, $D0
 		dc.b $20, 5, 0,	4, $FF, $E4
 		dc.b $20, 5, 0,	$1E, $FF, $F4
-		dc.b $20, 5, 0,	$58, 4
+		dc.b $20, 5, 0,	$58, $00, 4
 		dc.b $20, 5, 0,	$2A, $14
 @thanks:	dc.b $1F		 ; SPECIAL THANKS FUJIO	MINEGISHI PAPA
 		dc.b $D8, 5, 0,	$2E, $FF, $80
@@ -162,7 +162,7 @@ Map_Cred_internal:
 		dc.b $D8, 5, 0,	4, $FF, $C8
 		dc.b $D8, 5, 0,	$16, $FF, $D8
 		dc.b $D8, 5, 0,	$3E, $FF, $F8
-		dc.b $D8, 5, 0,	$3A, 8
+		dc.b $D8, 5, 0,	$3A, $00, 8
 		dc.b $D8, 5, 0,	4, $18
 		dc.b $D8, 5, 0,	$1A, $28
 		dc.b $D8, 5, 0,	$58, $38
@@ -172,7 +172,7 @@ Map_Cred_internal:
 		dc.b 0,	5, 0, $4C, $FF, $D0
 		dc.b 0,	1, 0, $46, $FF, $E0
 		dc.b 0,	5, 0, $26, $FF, $E8
-		dc.b 0,	9, 0, 8, 0
+		dc.b 0,	9, 0, 8, $00, 0
 		dc.b 0,	1, 0, $46, $14
 		dc.b 0,	5, 0, $1A, $1C
 		dc.b 0,	5, 0, $E, $2C
@@ -182,7 +182,7 @@ Map_Cred_internal:
 		dc.b 0,	5, 0, $3A, $64
 		dc.b 0,	1, 0, $46, $74
 		dc.b $20, 5, 0,	$12, $FF, $F8
-		dc.b $20, 5, 0,	4, 8
+		dc.b $20, 5, 0,	4, $00, 8
 		dc.b $20, 5, 0,	$12, $18
 		dc.b $20, 5, 0,	4, $28
 @presentedby:	dc.b $F			 ; PRESENTED BY	SEGA
@@ -194,7 +194,7 @@ Map_Cred_internal:
 		dc.b $F8, 5, 0,	$1A, $FF, $D0
 		dc.b $F8, 5, 0,	$3E, $FF, $E0
 		dc.b $F8, 5, 0,	$E, $FF, $F0
-		dc.b $F8, 5, 0,	$42, 0
+		dc.b $F8, 5, 0,	$42, $00, 0
 		dc.b $F8, 5, 0,	$48, $18
 		dc.b $F8, 5, 0,	$2A, $28
 		dc.b $F8, 5, 0,	$2E, $40
@@ -206,7 +206,7 @@ Map_Cred_internal:
 		dc.b $30, 5, 0,	$22, $FF, $D0
 		dc.b $30, 5, 0,	$2A, $FF, $E0
 		dc.b $30, 5, 0,	4, $FF, $F8
-		dc.b $30, 5, 0,	0, 8
+		dc.b $30, 5, 0,	0, $00, 8
 		dc.b $30, 5, 0,	4, $18
 		dc.b $30, 1, 0,	$46, $28
 		dc.b $30, 5, 0,	$1A, $30
@@ -216,7 +216,7 @@ Map_Cred_internal:
 		dc.b $E8, 5, 0,	$1A, $FF, $D4
 		dc.b $E8, 1, 0,	$46, $FF, $E4
 		dc.b $E8, 5, 0,	$1E, $FF, $EC
-		dc.b $E8, 5, 0,	$3E, 4
+		dc.b $E8, 5, 0,	$3E, $00, 4
 		dc.b $E8, 5, 0,	$E, $14
 		dc.b $E8, 5, 0,	4, $24
 		dc.b $E8, 9, 0,	8, $34
@@ -224,7 +224,7 @@ Map_Cred_internal:
 		dc.b 0,	5, 0, $22, $FF, $D0
 		dc.b 0,	5, 0, $E, $FF, $E0
 		dc.b 0,	5, 0, $2E, $FF, $F0
-		dc.b 0,	5, 0, $E, 0
+		dc.b 0,	5, 0, $E, $00, 0
 		dc.b 0,	5, 0, $1A, $10
 		dc.b 0,	5, 0, $3E, $20
 		dc.b 0,	5, 0, $2E, $30

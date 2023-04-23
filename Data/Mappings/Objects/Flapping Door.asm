@@ -12,6 +12,6 @@ Map_Flap_internal:
 		dc.b $DA, $F, 0, 8, $FF, $FB
 		dc.b 6,	$F, $10, 8, $FF, $FB
 @open:		dc.b 2
-		dc.b $D8, $D, 0, $18, 0
-		dc.b $18, $D, $10, $18,	0
+		dc.b $D8, $D, 0, $18, $00, 0
+		dc.b $18, $D, $10, $18,	$00, 0
 		even

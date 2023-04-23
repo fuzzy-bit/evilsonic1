@@ -14,7 +14,7 @@ Map_SStom_internal:
 @block:		dc.b 3
 		dc.b $E0, $B, 0, $1F, $FF, $F4 ; main metal block
 		dc.b 0,	$B, $10, $1F, $FF, $F4
-		dc.b $F0, 3, 0,	$2B, $C
+		dc.b $F0, 3, 0,	$2B, $00, $C
 @spikes:	dc.b 3
 		dc.b $E8, $C, $12, $1B,	$FF, $F0 ; three spikes
 		dc.b $FC, $C, $12, $1B,	$FF, $F0
@@ -27,19 +27,19 @@ Map_SStom_internal:
 @pole2:		dc.b 4
 		dc.b $F8, 5, 0,	$41, $FF, $E0
 		dc.b $F8, 5, 0,	$41, $FF, $F0
-		dc.b $F8, 5, 0,	$41, 0
+		dc.b $F8, 5, 0,	$41, $00, 0
 		dc.b $F8, 5, 0,	$41, $10
 @pole3:		dc.b 6
 		dc.b $F8, 5, 0,	$41, $FF, $E0
 		dc.b $F8, 5, 0,	$41, $FF, $F0
-		dc.b $F8, 5, 0,	$41, 0
+		dc.b $F8, 5, 0,	$41, $00, 0
 		dc.b $F8, 5, 0,	$41, $10
 		dc.b $F8, 5, 0,	$41, $20
 		dc.b $F8, 5, 0,	$41, $30
 @pole4:		dc.b 8
 		dc.b $F8, 5, 0,	$41, $FF, $E0
 		dc.b $F8, 5, 0,	$41, $FF, $F0
-		dc.b $F8, 5, 0,	$41, 0
+		dc.b $F8, 5, 0,	$41, $00, 0
 		dc.b $F8, 5, 0,	$41, $10
 		dc.b $F8, 5, 0,	$41, $20
 		dc.b $F8, 5, 0,	$41, $30
@@ -48,7 +48,7 @@ Map_SStom_internal:
 @pole5:		dc.b 8		; Incorrect: this should be $A
 		dc.b $F8, 5, 0,	$41, $FF, $E0
 		dc.b $F8, 5, 0,	$41, $FF, $F0
-		dc.b $F8, 5, 0,	$41, 0
+		dc.b $F8, 5, 0,	$41, $00, 0
 		dc.b $F8, 5, 0,	$41, $10
 		dc.b $F8, 5, 0,	$41, $20
 		dc.b $F8, 5, 0,	$41, $30

@@ -17,6 +17,6 @@ Map_Seesaw_internal:
 @flat:		dc.b 4
 		dc.b $E6, $A, 0, $1D, $FF, $D0
 		dc.b $E6, $A, 0, $23, $FF, $E8
-		dc.b $E6, $A, 8, $23, 0
+		dc.b $E6, $A, 8, $23, $00, 0
 		dc.b $E6, $A, 8, $1D, $18
 		even

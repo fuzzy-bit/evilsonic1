@@ -15,7 +15,7 @@ Map_Newt_internal:
 		dc.w M_Newt_Blank-Map_Newt_internal
 M_Newt_Trans:	dc.b 3
 		dc.b $EC, $D, 0, 0, $FF, $EC	; partially visible
-		dc.b $F4, 0, 0,	8, $C
+		dc.b $F4, 0, 0,	8, $00, $C
 		dc.b $FC, $E, 0, 9, $FF, $F4
 M_Newt_Norm:	dc.b 3
 		dc.b $EC, 6, 0,	$15, $FF, $EC ; visible
@@ -29,29 +29,29 @@ M_Newt_Drop1:	dc.b 4
 		dc.b $EC, 6, 0,	$30, $FF, $EC ; dropping
 		dc.b $EC, 9, 0,	$1B, $FF, $FC
 		dc.b $FC, 9, 0,	$36, $FF, $FC
-		dc.b $C, 0, 0, $3C, $C
+		dc.b $C, 0, 0, $3C, $00, $C
 M_Newt_Drop2:	dc.b 3
 		dc.b $F4, $D, 0, $3D, $FF, $EC
-		dc.b $FC, 0, 0,	$20, $C
+		dc.b $FC, 0, 0,	$20, $00, $C
 		dc.b 4,	8, 0, $45, $FF, $FC
 M_Newt_Drop3:	dc.b 2
 		dc.b $F8, $D, 0, $48, $FF, $EC
-		dc.b $F8, 1, 0,	$50, $C
+		dc.b $F8, 1, 0,	$50, $00, $C
 M_Newt_Fly1a:	dc.b 3
 		dc.b $F8, $D, 0, $48, $FF, $EC ; flying
-		dc.b $F8, 1, 0,	$50, $C
+		dc.b $F8, 1, 0,	$50, $00, $C
 		dc.b $FE, 0, 0,	$52, $14
 M_Newt_Fly1b:	dc.b 3
 		dc.b $F8, $D, 0, $48, $FF, $EC
-		dc.b $F8, 1, 0,	$50, $C
+		dc.b $F8, 1, 0,	$50, $00, $C
 		dc.b $FE, 4, 0,	$53, $14
 M_Newt_Fly2a:	dc.b 3
 		dc.b $F8, $D, 0, $48, $FF, $EC
-		dc.b $F8, 1, 0,	$50, $C
+		dc.b $F8, 1, 0,	$50, $00, $C
 		dc.b $FE, 0, $E0, $52, $14
 M_Newt_Fly2b:	dc.b 3
 		dc.b $F8, $D, 0, $48, $FF, $EC
-		dc.b $F8, 1, 0,	$50, $C
+		dc.b $F8, 1, 0,	$50, $00, $C
 		dc.b $FE, 4, $E0, $53, $14
 M_Newt_Blank:	dc.b 0
 		even

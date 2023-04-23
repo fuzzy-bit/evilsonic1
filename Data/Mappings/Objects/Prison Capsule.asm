@@ -12,20 +12,20 @@ Map_Pri_internal:
 @capsule:	dc.b 7
 		dc.b $E0, $C, $20, 0, $FF, $F0
 		dc.b $E8, $D, $20, 4, $FF, $E0
-		dc.b $E8, $D, $20, $C, 0
+		dc.b $E8, $D, $20, $C, $00, 0
 		dc.b $F8, $E, $20, $14,	$FF, $E0
-		dc.b $F8, $E, $20, $20,	0
+		dc.b $F8, $E, $20, $20,	$00, 0
 		dc.b $10, $D, $20, $2C,	$FF, $E0
-		dc.b $10, $D, $20, $34,	0
+		dc.b $10, $D, $20, $34,	$00, 0
 @switch1:	dc.b 1
 		dc.b $F8, 9, 0,	$3C, $FF, $F4
 @broken:	dc.b 6
 		dc.b 0,	8, $20,	$42, $FF, $E0
 		dc.b 8,	$C, $20, $45, $FF, $E0
 		dc.b 0,	4, $20,	$49, $10
-		dc.b 8,	$C, $20, $4B, 0
+		dc.b 8,	$C, $20, $4B, $00, 0
 		dc.b $10, $D, $20, $2C,	$FF, $E0
-		dc.b $10, $D, $20, $34,	0
+		dc.b $10, $D, $20, $34,	$00, 0
 @switch2:	dc.b 1
 		dc.b $F8, 9, 0,	$4F, $FF, $F4
 @unusedthing1:	dc.b 2

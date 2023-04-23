@@ -21,8 +21,8 @@ byte_94D4:	dc.b 1
 		dc.b $FC, 0, 0,	6, $FF, $FC	; 10 points
 byte_94DA:	dc.b 2
 		dc.b $FC, 8, 0,	6, $FF, $F4	; 10,000 points
-		dc.b $FC, 4, 0,	7, 1
+		dc.b $FC, 4, 0,	7, $00, 1
 byte_94E5:	dc.b 2
 		dc.b $FC, 8, 0,	6, $FF, $F4	; 100,000 points
-		dc.b $FC, 4, 0,	7, 6
+		dc.b $FC, 4, 0,	7, $00, 6
 		even

@@ -12,12 +12,12 @@ byte_8EDC:	dc.b 1
 		dc.b $F0, $F, 0, $16, $FF, $F0
 byte_8EE2:	dc.b 4
 		dc.b $EC, $A, 0, $26, $FF, $EC
-		dc.b $EC, 5, 0,	$2F, 4
+		dc.b $EC, 5, 0,	$2F, $00, 4
 		dc.b 4,	5, $18,	$2F, $FF, $EC
 		dc.b $FC, $A, $18, $26,	$FF, $FC
 byte_8EF7:	dc.b 4
 		dc.b $EC, $A, 0, $33, $FF, $EC
-		dc.b $EC, 5, 0,	$3C, 4
+		dc.b $EC, 5, 0,	$3C, $00, 4
 		dc.b 4,	5, $18,	$3C, $FF, $EC
 		dc.b $FC, $A, $18, $33,	$FF, $FC
 		even

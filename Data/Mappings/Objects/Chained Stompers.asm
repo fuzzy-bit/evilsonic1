@@ -65,7 +65,7 @@ Map_CStom_internal:
 @mediumblock:	dc.b 5
 		dc.b $F4, 6, 0,	0, $FF, $D0
 		dc.b $F4, $A, 0, 6, $FF, $E0
-		dc.b $F4, $A, 8, 6, 8
+		dc.b $F4, $A, 8, 6, $00, 8
 		dc.b $F4, 6, 8,	0, $20
 		dc.b $EC, $F, 0, $F, $FF, $F0
 @smallblock:	dc.b 1

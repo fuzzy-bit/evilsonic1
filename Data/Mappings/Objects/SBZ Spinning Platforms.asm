@@ -9,7 +9,7 @@ Map_Spin_internal:
 		dc.w @spin4-Map_Spin_internal
 @flat:		dc.b 2
 		dc.b $F8, 5, 0,	0, $FF, $F0
-		dc.b $F8, 5, 8,	0, 0
+		dc.b $F8, 5, 8,	0, $00, 0
 @spin1:		dc.b 2
 		dc.b $F0, $D, 0, $14, $FF, $F0
 		dc.b 0,	$D, 0, $1C, $FF, $F0

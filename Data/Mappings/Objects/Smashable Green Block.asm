@@ -10,6 +10,6 @@ Map_Smab_internal:
 @four:		dc.b 4
 		dc.b $F0, 5, $80, 0, $FF, $F0 ; four fragments
 		dc.b 0,	5, $80,	0, $FF, $F0
-		dc.b $F0, 5, $80, 0, 0
-		dc.b 0,	5, $80,	0, 0
+		dc.b $F0, 5, $80, 0, $00, 0
+		dc.b 0,	5, $80,	0, $00, 0
 		even

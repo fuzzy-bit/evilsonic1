@@ -31,7 +31,7 @@ M_Card_LZ:	dc.b 9			; LABYRINTH
 		dc.b	$F8, 5, 0, $31, $FF, $D6
 		dc.b	$F8, 5, 0, $8D, $FF, $E5
 		dc.b	$F8, 5, 0, $71, $FF, $F4
-		dc.b	$F8, 5, 0, $4D, $8
+		dc.b	$F8, 5, 0, $4D, $00, $8
 		dc.b	$F8, 5, 0, $61, $13
 		dc.b	$F8, 5, 0, $79, $22
 		dc.b	$F8, 5, 0, $49, $31
@@ -40,7 +40,7 @@ M_Card_MZ:	dc.b 6			; MARBLE
 		dc.b $F8, 5, 0,	$2A, $FF, $CF
 		dc.b $F8, 5, 0,	0, $FF, $E0
 		dc.b $F8, 5, 0,	$3A, $FF, $F0
-		dc.b $F8, 5, 0,	4, 0
+		dc.b $F8, 5, 0,	4, $00, 0
 		dc.b $F8, 5, 0,	$26, $10
 		dc.b $F8, 5, 0,	$10, $20
 		even
@@ -50,7 +50,7 @@ M_Card_SLZ:	dc.b 9		; STAR LIGHT
 		dc.b	$F8, 5, 0, $2D, $FF, $D6
 		dc.b	$F8, 5, 0, $71, $FF, $E5
 
-		dc.b	$F8, 5, 0, $59, $4
+		dc.b	$F8, 5, 0, $59, $00, $4
 		dc.b	$F8, 5, 0, $4D, $17
 		dc.b	$F8, 5, 0, $45, $22
 		dc.b	$F8, 5, 0, $49, $31
@@ -86,18 +86,18 @@ M_Card_SBZ:	dc.b 9		; CLOCK WORK
 M_Card_Zone:	dc.b 4			; ZONE
 		dc.b $F8, 5, 0,	$91, $FF, $E0
 		dc.b $F8, 5, 0,	$65, $FF, $F0
-		dc.b $F8, 5, 0,	$61, 0
+		dc.b $F8, 5, 0,	$61, $00, 0
 		dc.b $F8, 5, 0,	$3D, $10
 		even
 M_Card_Act1:	dc.b 2			; ACT 1
 		dc.b 4,	$C, 0, $0, $FF, $EC
-		dc.b $F4, 2, 0,	$4, $C
+		dc.b $F4, 2, 0,	$4, $00, $C
 M_Card_Act2:	dc.b 2			; ACT 2
 		dc.b 4,	$C, 0, $0, $FF, $EC
-		dc.b $F4, 6, 0,	$7, 8
+		dc.b $F4, 6, 0,	$7, $00, 8
 M_Card_Act3:	dc.b 2			; ACT 3
 		dc.b 4,	$C, 0, $0, $FF, $EC
-		dc.b $F4, 6, 0,	$D, 8
+		dc.b $F4, 6, 0,	$D, $00, 8
 M_Card_Oval:	dc.b $D			; Oval
 		dc.b $E4, $C, 0, $1D, $FF, $F4
 		dc.b $E4, 2, 0,	$21, $14
@@ -105,8 +105,8 @@ M_Card_Oval:	dc.b $D			; Oval
 		dc.b $F4, 5, 0,	$26, $FF, $E4	
 		dc.b $14, $C, $18, $1D,	$FF, $EC
 		dc.b 4,	2, $18,	$21, $FF, $E4
-		dc.b $C, 4, $18, $24, 4	
-		dc.b $FC, 5, $18, $26, $C	
+		dc.b $C, 4, $18, $24, $00, 4	
+		dc.b $FC, 5, $18, $26, $00, $C	
 		dc.b $EC, 8, 0,	$2A, $FF, $FC
 		dc.b $F4, $C, 0, $29, $FF, $F4
 		dc.b $FC, 8, 0,	$29, $FF, $F4
@@ -117,7 +117,7 @@ M_Card_FZ:	dc.b 5			; FINAL
 		dc.b $F8, 5, 0,	$14, $FF, $DC
 		dc.b $F8, 1, 0,	$20, $FF, $EC
 		dc.b $F8, 5, 0,	$2E, $FF, $F4
-		dc.b $F8, 5, 0,	0, 4
+		dc.b $F8, 5, 0,	0, $00, 4
 		dc.b $F8, 5, 0,	$26, $14
 		even
 
@@ -149,7 +149,7 @@ M_Got_Passed:	dc.b 6			; PASSED
 		dc.b $F8, 5, 0,	$36, $FF, $D0
 		dc.b $F8, 5, 0,	0, $FF, $E0
 		dc.b $F8, 5, 0,	$3E, $FF, $F0
-		dc.b $F8, 5, 0,	$3E, 0
+		dc.b $F8, 5, 0,	$3E, $00, 0
 		dc.b $F8, 5, 0,	$10, $10
 		dc.b $F8, 5, 0,	$C, $20
 M_Got_Score:	dc.b 6			; SCORE
@@ -195,7 +195,7 @@ M_SSR_Chaos:	dc.b $D			; "CHAOS EMERALDS"
 		dc.b $F8, 5, 0,	$32, $FF, $C0
 		dc.b $F8, 5, 0,	$3E, $FF, $D0
 		dc.b $F8, 5, 0,	$10, $FF, $F0
-		dc.b $F8, 5, 0,	$2A, 0
+		dc.b $F8, 5, 0,	$2A, $00, 0
 		dc.b $F8, 5, 0,	$10, $10
 		dc.b $F8, 5, 0,	$3A, $20
 		dc.b $F8, 5, 0,	0, $30

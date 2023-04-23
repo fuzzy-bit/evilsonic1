@@ -11,7 +11,7 @@ Map_Spike_internal:
 byte_CFF4:	dc.b 3			; 3 spikes
 		dc.b $F0, 3, 0,	4, $FF, $EC
 		dc.b $F0, 3, 0,	4, $FF, $FC
-		dc.b $F0, 3, 0,	4, $C
+		dc.b $F0, 3, 0,	4, $00, $C
 byte_D004:	dc.b 3			; 3 spikes facing sideways
 		dc.b $EC, $C, 0, 0, $FF, $F0
 		dc.b $FC, $C, 0, 0, $FF, $F0
@@ -26,7 +26,7 @@ byte_D02A:	dc.b 6			; 6 spikes
 		dc.b $F0, 3, 0,	4, $FF, $C0
 		dc.b $F0, 3, 0,	4, $FF, $D8
 		dc.b $F0, 3, 0,	4, $FF, $F0
-		dc.b $F0, 3, 0,	4, 8
+		dc.b $F0, 3, 0,	4, $00, 8
 		dc.b $F0, 3, 0,	4, $20
 		dc.b $F0, 3, 0,	4, $38
 byte_D049:	dc.b 1			; 1 spike facing sideways

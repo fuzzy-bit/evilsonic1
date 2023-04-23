@@ -41,14 +41,14 @@ Map_Bub_internal:
 		dc.b $F0, $F, 0, $14, $FF, $F0
 @burst1:	dc.b 4
 		dc.b $F0, 5, 0,	$24, $FF, $F0 ; large bubble bursting
-		dc.b $F0, 5, 8,	$24, 0
+		dc.b $F0, 5, 8,	$24, $00, 0
 		dc.b 0,	5, $10,	$24, $FF, $F0
-		dc.b 0,	5, $18,	$24, 0
+		dc.b 0,	5, $18,	$24, $00, 0
 @burst2:	dc.b 4
 		dc.b $F0, 5, 0,	$28, $FF, $F0
-		dc.b $F0, 5, 8,	$28, 0
+		dc.b $F0, 5, 8,	$28, $00, 0
 		dc.b 0,	5, $10,	$28, $FF, $F0
-		dc.b 0,	5, $18,	$28, 0
+		dc.b 0,	5, $18,	$28, $00, 0
 @zero_sm:	dc.b 1
 		dc.b $F4, 6, 0,	$2C, $FF, $F8 ; small, partially-formed countdown numbers
 @five_sm:	dc.b 1

@@ -117,7 +117,7 @@ MS_LookUp:	dc.b 3			; looking up
 MS_Walk11:	dc.b 4			; walking 1-1
 		dc.b $EB, $D, 0, 0, $FF, $EC
 		dc.b $FB, 9, 0,	8, $FF, $EC
-		dc.b $FB, 6, 0,	$E, 4
+		dc.b $FB, 6, 0,	$E, $00, 4
 		dc.b $B, 4, 0, $14, $FF, $EC
 MS_Walk12:	dc.b 2			; walking 1-2
 		dc.b $EC, $D, 0, 0, $FF, $ED
@@ -128,7 +128,7 @@ MS_Walk13:	dc.b 2			; walking 1-3
 MS_Walk14:	dc.b 4			; walking 1-4
 		dc.b $EB, 9, 0,	0, $FF, $F4
 		dc.b $FB, 9, 0,	6, $FF, $EC
-		dc.b $FB, 6, 0,	$C, 4
+		dc.b $FB, 6, 0,	$C, $00, 4
 		dc.b $B, 4, 0, $12, $FF, $EC
 MS_Walk15:	dc.b 2			; walking 1-5
 		dc.b $EC, 9, 0,	0, $FF, $F3
@@ -139,36 +139,36 @@ MS_Walk16:	dc.b 3			; walking 1-6
 		dc.b 5,	9, 0, $C, $FF, $F4
 MS_Walk21:	dc.b 5			; walking 2-1
 		dc.b $EB, 9, 0,	0, $FF, $EB
-		dc.b $EB, 6, 0,	6, 3
+		dc.b $EB, 6, 0,	6, $00, 3
 		dc.b $FB, 8, 0,	$C, $FF, $EB
 		dc.b 3,	9, 0, $F, $FF, $F3
 		dc.b $13, 0, 0,	$15, $FF, $FB
 MS_Walk22:	dc.b 6			; walking 2-2
 		dc.b $EC, 9, 0,	0, $FF, $EC
-		dc.b $EC, 1, 0,	6, 4
+		dc.b $EC, 1, 0,	6, $00, 4
 		dc.b $FC, $C, 0, 8, $FF, $EC
 		dc.b 4,	9, 0, $C, $FF, $F4
-		dc.b $FC, 5, 0,	$12, $C
+		dc.b $FC, 5, 0,	$12, $00, $C
 		dc.b $F4, 0, 0,	$16, $14
 MS_Walk23:	dc.b 4			; walking 2-3
 		dc.b $ED, 9, 0,	0, $FF, $ED
-		dc.b $ED, 1, 0,	6, 5
+		dc.b $ED, 1, 0,	6, $00, 5
 		dc.b $FD, $D, 0, 8, $FF, $F5
 		dc.b $D, 8, 0, $10, $FF, $FD
 MS_Walk24:	dc.b 5			; walking 2-4
 		dc.b $EB, 9, 0,	0, $FF, $EB
-		dc.b $EB, 5, 0,	6, 3
+		dc.b $EB, 5, 0,	6, $00, 3
 		dc.b $FB, $D, 0, $A, $FF, $F3
 		dc.b $B, 8, 0, $12, $FF, $F3
 		dc.b $13, 4, 0,	$15, $FF, $FB
 MS_Walk25:	dc.b 4			; walking 2-5
 		dc.b $EC, 9, 0,	0, $FF, $EC
-		dc.b $EC, 1, 0,	6, 4
+		dc.b $EC, 1, 0,	6, $00, 4
 		dc.b $FC, $D, 0, 8, $FF, $F4
 		dc.b $C, 8, 0, $10, $FF, $FC
 MS_Walk26:	dc.b 5			; walking 2-6
 		dc.b $ED, 9, 0,	0, $FF, $ED
-		dc.b $ED, 1, 0,	6, 5
+		dc.b $ED, 1, 0,	6, $00, 5
 		dc.b $FD, 0, 0,	8, $FF, $ED
 		dc.b $FD, $D, 0, 9, $FF, $F5
 		dc.b $D, 8, 0, $11, $FF, $FD
@@ -245,21 +245,21 @@ MS_Run14:	dc.b 2			; running 1-4
 		dc.b $FE, $E, 0, 6, $FF, $EC
 MS_Run21:	dc.b 4			; running 2-1
 		dc.b $EE, 9, 0,	0, $FF, $EE
-		dc.b $EE, 1, 0,	6, 6
+		dc.b $EE, 1, 0,	6, $00, 6
 		dc.b $FE, $E, 0, 8, $FF, $F6
 		dc.b $FE, 0, 0,	$14, $FF, $EE
 MS_Run22:	dc.b 3			; running 2-2
 		dc.b $EE, 9, 0,	0, $FF, $EE
-		dc.b $EE, 1, 0,	6, 6
+		dc.b $EE, 1, 0,	6, $00, 6
 		dc.b $FE, $E, 0, 8, $FF, $F6
 MS_Run23:	dc.b 4			; running 2-3
 		dc.b $EE, 9, 0,	0, $FF, $EE
-		dc.b $EE, 1, 0,	6, 6
+		dc.b $EE, 1, 0,	6, $00, 6
 		dc.b $FE, $E, 0, 8, $FF, $F6
 		dc.b $FE, 0, 0,	$14, $FF, $EE
 MS_Run24:	dc.b 3			; running 2-4
 		dc.b $EE, 9, 0,	0, $FF, $EE
-		dc.b $EE, 1, 0,	6, 6
+		dc.b $EE, 1, 0,	6, $00, 6
 		dc.b $FE, $E, 0, 8, $FF, $F6
 MS_Run31:	dc.b 2			; running 3-1
 		dc.b $F4, 6, 0,	0, $FF, $EE
@@ -301,7 +301,7 @@ MS_Roll5:	dc.b 1			; rolling 5
 		dc.b $F0, $F, 0, 0, $FF, $F0
 MS_Warp1:	dc.b 2			; warped 1 (unused)
 		dc.b $F4, $E, 0, 0, $FF, $EC
-		dc.b $F4, 2, 0,	$C, $C
+		dc.b $F4, 2, 0,	$C, $00, $C
 MS_Warp2:	dc.b 1			; warped 2 (unused)
 		dc.b $F0, $F, 0, 0, $FF, $F0
 MS_Warp3:	dc.b 2			; warped 3 (unused)
@@ -315,7 +315,7 @@ MS_Stop1:	dc.b 2			; stopping 1
 MS_Stop2:	dc.b 4			; stopping 2
 		dc.b $ED, 9, 0,	0, $FF, $F0
 		dc.b $FD, $D, 0, 6, $FF, $F0
-		dc.b $D, 4, 0, $E, 0
+		dc.b $D, 4, 0, $E, $00, 0
 		dc.b 5,	0, 0, $10, $FF, $E8
 MS_Duck:	dc.b 4			; ducking
 		dc.b $F4, 4, 0,	0, $FF, $FC
@@ -324,22 +324,22 @@ MS_Duck:	dc.b 4			; ducking
 		dc.b 4,	0, 0, $D, $FF, $EC
 MS_Balance1:	dc.b 3			; balancing 1
 		dc.b $EC, 8, 8,	0, $FF, $E8
-		dc.b $F4, 2, 8,	3, 0
+		dc.b $F4, 2, 8,	3, $00, 0
 		dc.b $F4, $F, 8, 6, $FF, $E0
 MS_Balance2:	dc.b 3			; balancing 2
 		dc.b $EC, $E, 8, 0, $FF, $E8
 		dc.b 4,	$D, 8, $C, $FF, $E0
-		dc.b $C, 0, $18, $14, 0
+		dc.b $C, 0, $18, $14, $00, 0
 MS_Float1:	dc.b 3			; spinning 1 (LZ)
 		dc.b $F4, $D, 0, 0, $FF, $FC
 		dc.b $FC, 5, 0,	8, $FF, $EC
 		dc.b 4,	8, 0, $C, $FF, $FC
 MS_Float2:	dc.b 2			; spinning 2 (LZ)
 		dc.b $F4, $A, 0, 0, $FF, $E8
-		dc.b $F4, $A, 8, 0, 0
+		dc.b $F4, $A, 8, 0, $00, 0
 MS_Float3:	dc.b 3			; spinning 3 (LZ)
 		dc.b $F4, $D, 0, 0, $FF, $E4
-		dc.b $FC, 0, 0,	8, 4
+		dc.b $FC, 0, 0,	8, $00, 4
 		dc.b 4,	$C, 0, 9, $FF, $EC
 MS_Float4:	dc.b 3			; spinning 4 (LZ)
 		dc.b $F4, $D, 0, 0, $FF, $FC
@@ -351,23 +351,23 @@ MS_Spring:	dc.b 3			; bouncing on a spring
 		dc.b $10, 0, 0,	$E, $FF, $F8
 MS_Hang1:	dc.b 4			; hanging 1 (LZ)
 		dc.b $F8, $E, 0, 0, $FF, $E8
-		dc.b 0,	5, 0, $C, 8
-		dc.b $F8, 0, 0,	$10, 8
+		dc.b 0,	5, 0, $C, $00, 8
+		dc.b $F8, 0, 0,	$10, $00, 8
 		dc.b $F0, 0, 0,	$11, $FF, $F8
 MS_Hang2:	dc.b 4			; hanging 2 (LZ)
 		dc.b $F8, $E, 0, 0, $FF, $E8
-		dc.b 0,	5, 0, $C, 8
-		dc.b $F8, 0, 0,	$10, 8
+		dc.b 0,	5, 0, $C, $00, 8
+		dc.b $F8, 0, 0,	$10, $00, 8
 		dc.b $F0, 0, 0,	$11, $FF, $F8
 MS_Leap1:	dc.b 5			; celebration leap 1 (unused)
 		dc.b $E8, $A, 0, 0, $FF, $F4
-		dc.b $F0, 1, 0,	9, $C
+		dc.b $F0, 1, 0,	9, $00, $C
 		dc.b 0,	9, 0, $B, $FF, $F4
 		dc.b $10, 4, 0,	$11, $FF, $F4
 		dc.b 0,	0, 0, $13, $FF, $EC
 MS_Leap2:	dc.b 5			; celebration leap 2 (unused)
 		dc.b $E8, $A, 0, 0, $FF, $F4
-		dc.b $E8, 1, 0,	9, $C
+		dc.b $E8, 1, 0,	9, $00, $C
 		dc.b 0,	9, 0, $B, $FF, $F4
 		dc.b $10, 4, 0,	$11, $FF, $F4
 		dc.b 0,	0, 0, $13, $FF, $EC
@@ -394,17 +394,17 @@ MS_BubStand:	dc.b 3			; collecting bubble (unused)
 		dc.b $E4, 0, 0,	$D, $FF, $F8
 MS_Burnt:	dc.b 3			; grey death
 		dc.b $E8, $D, 0, 0, $FF, $EC
-		dc.b $E8, 1, 0,	8, $C
+		dc.b $E8, 1, 0,	8, $00, $C
 		dc.b $F8, $B, 0, $A, $FF, $F4
 MS_Drown:	dc.b 5			; drowning
 		dc.b $E8, $D, 0, 0, $FF, $EC
-		dc.b $E8, 1, 0,	8, $C
+		dc.b $E8, 1, 0,	8, $00, $C
 		dc.b $F8, 9, 0,	$A, $FF, $F4
 		dc.b 8,	$C, 0, $10, $FF, $F4
 		dc.b $10, 0, 0,	$14, $FF, $F4
 MS_Death:	dc.b 5			; death
 		dc.b $E8, $D, 0, 0, $FF, $EC
-		dc.b $E8, 1, 0,	8, $C
+		dc.b $E8, 1, 0,	8, $00, $C
 		dc.b $F8, 9, 0,	$A, $FF, $F4
 		dc.b 8,	$C, 0, $10, $FF, $F4
 		dc.b $10, 0, 0,	$14, $FF, $F4
@@ -423,7 +423,7 @@ MS_Shrink5:	dc.b 1			; shrinking 5 (unused)
 		dc.b $F8, 1, 0,	0, $FF, $FC
 MS_Float5:	dc.b 3			; spinning 5 (LZ)
 		dc.b $F4, $D, 8, 0, $FF, $E4
-		dc.b $FC, 5, 8,	8, 4
+		dc.b $FC, 5, 8,	8, $00, 4
 		dc.b 4,	8, 8, $C, $FF, $EC
 MS_Float6:	dc.b 3			; spinning 6 (LZ)
 		dc.b $F4, $D, 8, 0, $FF, $FC
@@ -431,13 +431,13 @@ MS_Float6:	dc.b 3			; spinning 6 (LZ)
 		dc.b 4,	$C, 8, 9, $FF, $F4
 MS_Injury:	dc.b 3			; injury
 		dc.b $F0, $E, 0, 0, $FF, $EC
-		dc.b $F8, 1, 0,	$C, $C
+		dc.b $F8, 1, 0,	$C, $00, $C
 		dc.b 8,	$C, 0, $E, $FF, $F4
 MS_GetAir:	dc.b 3			; collecting bubble (LZ)
 		dc.b $EB, 9, 0,	0, $FF, $F4
 		dc.b $FB, $E, 0, 6, $FF, $EC
-		dc.b 3,	1, 0, $12, $C
+		dc.b 3,	1, 0, $12, $00, $C
 MS_WaterSlide:	dc.b 2			; water	slide (LZ)
 		dc.b $F0, $F, 0, 0, $FF, $EC
-		dc.b $F8, 2, 0,	$10, $C
+		dc.b $F8, 2, 0,	$10, $00, $C
 		even

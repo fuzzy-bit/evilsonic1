@@ -14,17 +14,17 @@ Map_FBlock_internal:
 		dc.b $F0, $F, 0, $61, $FF, $F0 ; SYZ - 1x1 square block
 @syz2x2:	dc.b 4
 		dc.b $E0, $F, 0, $61, $FF, $E0 ; SYZ - 2x2 square blocks
-		dc.b $E0, $F, 0, $61, 0
+		dc.b $E0, $F, 0, $61, $00, 0
 		dc.b 0,	$F, 0, $61, $FF, $E0
-		dc.b 0,	$F, 0, $61, 0
+		dc.b 0,	$F, 0, $61, $00, 0
 @syz1x2:	dc.b 2
 		dc.b $E0, $F, 0, $61, $FF, $F0 ; SYZ - 1x2 square blocks
 		dc.b 0,	$F, 0, $61, $FF, $F0
 @syzrect2x2:	dc.b 4
 		dc.b $E6, $F, 0, $81, $FF, $E0 ; SYZ - 2x2 rectangular blocks
-		dc.b $E6, $F, 0, $81, 0
+		dc.b $E6, $F, 0, $81, $00, 0
 		dc.b 0,	$F, 0, $81, $FF, $E0
-		dc.b 0,	$F, 0, $81, 0
+		dc.b 0,	$F, 0, $81, $00, 0
 @syzrect1x3:	dc.b 3
 		dc.b $D9, $F, 0, $81, $FF, $F0 ; SYZ - 1x3 rectangular blocks
 		dc.b $F3, $F, 0, $81, $FF, $F0
@@ -37,6 +37,6 @@ Map_FBlock_internal:
 @lzhoriz:	dc.b 4
 		dc.b $F0, $F, 0, $22, $FF, $C0 ; LZ - large horizontal door
 		dc.b $F0, $F, 0, $22, $FF, $E0
-		dc.b $F0, $F, 0, $22, 0
+		dc.b $F0, $F, 0, $22, $00, 0
 		dc.b $F0, $F, 0, $22, $20
 		even

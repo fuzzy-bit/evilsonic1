@@ -10,8 +10,8 @@ Map_Gird_internal:
 		dc.b 0,	$E, $10, 6, $FF, $C0
 		dc.b $E8, $E, 0, 6, $FF, $E0
 		dc.b 0,	$E, $10, 6, $FF, $E0
-		dc.b $E8, $E, 0, 6, 0
-		dc.b 0,	$E, $10, 6, 0
+		dc.b $E8, $E, 0, 6, $00, 0
+		dc.b 0,	$E, $10, 6, $00, 0
 		dc.b $E8, $E, 0, 6, $20
 		dc.b 0,	$E, $10, 6, $20
 		dc.b $E8, $E, 0, 6, $40

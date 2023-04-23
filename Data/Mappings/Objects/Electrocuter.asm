@@ -19,17 +19,17 @@ Map_Elec_internal:
 		dc.b $F8, 5, 0,	8, $FF, $F8
 		dc.b $F8, 4, $60, 0, $FF, $F8
 		dc.b 0,	6, $40,	2, $FF, $F8
-		dc.b $F6, $D, 0, $C, 8
+		dc.b $F6, $D, 0, $C, $00, 8
 		dc.b $F6, $D, 8, $C, $FF, $DC
 @zap3:		dc.b 4
 		dc.b $F8, 4, $60, 0, $FF, $F8
 		dc.b 0,	6, $40,	2, $FF, $F8
-		dc.b $F6, $D, 0, $C, 8
+		dc.b $F6, $D, 0, $C, $00, 8
 		dc.b $F6, $D, 8, $C, $FF, $DC
 @zap4:		dc.b 6
 		dc.b $F8, 4, $60, 0, $FF, $F8
 		dc.b 0,	6, $40,	2, $FF, $F8
-		dc.b $F6, $D, $10, $C, 8
+		dc.b $F6, $D, $10, $C, $00, 8
 		dc.b $F6, $D, $18, $C, $FF, $DC
 		dc.b $F6, $D, 0, $C, $24
 		dc.b $F6, $D, 8, $C, $FF, $C0
