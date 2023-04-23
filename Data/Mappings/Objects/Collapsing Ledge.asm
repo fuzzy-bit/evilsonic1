@@ -7,7 +7,7 @@ Map_Ledge_internal:
 		dc.w @leftsmash-Map_Ledge_internal
 		dc.w @rightsmash-Map_Ledge_internal
 @left:		dc.w $10
-		dc.b $C8, $E, 0, $57, $10 ; ledge facing left
+		dc.b $C8, $E, 0, $57, $00, $10 ; ledge facing left
 		dc.b $D0, $D, 0, $63, $FF, $F0
 		dc.b $E0, $D, 0, $6B, $00, $10
 		dc.b $E0, $D, 0, $73, $FF, $F0
@@ -24,7 +24,7 @@ Map_Ledge_internal:
 		dc.b $10, $D, 0, $AB, $00, $10
 		dc.b $10, 5, 0,	$B7, $00, 0
 @right:		dc.w $10
-		dc.b $C8, $E, 0, $57, $10 ; ledge facing right
+		dc.b $C8, $E, 0, $57, $00, $10 ; ledge facing right
 		dc.b $D0, $D, 0, $63, $FF, $F0
 		dc.b $E0, $D, 0, $6B, $00, $10
 		dc.b $E0, $D, 0, $73, $FF, $F0
@@ -41,7 +41,7 @@ Map_Ledge_internal:
 		dc.b $10, $D, 0, $AB, $00, $10
 		dc.b $10, 5, 0,	$B7, $00, 0
 @leftsmash:	dc.w $19
-		dc.b $C8, 6, 0,	$5D, $20 ; ledge facing	left in	pieces
+		dc.b $C8, 6, 0,	$5D, $00, $20 ; ledge facing	left in	pieces
 		dc.b $C8, 6, 0,	$57, $00, $10
 		dc.b $D0, 5, 0,	$67, $00, 0
 		dc.b $D0, 5, 0,	$63, $FF, $F0
@@ -67,7 +67,7 @@ Map_Ledge_internal:
 		dc.b $10, 5, 0,	$AB, $00, $10
 		dc.b $10, 5, 0,	$B7, $00, 0
 @rightsmash:	dc.w $19
-		dc.b $C8, 6, 0,	$5D, $20 ; ledge facing	right in pieces
+		dc.b $C8, 6, 0,	$5D, $00, $20 ; ledge facing	right in pieces
 		dc.b $C8, 6, 0,	$57, $00, $10
 		dc.b $D0, 5, 0,	$67, $00, 0
 		dc.b $D0, 5, 0,	$63, $FF, $F0
