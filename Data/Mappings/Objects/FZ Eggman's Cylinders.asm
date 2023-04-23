@@ -14,7 +14,7 @@ Map_EggCyl_internal:
 		dc.w @extendedfully-Map_EggCyl_internal
 		dc.w @extendedfully-Map_EggCyl_internal
 		dc.w @controlpanel-Map_EggCyl_internal
-@flat:		dc.b 6
+@flat:		dc.w 6
 		dc.b $A0, $D, $40, 0, $FF, $E0
 		dc.b $A0, $D, $48, 0, $00, 0
 		dc.b $B0, $C, $20, 8, $FF, $E0

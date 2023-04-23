@@ -52,10 +52,10 @@ Map_Geyser_internal:
 		dc.b $EC, $B, 8, $18, $00, $20
 		dc.b $E8, $E, 8, $90, $FF, $E0
 		dc.b $E8, $E, 0, $90, $00, 0
-@end1:		dc.b 2
+@end1:		dc.w 2
 		dc.b $E0, $F, 0, $30, $FF, $E0
 		dc.b $E0, $F, 8, $30, $00, 0
-@end2:		dc.b 2
+@end2:		dc.w 2
 		dc.b $E0, $F, 8, $30, $FF, $E0
 		dc.b $E0, $F, 0, $30, $00, 0
 @medcolumn1:	dc.w $A

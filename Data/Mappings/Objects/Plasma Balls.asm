@@ -41,5 +41,5 @@ Map_Plasma_internal:
 @fuzzy6:	dc.w 2
 		dc.b $F4, 6, $10, $82, $FF, $F4
 		dc.b $F4, 2, 8,	$82, $00, 4
-@blank:		dc.b 0
+@blank:		dc.w 0
 		even

@@ -3,7 +3,7 @@
 ; ---------------------------------------------------------------------------
 Map_Pylon_internal:
 		dc.w @pylon-Map_Pylon_internal
-@pylon:		dc.b 9
+@pylon:		dc.w 9
 		dc.b $80, $F, 0, 0, $FF, $F0
 		dc.b $A0, $F, $10, 0, $FF, $F0
 		dc.b $C0, $F, 0, 0, $FF, $F0

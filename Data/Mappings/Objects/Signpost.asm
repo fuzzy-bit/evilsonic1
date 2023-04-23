@@ -11,16 +11,16 @@ Map_Sign_internal:
 		dc.b $F0, $B, 0, 0, $FF, $E8
 		dc.b $F0, $B, 8, 0, $00, 0
 		dc.b $10, 1, 0,	$38, $FF, $FC
-@spin1:		dc.b 2
+@spin1:		dc.w 2
 		dc.b $F0, $F, 0, $C, $FF, $F0
 		dc.b $10, 1, 0,	$38, $FF, $FC
-@spin2:		dc.b 2
+@spin2:		dc.w 2
 		dc.b $F0, 3, 0,	$1C, $FF, $FC
 		dc.b $10, 1, 8,	$38, $FF, $FC
-@spin3:		dc.b 2
+@spin3:		dc.w 2
 		dc.b $F0, $F, 8, $C, $FF, $F0
 		dc.b $10, 1, 8,	$38, $FF, $FC
-@sonic:		dc.b 3
+@sonic:		dc.w 3
 		dc.b $F0, $B, 0, $20, $FF, $E8
 		dc.b $F0, $B, 0, $2C, $00, 0
 		dc.b $10, 1, 0,	$38, $FF, $FC

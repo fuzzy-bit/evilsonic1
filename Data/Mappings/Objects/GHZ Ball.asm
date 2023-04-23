@@ -6,7 +6,7 @@ Map_GBall_internal:
 		dc.w @check1-Map_GBall_internal
 		dc.w @check2-Map_GBall_internal
 		dc.w @check3-Map_GBall_internal
-@shiny:		dc.b 6
+@shiny:		dc.w 6
 		dc.b $F0, 4, 0,	$24, $FF, $F0
 		dc.b $F8, 4, $10, $24, $FF, $F0
 		dc.b $E8, $A, 0, 0, $FF, $E8

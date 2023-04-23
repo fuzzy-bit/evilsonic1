@@ -6,7 +6,7 @@ Map_Lamp_internal:
 		dc.w @poleonly-Map_Lamp_internal
 		dc.w @redballonly-Map_Lamp_internal
 		dc.w @red-Map_Lamp_internal
-@blue:		dc.b 6
+@blue:		dc.w 6
 		dc.b $E4, 1, 0,	0, $FF, $F8
 		dc.b $E4, 1, 8,	0, $00, 0
 		dc.b $F4, 3, $20, 2, $FF, $F8
@@ -21,7 +21,7 @@ Map_Lamp_internal:
 @redballonly:	dc.w 2
 		dc.b $F8, 1, 0,	8, $FF, $F8
 		dc.b $F8, 1, 8,	8, $00, 0
-@red:		dc.b 6
+@red:		dc.w 6
 		dc.b $E4, 1, 0,	0, $FF, $F8
 		dc.b $E4, 1, 8,	0, $00, 0
 		dc.b $F4, 3, $20, 2, $FF, $F8

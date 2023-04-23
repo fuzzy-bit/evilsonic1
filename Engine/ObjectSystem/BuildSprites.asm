@@ -86,7 +86,7 @@ BuildSprites:
 		add.b	d1,d1
 		adda.w	(a1,d1.w),a1	; get mappings frame address
 		move.w	(a1)+,d1	; number of sprite pieces
-		subq.b	#1,d1
+		subq.w	#1,d1
 		bmi.s	@setVisible
 
 	@drawFrame:

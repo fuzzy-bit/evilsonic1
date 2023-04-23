@@ -5,7 +5,7 @@ Map_LGrass_internal:
 		dc.w @wide-Map_LGrass_internal
 		dc.w @sloped-Map_LGrass_internal
 		dc.w @narrow-Map_LGrass_internal
-@wide:		dc.b $D
+@wide:		dc.w $D
 		dc.b $D8, 6, 0,	$57, $FF, $C0 ; wide platform
 		dc.b $F0, 5, 0,	$53, $FF, $C0
 		dc.b 0,	$F, 0, 1, $FF, $C0

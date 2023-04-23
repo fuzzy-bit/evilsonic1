@@ -57,17 +57,17 @@ Map_Bub_internal:
 		dc.b $F4, 6, 0,	$38, $FF, $F8
 @one_sm:	dc.w 1
 		dc.b $F4, 6, 0,	$3E, $FF, $F8
-@zero:		dc.b 1
+@zero:		dc.w 1
 		dc.b $F4, 6, $20, $44, $FF, $F8 ; fully-formed countdown numbers
-@five:		dc.b 1
+@five:		dc.w 1
 		dc.b $F4, 6, $20, $4A, $FF, $F8
-@four:		dc.b 1
+@four:		dc.w 1
 		dc.b $F4, 6, $20, $50, $FF, $F8
-@three:		dc.b 1
+@three:		dc.w 1
 		dc.b $F4, 6, $20, $56, $FF, $F8
-@two:		dc.b 1
+@two:		dc.w 1
 		dc.b $F4, 6, $20, $5C, $FF, $F8
-@one:		dc.b 1
+@one:		dc.w 1
 		dc.b $F4, 6, $20, $62, $FF, $F8
 @bubmaker1:	dc.w 1
 		dc.b $F8, 5, 0,	$68, $FF, $F8
@@ -75,5 +75,5 @@ Map_Bub_internal:
 		dc.b $F8, 5, 0,	$6C, $FF, $F8
 @bubmaker3:	dc.w 1
 		dc.b $F8, 5, 0,	$70, $FF, $F8
-@blank:		dc.b 0
+@blank:		dc.w 0
 		even

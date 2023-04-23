@@ -13,7 +13,7 @@ Map_Cred_internal:
 		dc.w @presentedby-Map_Cred_internal
 		dc.w @tryagain-Map_Cred_internal
 		dc.w @sonicteam-Map_Cred_internal
-@staff:		dc.b $E			 ; SONIC TEAM STAFF
+@staff:		dc.w $E			 ; SONIC TEAM STAFF
 		dc.b $F8, 5, 0,	$2E, $FF, $88
 		dc.b $F8, 5, 0,	$26, $FF, $98
 		dc.b $F8, 5, 0,	$1A, $FF, $A8

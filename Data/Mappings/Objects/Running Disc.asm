@@ -5,6 +5,6 @@
 ; ---------------------------------------------------------------------------
 Map_Disc_internal:
 		dc.w @spot-Map_Disc_internal
-@spot:		dc.b 1
+@spot:		dc.w 1
 		dc.b $F8, 5, 0,	0, $FF, $F8
 		even

@@ -15,7 +15,7 @@ Map_Eggman_internal:
 		dc.w @blank-Map_Eggman_internal
 		dc.w @escapeflame1-Map_Eggman_internal
 		dc.w @escapeflame2-Map_Eggman_internal
-@ship:		dc.b 6
+@ship:		dc.w 6
 		dc.b $EC, 1, 0,	$A, $FF, $E4
 		dc.b $EC, 5, 0,	$C, $00, $C
 		dc.b $FC, $E, $20, $10,	$FF, $E4
@@ -53,7 +53,7 @@ Map_Eggman_internal:
 		dc.b 4,	5, 0, $2D, $00, $22
 @flame2:	dc.w 1
 		dc.b 4,	5, 0, $31, $00, $22
-@blank:		dc.b 0
+@blank:		dc.w 0
 @escapeflame1:	dc.w 2
 		dc.b 0,	8, 1, $2A, $00, $22
 		dc.b 8,	8, $11,	$2A, $00, $22

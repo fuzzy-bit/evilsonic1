@@ -29,7 +29,7 @@ Map_FBlock_internal:
 		dc.b $D9, $F, 0, $81, $FF, $F0 ; SYZ - 1x3 rectangular blocks
 		dc.b $F3, $F, 0, $81, $FF, $F0
 		dc.b $D, $F, 0,	$81, $FF, $F0
-@slz:		dc.b 1
+@slz:		dc.w 1
 		dc.b $F0, $F, 0, $21, $FF, $F0 ; SLZ - 1x1 square block
 @lzvert:	dc.w 2
 		dc.b $E0, 7, 0,	0, $FF, $F8	; LZ - small vertical door

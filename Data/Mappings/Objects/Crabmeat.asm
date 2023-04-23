@@ -9,12 +9,12 @@ Map_Crab_internal:
 		dc.w @firing-Map_Crab_internal
 		dc.w @ball1-Map_Crab_internal
 		dc.w @ball2-Map_Crab_internal
-@stand:		dc.b 4
+@stand:		dc.w 4
 		dc.b $F0, 9, 0,	0, $FF, $E8	; standing/middle walking frame
 		dc.b $F0, 9, 8,	0, $00, 0
 		dc.b 0,	5, 0, 6, $FF, $F0
 		dc.b 0,	5, 8, 6, $00, 0
-@walk:		dc.b 4
+@walk:		dc.w 4
 		dc.b $F0, 9, 0,	$A, $FF, $E8	; walking
 		dc.b $F0, 9, 0,	$10, $00, 0
 		dc.b 0,	5, 0, $16, $FF, $F0
@@ -36,8 +36,8 @@ Map_Crab_internal:
 		dc.b $F8, 9, 8,	$34, $00, 0
 		dc.b 8,	4, 0, $3A, $FF, $F0
 		dc.b 8,	4, 8, $3A, $00, 0
-@ball1:		dc.b 1
+@ball1:		dc.w 1
 		dc.b $F8, 5, 0,	$3C, $FF, $F8 ; projectile
-@ball2:		dc.b 1
+@ball2:		dc.w 1
 		dc.b $F8, 5, 0,	$40, $FF, $F8 ; projectile
 		even

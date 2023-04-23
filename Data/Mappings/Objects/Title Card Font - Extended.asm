@@ -65,136 +65,136 @@ Map_7889_7C: 	dc.w Map_7889_1F8-Map_7889
 Map_7889_7E: 	dc.w Map_7889_1FE-Map_7889
 Map_7889_80: 	dc.w Map_7889_204-Map_7889
 Map_7889_82: 	dc.w Map_7889_20A-Map_7889
-Map_7889_84: 	dc.b $1
+Map_7889_84: 	dc.w $1
 	dc.b $F8, $5, $0, $0, $FF, $F8
-Map_7889_8A: 	dc.b $1
+Map_7889_8A: 	dc.w $1
 	dc.b $F8, $5, $0, $4, $FF, $F8
-Map_7889_90: 	dc.b $1
+Map_7889_90: 	dc.w $1
 	dc.b $F8, $5, $0, $8, $FF, $F8
-Map_7889_96: 	dc.b $1
+Map_7889_96: 	dc.w $1
 	dc.b $F8, $5, $0, $C, $FF, $F8
-Map_7889_9C: 	dc.b $1
+Map_7889_9C: 	dc.w $1
 	dc.b $F8, $5, $0, $10, $FF, $F8
-Map_7889_A2: 	dc.b $1
+Map_7889_A2: 	dc.w $1
 	dc.b $F8, $5, $0, $14, $FF, $F8
-Map_7889_A8: 	dc.b $1
+Map_7889_A8: 	dc.w $1
 	dc.b $F8, $5, $0, $18, $FF, $F8
-Map_7889_AE: 	dc.b $1
+Map_7889_AE: 	dc.w $1
 	dc.b $F8, $5, $0, $1C, $FF, $F8
-Map_7889_B4: 	dc.b $1
+Map_7889_B4: 	dc.w $1
 	dc.b $F8, $5, $0, $20, $FF, $F8
-Map_7889_BA: 	dc.b $1
+Map_7889_BA: 	dc.w $1
 	dc.b $F8, $5, $0, $24, $FF, $F8
-Map_7889_C0: 	dc.b $1
+Map_7889_C0: 	dc.w $1
 	dc.b $F8, $5, $0, $28, $FF, $F8
-Map_7889_C6: 	dc.b $1
+Map_7889_C6: 	dc.w $1
 	dc.b $F8, $5, $0, $2C, $FF, $F8
-Map_7889_CC: 	dc.b $1
+Map_7889_CC: 	dc.w $1
 	dc.b $F8, $5, $0, $30, $FF, $F8
-Map_7889_D2: 	dc.b $1
+Map_7889_D2: 	dc.w $1
 	dc.b $F8, $5, $0, $34, $FF, $F8
-Map_7889_D8: 	dc.b $1
+Map_7889_D8: 	dc.w $1
 	dc.b $F8, $5, $0, $38, $FF, $F8
-Map_7889_DE: 	dc.b $1
+Map_7889_DE: 	dc.w $1
 	dc.b $F8, $5, $0, $3C, $FF, $F8
-Map_7889_E4: 	dc.b $1
+Map_7889_E4: 	dc.w $1
 	dc.b $F8, $5, $0, $40, $FF, $F8
-Map_7889_EA: 	dc.b $1
+Map_7889_EA: 	dc.w $1
 	dc.b $F8, $5, $0, $44, $FF, $F8
-Map_7889_F0: 	dc.b $1
+Map_7889_F0: 	dc.w $1
 	dc.b $F8, $5, $0, $48, $FF, $F8
-Map_7889_F6: 	dc.b $1
+Map_7889_F6: 	dc.w $1
 	dc.b $F8, $5, $0, $4C, $FF, $F8
-Map_7889_FC: 	dc.b $1
+Map_7889_FC: 	dc.w $1
 	dc.b $F8, $5, $0, $50, $FF, $F8
-Map_7889_102: 	dc.b $1
+Map_7889_102: 	dc.w $1
 	dc.b $F8, $5, $0, $54, $FF, $F8
-Map_7889_108: 	dc.b $1
+Map_7889_108: 	dc.w $1
 	dc.b $F8, $5, $0, $58, $FF, $F8
-Map_7889_10E: 	dc.b $1
+Map_7889_10E: 	dc.w $1
 	dc.b $F8, $5, $0, $5C, $FF, $F8
-Map_7889_114: 	dc.b $1
+Map_7889_114: 	dc.w $1
 	dc.b $F8, $5, $0, $60, $FF, $F8
-Map_7889_11A: 	dc.b $1
+Map_7889_11A: 	dc.w $1
 	dc.b $F8, $5, $0, $64, $FF, $F8
-Map_7889_120: 	dc.b $1
+Map_7889_120: 	dc.w $1
 	dc.b $F8, $5, $0, $68, $FF, $F8
-Map_7889_126: 	dc.b $1
+Map_7889_126: 	dc.w $1
 	dc.b $F8, $1, $0, $6C, $FF, $FC
-Map_7889_12C: 	dc.b $1
+Map_7889_12C: 	dc.w $1
 	dc.b $F8, $5, $0, $6E, $FF, $F8
-Map_7889_132: 	dc.b $1
+Map_7889_132: 	dc.w $1
 	dc.b $F8, $5, $0, $72, $FF, $F8
-Map_7889_138: 	dc.b $1
+Map_7889_138: 	dc.w $1
 	dc.b $F8, $5, $0, $76, $FF, $F8
-Map_7889_13E: 	dc.b $1
+Map_7889_13E: 	dc.w $1
 	dc.b $F8, $5, $0, $7A, $FF, $F8
-Map_7889_144: 	dc.b $1
+Map_7889_144: 	dc.w $1
 	dc.b $F8, $5, $0, $7E, $FF, $F8
-Map_7889_14A: 	dc.b $1
+Map_7889_14A: 	dc.w $1
 	dc.b $F8, $5, $0, $82, $FF, $F8
-Map_7889_150: 	dc.b $1
+Map_7889_150: 	dc.w $1
 	dc.b $F8, $5, $0, $86, $FF, $F8
-Map_7889_156: 	dc.b $1
+Map_7889_156: 	dc.w $1
 	dc.b $F8, $5, $0, $8A, $FF, $F8
-Map_7889_15C: 	dc.b $1
+Map_7889_15C: 	dc.w $1
 	dc.b $F8, $5, $0, $8E, $FF, $F8
-Map_7889_162: 	dc.b $1
+Map_7889_162: 	dc.w $1
 	dc.b $F8, $5, $0, $92, $FF, $F8
-Map_7889_168: 	dc.b $1
+Map_7889_168: 	dc.w $1
 	dc.b $F8, $5, $0, $96, $FF, $F8
-Map_7889_16E: 	dc.b $1
+Map_7889_16E: 	dc.w $1
 	dc.b $F8, $1, $0, $9A, $FF, $FC
-Map_7889_174: 	dc.b $1
+Map_7889_174: 	dc.w $1
 	dc.b $FC, $0, $0, $9C, $FF, $FC
-Map_7889_17A: 	dc.b $1
+Map_7889_17A: 	dc.w $1
 	dc.b $FC, $0, $0, $9D, $FF, $FC
-Map_7889_180: 	dc.b $1
+Map_7889_180: 	dc.w $1
 	dc.b $F8, $5, $0, $9E, $FF, $F8
-Map_7889_186: 	dc.b $1
+Map_7889_186: 	dc.w $1
 	dc.b $FC, $4, $0, $A2, $FF, $F8
-Map_7889_18C: 	dc.b $1
+Map_7889_18C: 	dc.w $1
 	dc.b $F8, $5, $0, $A4, $FF, $F8
-Map_7889_192: 	dc.b $1
+Map_7889_192: 	dc.w $1
 	dc.b $FC, $0, $0, $A8, $FF, $FC
-Map_7889_198: 	dc.b $1
+Map_7889_198: 	dc.w $1
 	dc.b $FC, $4, $0, $A9, $FF, $F8
-Map_7889_19E: 	dc.b $1
+Map_7889_19E: 	dc.w $1
 	dc.b $F8, $1, $0, $AB, $FF, $FC
-Map_7889_1A4: 	dc.b $1
+Map_7889_1A4: 	dc.w $1
 	dc.b $F8, $5, $0, $AD, $FF, $F8
-Map_7889_1AA: 	dc.b $1
+Map_7889_1AA: 	dc.w $1
 	dc.b $F8, $5, $0, $B1, $FF, $F8
-Map_7889_1B0: 	dc.b $1
+Map_7889_1B0: 	dc.w $1
 	dc.b $F8, $1, $0, $B5, $FF, $FC
-Map_7889_1B6: 	dc.b $1
+Map_7889_1B6: 	dc.w $1
 	dc.b $FC, $0, $0, $B7, $FF, $FC
-Map_7889_1BC: 	dc.b $1
+Map_7889_1BC: 	dc.w $1
 	dc.b $F8, $1, $0, $B8, $FF, $FC
-Map_7889_1C2: 	dc.b $1
+Map_7889_1C2: 	dc.w $1
 	dc.b $F8, $1, $0, $BA, $FF, $FC
-Map_7889_1C8: 	dc.b $1
+Map_7889_1C8: 	dc.w $1
 	dc.b $F8, $1, $0, $BC, $FF, $FC
-Map_7889_1CE: 	dc.b $1
+Map_7889_1CE: 	dc.w $1
 	dc.b $F8, $1, $0, $BE, $FF, $FC
-Map_7889_1D4: 	dc.b $1
+Map_7889_1D4: 	dc.w $1
 	dc.b $F8, $1, $0, $C0, $FF, $FC
-Map_7889_1DA: 	dc.b $1
+Map_7889_1DA: 	dc.w $1
 	dc.b $FC, $4, $0, $C2, $FF, $F8
-Map_7889_1E0: 	dc.b $1
+Map_7889_1E0: 	dc.w $1
 	dc.b $F8, $5, $0, $C4, $FF, $F8
-Map_7889_1E6: 	dc.b $1
+Map_7889_1E6: 	dc.w $1
 	dc.b $F8, $5, $0, $C8, $FF, $F8
-Map_7889_1EC: 	dc.b $1
+Map_7889_1EC: 	dc.w $1
 	dc.b $F8, $5, $0, $CC, $FF, $F8
-Map_7889_1F2: 	dc.b $1
+Map_7889_1F2: 	dc.w $1
 	dc.b $FC, $0, $0, $D0, $FF, $FC
-Map_7889_1F8: 	dc.b $1
+Map_7889_1F8: 	dc.w $1
 	dc.b $F8, $1, $0, $D1, $FF, $FC
-Map_7889_1FE: 	dc.b $1
+Map_7889_1FE: 	dc.w $1
 	dc.b $F8, $1, $0, $D3, $FF, $FC
-Map_7889_204: 	dc.b $1
+Map_7889_204: 	dc.w $1
 	dc.b $F8, $5, $0, $D5, $FF, $F8
-Map_7889_20A: 	dc.b $1
+Map_7889_20A: 	dc.w $1
 	dc.b $F8, $5, $0, $D9, $FF, $F8
 	even

@@ -7,7 +7,7 @@ Map_Stomp_internal:
 		dc.w @stomper-Map_Stomp_internal
 		dc.w @stomper-Map_Stomp_internal
 		dc.w @bigdoor-Map_Stomp_internal
-@door:		dc.b 4
+@door:		dc.w 4
 		dc.b $F4, $E, $21, $AF,	$FF, $C0 ; horizontal sliding door
 		dc.b $F4, $E, $21, $B2,	$FF, $E0
 		dc.b $F4, $E, $21, $B2,	$00, 0
