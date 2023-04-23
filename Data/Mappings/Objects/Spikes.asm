@@ -21,14 +21,14 @@ byte_D014:	dc.b 1			; 1 spike
 byte_D01A:	dc.b 3			; 3 spikes widely spaced
 		dc.b $F0, 3, 0,	4, $FF, $E4
 		dc.b $F0, 3, 0,	4, $FF, $FC
-		dc.b $F0, 3, 0,	4, $14
+		dc.b $F0, 3, 0,	4, $00, $14
 byte_D02A:	dc.b 6			; 6 spikes
 		dc.b $F0, 3, 0,	4, $FF, $C0
 		dc.b $F0, 3, 0,	4, $FF, $D8
 		dc.b $F0, 3, 0,	4, $FF, $F0
 		dc.b $F0, 3, 0,	4, $00, 8
-		dc.b $F0, 3, 0,	4, $20
-		dc.b $F0, 3, 0,	4, $38
+		dc.b $F0, 3, 0,	4, $00, $20
+		dc.b $F0, 3, 0,	4, $00, $38
 byte_D049:	dc.b 1			; 1 spike facing sideways
 		dc.b $FC, $C, 0, 0, $FF, $F0
 		even

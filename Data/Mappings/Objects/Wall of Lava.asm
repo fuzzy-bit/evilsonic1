@@ -8,9 +8,9 @@ Map_LWall_internal:
 		dc.w byte_F5C2-Map_LWall_internal
 		dc.w byte_F5F0-Map_LWall_internal
 byte_F538:	dc.b 9
-		dc.b $E0, $F, 0, $60, $20
-		dc.b 0,	$F, 0, $70, $3C
-		dc.b 0,	$F, $FF, $2A, $20
+		dc.b $E0, $F, 0, $60, $00, $20
+		dc.b 0,	$F, 0, $70, $00, $3C
+		dc.b 0,	$F, $FF, $2A, $00, $20
 		dc.b $E0, $F, $FF, $2A,	$00, 0
 		dc.b 0,	$F, $FF, $2A, $00, 0
 		dc.b $E0, $F, $FF, $2A,	$FF, $E0
@@ -18,9 +18,9 @@ byte_F538:	dc.b 9
 		dc.b $E0, $F, $FF, $2A,	$FF, $C0
 		dc.b 0,	$F, $FF, $2A, $FF, $C0
 byte_F566:	dc.b 9
-		dc.b $E0, $F, 0, $70, $20
-		dc.b 0,	$F, 0, $80, $3C
-		dc.b 0,	$F, $FF, $2A, $20
+		dc.b $E0, $F, 0, $70, $00, $20
+		dc.b 0,	$F, 0, $80, $00, $3C
+		dc.b 0,	$F, $FF, $2A, $00, $20
 		dc.b $E0, $F, $FF, $2A,	$00, 0
 		dc.b 0,	$F, $FF, $2A, $00, 0
 		dc.b $E0, $F, $FF, $2A,	$FF, $E0
@@ -28,9 +28,9 @@ byte_F566:	dc.b 9
 		dc.b $E0, $F, $FF, $2A,	$FF, $C0
 		dc.b 0,	$F, $FF, $2A, $FF, $C0
 byte_F594:	dc.b 9
-		dc.b $E0, $F, 0, $80, $20
-		dc.b 0,	$F, 0, $70, $3C
-		dc.b 0,	$F, $FF, $2A, $20
+		dc.b $E0, $F, 0, $80, $00, $20
+		dc.b 0,	$F, 0, $70, $00, $3C
+		dc.b 0,	$F, $FF, $2A, $00, $20
 		dc.b $E0, $F, $FF, $2A,	$00, 0
 		dc.b 0,	$F, $FF, $2A, $00, 0
 		dc.b $E0, $F, $FF, $2A,	$FF, $E0
@@ -38,9 +38,9 @@ byte_F594:	dc.b 9
 		dc.b $E0, $F, $FF, $2A,	$FF, $C0
 		dc.b 0,	$F, $FF, $2A, $FF, $C0
 byte_F5C2:	dc.b 9
-		dc.b $E0, $F, 0, $70, $20
-		dc.b 0,	$F, 0, $60, $3C
-		dc.b 0,	$F, $FF, $2A, $20
+		dc.b $E0, $F, 0, $70, $00, $20
+		dc.b 0,	$F, 0, $60, $00, $3C
+		dc.b 0,	$F, $FF, $2A, $00, $20
 		dc.b $E0, $F, $FF, $2A,	$00, 0
 		dc.b 0,	$F, $FF, $2A, $00, 0
 		dc.b $E0, $F, $FF, $2A,	$FF, $E0
@@ -48,8 +48,8 @@ byte_F5C2:	dc.b 9
 		dc.b $E0, $F, $FF, $2A,	$FF, $C0
 		dc.b 0,	$F, $FF, $2A, $FF, $C0
 byte_F5F0:	dc.b 8
-		dc.b $E0, $F, $FF, $2A,	$20
-		dc.b 0,	$F, $FF, $2A, $20
+		dc.b $E0, $F, $FF, $2A,	$00, $20
+		dc.b 0,	$F, $FF, $2A, $00, $20
 		dc.b $E0, $F, $FF, $2A,	$00, 0
 		dc.b 0,	$F, $FF, $2A, $00, 0
 		dc.b $E0, $F, $FF, $2A,	$FF, $E0

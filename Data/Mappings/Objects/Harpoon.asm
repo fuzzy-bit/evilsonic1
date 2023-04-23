@@ -14,7 +14,7 @@ Map_Harp_internal:
 		dc.b $FC, $C, 0, 2, $FF, $F8
 @h_extended:	dc.b 2
 		dc.b $FC, 8, 0,	6, $FF, $F8
-		dc.b $FC, 8, 0,	3, $10
+		dc.b $FC, 8, 0,	3, $00, $10
 @v_retracted:	dc.b 1
 		dc.b $F8, 1, 0,	9, $FF, $FC
 @v_middle:	dc.b 1

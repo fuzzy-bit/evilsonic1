@@ -38,5 +38,5 @@ Map_FBlock_internal:
 		dc.b $F0, $F, 0, $22, $FF, $C0 ; LZ - large horizontal door
 		dc.b $F0, $F, 0, $22, $FF, $E0
 		dc.b $F0, $F, 0, $22, $00, 0
-		dc.b $F0, $F, 0, $22, $20
+		dc.b $F0, $F, 0, $22, $00, $20
 		even

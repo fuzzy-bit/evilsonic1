@@ -22,7 +22,7 @@ M_Spg_Left:	dc.b 1			; facing left
 M_Spg_LeftFlat:	dc.b 1			; facing left, flattened
 		dc.b $F0, 3, 0,	4, $FF, $F8
 M_Spg_LeftExt:	dc.b 4			; facing left, extended
-		dc.b $F0, 3, 0,	4, $10
+		dc.b $F0, 3, 0,	4, $00, $10
 		dc.b $F8, 9, 0,	8, $FF, $F8
 		dc.b $F0, 0, 0,	0, $FF, $F8
 		dc.b 8,	0, 0, 3, $FF, $F8

@@ -9,7 +9,7 @@ Map_BBall_internal:
 		dc.b $E8, 4, 0,	0, $FF, $F8	; big spiked ball
 		dc.b $F0, $F, 0, 2, $FF, $F0
 		dc.b $F8, 1, 0,	$12, $FF, $E8
-		dc.b $F8, 1, 0,	$14, $10
+		dc.b $F8, 1, 0,	$14, $00, $10
 		dc.b $10, 4, 0,	$16, $FF, $F8
 @chain:		dc.b 1
 		dc.b $F8, 5, 0,	$20, $FF, $F8 ; chain link (SBZ)

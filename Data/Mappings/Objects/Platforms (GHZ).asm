@@ -8,7 +8,7 @@ Map_Plat_GHZ_internal:
 		dc.b $F4, $B, 0, $3B, $FF, $E0 ; small platform
 		dc.b $F4, 7, 0,	$3F, $FF, $F8
 		dc.b $F4, 7, 0,	$3F, $00, 8
-		dc.b $F4, 3, 0,	$47, $18
+		dc.b $F4, 3, 0,	$47, $00, $18
 @large:		dc.b $A
 		dc.b $F4, $F, 0, $C5, $FF, $E0 ; large column platform
 		dc.b 4,	$F, 0, $D5, $FF, $E0

@@ -17,14 +17,14 @@ Map_CStom_internal:
 		dc.b $F4, 6, 0,	0, $FF, $C8
 		dc.b $F4, $A, 0, 6, $FF, $D8
 		dc.b $EC, $F, 0, $F, $FF, $F0
-		dc.b $F4, $A, 8, 6, $10
-		dc.b $F4, 6, 8,	0, $28
+		dc.b $F4, $A, 8, 6, $00, $10
+		dc.b $F4, 6, 8,	0, $00, $28
 @spikes:	dc.b 5
 		dc.b $F0, 3, $12, $1F, $FF, $D4
 		dc.b $F0, 3, $12, $1F, $FF, $E8
 		dc.b $F0, 3, $12, $1F, $FF, $FC
-		dc.b $F0, 3, $12, $1F, $10
-		dc.b $F0, 3, $12, $1F, $24
+		dc.b $F0, 3, $12, $1F, $00, $10
+		dc.b $F0, 3, $12, $1F, $00, $24
 @ceiling:	dc.b 1
 		dc.b $DC, $F, $10, $F, $FF, $F0
 @chain1:	dc.b 2
@@ -66,7 +66,7 @@ Map_CStom_internal:
 		dc.b $F4, 6, 0,	0, $FF, $D0
 		dc.b $F4, $A, 0, 6, $FF, $E0
 		dc.b $F4, $A, 8, 6, $00, 8
-		dc.b $F4, 6, 8,	0, $20
+		dc.b $F4, 6, 8,	0, $00, $20
 		dc.b $EC, $F, 0, $F, $FF, $F0
 @smallblock:	dc.b 1
 		dc.b $EC, $F, 0, $2F, $FF, $F0

@@ -40,18 +40,18 @@ M_Newt_Drop3:	dc.b 2
 M_Newt_Fly1a:	dc.b 3
 		dc.b $F8, $D, 0, $48, $FF, $EC ; flying
 		dc.b $F8, 1, 0,	$50, $00, $C
-		dc.b $FE, 0, 0,	$52, $14
+		dc.b $FE, 0, 0,	$52, $00, $14
 M_Newt_Fly1b:	dc.b 3
 		dc.b $F8, $D, 0, $48, $FF, $EC
 		dc.b $F8, 1, 0,	$50, $00, $C
-		dc.b $FE, 4, 0,	$53, $14
+		dc.b $FE, 4, 0,	$53, $00, $14
 M_Newt_Fly2a:	dc.b 3
 		dc.b $F8, $D, 0, $48, $FF, $EC
 		dc.b $F8, 1, 0,	$50, $00, $C
-		dc.b $FE, 0, $E0, $52, $14
+		dc.b $FE, 0, $E0, $52, $00, $14
 M_Newt_Fly2b:	dc.b 3
 		dc.b $F8, $D, 0, $48, $FF, $EC
 		dc.b $F8, 1, 0,	$50, $00, $C
-		dc.b $FE, 4, $E0, $53, $14
+		dc.b $FE, 4, $E0, $53, $00, $14
 M_Newt_Blank:	dc.b 0
 		even

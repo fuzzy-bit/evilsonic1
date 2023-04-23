@@ -30,9 +30,9 @@ Map_BossItems_internal:
 		even
 @legmask:	dc.b 2
 		dc.b 0,	5, 0, $17, $00, 0	; FZ post-boss: sprite covering part of legs
-		dc.b 0,	0, 0, $1B, $10
+		dc.b 0,	0, 0, $1B, $00, $10
 		even
 @legs:		dc.b 2
 		dc.b $18, 4, 0,	$1C, $00, 0	; FZ post-boss
-		dc.b 0,	$B, 0, $1E, $10
+		dc.b 0,	$B, 0, $1E, $00, $10
 		even

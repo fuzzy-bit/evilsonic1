@@ -32,24 +32,24 @@ Map_Geyser_internal:
 		dc.b $EC, $B, 0, 0, $FF, $C8
 		dc.b $F4, $E, 0, $C, $FF, $E0
 		dc.b $F4, $E, 8, $C, $00, 0
-		dc.b $EC, $B, 8, 0, $20
+		dc.b $EC, $B, 8, 0, $00, $20
 @bubble4:	dc.b 4
 		dc.b $EC, $B, 0, $18, $FF, $C8
 		dc.b $F4, $E, 0, $24, $FF, $E0
 		dc.b $F4, $E, 8, $24, $00, 0
-		dc.b $EC, $B, 8, $18, $20
+		dc.b $EC, $B, 8, $18, $00, $20
 @bubble5:	dc.b 6
 		dc.b $EC, $B, 0, 0, $FF, $C8
 		dc.b $F4, $E, 0, $C, $FF, $E0
 		dc.b $F4, $E, 8, $C, $00, 0
-		dc.b $EC, $B, 8, 0, $20
+		dc.b $EC, $B, 8, 0, $00, $20
 		dc.b $E8, $E, 0, $90, $FF, $E0
 		dc.b $E8, $E, 8, $90, $00, 0
 @bubble6:	dc.b 6
 		dc.b $EC, $B, 0, $18, $FF, $C8
 		dc.b $F4, $E, 0, $24, $FF, $E0
 		dc.b $F4, $E, 8, $24, $00, 0
-		dc.b $EC, $B, 8, $18, $20
+		dc.b $EC, $B, 8, $18, $00, $20
 		dc.b $E8, $E, 8, $90, $FF, $E0
 		dc.b $E8, $E, 0, $90, $00, 0
 @end1:		dc.b 2
@@ -167,14 +167,14 @@ Map_Geyser_internal:
 		dc.b $E0, $B, 0, 0, $FF, $C8
 		dc.b $E8, $E, 0, $C, $FF, $E0
 		dc.b $E8, $E, 8, $C, $00, 0
-		dc.b $E0, $B, 8, 0, $20
+		dc.b $E0, $B, 8, 0, $00, $20
 		dc.b $D8, $E, 0, $90, $FF, $E0
 		dc.b $D8, $E, 8, $90, $00, 0
 @bubble8:	dc.b 6
 		dc.b $E0, $B, 0, $18, $FF, $C8
 		dc.b $E8, $E, 0, $24, $FF, $E0
 		dc.b $E8, $E, 8, $24, $00, 0
-		dc.b $E0, $B, 8, $18, $20
+		dc.b $E0, $B, 8, $18, $00, $20
 		dc.b $D8, $E, 8, $90, $FF, $E0
 		dc.b $D8, $E, 0, $90, $00, 0
 @blank:	dc.b 0

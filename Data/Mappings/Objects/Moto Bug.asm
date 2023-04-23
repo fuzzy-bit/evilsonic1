@@ -26,10 +26,10 @@ Map_Moto_internal:
 		dc.b 8,	4, 0, $18, $FF, $EC
 		dc.b 8,	4, 0, $12, $FF, $FC
 @smoke1:	dc.b 1
-		dc.b $FA, 0, 0,	$1A, $10
+		dc.b $FA, 0, 0,	$1A, $00, $10
 @smoke2:	dc.b 1
-		dc.b $FA, 0, 0,	$1B, $10
+		dc.b $FA, 0, 0,	$1B, $00, $10
 @smoke3:	dc.b 1
-		dc.b $FA, 0, 0,	$1C, $10
+		dc.b $FA, 0, 0,	$1C, $00, $10
 @blank:		dc.b 0
 		even

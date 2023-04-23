@@ -50,14 +50,14 @@ Map_Eggman_internal:
 		dc.b $EC, 9, 0,	$5A, $FF, $EC
 		dc.b $EC, 5, 0,	$60, $00, 4
 @flame1:	dc.b 1
-		dc.b 4,	5, 0, $2D, $22
+		dc.b 4,	5, 0, $2D, $00, $22
 @flame2:	dc.b 1
-		dc.b 4,	5, 0, $31, $22
+		dc.b 4,	5, 0, $31, $00, $22
 @blank:		dc.b 0
 @escapeflame1:	dc.b 2
-		dc.b 0,	8, 1, $2A, $22
-		dc.b 8,	8, $11,	$2A, $22
+		dc.b 0,	8, 1, $2A, $00, $22
+		dc.b 8,	8, $11,	$2A, $00, $22
 @escapeflame2:	dc.b 2
-		dc.b $F8, $B, 1, $2D, $22
-		dc.b 0,	1, 1, $39, $3A
+		dc.b $F8, $B, 1, $2D, $00, $22
+		dc.b 0,	1, 1, $39, $00, $3A
 		even

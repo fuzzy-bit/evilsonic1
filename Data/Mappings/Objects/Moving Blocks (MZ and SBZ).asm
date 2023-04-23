@@ -21,9 +21,9 @@ Map_MBlock_internal:
 		dc.b $F8, $E, 0, 0, $FF, $C0
 		dc.b $F8, $E, 0, 3, $FF, $E0
 		dc.b $F8, $E, 0, 3, $00, 0
-		dc.b $F8, $E, 8, 0, $20
+		dc.b $F8, $E, 8, 0, $00, $20
 @mz3:		dc.b 3
 		dc.b $F8, $F, 0, 8, $FF, $D0
 		dc.b $F8, $F, 0, 8, $FF, $F0
-		dc.b $F8, $F, 0, 8, $10
+		dc.b $F8, $F, 0, 8, $00, $10
 		even

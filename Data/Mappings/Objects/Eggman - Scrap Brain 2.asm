@@ -31,13 +31,13 @@ Map_SEgg_internal:
 		dc.b 0
 @jump1:		dc.b 4
 		dc.b $F4, $F, 8, $20, $FF, $F0
-		dc.b $F5, 4, 8,	$30, $10
+		dc.b $F5, 4, 8,	$30, $00, $10
 		dc.b 8,	9, 8, $4E, $FF, $F0
 		dc.b $EC, $E, 0, 0, $FF, $F0
 		dc.b 0
 @jump2:		dc.b 4
 		dc.b $F0, $F, 8, $20, $FF, $F0
-		dc.b $F1, 4, 8,	$30, $10
+		dc.b $F1, 4, 8,	$30, $00, $10
 		dc.b 8,	6, 8, $3E, $FF, $F8
 		dc.b $E8, $E, 0, 0, $FF, $F0
 		dc.b 0
@@ -53,17 +53,17 @@ Map_SEgg_internal:
 		dc.b 4,	9, 8, $34, $00, 0
 		dc.b 4,	5, 8, $3A, $FF, $E8
 		dc.b $F0, $F, 8, $20, $FF, $F0
-		dc.b $F1, 4, 8,	$54, $10
+		dc.b $F1, 4, 8,	$54, $00, $10
 		dc.b $F1, 4, 0,	$54, $FF, $E0
 @running1:	dc.b 5
 		dc.b $F0, $F, 8, $20, $FF, $F0
-		dc.b $F1, 4, 8,	$30, $10
+		dc.b $F1, 4, 8,	$30, $00, $10
 		dc.b 4,	9, 8, $34, $00, 0
 		dc.b 4,	5, 8, $3A, $FF, $E8
 		dc.b $E8, $E, 0, 0, $FF, $F0
 @running2:	dc.b 6
 		dc.b $EE, $F, 8, $20, $FF, $F0
-		dc.b $EF, 4, 8,	$30, $10
+		dc.b $EF, 4, 8,	$30, $00, $10
 		dc.b 9,	5, 8, $44, $00, 0
 		dc.b 3,	1, 8, $48, $FF, $F8
 		dc.b $B, 5, 8, $4A, $FF, $E8

@@ -86,7 +86,7 @@ Map_abd0_D4: 	dc.b $4
 	dc.b $8, $8, $0, $29, $FF, $F1
 Map_abd0_E9: 	dc.b $B
 	dc.b $E4, $C, $0, $2A, $FF, $F4
-	dc.b $E4, $2, $0, $74, $14
+	dc.b $E4, $2, $0, $74, $00, $14
 	dc.b $EC, $4, $0, $77, $FF, $EC
 	dc.b $F4, $5, $0, $79, $FF, $E4
 	dc.b $14, $C, $18, $70, $FF, $EC
