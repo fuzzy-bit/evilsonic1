@@ -169,6 +169,8 @@ SetupValues:	dc.w $8000		; VDP register start number
 ; ===========================================================================
 
 GameProgram:
+		lea		v_systemstack, sp
+
 		tst.w	(vdp_control_port).l
 		btst	#6,($A1000D).l
 		beq.s	@check
