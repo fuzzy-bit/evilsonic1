@@ -2669,11 +2669,11 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 		include	"VEPS\MegaPCM.asm"
 		include	"VEPS\utils.asm"
 
+		include	"Modes\TailsEasterEgg.asm"
+
 ; ---------------------------------------------------------------------------
 ; Error Handler
 ; ---------------------------------------------------------------------------
 		include	"ErrorHandler/ErrorHandler.asm"
-
-		include	"Modes\TailsEasterEgg.asm"
 
 EndOfRom:	END
