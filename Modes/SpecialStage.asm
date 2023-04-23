@@ -603,8 +603,8 @@ loc_1B210:
 		adda.w	(a1,d1.w),a1
 		movea.w	(a5)+,a3
 		moveq	#0,d1
-		move.b	(a1)+,d1
-		subq.b	#1,d1
+		move.w	(a1)+,d1
+		subq.w	#1,d1
 		bmi.s	loc_1B268
 		jsr	(BuildSpr_Normal).l
 
