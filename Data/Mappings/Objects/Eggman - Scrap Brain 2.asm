@@ -22,31 +22,31 @@ Map_SEgg_internal:
 		dc.b $E8, $E, 0, 0, $FF, $F0
 		dc.b 0,	$F, 0, $6F, $FF, $F0
 		dc.b $FC, 0, 0,	$8F, $FF, $E8
-		dc.b 0
+
 @laugh2:	dc.w 4
 		dc.b $E9, $D, 0, $E, $FF, $F0
 		dc.b $E9, $E, 0, 0, $FF, $F0
 		dc.b 1,	$F, 0, $7F, $FF, $F0
 		dc.b $FD, 0, 0,	$8F, $FF, $E8
-		dc.b 0
+
 @jump1:		dc.b 4
 		dc.b $F4, $F, 8, $20, $FF, $F0
 		dc.b $F5, 4, 8,	$30, $00, $10
 		dc.b 8,	9, 8, $4E, $FF, $F0
 		dc.b $EC, $E, 0, 0, $FF, $F0
-		dc.b 0
+
 @jump2:		dc.b 4
 		dc.b $F0, $F, 8, $20, $FF, $F0
 		dc.b $F1, 4, 8,	$30, $00, $10
 		dc.b 8,	6, 8, $3E, $FF, $F8
 		dc.b $E8, $E, 0, 0, $FF, $F0
-		dc.b 0
+
 @surprise:	dc.w 4
 		dc.b $E8, $D, 0, $16, $FF, $EC
 		dc.b $E8, 1, 0,	$1E, $00, $C
 		dc.b $E8, $E, 0, 0, $FF, $F0
 		dc.b 0,	$F, 0, $6F, $FF, $F0
-		dc.b 0
+
 @starjump:	dc.w 7
 		dc.b $E8, $D, 0, $16, $FF, $EC
 		dc.b $E8, 1, 0,	$1E, $00, $C
@@ -68,7 +68,7 @@ Map_SEgg_internal:
 		dc.b 3,	1, 8, $48, $FF, $F8
 		dc.b $B, 5, 8, $4A, $FF, $E8
 		dc.b $E6, $E, 0, 0, $FF, $F0
-		dc.b 0
+
 @intube:	dc.w 8
 		dc.b $E8, $D, 0, $16, $FF, $EC ; Eggman inside tube in Final Zone
 		dc.b $E8, 1, 0,	$1E, $00, $C

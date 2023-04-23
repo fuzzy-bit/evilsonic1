@@ -10,7 +10,7 @@ Map_BossBlock_internal:
 @wholeblock:	dc.w 2
 		dc.b $F0, $D, 0, $71, $FF, $F0
 		dc.b 0,	$D, 0, $79, $FF, $F0
-		dc.b 0
+
 @topleft:	dc.w 1
 		dc.b $F8, 5, 0,	$71, $FF, $F8
 @topright:	dc.w 1
