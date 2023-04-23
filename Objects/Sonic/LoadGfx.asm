@@ -15,9 +15,8 @@ Sonic_LoadGfx:
 		lea	(SonicDynPLC).l,a2 ; load PLC script
 		add.w	d0,d0
 		adda.w	(a2,d0.w),a2
-		moveq	#0,d1
-		move.b	(a2)+,d1	; read "number of entries" value
-		subq.b	#1,d1
+		move.w	(a2)+,d1	; read "number of entries" value
+		subq.w	#1,d1
 		bmi.s	@nochange	; if zero, branch
 		lea	(v_sgfx_buffer).w,a3
 		move.b	#1,(f_sonframechg).w ; set flag for Sonic graphics DMA
