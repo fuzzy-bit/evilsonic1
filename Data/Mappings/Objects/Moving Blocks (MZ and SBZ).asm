@@ -17,7 +17,7 @@ Map_MBlock_internal:
 		dc.b 0,	$D, 0, 4, $FF, $E0
 		dc.b $F8, $C, $20, 0, $00, 0
 		dc.b 0,	$D, 0, 4, $00, 0
-@sbzwide:	dc.b 4
+@sbzwide:	dc.w 4
 		dc.b $F8, $E, 0, 0, $FF, $C0
 		dc.b $F8, $E, 0, 3, $FF, $E0
 		dc.b $F8, $E, 0, 3, $00, 0

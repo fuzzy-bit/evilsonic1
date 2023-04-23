@@ -10,27 +10,27 @@ Map_ESon_internal:
 		dc.w M_ESon_Leap1-Map_ESon_internal
 		dc.w M_ESon_Leap2-Map_ESon_internal
 		dc.w M_ESon_Leap3-Map_ESon_internal
-M_ESon_Hold1:	dc.b 2
+M_ESon_Hold1:	dc.w 2
 		dc.b $EC, $B, 0, 0, $FF, $F8	; holding emeralds
 		dc.b $C, $C, 0,	$C, $FF, $F0
-M_ESon_Hold2:	dc.b 3
+M_ESon_Hold2:	dc.w 3
 		dc.b $FC, $D, 0, $10, $FF, $F0 ; holding emeralds (glowing)
 		dc.b $EC, $B, 0, 0, $FF, $F8
 		dc.b $C, $C, 0,	$C, $FF, $F0
-M_ESon_Up:	dc.b 2
+M_ESon_Up:	dc.w 2
 		dc.b $EC, 9, 0,	$18, $FF, $F8 ; looking up
 		dc.b $FC, $E, 0, $1E, $FF, $F0
-M_ESon_Conf1:	dc.b 2
+M_ESon_Conf1:	dc.w 2
 		dc.b $EC, 9, 0,	$2A, $FF, $F8 ; confused
 		dc.b $FC, $E, 0, $30, $FF, $F0
-M_ESon_Conf2:	dc.b 2
+M_ESon_Conf2:	dc.w 2
 		dc.b $EC, 9, 8,	$2A, $FF, $F0 ; confused #2
 		dc.b $FC, $E, 8, $30, $FF, $F0
-M_ESon_Leap1:	dc.b 3
+M_ESon_Leap1:	dc.w 3
 		dc.b $EC, 6, 0,	$3C, $FF, $F0 ; leaping
 		dc.b $EC, 6, 8,	$3C, $00, 0
 		dc.b 4,	$D, 0, $42, $FF, $F0
-M_ESon_Leap2:	dc.b 7
+M_ESon_Leap2:	dc.w 7
 		dc.b $B2, $C, 0, $4A, $FF, $F8 ; leaping #2
 		dc.b $BA, $F, 0, $4E, $FF, $F0
 		dc.b $BA, 5, 0,	$5E, $00, $10
@@ -38,7 +38,7 @@ M_ESon_Leap2:	dc.b 7
 		dc.b $DA, $C, 0, $65, $FF, $F0
 		dc.b $E2, 8, 0,	$69, $FF, $F8
 		dc.b $EA, 5, 0,	$6C, $FF, $F8
-M_ESon_Leap3:	dc.b $18
+M_ESon_Leap3:	dc.w $18
 		dc.b $80, $F, 0, $70, $FF, $F8 ; leaping #3
 		dc.b $90, $B, 0, $80, $FF, $E0
 		dc.b $90, $B, 0, $8C, $00, $18

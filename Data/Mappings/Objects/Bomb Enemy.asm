@@ -14,11 +14,11 @@ Map_Bomb_internal:
 		dc.w @fuse2-Map_Bomb_internal
 		dc.w @shrapnel1-Map_Bomb_internal
 		dc.w @shrapnel2-Map_Bomb_internal
-@stand1:	dc.b 3
+@stand1:	dc.w 3
 		dc.b $F1, $A, 0, 0, $FF, $F4	; bomb standing still
 		dc.b 9,	8, 0, $12, $FF, $F4
 		dc.b $E7, 1, 0,	$21, $FF, $FC
-@stand2:	dc.b 3
+@stand2:	dc.w 3
 		dc.b $F1, $A, 0, 9, $FF, $F4
 		dc.b 9,	8, 0, $12, $FF, $F4
 		dc.b $E7, 1, 0,	$21, $FF, $FC
@@ -38,18 +38,18 @@ Map_Bomb_internal:
 		dc.b $F1, $A, 0, 9, $FF, $F4
 		dc.b 9,	8, 0, $1E, $FF, $F4
 		dc.b $E7, 1, 0,	$21, $FF, $FC
-@activate1:	dc.b 2
+@activate1:	dc.w 2
 		dc.b $F1, $A, 0, 0, $FF, $F4	; bomb during detonation countdown
 		dc.b 9,	8, 0, $12, $FF, $F4
-@activate2:	dc.b 2
+@activate2:	dc.w 2
 		dc.b $F1, $A, 0, 9, $FF, $F4
 		dc.b 9,	8, 0, $12, $FF, $F4
 @fuse1:		dc.b 1
 		dc.b $E7, 1, 0,	$23, $FF, $FC ; fuse	(just before it	explodes)
 @fuse2:		dc.b 1
 		dc.b $E7, 1, 0,	$25, $FF, $FC
-@shrapnel1:	dc.b 1
+@shrapnel1:	dc.w 1
 		dc.b $FC, 0, 0,	$27, $FF, $FC ; shrapnel (after it exploded)
-@shrapnel2:	dc.b 1
+@shrapnel2:	dc.w 1
 		dc.b $FC, 0, 0,	$28, $FF, $FC
 		even

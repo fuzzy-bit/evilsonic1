@@ -13,19 +13,19 @@ Map_Ring_internal:
 		dc.w @blank-Map_Ring_internal
 @front:		dc.b 1
 		dc.b $F8, 5, 0,	0, $FF, $F8	; ring front
-@angle1:	dc.b 1
+@angle1:	dc.w 1
 		dc.b $F8, 5, 0,	4, $FF, $F8	; ring angle
 @edge:		dc.b 1
 		dc.b $F8, 1, 0,	8, $FF, $FC	; ring perpendicular
-@angle2:	dc.b 1
+@angle2:	dc.w 1
 		dc.b $F8, 5, 8,	4, $FF, $F8	; ring angle
-@sparkle1:	dc.b 1
+@sparkle1:	dc.w 1
 		dc.b $F8, 5, 0,	$A, $FF, $F8	; sparkle
-@sparkle2:	dc.b 1
+@sparkle2:	dc.w 1
 		dc.b $F8, 5, $18, $A, $FF, $F8 ; sparkle
-@sparkle3:	dc.b 1
+@sparkle3:	dc.w 1
 		dc.b $F8, 5, 8,	$A, $FF, $F8	;sparkle
-@sparkle4:	dc.b 1
+@sparkle4:	dc.w 1
 		dc.b $F8, 5, $10, $A, $FF, $F8 ; sparkle
 @blank:		dc.b 0
 		even

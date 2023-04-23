@@ -10,15 +10,15 @@ Map_BossItems_internal:
 		dc.w @spike-Map_BossItems_internal
 		dc.w @legmask-Map_BossItems_internal
 		dc.w @legs-Map_BossItems_internal
-@chainanchor1:	dc.b 1
+@chainanchor1:	dc.w 1
 		dc.b $F8, 5, 0,	0, $FF, $F8	; GHZ boss
-@chainanchor2:	dc.b 2
+@chainanchor2:	dc.w 2
 		dc.b $FC, 4, 0,	4, $FF, $F8	; GHZ boss
 		dc.b $F8, 5, 0,	0, $FF, $F8
 		even
 @cross:		dc.b 1
 		dc.b $FC, 0, 0,	6, $FF, $FC	; unknown
-@widepipe:	dc.b 1
+@widepipe:	dc.w 1
 		dc.b $14, 9, 0,	7, $FF, $F4	; SLZ boss
 @pipe:		dc.b 1
 		dc.b $14, 5, 0,	$D, $FF, $F8	; MZ boss
@@ -28,7 +28,7 @@ Map_BossItems_internal:
 		dc.b $F8, 1, 8,	$13, $00, 0
 		dc.b 8,	4, 0, $15, $FF, $F8
 		even
-@legmask:	dc.b 2
+@legmask:	dc.w 2
 		dc.b 0,	5, 0, $17, $00, 0	; FZ post-boss: sprite covering part of legs
 		dc.b 0,	0, 0, $1B, $00, $10
 		even

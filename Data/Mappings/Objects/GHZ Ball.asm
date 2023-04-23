@@ -13,17 +13,17 @@ Map_GBall_internal:
 		dc.b $E8, $A, 8, 0, $00, 0
 		dc.b 0,	$A, $10, 0, $FF, $E8
 		dc.b 0,	$A, $18, 0, $00, 0
-@check1:	dc.b 4
+@check1:	dc.w 4
 		dc.b $E8, $A, 0, 9, $FF, $E8
 		dc.b $E8, $A, 8, 9, $00, 0
 		dc.b 0,	$A, $10, 9, $FF, $E8
 		dc.b 0,	$A, $18, 9, $00, 0
-@check2:	dc.b 4
+@check2:	dc.w 4
 		dc.b $E8, $A, 0, $12, $FF, $E8
 		dc.b $E8, $A, 0, $1B, $00, 0
 		dc.b 0,	$A, $18, $1B, $FF, $E8
 		dc.b 0,	$A, $18, $12, $00, 0
-@check3:	dc.b 4
+@check3:	dc.w 4
 		dc.b $E8, $A, 8, $1B, $FF, $E8
 		dc.b $E8, $A, 8, $12, $00, 0
 		dc.b 0,	$A, $10, $12, $FF, $E8

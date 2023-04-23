@@ -14,15 +14,15 @@ Map_Monitor_internal:
 		dc.w @s-Map_Monitor_internal
 		dc.w @goggles-Map_Monitor_internal
 		dc.w @broken-Map_Monitor_internal
-@static0:	dc.b 1			; static monitor
+@static0:	dc.w 1			; static monitor
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@static1:	dc.b 2			; static monitor
+@static1:	dc.w 2			; static monitor
 		dc.b $F5, 5, 0,	$10, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@static2:	dc.b 2			; static monitor
+@static2:	dc.w 2			; static monitor
 		dc.b $F5, 5, 0,	$14, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@eggman:	dc.b 2			; Eggman monitor
+@eggman:	dc.w 2			; Eggman monitor
 		dc.b $F5, 5, 0,	$18, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
 @sonic:		dc.b 2			; Sonic	monitor
@@ -31,10 +31,10 @@ Map_Monitor_internal:
 @shoes:		dc.b 2			; speed	shoes monitor
 		dc.b $F5, 5, 0,	$24, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@shield:	dc.b 2			; shield monitor
+@shield:	dc.w 2			; shield monitor
 		dc.b $F5, 5, 0,	$28, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@invincible:	dc.b 2			; invincibility	monitor
+@invincible:	dc.w 2			; invincibility	monitor
 		dc.b $F5, 5, 0,	$2C, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
 @rings:		dc.b 2			; 10 rings monitor
@@ -43,9 +43,9 @@ Map_Monitor_internal:
 @s:		dc.b 2			; 'S' monitor
 		dc.b $F5, 5, 0,	$34, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@goggles:	dc.b 2			; goggles monitor
+@goggles:	dc.w 2			; goggles monitor
 		dc.b $F5, 5, 0,	$20, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@broken:	dc.b 1			; broken monitor
+@broken:	dc.w 1			; broken monitor
 		dc.b $FF, $D, 0, $38, $FF, $F0
 		even

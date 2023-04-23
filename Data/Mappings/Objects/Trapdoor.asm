@@ -5,7 +5,7 @@ Map_Trap_internal:
 		dc.w @closed-Map_Trap_internal
 		dc.w @half-Map_Trap_internal
 		dc.w @open-Map_Trap_internal
-@closed:	dc.b 4
+@closed:	dc.w 4
 		dc.b $F4, $E, 0, 0, $FF, $C0
 		dc.b $F4, $E, 8, 0, $FF, $E0
 		dc.b $F4, $E, 0, 0, $00, 0

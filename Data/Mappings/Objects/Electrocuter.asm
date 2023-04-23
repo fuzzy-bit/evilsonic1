@@ -8,7 +8,7 @@ Map_Elec_internal:
 		dc.w @zap3-Map_Elec_internal
 		dc.w @zap4-Map_Elec_internal
 		dc.w @zap5-Map_Elec_internal
-@normal:	dc.b 2
+@normal:	dc.w 2
 		dc.b $F8, 4, $60, 0, $FF, $F8
 		dc.b 0,	6, $40,	2, $FF, $F8
 @zap1:		dc.b 3

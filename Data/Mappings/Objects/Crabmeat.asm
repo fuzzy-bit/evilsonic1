@@ -19,17 +19,17 @@ Map_Crab_internal:
 		dc.b $F0, 9, 0,	$10, $00, 0
 		dc.b 0,	5, 0, $16, $FF, $F0
 		dc.b 0,	9, 0, $1A, $00, 0
-@slope1:	dc.b 4
+@slope1:	dc.w 4
 		dc.b $EC, 9, 0,	0, $FF, $E8	; walking on slope
 		dc.b $EC, 9, 8,	0, $00, 0
 		dc.b $FC, 5, 8,	6, $00, 0
 		dc.b $FC, 6, 0,	$20, $FF, $F0
-@slope2:	dc.b 4
+@slope2:	dc.w 4
 		dc.b $EC, 9, 0,	$A, $FF, $E8	; walking on slope
 		dc.b $EC, 9, 0,	$10, $00, 0
 		dc.b $FC, 9, 0,	$26, $00, 0
 		dc.b $FC, 6, 0,	$2C, $FF, $F0
-@firing:	dc.b 6
+@firing:	dc.w 6
 		dc.b $F0, 4, 0,	$32, $FF, $F0 ; firing projectiles
 		dc.b $F0, 4, 8,	$32, $00, 0
 		dc.b $F8, 9, 0,	$34, $FF, $E8

@@ -10,12 +10,12 @@ Map_Invis_internal:
 		dc.b $F0, 5, 0,	$18, $00, 0
 		dc.b 0,	5, 0, $18, $FF, $F0
 		dc.b 0,	5, 0, $18, $00, 0
-@unused1:	dc.b 4
+@unused1:	dc.w 4
 		dc.b $E0, 5, 0,	$18, $FF, $C0
 		dc.b $E0, 5, 0,	$18, $00, $30
 		dc.b $10, 5, 0,	$18, $FF, $C0
 		dc.b $10, 5, 0,	$18, $00, $30
-@unused2:	dc.b 4
+@unused2:	dc.w 4
 		dc.b $E0, 5, 0,	$18, $FF, $80
 		dc.b $E0, 5, 0,	$18, $00, $70
 		dc.b $10, 5, 0,	$18, $FF, $80

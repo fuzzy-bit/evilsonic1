@@ -13,7 +13,7 @@ Map_BBall_internal:
 		dc.b $10, 4, 0,	$16, $FF, $F8
 @chain:		dc.b 1
 		dc.b $F8, 5, 0,	$20, $FF, $F8 ; chain link (SBZ)
-@anchor:	dc.b 2
+@anchor:	dc.w 2
 		dc.b $F8, $D, 0, $18, $FF, $F0 ; anchor at base of chain (SBZ)
 		dc.b $E8, $D, $10, $18,	$FF, $F0
 		even

@@ -131,7 +131,7 @@ Map_Jun_internal:
 		dc.b $DA, $A, 8, 0, $FF, $E2
 		dc.b $F2, $A, $10, 0, $FF, $CA
 		dc.b $F2, $A, $18, 0, $FF, $E2
-@circle:	dc.b $C
+@circle:	dc.w $C
 		dc.b $C8, $D, 0, 9, $FF, $E0
 		dc.b $D0, $A, 0, $11, $FF, $D0
 		dc.b $E0, 7, 0,	$1A, $FF, $C8

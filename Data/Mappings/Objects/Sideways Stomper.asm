@@ -15,11 +15,11 @@ Map_SStom_internal:
 		dc.b $E0, $B, 0, $1F, $FF, $F4 ; main metal block
 		dc.b 0,	$B, $10, $1F, $FF, $F4
 		dc.b $F0, 3, 0,	$2B, $00, $C
-@spikes:	dc.b 3
+@spikes:	dc.w 3
 		dc.b $E8, $C, $12, $1B,	$FF, $F0 ; three spikes
 		dc.b $FC, $C, $12, $1B,	$FF, $F0
 		dc.b $10, $C, $12, $1B,	$FF, $F0
-@wallbracket:	dc.b 1
+@wallbracket:	dc.w 1
 		dc.b $F0, 3, 8,	$2B, $FF, $FC ; thing holding it to the wall
 @pole1:		dc.b 2
 		dc.b $F8, 5, 0,	$41, $FF, $E0 ; poles of various lengths

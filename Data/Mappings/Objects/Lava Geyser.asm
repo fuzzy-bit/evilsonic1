@@ -22,30 +22,30 @@ Map_Geyser_internal:
 		dc.w @bubble7-Map_Geyser_internal
 		dc.w @bubble8-Map_Geyser_internal
 		dc.w @blank-Map_Geyser_internal
-@bubble1:	dc.b 2
+@bubble1:	dc.w 2
 		dc.b $EC, $B, 0, 0, $FF, $E8
 		dc.b $EC, $B, 8, 0, $00, 0
-@bubble2:	dc.b 2
+@bubble2:	dc.w 2
 		dc.b $EC, $B, 0, $18, $FF, $E8
 		dc.b $EC, $B, 8, $18, $00, 0
-@bubble3:	dc.b 4
+@bubble3:	dc.w 4
 		dc.b $EC, $B, 0, 0, $FF, $C8
 		dc.b $F4, $E, 0, $C, $FF, $E0
 		dc.b $F4, $E, 8, $C, $00, 0
 		dc.b $EC, $B, 8, 0, $00, $20
-@bubble4:	dc.b 4
+@bubble4:	dc.w 4
 		dc.b $EC, $B, 0, $18, $FF, $C8
 		dc.b $F4, $E, 0, $24, $FF, $E0
 		dc.b $F4, $E, 8, $24, $00, 0
 		dc.b $EC, $B, 8, $18, $00, $20
-@bubble5:	dc.b 6
+@bubble5:	dc.w 6
 		dc.b $EC, $B, 0, 0, $FF, $C8
 		dc.b $F4, $E, 0, $C, $FF, $E0
 		dc.b $F4, $E, 8, $C, $00, 0
 		dc.b $EC, $B, 8, 0, $00, $20
 		dc.b $E8, $E, 0, $90, $FF, $E0
 		dc.b $E8, $E, 8, $90, $00, 0
-@bubble6:	dc.b 6
+@bubble6:	dc.w 6
 		dc.b $EC, $B, 0, $18, $FF, $C8
 		dc.b $F4, $E, 0, $24, $FF, $E0
 		dc.b $F4, $E, 8, $24, $00, 0
@@ -58,7 +58,7 @@ Map_Geyser_internal:
 @end2:		dc.b 2
 		dc.b $E0, $F, 8, $30, $FF, $E0
 		dc.b $E0, $F, 0, $30, $00, 0
-@medcolumn1:	dc.b $A
+@medcolumn1:	dc.w $A
 		dc.b $90, $F, 0, $40, $FF, $E0
 		dc.b $90, $F, 8, $40, $00, 0
 		dc.b $B0, $F, 0, $40, $FF, $E0
@@ -69,7 +69,7 @@ Map_Geyser_internal:
 		dc.b $F0, $F, 8, $40, $00, 0
 		dc.b $10, $F, 0, $40, $FF, $E0
 		dc.b $10, $F, 8, $40, $00, 0
-@medcolumn2:	dc.b $A
+@medcolumn2:	dc.w $A
 		dc.b $90, $F, 0, $50, $FF, $E0
 		dc.b $90, $F, 8, $50, $00, 0
 		dc.b $B0, $F, 0, $50, $FF, $E0
@@ -80,7 +80,7 @@ Map_Geyser_internal:
 		dc.b $F0, $F, 8, $50, $00, 0
 		dc.b $10, $F, 0, $50, $FF, $E0
 		dc.b $10, $F, 8, $50, $00, 0
-@medcolumn3:	dc.b $A
+@medcolumn3:	dc.w $A
 		dc.b $90, $F, 0, $60, $FF, $E0
 		dc.b $90, $F, 8, $60, $00, 0
 		dc.b $B0, $F, 0, $60, $FF, $E0
@@ -91,28 +91,28 @@ Map_Geyser_internal:
 		dc.b $F0, $F, 8, $60, $00, 0
 		dc.b $10, $F, 0, $60, $FF, $E0
 		dc.b $10, $F, 8, $60, $00, 0
-@shortcolumn1:	dc.b 6
+@shortcolumn1:	dc.w 6
 		dc.b $90, $F, 0, $40, $FF, $E0
 		dc.b $90, $F, 8, $40, $00, 0
 		dc.b $B0, $F, 0, $40, $FF, $E0
 		dc.b $B0, $F, 8, $40, $00, 0
 		dc.b $D0, $F, 0, $40, $FF, $E0
 		dc.b $D0, $F, 8, $40, $00, 0
-@shortcolumn2:	dc.b 6
+@shortcolumn2:	dc.w 6
 		dc.b $90, $F, 0, $50, $FF, $E0
 		dc.b $90, $F, 8, $50, $00, 0
 		dc.b $B0, $F, 0, $50, $FF, $E0
 		dc.b $B0, $F, 8, $50, $00, 0
 		dc.b $D0, $F, 0, $50, $FF, $E0
 		dc.b $D0, $F, 8, $50, $00, 0
-@shortcolumn3:	dc.b 6
+@shortcolumn3:	dc.w 6
 		dc.b $90, $F, 0, $60, $FF, $E0
 		dc.b $90, $F, 8, $60, $00, 0
 		dc.b $B0, $F, 0, $60, $FF, $E0
 		dc.b $B0, $F, 8, $60, $00, 0
 		dc.b $D0, $F, 0, $60, $FF, $E0
 		dc.b $D0, $F, 8, $60, $00, 0
-@longcolumn1:	dc.b $10
+@longcolumn1:	dc.w $10
 		dc.b $90, $F, 0, $40, $FF, $E0
 		dc.b $90, $F, 8, $40, $00, 0
 		dc.b $B0, $F, 0, $40, $FF, $E0
@@ -129,7 +129,7 @@ Map_Geyser_internal:
 		dc.b $50, $F, 8, $40, $00, 0
 		dc.b $70, $F, 0, $40, $FF, $E0
 		dc.b $70, $F, 8, $40, $00, 0
-@longcolumn2:	dc.b $10
+@longcolumn2:	dc.w $10
 		dc.b $90, $F, 0, $50, $FF, $E0
 		dc.b $90, $F, 8, $50, $00, 0
 		dc.b $B0, $F, 0, $50, $FF, $E0
@@ -146,7 +146,7 @@ Map_Geyser_internal:
 		dc.b $50, $F, 8, $50, $00, 0
 		dc.b $70, $F, 0, $50, $FF, $E0
 		dc.b $70, $F, 8, $50, $00, 0
-@longcolumn3:	dc.b $10
+@longcolumn3:	dc.w $10
 		dc.b $90, $F, 0, $60, $FF, $E0
 		dc.b $90, $F, 8, $60, $00, 0
 		dc.b $B0, $F, 0, $60, $FF, $E0
@@ -163,19 +163,19 @@ Map_Geyser_internal:
 		dc.b $50, $F, 8, $60, $00, 0
 		dc.b $70, $F, 0, $60, $FF, $E0
 		dc.b $70, $F, 8, $60, $00, 0
-@bubble7:	dc.b 6
+@bubble7:	dc.w 6
 		dc.b $E0, $B, 0, 0, $FF, $C8
 		dc.b $E8, $E, 0, $C, $FF, $E0
 		dc.b $E8, $E, 8, $C, $00, 0
 		dc.b $E0, $B, 8, 0, $00, $20
 		dc.b $D8, $E, 0, $90, $FF, $E0
 		dc.b $D8, $E, 8, $90, $00, 0
-@bubble8:	dc.b 6
+@bubble8:	dc.w 6
 		dc.b $E0, $B, 0, $18, $FF, $C8
 		dc.b $E8, $E, 0, $24, $FF, $E0
 		dc.b $E8, $E, 8, $24, $00, 0
 		dc.b $E0, $B, 8, $18, $00, $20
 		dc.b $D8, $E, 8, $90, $FF, $E0
 		dc.b $D8, $E, 0, $90, $00, 0
-@blank:	dc.b 0
+@blank:	dc.w 0
 		even

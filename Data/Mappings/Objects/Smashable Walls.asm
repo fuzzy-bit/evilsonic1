@@ -14,7 +14,7 @@ Map_Smash_internal:
 		dc.b $F0, 5, 0,	4, $00, 0
 		dc.b 0,	5, 0, 4, $00, 0
 		dc.b $10, 5, 0,	4, $00, 0
-@middle:	dc.b 8
+@middle:	dc.w 8
 		dc.b $E0, 5, 0,	4, $FF, $F0
 		dc.b $F0, 5, 0,	4, $FF, $F0
 		dc.b 0,	5, 0, 4, $FF, $F0

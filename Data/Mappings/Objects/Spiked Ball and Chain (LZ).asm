@@ -7,7 +7,7 @@ Map_SBall2_internal:
 		dc.w @base-Map_SBall2_internal
 @chain:		dc.b 1
 		dc.b $F8, 5, 0,	0, $FF, $F8	; chain link
-@spikeball:	dc.b 1
+@spikeball:	dc.w 1
 		dc.b $F0, $F, 0, 4, $FF, $F0	; spikeball
 @base:		dc.b 1
 		dc.b $F8, 5, 0,	$14, $FF, $F8 ; wall attachment

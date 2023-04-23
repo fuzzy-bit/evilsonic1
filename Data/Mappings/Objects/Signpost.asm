@@ -7,7 +7,7 @@ Map_Sign_internal:
 		dc.w @spin2-Map_Sign_internal
 		dc.w @spin3-Map_Sign_internal
 		dc.w @sonic-Map_Sign_internal
-@eggman:	dc.b 3
+@eggman:	dc.w 3
 		dc.b $F0, $B, 0, 0, $FF, $E8
 		dc.b $F0, $B, 8, 0, $00, 0
 		dc.b $10, 1, 0,	$38, $FF, $FC

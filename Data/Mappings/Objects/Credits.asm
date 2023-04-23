@@ -28,7 +28,7 @@ Map_Cred_internal:
 		dc.b $F8, 5, 0,	4, $00, $48
 		dc.b $F8, 5, 0,	$5C, $00, $58
 		dc.b $F8, 5, 0,	$5C, $00, $68
-@gameplan:	dc.b $10		; GAME PLAN CAROL YAS
+@gameplan:	dc.w $10		; GAME PLAN CAROL YAS
 		dc.b $D8, 5, 0,	0, $FF, $80
 		dc.b $D8, 5, 0,	4, $FF, $90
 		dc.b $D8, 9, 0,	8, $FF, $A0
@@ -45,7 +45,7 @@ Map_Cred_internal:
 		dc.b 8,	5, 0, $2A, $00, $20
 		dc.b 8,	5, 0, 4, $00, $30
 		dc.b 8,	5, 0, $2E, $00, $44
-@program:	dc.b $A			 ; PROGRAM YU 2
+@program:	dc.w $A			 ; PROGRAM YU 2
 		dc.b $D8, 5, 0,	$12, $FF, $80
 		dc.b $D8, 5, 0,	$22, $FF, $90
 		dc.b $D8, 5, 0,	$26, $FF, $A0
@@ -56,7 +56,7 @@ Map_Cred_internal:
 		dc.b 8,	5, 0, $2A, $FF, $E8
 		dc.b 8,	5, 0, $32, $FF, $F8
 		dc.b 8,	5, 0, $36, $00, 8
-@character:	dc.b $18		 ; CHARACTER DESIGN BIGISLAND
+@character:	dc.w $18		 ; CHARACTER DESIGN BIGISLAND
 		dc.b $D8, 5, 0,	$1E, $FF, $88
 		dc.b $D8, 5, 0,	$3A, $FF, $98
 		dc.b $D8, 5, 0,	4, $FF, $A8
@@ -81,7 +81,7 @@ Map_Cred_internal:
 		dc.b 8,	5, 0, 4, $00, $10
 		dc.b 8,	5, 0, $1A, $00, $20
 		dc.b 8,	5, 0, $42, $00, $30
-@design:	dc.b $14		 ; DESIGN JINYA	PHENIX RIE
+@design:	dc.w $14		 ; DESIGN JINYA	PHENIX RIE
 		dc.b $D0, 5, 0,	$42, $FF, $A0
 		dc.b $D0, 5, 0,	$E, $FF, $B0
 		dc.b $D0, 5, 0,	$2E, $FF, $C0
@@ -102,7 +102,7 @@ Map_Cred_internal:
 		dc.b $20, 5, 0,	$22, $00, $30
 		dc.b $20, 1, 0,	$46, $00, $40
 		dc.b $20, 5, 0,	$E, $00, $48
-@soundproduce:	dc.b $1A		 ; SOUND PRODUCE MASATO	NAKAMURA
+@soundproduce:	dc.w $1A		 ; SOUND PRODUCE MASATO	NAKAMURA
 		dc.b $D8, 5, 0,	$2E, $FF, $98
 		dc.b $D8, 5, 0,	$26, $FF, $A8
 		dc.b $D8, 5, 0,	$32, $FF, $B8
@@ -129,7 +129,7 @@ Map_Cred_internal:
 		dc.b 8,	5, 0, $32, $00, $4C
 		dc.b 8,	5, 0, $22, $00, $5C
 		dc.b 8,	5, 0, 4, $00, $6C
-@soundprogram:	dc.b $17		 ; SOUND PROGRAM JIMITA	MACKY
+@soundprogram:	dc.w $17		 ; SOUND PROGRAM JIMITA	MACKY
 		dc.b $D0, 5, 0,	$2E, $FF, $98
 		dc.b $D0, 5, 0,	$26, $FF, $A8
 		dc.b $D0, 5, 0,	$32, $FF, $B8
@@ -153,7 +153,7 @@ Map_Cred_internal:
 		dc.b $20, 5, 0,	$1E, $FF, $F4
 		dc.b $20, 5, 0,	$58, $00, 4
 		dc.b $20, 5, 0,	$2A, $00, $14
-@thanks:	dc.b $1F		 ; SPECIAL THANKS FUJIO	MINEGISHI PAPA
+@thanks:	dc.w $1F		 ; SPECIAL THANKS FUJIO	MINEGISHI PAPA
 		dc.b $D8, 5, 0,	$2E, $FF, $80
 		dc.b $D8, 5, 0,	$12, $FF, $90
 		dc.b $D8, 5, 0,	$E, $FF, $A0
@@ -185,7 +185,7 @@ Map_Cred_internal:
 		dc.b $20, 5, 0,	4, $00, 8
 		dc.b $20, 5, 0,	$12, $00, $18
 		dc.b $20, 5, 0,	4, $00, $28
-@presentedby:	dc.b $F			 ; PRESENTED BY	SEGA
+@presentedby:	dc.w $F			 ; PRESENTED BY	SEGA
 		dc.b $F8, 5, 0,	$12, $FF, $80
 		dc.b $F8, 5, 0,	$22, $FF, $90
 		dc.b $F8, 5, 0,	$E, $FF, $A0
@@ -201,7 +201,7 @@ Map_Cred_internal:
 		dc.b $F8, 5, 0,	$E, $00, $50
 		dc.b $F8, 5, 0,	0, $00, $60
 		dc.b $F8, 5, 0,	4, $00, $70
-@tryagain:	dc.b 8			 ; TRY AGAIN
+@tryagain:	dc.w 8			 ; TRY AGAIN
 		dc.b $30, 5, 0,	$3E, $FF, $C0
 		dc.b $30, 5, 0,	$22, $FF, $D0
 		dc.b $30, 5, 0,	$2A, $FF, $E0
@@ -210,7 +210,7 @@ Map_Cred_internal:
 		dc.b $30, 5, 0,	4, $00, $18
 		dc.b $30, 1, 0,	$46, $00, $28
 		dc.b $30, 5, 0,	$1A, $00, $30
-@sonicteam:	dc.b $11		 ; SONIC TEAM PRESENTS
+@sonicteam:	dc.w $11		 ; SONIC TEAM PRESENTS
 		dc.b $E8, 5, 0,	$2E, $FF, $B4
 		dc.b $E8, 5, 0,	$26, $FF, $C4
 		dc.b $E8, 5, 0,	$1A, $FF, $D4

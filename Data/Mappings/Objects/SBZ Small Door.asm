@@ -11,7 +11,7 @@ Map_ADoor_internal:
 		dc.w @06-Map_ADoor_internal
 		dc.w @07-Map_ADoor_internal
 		dc.w @open-Map_ADoor_internal
-@closed:	dc.b 2
+@closed:	dc.w 2
 		dc.b $E0, 7, 8,	0, $FF, $F8	; door closed
 		dc.b 0,	7, 8, 0, $FF, $F8
 @01:		dc.b 2

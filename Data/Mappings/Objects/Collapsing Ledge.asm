@@ -40,7 +40,7 @@ Map_Ledge_internal:
 		dc.b 0,	5, 0, $B7, $FF, $D0
 		dc.b $10, $D, 0, $AB, $00, $10
 		dc.b $10, 5, 0,	$B7, $00, 0
-@leftsmash:	dc.b $19
+@leftsmash:	dc.w $19
 		dc.b $C8, 6, 0,	$5D, $20 ; ledge facing	left in	pieces
 		dc.b $C8, 6, 0,	$57, $00, $10
 		dc.b $D0, 5, 0,	$67, $00, 0
@@ -66,7 +66,7 @@ Map_Ledge_internal:
 		dc.b $10, 5, 0,	$AB, $00, $20
 		dc.b $10, 5, 0,	$AB, $00, $10
 		dc.b $10, 5, 0,	$B7, $00, 0
-@rightsmash:	dc.b $19
+@rightsmash:	dc.w $19
 		dc.b $C8, 6, 0,	$5D, $20 ; ledge facing	right in pieces
 		dc.b $C8, 6, 0,	$57, $00, $10
 		dc.b $D0, 5, 0,	$67, $00, 0

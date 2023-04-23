@@ -10,6 +10,6 @@ Map_Swing_GHZ_internal:
 		dc.b $F8, 9, 0,	4, $00, 0
 @chain:		dc.b 1
 		dc.b $F8, 5, 0,	0, $FF, $F8
-@anchor:	dc.b 1
+@anchor:	dc.w 1
 		dc.b $F8, 5, 0,	$A, $FF, $F8
 		even

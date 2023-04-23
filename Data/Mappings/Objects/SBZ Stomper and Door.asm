@@ -12,7 +12,7 @@ Map_Stomp_internal:
 		dc.b $F4, $E, $21, $B2,	$FF, $E0
 		dc.b $F4, $E, $21, $B2,	$00, 0
 		dc.b $F4, $E, $29, $AF,	$00, $20
-@stomper:	dc.b 8
+@stomper:	dc.w 8
 		dc.b $E0, $C, 0, $C, $FF, $E4 ; stomper block with yellow/black stripes
 		dc.b $E0, 8, 0,	$10, $00, 4
 		dc.b $E8, $E, $20, $13,	$FF, $E4
@@ -21,7 +21,7 @@ Map_Stomp_internal:
 		dc.b 0,	$A, $20, $1F, $00, 4
 		dc.b $18, $C, 0, $C, $FF, $E4
 		dc.b $18, 8, 0,	$10, $00, 4
-@bigdoor:	dc.b $E
+@bigdoor:	dc.w $E
 		dc.b $C0, $F, 0, 0, $FF, $80	; huge diagonal sliding door from SBZ3
 		dc.b $C0, $F, 0, $10, $FF, $A0
 		dc.b $C0, $F, 0, $20, $FF, $C0

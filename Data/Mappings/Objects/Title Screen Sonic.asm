@@ -10,7 +10,7 @@ Map_TSon_internal:
 		dc.w byte_A9E7-Map_TSon_internal
 		dc.w byte_AA47-Map_TSon_internal
 		dc.w byte_AAB1-Map_TSon_internal
-byte_A898:	dc.b $A
+byte_A898:	dc.w $A
 		dc.b 8,	8, 0, 0, $00, 8
 		dc.b $10, $F, 0, 3, $00, 8
 		dc.b $10, $F, 0, $13, $00, $28
@@ -21,7 +21,7 @@ byte_A898:	dc.b $A
 		dc.b $48, 0, 0,	$49, $00, $38
 		dc.b $58, $C, 0, $4A, $00, 8
 		dc.b $58, 0, 0,	$4E, $00, $28
-byte_A8CB:	dc.b $F
+byte_A8CB:	dc.w $F
 		dc.b $48, $E, 1, $BD, $00, $20
 		dc.b $38, 5, 1,	$C9, $00, $38
 		dc.b $40, 0, 1,	$CD, $00, $30
@@ -37,7 +37,7 @@ byte_A8CB:	dc.b $F
 		dc.b $48, $E, 0, $8F, $00, $10
 		dc.b $48, 9, 0,	$9B, $00, $30
 		dc.b $58, 4, 0,	$A1, $00, $30
-byte_A917:	dc.b $11
+byte_A917:	dc.w $11
 		dc.b $38, $E, 1, $BD, $00, $28
 		dc.b $28, 5, 1,	$C9, $00, $40
 		dc.b $30, 0, 1,	$CD, $00, $38
@@ -55,7 +55,7 @@ byte_A917:	dc.b $11
 		dc.b $48, $E, 0, $8F, $00, $10
 		dc.b $48, 9, 0,	$9B, $00, $30
 		dc.b $58, 4, 0,	$A1, $00, $30
-byte_A96D:	dc.b $D
+byte_A96D:	dc.w $D
 		dc.b $10, $F, 0, $A3, $00, 8
 		dc.b 8,	8, 0, $B3, $00, $28
 		dc.b $10, $F, 0, $B6, $00, $28
@@ -69,7 +69,7 @@ byte_A96D:	dc.b $D
 		dc.b $50, 1, 0,	$F1, $00, 8
 		dc.b $50, 4, 0,	$F3, $00, $28
 		dc.b $58, 0, 0,	$F5, $00, $28
-byte_A9AF:	dc.b $B
+byte_A9AF:	dc.w $B
 		dc.b 8,	$F, 0, $F6, $00, $10
 		dc.b 8,	$B, 1, 6, $00, $30
 		dc.b $10, 6, 1,	$12, $00, $48
@@ -81,7 +81,7 @@ byte_A9AF:	dc.b $B
 		dc.b $40, 4, 1,	$44, $00, $40
 		dc.b $48, 0, 1,	$46, $00, $40
 		dc.b $58, 8, 1,	$47, $00, $18
-byte_A9E7:	dc.b $13
+byte_A9E7:	dc.w $13
 		dc.b $28, $E, 1, $E4, $00, $38
 		dc.b $18, 5, 1,	$F0, $00, $48
 		dc.b $40, 8, 1,	$F4, $00, $38
@@ -101,7 +101,7 @@ byte_A9E7:	dc.b $13
 		dc.b $50, $D, 1, $9A, $00, 8
 		dc.b $50, $C, 1, $A2, $00, $28
 		dc.b $58, 8, 1,	$A6, $00, $28
-byte_AA47:	dc.b $15
+byte_AA47:	dc.w $15
 		dc.b $28, $E, 1, $E4, $00, $38
 		dc.b $18, 5, 1,	$F0, $00, $48
 		dc.b $40, 8, 1,	$F4, $00, $38
@@ -123,7 +123,7 @@ byte_AA47:	dc.b $15
 		dc.b $50, $D, 1, $9A, $00, 8
 		dc.b $50, $C, 1, $A2, $00, $28
 		dc.b $58, 8, 1,	$A6, $00, $28
-byte_AAB1:	dc.b $16
+byte_AAB1:	dc.w $16
 		dc.b $18, 4, 1,	$F9, $00, $38
 		dc.b $20, 0, 1,	$FB, $00, $38
 		dc.b $28, 8, 1,	$FC, $00, $30

@@ -6,6 +6,6 @@ Map_SSawBall_internal:
 		dc.w @silver-Map_SSawBall_internal
 @red:		dc.b 1
 		dc.b $F4, $A, 0, 0, $FF, $F4
-@silver:	dc.b 1
+@silver:	dc.w 1
 		dc.b $F4, $A, 0, 9, $FF, $F4
 		even

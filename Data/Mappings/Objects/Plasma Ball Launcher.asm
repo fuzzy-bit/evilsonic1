@@ -10,8 +10,8 @@ Map_PLaunch_internal:
 		dc.b $F8, 5, 0,	$6E, $FF, $F8
 @white:		dc.b 1
 		dc.b $F8, 5, 0,	$76, $FF, $F8
-@sparking1:	dc.b 1
+@sparking1:	dc.w 1
 		dc.b $F8, 5, 0,	$72, $FF, $F8
-@sparking2:	dc.b 1
+@sparking2:	dc.w 1
 		dc.b $F8, 5, $10, $72, $FF, $F8
 		even

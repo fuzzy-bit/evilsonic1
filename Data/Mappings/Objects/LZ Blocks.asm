@@ -6,9 +6,9 @@ Map_LBlock_internal:
 		dc.w @riseplatform-Map_LBlock_internal
 		dc.w @cork-Map_LBlock_internal
 		dc.w @block-Map_LBlock_internal
-@sinkblock:	dc.b 1
+@sinkblock:	dc.w 1
 		dc.b $F0, $F, 0, 0, $FF, $F0	; block, sinks when stood on
-@riseplatform:	dc.b 2
+@riseplatform:	dc.w 2
 		dc.b $F4, $E, 0, $69, $FF, $E0 ; platform, rises when stood on
 		dc.b $F4, $E, 0, $75, $00, 0
 @cork:		dc.b 1

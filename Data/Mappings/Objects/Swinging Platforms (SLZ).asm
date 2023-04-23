@@ -16,6 +16,6 @@ Map_Swing_SLZ_internal:
 		dc.b $10, 1, 8,	$1A, $00, 0
 @chain:		dc.b 1
 		dc.b $F8, 5, $40, 0, $FF, $F8
-@anchor:	dc.b 1
+@anchor:	dc.w 1
 		dc.b $F8, 5, 0,	$1C, $FF, $F8
 		even

@@ -6,9 +6,9 @@ Map_Missile_internal:
 		dc.w @Flare2-Map_Missile_internal
 		dc.w @Ball1-Map_Missile_internal
 		dc.w @Ball2-Map_Missile_internal
-@Flare1:	dc.b 1
+@Flare1:	dc.w 1
 		dc.b $F8, 5, 0,	$24, $FF, $F8 ; buzz bomber firing flare
-@Flare2:	dc.b 1
+@Flare2:	dc.w 1
 		dc.b $F8, 5, 0,	$28, $FF, $F8
 @Ball1:		dc.b 1
 		dc.b $F8, 5, 0,	$2C, $FF, $F8 ; missile itself

@@ -6,7 +6,7 @@ Map_HUD_internal:
 		dc.w @ringred-Map_HUD_internal
 		dc.w @timered-Map_HUD_internal
 		dc.w @allred-Map_HUD_internal
-@allyellow:	dc.b $A
+@allyellow:	dc.w $A
 		dc.b $80, $D, $80, 0, $00, 0
 		dc.b $80, $D, $80, $18,	$00, $20
 		dc.b $80, $D, $80, $20,	$00, $40
@@ -18,7 +18,7 @@ Map_HUD_internal:
 		dc.b $40, 5, $81, $A, $00, 0
 		dc.b $40, $D, $81, $E, $00, $10
 		dc.b 0
-@ringred:	dc.b $A
+@ringred:	dc.w $A
 		dc.b $80, $D, $80, 0, $00, 0
 		dc.b $80, $D, $80, $18,	$00, $20
 		dc.b $80, $D, $80, $20,	$00, $40
@@ -30,7 +30,7 @@ Map_HUD_internal:
 		dc.b $40, 5, $81, $A, $00, 0
 		dc.b $40, $D, $81, $E, $00, $10
 		dc.b 0
-@timered:	dc.b $A
+@timered:	dc.w $A
 		dc.b $80, $D, $80, 0, $00, 0
 		dc.b $80, $D, $80, $18,	$00, $20
 		dc.b $80, $D, $80, $20,	$00, $40
@@ -42,7 +42,7 @@ Map_HUD_internal:
 		dc.b $40, 5, $81, $A, $00, 0
 		dc.b $40, $D, $81, $E, $00, $10
 		dc.b 0
-@allred:	dc.b $A
+@allred:	dc.w $A
 		dc.b $80, $D, $80, 0, $00, 0
 		dc.b $80, $D, $80, $18,	$00, $20
 		dc.b $80, $D, $80, $20,	$00, $40
