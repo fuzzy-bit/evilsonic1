@@ -7,7 +7,6 @@
 ; Debugging macros definitions file
 ; ---------------------------------------------------------------
 
-isAMPS =		1		; Set to 1
 
 ; ===============================================================
 ; ---------------------------------------------------------------
@@ -20,7 +19,7 @@ isAMPS =		1		; Set to 1
 
 ; General arguments format flags
 hex		equ		$80				; flag to display as hexadecimal number
-decm		equ		$90				; flag to display as decimal number
+dec		equ		$90				; flag to display as decimal number
 bin		equ		$A0				; flag to display as binary number
 sym		equ		$B0				; flag to display as symbol (treat as offset, decode into symbol +displacement, if present)
 symdisp	equ		$C0				; flag to display as symbol's displacement alone (DO NOT USE, unless complex formatting is required, see notes below)
@@ -81,15 +80,43 @@ setx	equ		$FA				; set x-position
 ; Macros
 ; ---------------------------------------------------------------
 
+; ---------------------------------------------------------------
+; Creates assertions for debugging
+; ---------------------------------------------------------------
+; EXAMPLES:
+;	assert.b	d0, eq, #1		; d0 must be $01, or else crash!
+;	assert.w	d5, eq			; d5 must be $0000!
+;	assert.l	a1, hi, a0		; asert a1 > a0, or else crash!
+;	assert.b	MemFlag, ne		; MemFlag must be non-zero!
+; ---------------------------------------------------------------
+
+assert	macro	src, cond, dest
+	; Assertions only work in DEBUG builds
+	if def(__DEBUG__)
+	if narg=3
+		cmp.\0	\dest, \src
+	else narg=2
+		tst.\0	\src
+	endc
+		b\cond\.s	@skip\@
+		RaiseError	"Assertion failed:%<endl>\src \cond \dest"
+	@skip\@:
+	endc
+	endm
+
+; ---------------------------------------------------------------
+; Raises an error with the given message
+; ---------------------------------------------------------------
+; EXAMPLES:
+;	RaiseError	"Something is wrong"
+;	RaiseError	"Your D0 value is BAD: %<.w d0>"
+;	RaiseError	"Module crashed! Extra info:", YourMod_Debugger
+; ---------------------------------------------------------------
+
 RaiseError &
 	macro	string, console_program, opts
 
 	pea		*(pc)
-	RaiseError2 \_
-	endm
-
-RaiseError2 &
-	macro	string, console_program, opts
 	move.w	sr, -(sp)
 	__FSTRING_GenerateArgumentsCode \string
 	jsr		ErrorHandler
@@ -107,18 +134,29 @@ RaiseError2 &
 	endm
 
 ; ---------------------------------------------------------------
+; Console interface
+; ---------------------------------------------------------------
+; EXAMPLES:
+;	Console.Run	YourConsoleProgram
+;	Console.Write "Hello "
+;	Console.WriteLine "...world!"
+;	Console.SetXY #1, #4
+;	Console.WriteLine "Your data is %<.b d0>"
+;	Console.WriteLine "%<pal0>Your code pointer: %<.l a0 sym>"
+; ---------------------------------------------------------------
+
 Console &
 	macro
 
-	if strcmp("\0","write")|strcmp("\0","writeline")
+	if strcmp("\0","write")|strcmp("\0","writeline")|strcmp("\0","Write")|strcmp("\0","WriteLine")
 		move.w	sr, -(sp)
 		__FSTRING_GenerateArgumentsCode \1
 		movem.l	a0-a2/d7, -(sp)
 		if (__sp>0)
 			lea		4*4(sp), a2
 		endc
-		lea		.str\@(pc), a1
-		jsr		ErrorHandler.__global__console_\0\_formatted
+		lea		@str\@(pc), a1
+		jsr		ErrorHandler.__global__Console_\0\_Formatted
 		movem.l	(sp)+, a0-a2/d7
 		if (__sp>8)
 			lea		__sp(sp), sp
@@ -126,32 +164,30 @@ Console &
 			addq.w	#__sp, sp
 		endc
 		move.w	(sp)+, sr
-		bra.w	.instr_end\@
-	.str\@:
+		bra.w	@instr_end\@
+	@str\@:
 		__FSTRING_GenerateDecodedString \1
 		even
-	.instr_end\@:
+	@instr_end\@:
 
-	elseif strcmp("\0","run")
-		jsr		ErrorHandler.__extern__console_only
+	elseif strcmp("\0","run")|strcmp("\0","Run")
+		jsr		ErrorHandler.__extern__Console_Only
 		jsr		\1
-		if narg<=1		; HACK
-			bra.s	*
-		endif
+		bra.s	*
 
-	elseif strcmp("\0","setxy")
+	elseif strcmp("\0","setxy")|strcmp("\0","SetXY")
 		move.w	sr, -(sp)
 		movem.l	d0-d1, -(sp)
 		move.w	\2, -(sp)
 		move.w	\1, -(sp)
-		jsr		ErrorHandler.__global__console_setposasxy_stack
+		jsr		ErrorHandler.__global__Console_SetPosAsXY_Stack
 		addq.w	#4, sp
 		movem.l	(sp)+, d0-d1
 		move.w	(sp)+, sr
 
-	elseif strcmp("\0","breakline")
+	elseif strcmp("\0","breakline")|strcmp("\0","BreakLine")
 		move.w	sr, -(sp)
-		jsr		ErrorHandler.__global__console_startnewline
+		jsr		ErrorHandler.__global__Console_StartNewLine
 		move.w	(sp)+, sr
 
 	else
@@ -250,11 +286,20 @@ __FSTRING_GenerateDecodedString &
 		__type:		substr	__pos+1+1,__pos+1+1+1,\string			; .type
 
 		; Expression is an effective address (e.g. %<.w d0 hex> )
-		if "\__type">>8="."
+		if "\__type">>8="."    
 			__param:	substr	__midpos+1,__endpos-1,\string			; param
+			
+			; Validate format setting ("param")
 			if strlen("\__param")<1
 				__param: substr ,,"hex"			; if param is ommited, set it to "hex"
+			elseif strcmp("\__param","signed")
+				__param: substr ,,"hex+signed"	; if param is "signed", correct it to "hex+signed"
 			endc
+
+			if (\__param < $80)
+				inform	2,"Illegal operand format setting: ""\__param\"". Expected ""hex"", ""dec"", ""bin"", ""sym"", ""str"" or their derivatives."
+			endc
+
 			if "\__type"=".b"
 				dc.b	\__param
 			elseif "\__type"=".w"
