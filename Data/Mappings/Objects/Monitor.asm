@@ -25,10 +25,10 @@ Map_Monitor_internal:
 @eggman:	dc.w 2			; Eggman monitor
 		dc.b $F5, 5, 0,	$18, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@sonic:		dc.b 2			; Sonic	monitor
+@sonic:		dc.w 2			; Sonic	monitor
 		dc.b $F5, 5, 0,	$1C, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@shoes:		dc.b 2			; speed	shoes monitor
+@shoes:		dc.w 2			; speed	shoes monitor
 		dc.b $F5, 5, 0,	$24, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
 @shield:	dc.w 2			; shield monitor
@@ -37,10 +37,10 @@ Map_Monitor_internal:
 @invincible:	dc.w 2			; invincibility	monitor
 		dc.b $F5, 5, 0,	$2C, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@rings:		dc.b 2			; 10 rings monitor
+@rings:		dc.w 2			; 10 rings monitor
 		dc.b $F5, 5, 0,	$30, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
-@s:		dc.b 2			; 'S' monitor
+@s:		dc.w 2			; 'S' monitor
 		dc.b $F5, 5, 0,	$34, $FF, $F8
 		dc.b $EF, $F, 0, 0, $FF, $F0
 @goggles:	dc.w 2			; goggles monitor

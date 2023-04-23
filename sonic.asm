@@ -645,7 +645,7 @@ loc_8486:
 		add.w	d0,d0
 		movea.l	obMap(a0),a3
 		adda.w	(a3,d0.w),a3
-		addq.w	#1,a3
+		addq.w	#2,a3
 		bset	#5,obRender(a0)
 		move.b	0(a0),d4
 		move.b	obRender(a0),d5
@@ -656,7 +656,7 @@ loc_8486:
 loc_84AA:
 		bsr.w	FindFreeObj
 		bne.s	loc_84F2
-		addq.w	#5,a3
+		addq.w	#6,a3
 
 loc_84B2:
 		move.b	#6,obRoutine(a1)
