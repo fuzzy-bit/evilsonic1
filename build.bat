@@ -6,5 +6,6 @@ type Build.log
 if not exist s1built.bin pause & exit
 
 :: POST-ASSEMBLY
-ErrorHandler\convsym .lst s1built.bin -input asm68k_lst -inopt "/localSign=. /localJoin=. /ignoreMacroDefs+ /ignoreMacroExp- /addMacrosAsOpcodes+" -a
+ErrorHandler\convsym Build.lst s1built.bin -input asm68k_lst -inopt "/localSign=@ /localJoin=. /ignoreMacroDefs+ /ignoreMacroExp- /addMacrosAsOpcodes+" -a
 .build\fixheadr.exe s1built.bin
+@pause

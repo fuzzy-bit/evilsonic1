@@ -1,4 +1,4 @@
-Vectors:	dc.l v_systemstack&$FFFFFF	; Initial stack pointer value
+Vectors:	dc.l 0	; Initial stack pointer value (NOTE: This has to be $000000 to avoid displaying of broken sprites issue)
 		dc.l EntryPoint			; Start of program
 		dc.l BusError			; Bus error
 		dc.l AddressError		; Address error (4)

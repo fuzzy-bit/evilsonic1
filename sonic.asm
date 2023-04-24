@@ -169,6 +169,8 @@ SetupValues:	dc.w $8000		; VDP register start number
 ; ===========================================================================
 
 GameProgram:
+		lea		v_systemstack, sp
+
 		tst.w	(vdp_control_port).l
 		btst	#6,($A1000D).l
 		beq.s	@check
@@ -645,7 +647,7 @@ loc_8486:
 		add.w	d0,d0
 		movea.l	obMap(a0),a3
 		adda.w	(a3,d0.w),a3
-		addq.w	#1,a3
+		addq.w	#2,a3
 		bset	#5,obRender(a0)
 		move.b	0(a0),d4
 		move.b	obRender(a0),d5
@@ -656,7 +658,7 @@ loc_8486:
 loc_84AA:
 		bsr.w	FindFreeObj
 		bne.s	loc_84F2
-		addq.w	#5,a3
+		addq.w	#6,a3
 
 loc_84B2:
 		move.b	#6,obRoutine(a1)
@@ -2669,11 +2671,11 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 		include	"VEPS\MegaPCM.asm"
 		include	"VEPS\utils.asm"
 
+		include	"Modes\TailsEasterEgg.asm"
+
 ; ---------------------------------------------------------------------------
 ; Error Handler
 ; ---------------------------------------------------------------------------
 		include	"ErrorHandler/ErrorHandler.asm"
-
-		include	"Modes\TailsEasterEgg.asm"
 
 EndOfRom:	END

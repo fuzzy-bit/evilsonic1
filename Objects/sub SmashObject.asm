@@ -11,7 +11,7 @@ SmashObject:
 		add.w	d0,d0
 		movea.l	obMap(a0),a3
 		adda.w	(a3,d0.w),a3
-		addq.w	#1,a3
+		addq.w	#2,a3
 		bset	#5,obRender(a0)
 		move.b	0(a0),d4
 		move.b	obRender(a0),d5
@@ -22,7 +22,7 @@ SmashObject:
 	@loop:
 		bsr.w	FindFreeObj
 		bne.s	@playsnd
-		addq.w	#5,a3
+		addq.w	#6,a3
 
 @loadfrag:
 		move.b	#4,obRoutine(a1)

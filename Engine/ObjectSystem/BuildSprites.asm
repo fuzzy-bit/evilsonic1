@@ -85,8 +85,8 @@ BuildSprites:
 		move.b	obFrame(a0),d1
 		add.b	d1,d1
 		adda.w	(a1,d1.w),a1	; get mappings frame address
-		move.b	(a1)+,d1	; number of sprite pieces
-		subq.b	#1,d1
+		move.w	(a1)+,d1	; number of sprite pieces
+		subq.w	#1,d1
 		bmi.s	@setVisible
 
 	@drawFrame:
@@ -141,13 +141,10 @@ BuildSpr_Normal:
 		move.b	(a1)+,(a2)+	; write sprite size
 		addq.b	#1,d5		; increase sprite counter
 		move.b	d5,(a2)+	; set as sprite link
-		move.b	(a1)+,d0	; get art tile
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
+		move.w	(a1)+,d0	; get art tile
 		add.w	a3,d0		; add art tile offset
 		move.w	d0,(a2)+	; write to buffer
-		move.b	(a1)+,d0	; get x-offset
-		ext.w	d0
+		move.w	(a1)+,d0	; get x-offset
 		add.w	d3,d0		; add x-position
 		andi.w	#$1FF,d0	; keep within 512px
 		bne.s	@writeX
@@ -178,14 +175,11 @@ BuildSpr_FlipX:
 		move.b	d4,(a2)+
 		addq.b	#1,d5		; link
 		move.b	d5,(a2)+
-		move.b	(a1)+,d0	; art tile
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
+		move.w	(a1)+,d0	; art tile
 		add.w	a3,d0
 		eori.w	#$800,d0	; toggle flip-x in VDP
 		move.w	d0,(a2)+	; write to buffer
-		move.b	(a1)+,d0	; get x-offset
-		ext.w	d0
+		move.w	(a1)+,d0	; get x-offset
 		neg.w	d0			; negate it
 		add.b	d4,d4		; calculate flipped position by size
 		andi.w	#$18,d4
@@ -220,14 +214,11 @@ BuildSpr_FlipY:
 		move.b	(a1)+,(a2)+	; size
 		addq.b	#1,d5
 		move.b	d5,(a2)+	; link
-		move.b	(a1)+,d0	; art tile
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
+		move.w	(a1)+,d0	; art tile
 		add.w	a3,d0
 		eori.w	#$1000,d0	; toggle flip-y in VDP
 		move.w	d0,(a2)+
-		move.b	(a1)+,d0	; x-position
-		ext.w	d0
+		move.w	(a1)+,d0	; x-position
 		add.w	d3,d0
 		andi.w	#$1FF,d0
 		bne.s	@writeX
@@ -258,14 +249,11 @@ BuildSpr_FlipXY:
 		move.b	d4,(a2)+	; link
 		addq.b	#1,d5
 		move.b	d5,(a2)+	; art tile
-		move.b	(a1)+,d0
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
+		move.w	(a1)+,d0
 		add.w	a3,d0
 		eori.w	#$1800,d0	; toggle flip-x/y in VDP
 		move.w	d0,(a2)+
-		move.b	(a1)+,d0	; calculate flipped x
-		ext.w	d0
+		move.w	(a1)+,d0	; calculate flipped x
 		neg.w	d0
 		add.b	d4,d4
 		andi.w	#$18,d4
