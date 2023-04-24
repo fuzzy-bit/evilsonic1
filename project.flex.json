@@ -185,8 +185,8 @@
                         }
                     ],
                     "art": {
-                        "path": "Data\\Art\\Comper\\MenuFont.bin",
-                        "compression": "Comper",
+                        "path": "Data\\Art\\Uncompressed\\menutext.bin",
+                        "compression": "Uncompressed",
                         "offset": 0
                     },
                     "mappings": {
@@ -201,7 +201,8 @@
                 }
             ],
             "isDirectory": true,
-            "expanded": true
+            "expanded": true,
+            "uuid": "83fc6883-06bc-4493-bc0f-2c093a7c815b"
         },
         {
             "name": "Enemies",
