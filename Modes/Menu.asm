@@ -8,8 +8,7 @@ Menu:
 
 @MenuLoop
 		bsr.w	ClearScreen
-		Sprite.new	#$0080, #$0080, #$0000, #$0001
-
+		
 		jsr 	WaitForVBla
 		;bra.s 	@MenuLoop
 		rts
