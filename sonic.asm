@@ -367,9 +367,9 @@ WaitForVBla:
 ; ---------------------------------------------------------------------------
 ; Math
 ; ---------------------------------------------------------------------------
-		include	"Includes\Math\RandomNumber.asm"
-		include	"Includes\Math\CalcSine.asm"
-		include	"Includes\Math\CalcAngle.asm"
+		include	"Engine\Math\RandomNumber.asm"
+		include	"Engine\Math\CalcSine.asm"
+		include	"Engine\Math\CalcAngle.asm"
 		
 ; ---------------------------------------------------------------------------
 ; Modes
@@ -967,7 +967,7 @@ Map_Spike:	include	"Data\Mappings\Objects\Spikes.asm"
 Map_PRock:	include	"Data\Mappings\Objects\Purple Rock.asm"
 		include	"Objects\Level\Smashable Wall.asm"
 
-		include	"Objects\sub SmashObject.asm"
+		include	"Engine\ObjectSystem\SmashObject.asm"
 
 ; ===========================================================================
 ; Smashed block	fragment speeds
@@ -1001,7 +1001,7 @@ Map_Smash:	include	"Data\Mappings\Objects\Smashable Walls.asm"
 		include	"Engine\ObjectSystem\ExecuteObjects.asm"
 		
 Obj_Index:
-		include	"Engine\ObjectSystem\Pointers.asm"
+		include	"Objects\Pointers.asm"
 		
 		include	"Engine\ObjectSystem\ObjectFall.asm"
 		include	"Engine\ObjectSystem\SpeedToPos.asm"
@@ -1071,7 +1071,7 @@ Map_Moto:	include	"Data\Mappings\Objects\Moto Bug.asm"
 		include	"Data\Animations\Yadrin.asm"
 Map_Yad:	include	"Data\Mappings\Objects\Yadrin.asm"
 
-		include	"Objects\sub SolidObject.asm"
+		include	"Engine\ObjectSystem\SolidObject.asm"
 
 		include	"Objects\Level\Smashable Green Block.asm"
 Map_Smab:	include	"Data\Mappings\Objects\Smashable Green Block.asm"
@@ -1355,7 +1355,7 @@ loc_14E0A:
 locret_14E16:
 		rts
 
-		include	"Objects\sub ObjFloorDist.asm"
+		include	"Engine\ObjectSystem\ObjFloorDist.asm"
 
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
@@ -1773,7 +1773,7 @@ Map_Plasma:	include	"Data\Mappings\Objects\Plasma Balls.asm"
 		include	"Data\Animations\Prison Capsule.asm"
 Map_Pri:	include	"Data\Mappings\Objects\Prison Capsule.asm"
 
-		include	"Objects\sub ReactToItem.asm"
+		include	"Engine\ObjectSystem\ReactToItem.asm"
 
 SS_MapIndex:
 		include	"Includes\Special Stage Mappings & VRAM Pointers.asm"
@@ -1790,6 +1790,8 @@ Map_SS_Down:	include	"Data\Mappings\Objects\SS DOWN Block.asm"
 
 		include	"Objects\Screen-Space\HUD.asm"
 Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
+
+		include	"Objects\Menu\Menu Character.asm"
 
 ; ---------------------------------------------------------------------------
 ; Add points subroutine
