@@ -1,11 +1,36 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "3082539f-4cb9-46e9-9fc2-055bed3f55d6",
+    "node": "36dd4e8b-f56e-4085-ba3f-943cfd2e2044",
     "objects": [
         {
+            "uuid": "36dd4e8b-f56e-4085-ba3f-943cfd2e2044",
+            "format": "Sonic 3&K Object.js",
+            "name": "SEGA Screen",
+            "palettes": [
+                {
+                    "path": "Data\\Palette\\Sega1.bin",
+                    "length": 1
+                }
+            ],
+            "art": {
+                "path": "Data\\Art\\Nemesis\\Sega Logo (JP1).bin",
+                "compression": "Nemesis",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Data\\Mappings\\Objects\\SEGA.asm",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
             "uuid": "26d7558b-4c2c-47d6-b1ba-daab20a2e044",
-            "format": "Sonic 1.js",
+            "format": "Sonic 3&K Object.js",
             "name": "SS Walls",
             "palettes": [
                 {
@@ -30,7 +55,7 @@
         },
         {
             "uuid": "bf0f3dcf-9460-4bd6-8bc1-1342f2c7c52c",
-            "format": "Sonic 1.js",
+            "format": "Sonic 3&K Object.js",
             "name": "TitleCardFontExtended",
             "palettes": [],
             "art": {
@@ -98,7 +123,7 @@
         },
         {
             "uuid": "5e2c2e22-e61f-4552-ba41-d5dff016ade5",
-            "format": "Sonic 1.js",
+            "format": "Sonic 3&K Sonic.js",
             "name": "Sonic",
             "palettes": [
                 {
@@ -107,7 +132,7 @@
                 }
             ],
             "art": {
-                "path": "artunc/Sonic.bin",
+                "path": "Data/Art/Uncompressed/Sonic.bin",
                 "compression": "Uncompressed",
                 "offset": 0
             },
@@ -176,7 +201,7 @@
             "children": [
                 {
                     "uuid": "3082539f-4cb9-46e9-9fc2-055bed3f55d6",
-                    "format": "Sonic 1.js",
+                    "format": "Sonic 3&K Object.js",
                     "name": "Font",
                     "palettes": [
                         {
@@ -209,7 +234,7 @@
             "children": [
                 {
                     "uuid": "4f9bef27-0fe0-44f0-8a5b-f4d84c49d5de",
-                    "format": "Sonic 1.js",
+                    "format": "Sonic 3&K Object.js",
                     "name": "Buzzbomber",
                     "palettes": [
                         {
