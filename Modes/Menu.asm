@@ -1,14 +1,17 @@
 Menu:
-		lea    $FFFF0000, a0
-		move.l    #(($FFFF/2)/4)-1, d0
-		moveq    #0, d1
-@ClearRAM:
-		move.l    d1, (a0)+
-		dbra    d0, @ClearRAM
+		bsr.w	ClearScreen
+
+		ClearRAM
+
+		locVRAM	$6000
+		lea	(Nem_TitleSonic).l,a0 ;	load Sonic title screen	patterns
+		bsr.w	NemDec
 
 @MenuLoop
-		bsr.w	ClearScreen
-		
+		move.b	#4, (v_vbla_routine).w
 		jsr 	WaitForVBla
-		;bra.s 	@MenuLoop
+		jsr		(ExecuteObjects).l
+		jsr		(BuildSprites).l
+
+		bra.s 	@MenuLoop
 		rts

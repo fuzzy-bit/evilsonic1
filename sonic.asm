@@ -1791,6 +1791,7 @@ Map_SS_Down:	include	"Data\Mappings\Objects\SS DOWN Block.asm"
 		include	"Objects\Screen-Space\HUD.asm"
 Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
 
+		include	"Objects\Effects\Splatter.asm"
 		include	"Objects\Menu\Menu Character.asm"
 
 ; ---------------------------------------------------------------------------

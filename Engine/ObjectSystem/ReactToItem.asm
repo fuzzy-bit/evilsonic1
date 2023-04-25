@@ -318,6 +318,12 @@ HurtSonic:
 KillSonic:
 		tst.w	(v_debuguse).w	; is debug mode	active?
 		bne.s	@dontdie	; if yes, branch
+
+		Instance.new Splatter, a1
+		; move.w	obX(a2), obX(a1)
+		; move.w	obY(a2), obY(a1)
+		move.w 	a2,	ParentObj(a1)
+
 		move.b	#0,(v_invinc).w	; remove invincibility
 		move.b	#6,obRoutine(a0)
 		bsr.w	Sonic_ResetOnFloor

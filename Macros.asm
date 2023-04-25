@@ -310,3 +310,37 @@ Sprite:	macro X, Y, Size, StartTile
 		move.w    \X, vdp_data_port        ;X position
 	endif
 	endm
+
+; ---------------------------------------------------------------------------
+; Macro to clear RAM for gamemode init
+; - fuzzy
+; ---------------------------------------------------------------------------
+ClearRAM: macro
+		lea		v_objspace, a0
+		moveq	#0, d1
+		move.l	#$7FF, d1
+	@ClearObjects:
+		move.l	d0, (a0)+
+		dbf		d1, @ClearObjects
+
+		lea		($FFFFF628).w, a1
+		moveq	#0, d0
+		move.w	#$15, d1
+	@ClearVariables:
+		move.l	d0, (a1)+
+		dbf		d1, @ClearVariables
+
+		lea		(v_screenposx).w, a1
+		moveq	#0, d0
+		move.w	#$3F, d1
+	@ClearVariables2:
+		move.l	d0, (a1)+
+		dbf		d1, @ClearVariables2
+
+		lea	(v_oscillate+2).w, a1
+		moveq	#0, d0
+		move.w	#$47, d1
+	@ClearVariables3:
+		move.l	d0, (a1)+
+		dbf		d1, @ClearVariables3
+	endm
