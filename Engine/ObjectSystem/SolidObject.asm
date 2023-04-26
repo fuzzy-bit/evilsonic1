@@ -242,6 +242,7 @@ Solid_Squash:
 		btst	#1,obStatus(a1)	; is Sonic in the air?
 		bne.s	Solid_TopBtmAir	; if yes, branch
 		move.l	a0,-(sp)
+		move.w 	a0, a2
 		movea.l	a1,a0
 		jsr	(KillSonic).l	; kill Sonic
 		movea.l	(sp)+,a0
