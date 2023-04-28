@@ -16,6 +16,7 @@ A violent Sonic 1 hack.
 - Blood particles
     - MK (Default)
     - Hedgehog Abuse
+- Sonic gets cut in half with saws
 - Difficulty levels
     - Easy (Regular S1 behavior without spike bug)
     - Normal (Default - bouncing projectiles)
@@ -42,8 +43,8 @@ A violent Sonic 1 hack.
 
 ## Credits
 - Code: Fuzzy, Vladikcomper, Giovanni, Rivet, Savok
-- Music: Jet, KCEXE, Vladikcomper, ArcaniaCQ, Cinossu, FoxConED
-- Levels: Fuzzy
+- Music: Jet, KCEXE, Vladikcomper, Cinossu, FoxConED, ArcaniaCQ, Oerg866, dust hill resident, Lightning_Splash
 - VEPS Sound Driver + MegaPCM: Vladikcomper
 - Graphics: Fuzzy, Selbi, TheBlad768
+- Levels: Fuzzy
 - Original Game: SEGA, Sonic Team

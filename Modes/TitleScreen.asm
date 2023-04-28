@@ -230,6 +230,8 @@ Tit_ChkLevSel:
 		btst	#bitA,(v_jpadhold1).w ; check if A is pressed
 		beq.w	PlayLevel	; if not, play level
 
+		move.b 	#6, (v_countdown)
+		move.w	#$C680, (v_levelselpal)
 		music	mus_fadeout
 		jsr    	PaletteFadeOut
 		jsr 	ClearScreen
@@ -277,6 +279,8 @@ LevelSelect:
 		bsr.w	RunPLC
 		tst.l	(v_plc_buffer).w
 		bne.s	LevelSelect
+		bsr.w 	LevSel_GetSelectColor
+		bsr.w	LevSelTextLoad
 		andi.b	#btnABC+btnStart,(v_jpadpress1).w ; is A, B, C, or Start pressed?
 		beq.s	LevelSelect	; if not, branch
 		move.w	(v_levselitem).w,d0
@@ -515,7 +519,7 @@ LevSel_Down:
 
 LevSel_Refresh:
 		move.w	d0,(v_levselitem).w ; set new selection
-		bsr.w	LevSelTextLoad	; refresh text
+		; bsr.w	LevSelTextLoad	; refresh text
 		rts
 ; ===========================================================================
 
@@ -542,7 +546,7 @@ LevSel_Right:
 
 LevSel_Refresh2:
 		move.w	d0,(v_levselsound).w ; set sound test number
-		bsr.w	LevSelTextLoad	; refresh text
+		; bsr.w	LevSelTextLoad	; refresh text
 
 LevSel_NoMove:
 		rts
@@ -585,7 +589,7 @@ LevSelTextLoad:
 		add.w	d1,d1
 		add.w	d0,d1
 		adda.w	d1,a1
-		move.w	#$C680,d3	; VRAM setting (3rd palette, $680th tile)
+		move.w	(v_levelselpal), d3	; VRAM setting (3rd palette, $680th tile)
 		move.l	d4,4(a6)
 		bsr.w	LevSel_ChgLine	; recolour selected line
 		move.w	#$0680,d3
@@ -601,6 +605,25 @@ LevSel_DrawSnd:
 		bsr.w	LevSel_ChgSnd	; draw 1st digit
 		move.b	d2,d0
 		bsr.w	LevSel_ChgSnd	; draw 2nd digit
+		rts
+		
+LevSel_GetSelectColor:
+		subi.b	#1, (v_countdown)
+		tst.b 	(v_countdown)
+		bne.s 	@Return
+
+@ResetCounter:
+		move.b 	#6, (v_countdown)
+		cmpi	#$C680, (v_levelselpal)
+		beq.s 	@WhiteText
+
+		move.w 	#$C680, (v_levelselpal)
+		rts
+
+@WhiteText:
+		move.w 	#$0680, (v_levelselpal)
+		
+@Return:
 		rts
 ; End of function LevSelTextLoad
 

@@ -1,7 +1,5 @@
 ; LITTLE KNOWN FACT: ALSO DOPE ON THE MIC
 TailsEasterEgg:
-@Counter: equ $FFFFF769
-
 		lea    $FFFF0000, a0
 		move.l    #(($FFFF/2)/4)-1, d0
 		moveq    #0, d1
@@ -55,14 +53,14 @@ TailsEasterEgg:
 
 		moveq  	#$FFFFFF9F,d0
         jsr    	PlaySample
-		move.b 	#2, (@Counter)
+		move.b 	#2, (v_countdown)
 
 @MainLoop:
 		moveq  	#$0, d0
 		lea 	($FFFFFB00), a1
 		move.w  #$1F, d0
 
-		subi.b	#1, (@Counter)
+		subi.b	#1, (v_countdown)
 		bsr.s 	@InvertPalette
 		
 		move.b  #2, $FFFFF62A ; vblank routine #2
@@ -71,7 +69,7 @@ TailsEasterEgg:
 		bra.s   @MainLoop
 	
 @InvertPalette:
-		tst.b 	(@Counter)
+		tst.b 	(v_countdown)
 		bne.s 	@Return
 
 		move.l  (a1), d1
@@ -80,7 +78,7 @@ TailsEasterEgg:
 		move.l  d1, (a1)+
 
 		dbf 	d0, @InvertPalette
-		move.b 	#2, (@Counter)
+		move.b 	#2, (v_countdown)
 
 @Return:
 		rts

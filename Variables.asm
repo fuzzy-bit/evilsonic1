@@ -109,6 +109,8 @@ v_sonspeeddec:	equ $FFFFF764	; Sonic's deceleration (2 bytes)
 v_sonframenum:	equ $FFFFF766	; frame to display for Sonic
 f_sonframechg:	equ $FFFFF767	; flag set to update Sonic's sprite frame
 v_anglebuffer:	equ $FFFFF768	; angle of collision block that Sonic or object is standing on
+v_countdown:    equ $FFFFF769
+v_levelselpal:    equ $FFFFF7F2
 
 v_opl_routine:	equ $FFFFF76C	; ObjPosLoad - routine counter
 v_opl_screen:	equ $FFFFF76E	; ObjPosLoad - screen variable
