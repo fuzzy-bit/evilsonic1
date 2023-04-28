@@ -1,8 +1,35 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "3082539f-4cb9-46e9-9fc2-055bed3f55d6",
+    "node": "5f4abc6b-53b5-41b0-b278-cf1ef15c526e",
     "objects": [
+        {
+            "name": "Retro Splash",
+            "children": [
+                {
+                    "format": "Sonic 1.js",
+                    "name": "Sonic",
+                    "palettes": [],
+                    "art": {
+                        "path": "Data/Art/Nemesis/SRetroSonicWave.bin",
+                        "compression": "Nemesis",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "Data/Mappings/TileMaps/RetroSonicWave.map",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "5f4abc6b-53b5-41b0-b278-cf1ef15c526e"
+                }
+            ],
+            "isDirectory": true,
+            "expanded": true
+        },
         {
             "uuid": "26d7558b-4c2c-47d6-b1ba-daab20a2e044",
             "format": "Sonic 3&K Object.js",

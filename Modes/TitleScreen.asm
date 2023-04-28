@@ -232,8 +232,11 @@ Tit_ChkLevSel:
 
 		music	mus_Model
 
-		moveq	#palid_LevelSel,d0
-		bsr.w	PalLoad2	; load level select palette
+		lea 	MenuPalette, a0
+		lea 	($FFFFFB80), a1
+
+		; moveq	#palid_LevelSel,d0
+		; bsr.w	PalLoad2	; load level select palette
 		lea	(v_hscrolltablebuffer).w,a1
 		moveq	#0,d0
 		move.w	#$DF,d1
@@ -258,7 +261,6 @@ Tit_ChkLevSel:
 ; ---------------------------------------------------------------------------
 ; Level	Select
 ; ---------------------------------------------------------------------------
-
 LevelSelect:
 		move.b	#4,(v_vbla_routine).w
 		bsr.w	WaitForVBla
@@ -272,12 +274,13 @@ LevelSelect:
 		cmpi.w	#$14,d0		; have you selected item $14 (sound test)?
 		bne.s	LevSel_Level_SS	; if not, go to	Level/SS subroutine
 		move.w	(v_levselsound).w,d0
-		music 	v_levselsound
 		addi.w	#$80,d0
+		jsr		PlaySound
 
 LevSel_PlaySnd:
-		music 	mus_Credits
-		;jsr	PlaySound
+		move.w	(v_levselsound).w,d0
+		addi.w	#$80,d0
+		jsr		PlaySound
 		bra.s	LevelSelect
 		
 ; ===========================================================================
@@ -654,3 +657,5 @@ MusicList:
 		zonewarning MusicList,1
 		dc.b mus_FZ	; Ending
 		even
+
+MenuPalette: 	incbin "Data/Palette/Menu.bin"
