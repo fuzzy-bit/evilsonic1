@@ -230,13 +230,22 @@ Tit_ChkLevSel:
 		btst	#bitA,(v_jpadhold1).w ; check if A is pressed
 		beq.w	PlayLevel	; if not, play level
 
+		music	mus_fadeout
+		jsr    	PaletteFadeOut
+		jsr 	ClearScreen
+
 		music	mus_Model
 
 		lea 	MenuPalette, a0
 		lea 	($FFFFFB80), a1
+		move.w  #$1F, d0
 
-		; moveq	#palid_LevelSel,d0
-		; bsr.w	PalLoad2	; load level select palette
+	@PaletteLoop:
+		move.l  (a0)+, (a1)+
+		dbf 	d0, @PaletteLoop
+		
+		jsr 	PaletteFadeIn
+
 		lea	(v_hscrolltablebuffer).w,a1
 		moveq	#0,d0
 		move.w	#$DF,d1
@@ -554,7 +563,7 @@ LevSelTextLoad:
 		lea	(LevelMenuText).l,a1
 		lea	(vdp_data_port).l,a6
 		move.l	#textpos,d4	; text position on screen
-		move.w	#$E680,d3	; VRAM setting (4th palette, $680th tile)
+		move.w	#$0680,d3	; VRAM setting (4th palette, $680th tile)
 		moveq	#$14,d1		; number of lines of text
 
 	LevSel_DrawAll:
@@ -579,10 +588,10 @@ LevSelTextLoad:
 		move.w	#$C680,d3	; VRAM setting (3rd palette, $680th tile)
 		move.l	d4,4(a6)
 		bsr.w	LevSel_ChgLine	; recolour selected line
-		move.w	#$E680,d3
+		move.w	#$0680,d3
 		cmpi.w	#$14,(v_levselitem).w
 		bne.s	LevSel_DrawSnd
-		move.w	#$C680,d3
+		move.w	#$0680,d3
 
 LevSel_DrawSnd:
 		locVRAM	$EC30		; sound test position on screen

@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "5f4abc6b-53b5-41b0-b278-cf1ef15c526e",
+    "node": "3082539f-4cb9-46e9-9fc2-055bed3f55d6",
     "objects": [
         {
             "name": "Retro Splash",
@@ -207,12 +207,12 @@
                     "name": "Font",
                     "palettes": [
                         {
-                            "path": "Data\\Palette\\Menu.bin",
+                            "path": "Data/Palette/Menu.bin",
                             "length": 4
                         }
                     ],
                     "art": {
-                        "path": "Data\\Art\\Uncompressed\\menutext.bin",
+                        "path": "Data/Art/Uncompressed/menutext.bin",
                         "compression": "Uncompressed",
                         "offset": 0
                     },
