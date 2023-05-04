@@ -5,7 +5,7 @@ Splatter:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
 		move.w	@Index(pc,d0.w),d1
-		jsr		@Index(pc,d1.w)
+		bsr.s	@Index(pc,d1.w)
 		jmp		DisplaySprite
 
 ; ===========================================================================
@@ -34,8 +34,7 @@ Splatter:
 		rts
 
 @DeleteObject:
-		jsr 	DeleteObject
-		rts
+		jmp 	DeleteObject
 
 ; GFX VRAM LOCATION: 0xD800
 ; ---------------------------------------------------------------------------
