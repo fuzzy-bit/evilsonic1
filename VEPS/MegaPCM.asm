@@ -86,6 +86,7 @@ MegaPCM:
 		DAC_Entry		$01, GreatSuccess, pcm			; $9D	- Borat
 		DAC_Entry		$01, Uni, pcm+loop				; $9E	- Uni
 		DAC_Entry		$08, Tails, pcm+loop			; $9F	- Tails
+		DAC_Entry		$1B, Mogege, pcm				; $A0	- Mogege!
 
 MegaPCM_End:
 
@@ -124,4 +125,5 @@ MegaPCM_End:
 		IncludeDAC		GreatSuccess, wav
 		IncludeDAC		Uni, wav
 		IncludeDAC		Tails, wav
+		IncludeDAC		Mogege, wav
 		even

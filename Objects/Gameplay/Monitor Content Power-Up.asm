@@ -98,6 +98,7 @@ Pow_ChkInvinc:
 		move.b	#3,(v_objspace+$280+obAnim).w
 		move.b	#id_ShieldItem,(v_objspace+$2C0).w ; load stars object ($3804)
 		move.b	#4,(v_objspace+$2C0+obAnim).w
+
 		tst.b	(f_lockscreen).w ; is boss mode on?
 		bne.s	Pow_NoMusic	; if yes, branch
 		if Revision=0
@@ -105,6 +106,7 @@ Pow_ChkInvinc:
 			cmpi.w	#$C,(v_air).w
 			bls.s	Pow_NoMusic
 		endc
+
 		music	mus_Invincibility; play invincibility music
 ; ===========================================================================
 

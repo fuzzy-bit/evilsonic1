@@ -5,7 +5,7 @@ Splatter:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
 		move.w	@Index(pc,d0.w),d1
-		bsr.s	@Index(pc,d1.w)
+		jsr		@Index(pc,d1.w)
 		jmp		DisplaySprite
 
 ; ===========================================================================
@@ -13,11 +13,19 @@ Splatter:
 		dc.w @Main-@Index
 ; ===========================================================================
 
-@Init:
-		; TODO: PUT INIT CODE HERE
-		add.b 	#2, obRoutine(a0)
+@Init:	; Routine 0
+		; TODO: FINISH INIT CODE
+		lea 	SplatterTable, a2
 
-@Main:	; Routine 0
+@CheckValidParent:
+		move.b 	(a2)+, d0
+
+		cmp.b 	ParentObj(a0), d0
+		bne.s 	@DeleteObject
+
+		add.b 	#2, obRoutine(a0)
+		
+@Main:	; Routine 2
 		move.l	#Map_Poi, obMap(a0)
 		move.w	#$2797, obGfx(a0)
 		move.b	#4, obRender(a0)
@@ -35,15 +43,19 @@ Splatter:
 
 @DeleteObject:
 		jmp 	DeleteObject
-
+		
 ; GFX VRAM LOCATION: 0xD800
 ; ---------------------------------------------------------------------------
 ; LUT FORMAT
+; #$E bytes/index
 ; ---------------------------------------------------------------------------
-; ObjectID 		  ; PaletteLine ; XOffset ; YOffset 
+; ObjectID		  ; PaletteLine ; XOffset ; YOffset 
 ; NemesisGraphics ; MappingData
 ; ---------------------------------------------------------------------------
-SplatterTable: dc.w 1
-		; Motobug
-        dc.w $4001, $0010, $0010 
+SplatterTable:
+		; MZ Pillar
+        dc.w $D901, $0010, $0010 
 		dc.l Nem_Points, Map_Poi
+
+		; End
+		dc.b $FF

@@ -17,23 +17,24 @@
                         }
                     ],
                     "art": {
-                        "path": "Data\\Art\\Comper\\Blood Splatters\\MZ Pillars.asm",
-                        "compression": "Uncompressed",
+                        "path": "Data\\Art\\Nemesis\\Blood Splatters\\MZ Pillars.bin",
+                        "compression": "Nemesis",
                         "offset": 0
                     },
                     "mappings": {
                         "path": "Data\\Mappings\\TileMaps\\Blood Splatters\\MZ Pillar.asm",
-                        "label": ""
+                        "label": "Map_MZSplat"
                     },
                     "dplcs": {
-                        "enabled": false,
+                        "enabled": true,
                         "path": "",
                         "label": ""
                     }
                 }
             ],
             "isDirectory": true,
-            "expanded": true
+            "expanded": true,
+            "uuid": "1562c3ec-0442-45dd-9b1b-4167c69e2793"
         },
         {
             "name": "Retro Splash",

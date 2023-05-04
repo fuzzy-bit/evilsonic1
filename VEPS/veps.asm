@@ -418,6 +418,3 @@ sfx_buzzexplode: equ	$a9 ; ignore, for now
 sfx_waterfall: equ	$D0
 sfxcount: equ		$D1
 sfxoff: equ		$D2
-
-; Extra Music
-mus_retro: equ		$D5
