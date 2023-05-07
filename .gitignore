@@ -1,6 +1,8 @@
 s1built.md
 s1built.bin
+s1built.debug.bin
 *.lst
+*.sym
 *.log
 SonLVL/SonLVL.log
 SonLVL/dllcache/
