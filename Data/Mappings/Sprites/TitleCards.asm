@@ -89,15 +89,15 @@ M_Card_Zone:	dc.w 4			; ZONE
 		dc.b $F8, 5, 0,	$61, $00, 0
 		dc.b $F8, 5, 0,	$3D, $00, $10
 		even
-M_Card_Act1:	dc.w 2			; ACT 1
-		dc.b 4,	$C, 0, $0, $FF, $EC
-		dc.b $F4, 2, 0,	$4, $00, $C
-M_Card_Act2:	dc.w 2			; ACT 2
-		dc.b 4,	$C, 0, $0, $FF, $EC
-		dc.b $F4, 6, 0,	$7, $00, 8
-M_Card_Act3:	dc.w 2			; ACT 3
-		dc.b 4,	$C, 0, $0, $FF, $EC
-		dc.b $F4, 6, 0,	$D, $00, 8
+M_Card_Act1:	dc.w 0			; ACT 1
+		;dc.b 4,	$C, 0, $0, $FF, $EC
+		;dc.b $F4, 2, 0,	$4, $00, $C
+M_Card_Act2:	dc.w 0			; ACT 2
+		;dc.b 4,	$C, 0, $0, $FF, $EC
+		;dc.b $F4, 6, 0,	$7, $00, 8
+M_Card_Act3:	dc.w 0			; ACT 3
+		;dc.b 4,	$C, 0, $0, $FF, $EC
+		;dc.b $F4, 6, 0,	$D, $00, 8
 M_Card_Oval:	dc.w $D			; Oval
 		dc.b $E4, $C, 0, $1D, $FF, $F4
 		dc.b $E4, 2, 0,	$21, $00, $14
@@ -135,23 +135,29 @@ Map_Got:	dc.w M_Got_SonicHas-Map_Got
 		dc.w M_Card_Act1-Map_Got
 		dc.w M_Card_Act2-Map_Got
 		dc.w M_Card_Act3-Map_Got
-M_Got_SonicHas:	dc.w 8			; SONIC HAS
-		dc.b	$F8, 5, 0, $75, $FF, $B8
-		dc.b	$F8, 5, 0, $65, $FF, $C7
-		dc.b	$F8, 5, 0, $61, $FF, $D6
-		dc.b	$F8, 5, 0, $4D, $FF, $E9
-		dc.b	$F8, 5, 0, $35, $FF, $F4
+M_Got_SonicHas:	dc.w 11		; SONIC REIGNS
+		dc.b	$F8, 5, 0, $75, $FF, $A4
+		dc.b	$F8, 5, 0, $65, $FF, $B3
+		dc.b	$F8, 5, 0, $61, $FF, $C2
+		dc.b	$F8, 5, 0, $4D, $FF, $D5
+		dc.b	$F8, 5, 0, $35, $FF, $E0
 
-		dc.b	$F8, 5, 0, $49, $00, $13
-		dc.b	$F8, 5, 0, $2D, $00, $22
-		dc.b	$F8, 5, 0, $75, $00, $31
-M_Got_Passed:	dc.w 6			; PASSED
-		dc.b $F8, 5, 0,	$36, $FF, $D0
-		dc.b $F8, 5, 0,	0, $FF, $E0
-		dc.b $F8, 5, 0,	$3E, $FF, $F0
-		dc.b $F8, 5, 0,	$3E, $00, 0
-		dc.b $F8, 5, 0,	$10, $00, $10
-		dc.b $F8, 5, 0,	$C, $00, $20
+		dc.b	$F8, 5, 0, $71, $FF, $FE
+		dc.b	$F8, 5, 0, $3D, $0, $E
+		dc.b	$F8, 5, 0, $4D, $0, $21
+		dc.b	$F8, 5, 0, $45, $0, $2C
+		dc.b	$F8, 5, 0, $61, $0, $3B
+		dc.b	$F8, 5, 0, $75, $0, $4A
+		
+M_Got_Passed:	dc.w 7		; SUPREME
+		dc.b	$F8, 5, 0, $75, $FF, $CA
+		dc.b	$F8, 5, 0, $7D, $FF, $DA
+		dc.b	$F8, 5, 0, $69, $FF, $EA
+		dc.b	$F8, 5, 0, $71, $FF, $FA
+		dc.b	$F8, 5, 0, $3D, $0, $B
+		dc.b	$F8, 5, 0, $5D, $0, $1C
+		dc.b	$F8, 5, 0, $3D, $0, $2B
+
 M_Got_Score:	dc.w 6			; SCORE
 		dc.b $F8, $D, 1, $4A, $FF, $B0
 		dc.b $F8, 1, 1,	$62, $FF, $D0

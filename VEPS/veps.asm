@@ -357,6 +357,7 @@ mus_drowning: 	equ	$92
 mus_emerald: 	equ	$93
 
 mus_model: equ		$94
+mus_retro: equ		$95
 
 ; Control
 mus_fadeout: equ	$E4 ; the stupidest fix ever

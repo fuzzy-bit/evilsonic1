@@ -43,7 +43,7 @@ A violent Sonic 1 hack.
 
 ## Credits
 - Code: Fuzzy, Vladikcomper, Giovanni, Rivet, Savok
-- Music: Jet, KCEXE, Vladikcomper, DM Ashura, FoxConED, ArcaniaCQ, Oerg866, dust hill resident, Lightning_Splash
+- Music: Jet, KCEXE, Vladikcomper, FoxConED, ArcaniaCQ, Oerg866, dust hill resident, Lightning_Splash
 - VEPS Sound Driver + MegaPCM: Vladikcomper
 - Graphics: Fuzzy, Selbi, TheBlad768
 - Levels: Fuzzy
