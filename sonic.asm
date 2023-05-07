@@ -203,6 +203,7 @@ GameInit:
 		bsr.w	VDPSetup
 		jsr	SoundDriverLoad
 		bsr.w	JoypadInit
+		jsr	VDPDraw_Init
 		move.b	#id_Sega,(v_gamemode).w ; set Game Mode to Sega Screen
 
 MainGameLoop:
@@ -271,6 +272,7 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 		include	"Engine\Rendering\TilemapToVRAM.asm"
 		include	"Engine\Rendering\Fading.asm"
 		include	"Engine\Rendering\Palette.asm"
+		include	"Engine\Rendering\VDPDrawBuffer.asm"
 
 ; ---------------------------------------------------------------------------
 ; Compression
@@ -1774,6 +1776,8 @@ Map_Plasma:	include	"Data\Mappings\Objects\Plasma Balls.asm"
 Map_Pri:	include	"Data\Mappings\Objects\Prison Capsule.asm"
 
 		include	"Engine\ObjectSystem\ReactToItem.asm"
+
+		include	"Engine\ObjectSystem\UpdateDPLC.asm"
 
 SS_MapIndex:
 		include	"Includes\Special Stage Mappings & VRAM Pointers.asm"

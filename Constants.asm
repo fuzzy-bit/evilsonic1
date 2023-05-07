@@ -123,6 +123,9 @@ flashtime:	equ $30	; time between flashes after getting hit
 invtime:	equ $32	; time left for invincibility
 shoetime:	equ $34	; time left for speed shoes
 
+; Object variables used by objects with DPLC support (Sonic, Spin Dust)
+obDPLCFrame:	equ	$3A
+
 ; Object variables used by splatters
 ParentObj:		equ $30	; time between flashes after getting hit
 
