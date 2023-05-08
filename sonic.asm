@@ -2675,6 +2675,8 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 		include	"VEPS\utils.asm"
 
 		include	"Modes\TailsEasterEgg.asm"
+TitleBGArt: 	incbin "Data/Art/Nemesis/Title Screen Background.bin"
+TitleBGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
 
 ; ---------------------------------------------------------------------------
 ; Error Handler

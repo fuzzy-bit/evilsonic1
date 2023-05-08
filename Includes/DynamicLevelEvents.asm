@@ -75,12 +75,25 @@ DLE_GHZx:	dc.w DLE_GHZ1-DLE_GHZx
 ; ===========================================================================
 
 DLE_GHZ1:
+		; - DEFAULT ------------------------------------
 		move.w	#$300,(v_limitbtm1).w ; set lower y-boundary
-		cmpi.w	#$1780,(v_screenposx).w ; has the camera reached $1780 on x-axis?
-		bcs.s	locret_6E08	; if not, branch
-		move.w	#$400,(v_limitbtm1).w ; set lower y-boundary
+		; - PASS 1--------------------------------------
+		cmpi.w	#$0840,(v_screenposx).w ; has the camera reached $0840 on x-axis?
+		bcs.s	@Pass2	; if not, branch
 
-locret_6E08:
+		move.w	#$400,(v_limitbtm1).w ; set lower y-boundary
+		; - PASS 2 -------------------------------------
+@Pass2:
+		cmpi.w	#$0630,(v_screenposx).w ; has the camera reached $0630 on x-axis?
+		bcs.s	@Return	; if not, branch
+
+		cmpi.w	#$0350,(v_screenposy).w ; has the camera reached $0350 on y-axis?
+		bcs.s	@Return	; if not, branch
+		
+		move.w	#$400,(v_limitbtm1).w ; set lower y-boundary
+		; ----------------------------------------------
+
+@Return:
 		rts	
 ; ===========================================================================
 

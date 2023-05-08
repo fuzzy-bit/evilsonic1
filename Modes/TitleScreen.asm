@@ -3,7 +3,7 @@
 ; ---------------------------------------------------------------------------
 
 TitleScreen:
-		command	mus_Stop	; stop music
+		command	mus_fadeout	; stop music
 		bsr.w	ClearPLC
 		bsr.w	PaletteFadeOut
 		
@@ -105,13 +105,36 @@ TitleScreen:
 
 		copyTilemap	$FF0000,$C206,$21,$15
 
-		locVRAM	0
-		lea	(Nem_GHZ_1st).l,a0 ; load GHZ patterns
-		bsr.w	NemDec
+		lea    ($FF0000), a1 ; load background here
+		lea    TitleBGMap, a0
+		move.w #320, d0
+		jsr    EniDec.w
+
+		lea     ($FF0000), a1
+		move.l  #$60000003, d0
+		moveq   #39, d1
+		moveq   #30, d2
+		jsr	   	TilemapToVRAM 	; mpaaings -> vram
+
+		lea    ($FF0000), a1 ; load background here
+		lea    TitleBGMap, a0
+		move.w #320, d0
+		jsr    EniDec.w
+
+		lea     ($FF0000), a1
+		move.l  #$40000003, d0
+		moveq   #39, d1
+		moveq   #30, d2
+		jsr	   	TilemapToVRAM 	; mpaaings -> vram
+
+		move.l  #$68000000, ($FFC00004).l
+		lea     TitleBGArt, a0
+		jsr     NemDec
+
+
 		moveq	#palid_Title,d0	; load title screen palette
 		bsr.w	PalLoad1
 		move.b	#0,(f_debugmode).w ; disable debug mode
-		move.w	#$178,(v_demolength).w ; run title screen for $178 frames
 		lea	(v_objspace+$80).w,a1
 		moveq	#0,d0
 		moveq	#$10-1,d1		; this was causing some problems, fixed the bug
@@ -138,7 +161,11 @@ TitleScreen:
 
 		move.b	#4,(v_vbla_routine).w	; we can not afford to run the sound driver too
 		bsr.w	WaitForVBla		; late, or we will lose the YM data and break music
-		music	mus_Title		; play title screen music
+		; music	mus_Title		; play title screen music
+
+		moveq  	#$FFFFFFA1,d0
+        jsr    	PlaySample
+
 		jsr	(ExecuteObjects).l
 		bsr.w	DeformLayers
 		;jsr	(BuildSprites).l
@@ -152,16 +179,18 @@ TitleScreen:
 		bsr.w	PaletteFadeIn
 
 Tit_MainLoop:
+		move.w	#$178,(v_demolength).w ; run title screen 4eva
 		move.b	#4,(v_vbla_routine).w
 		bsr.w	WaitForVBla
 		jsr	(ExecuteObjects).l
-		bsr.w	DeformLayers
+		; bsr.w	DeformLayers
 		jsr	(BuildSprites).l
-		bsr.w	PCycle_Title
-		bsr.w	RunPLC
+		; bsr.w	PCycle_Title
+		; bsr.w	RunPLC
 		move.w	(v_objspace+obX).w,d0
 		addq.w	#2,d0
-		move.w	d0,(v_objspace+obX).w ; move Sonic to the right
+
+		; move.w	d0,(v_objspace+obX).w ; move Sonic to the right
 		cmpi.w	#$1C00,d0	; has Sonic object passed $1C00 on x-axis?
 		blo.s	Tit_ChkRegion	; if not, branch
 

@@ -84,9 +84,10 @@ MegaPCM:
 		DAC_Entry		$0F, Tom2, pcm					; $9B	- Tom-2 Low
 		DAC_Entry		$03, SonicCD_Yes, pcm+pri+panLR ; $9C	- Sonic CD Yes
 		DAC_Entry		$01, GreatSuccess, pcm			; $9D	- Borat
-		DAC_Entry		$01, Uni, pcm+loop				; $9E	- Uni
+		DAC_Entry		$01, Winrar, pcm+loop			; $9E	- Winrar
 		DAC_Entry		$08, Tails, pcm+loop			; $9F	- Tails
-		DAC_Entry		$1B, Mogege, pcm				; $A0	- Mogege!
+		DAC_Entry		$1B, Mogege, pcm				; $A0	- Mogege~
+		DAC_Entry		$08, Brawl, pcm					; $A1	- Brawl Theme
 
 MegaPCM_End:
 
@@ -123,7 +124,8 @@ MegaPCM_End:
 
 		; Fuzzy ------------------------------
 		IncludeDAC		GreatSuccess, wav
-		IncludeDAC		Uni, wav
+		IncludeDAC		Winrar, wav
 		IncludeDAC		Tails, wav
 		IncludeDAC		Mogege, wav
+		IncludeDAC		Brawl, wav
 		even

@@ -15,6 +15,7 @@ Msl_Index:	dc.w Msl_Main-Msl_Index
 		dc.w Msl_FromNewt-Msl_Index
 
 msl_parent:	equ $3C
+missile_bouces:	equ $30
 ; ===========================================================================
 
 Msl_Main:	; Routine 0
@@ -26,6 +27,7 @@ Msl_Main:	; Routine 0
 		move.b	#4,obRender(a0)
 		move.b	#3,obPriority(a0)
 		move.b	#8,obActWid(a0)
+		move.w 	#5,missile_bouces(a0)
 		andi.b	#3,obStatus(a0)
 		tst.b	obSubtype(a0)	; was object created by	a Newtron?
 		beq.s	Msl_Animate	; if not, branch
@@ -33,7 +35,7 @@ Msl_Main:	; Routine 0
 		move.b	#8,obRoutine(a0) ; run "Msl_FromNewt" routine
 		move.b	#$87,obColType(a0)
 		move.b	#1,obAnim(a0)
-		bra.s	Msl_Animate2
+		bra.w	Msl_Animate2
 ; ===========================================================================
 
 Msl_Animate:	; Routine 2
@@ -52,15 +54,18 @@ Msl_Animate:	; Routine 2
 Msl_ChkCancel:
 		movea.l	msl_parent(a0),a1
 		cmpi.b	#id_ExplosionItem,0(a1) ; has Buzz Bomber been destroyed?
-		beq.s	Msl_Delete	; if yes, branch
+		beq.w	Msl_Delete	; if yes, branch
 		rts	
 ; End of function Msl_ChkCancel
 
 ; ===========================================================================
 
 Msl_FromBuzz:	; Routine 4
-		btst	#7,obStatus(a0)
-		bne.s	@explode
+		jsr		(ObjFloorDist).l
+		cmpi.w	#4, d1		; has ball hit the floor?
+		ble.s	@bounce
+
+		bsr.w	ObjectFall
 		move.b	#$87,obColType(a0)
 		move.b	#1,obAnim(a0)
 		bsr.w	SpeedToPos
@@ -74,10 +79,32 @@ Msl_FromBuzz:	; Routine 4
 		rts	
 ; ===========================================================================
 
+	@bounce:
+		subi.w 	#1, missile_bouces(a0)
+
+		tst.w 	missile_bouces(a0)
+		bmi.s 	@explode	
+
+		move.w	#-$300,obVelY(a0) ; :3c
+		bsr.w	SpeedToPos
+
+		bsr.w	FindFreeObj
+		bne.s	@rts_bounce
+		move.b	#id_ExplosionBomb, 0(a1)
+		move.w	obX(a0),obX(a1)
+		move.w	obY(a0),obY(a1)
+
+		add.w 	#-10, obY(a0) ; preventing duplicate bounces
+		rts
+
 	@explode:
-		move.b	#id_MissileDissolve,0(a0) ; change object to an explosion (Obj24)
-		move.b	#0,obRoutine(a0)
-		bra.w	MissileDissolve
+		move.b	#id_ExplosionBomb,0(a0)	; change object	to an explosion	($3F)
+		move.b	#0,obRoutine(a0) ; reset routine counter
+		move.w 	#0, missile_bouces(a0)
+		bra.w	ExplosionBomb	; jump to explosion code
+
+	@rts_bounce:
+		rts
 ; ===========================================================================
 
 Msl_Delete:	; Routine 6
