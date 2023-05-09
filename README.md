@@ -38,7 +38,7 @@ A violent Sonic 1 hack.
     - Spring Yard
     - ~~Star Light~~
 - 2 acts for Labyrinth (no boss) and 1 act for Scrap Brain
-- DMA Queue
+- ~~DMA Queue~~
 - Custom levels if possible
 
 ## Credits
