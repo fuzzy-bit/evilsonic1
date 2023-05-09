@@ -256,7 +256,7 @@ GameOver:
 		addq.b	#1,(f_lifecount).w ; update lives counter
 		subq.b	#1,(v_lives).w	; subtract 1 from number of lives
 		bne.s	loc_138D4
-		move.w	#0,$3A(a0)
+		move.b	#0,deathtime(a0)
 		move.b	#id_GameOverCard,(v_objspace+$80).w ; load GAME object
 		move.b	#id_GameOverCard,(v_objspace+$C0).w ; load OVER object
 		move.b	#1,(v_objspace+$C0+obFrame).w ; set OVER object to correct frame
@@ -269,10 +269,10 @@ loc_138C2:
 ; ===========================================================================
 
 loc_138D4:
-		move.w	#60,$3A(a0)	; set time delay to 1 second
+		move.b	#60,deathtime(a0)	; set time delay to 1 second
 		tst.b	(f_timeover).w	; is TIME OVER tag set?
 		beq.s	locret_13900	; if not, branch
-		move.w	#0,$3A(a0)
+		move.b	#0,deathtime(a0)
 		move.b	#id_GameOverCard,(v_objspace+$80).w ; load TIME object
 		move.b	#id_GameOverCard,(v_objspace+$C0).w ; load OVER object
 		move.b	#2,(v_objspace+$80+obFrame).w
@@ -289,9 +289,9 @@ locret_13900:
 ; ---------------------------------------------------------------------------
 
 Sonic_ResetLevel: ; Routine 8
-		tst.w	$3A(a0)
+		tst.b	deathtime(a0)
 		beq.s	locret_13914
-		subq.w	#1,$3A(a0)	; subtract 1 from time delay
+		subq.b	#1,deathtime(a0)	; subtract 1 from time delay
 		bne.s	locret_13914
 
 		if Respawn=1
