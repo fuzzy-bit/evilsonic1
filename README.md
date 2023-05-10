@@ -29,9 +29,9 @@ A violent Sonic 1 hack.
     - Sound test
     - Exit
 - Saving options with SRAM
-- Projectiles
+- ~~Projectiles~~
     - ~~Crabmeat~~
-    - Buzzbomber
+    - ~~Buzzbomber~~
 - New bosses
     - Green Hill
     - Marble
@@ -40,6 +40,17 @@ A violent Sonic 1 hack.
 - 2 acts for Labyrinth (no boss) and 1 act for Scrap Brain
 - ~~DMA Queue~~
 - Custom levels if possible
+- Mogeko easter egg level
+    - Activated in a hidden crevace within Marble Zone, just enough for Sonic to roll into, not accidentally. One pixel tile difference.
+    - Endurance mode, ~5 minute timer
+    - When killing a Mogeko, flash screen and use blood object the same way Sonic does when dead
+    - If Sonic dies to a Mogeko, play the crunching sound from the original game (usually used when Yonaka is being hurt)
+    - Unlocks "Fan Mode" when beaten (see: experimental/fan-disasm)
+- Splash screens
+    - New SEGA screen
+    - Fuzzy presents
+    - Sonic Retro (?)
+    - Short SHC splash (?)
 
 ## Credits
 - Code: Fuzzy, Vladikcomper, Giovanni, Rivet, Savok
