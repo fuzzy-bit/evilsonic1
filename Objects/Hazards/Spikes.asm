@@ -82,11 +82,11 @@ Spik_Hurt:
 		tst.b	(v_invinc).w	; is Sonic invincible?
 		bne.s	Spik_Display	; if yes, branch
 		
-		tst.b 	(v_difficulty).w
-		bne.s	@SpikeBug	; if difficulty is over 0, branch
+		tst.b 	(v_difficulty).w ; is difficulty is over 0?
+		bne.s	@SpikeBug	; if yes, branch
 
-		tst.w	(v_player+$30).w ; +++ is Sonic invulnerable?
-		bne.s	Spik_Display	; +++ if yes, branch
+		tst.w	(v_player+$30).w ; is Sonic invulnerable?
+		bne.s	Spik_Display	; if yes, branch
 
 @SpikeBug:
 		move.l	a0,-(sp)
