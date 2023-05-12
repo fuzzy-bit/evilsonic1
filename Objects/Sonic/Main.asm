@@ -295,7 +295,6 @@ Sonic_ResetLevel: ; Routine 8
 		bne.s	locret_13914
 
 		if Respawn=1
-			; TODO: Find out why the DPLCs for the signpost break after dying
 			move.b	#4,obRoutine(a0)
 			jsr 	LevSz_ChkLamp
 			jsr 	LoadTilesFromStart

@@ -46,6 +46,7 @@ A violent Sonic 1 hack.
     - When killing a Mogeko, flash screen and use blood object the same way Sonic does when dead
     - If Sonic dies to a Mogeko, play the crunching sound from the original game (usually used when Yonaka is being hurt)
     - Unlocks "Fan Mode" when beaten (see: experimental/fan-disasm)
+    - Going to the hidden spot with "Fan Mode" enabled, it will bring you to another easter egg...
 - Splash screens
     - New SEGA screen
     - Fuzzy presents

@@ -55,12 +55,12 @@ Bump_Hit:	; Routine 2
 	@addscore:
 		moveq	#1,d0
 		jsr	(AddPoints).l	; add 10 to score
-		bsr.w	FindFreeObj
-		bne.s	@display
-		move.b	#id_Points,0(a1) ; load points object
-		move.w	obX(a0),obX(a1)
-		move.w	obY(a0),obY(a1)
-		move.b	#4,obFrame(a1)
+		; bsr.w	FindFreeObj
+		; bne.s	@display
+		; move.b	#id_Points,0(a1) ; load points object
+		; move.w	obX(a0),obX(a1)
+		; move.w	obY(a0),obY(a1)
+		; move.b	#4,obFrame(a1)
 
 	@display:
 		lea	(Ani_Bump).l,a1

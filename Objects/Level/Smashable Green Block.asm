@@ -61,11 +61,11 @@ sonicAniFrame:	equ $32		; Sonic's current animation number
 		moveq	#3,d1		; set number of	fragments to 4
 		move.w	#$38,d2
 		bsr.w	SmashObject
-		bsr.w	FindFreeObj
+		; bsr.w	FindFreeObj
 		bne.s	Smab_Points
-		move.b	#id_Points,0(a1) ; load points object
-		move.w	obX(a0),obX(a1)
-		move.w	obY(a0),obY(a1)
+		; move.b	#id_Points,0(a1) ; load points object
+		; move.w	obX(a0),obX(a1)
+		; move.w	obY(a0),obY(a1)
 		move.w	(v_itembonus).w,d2
 		addq.w	#2,(v_itembonus).w ; increment bonus counter
 		cmpi.w	#6,d2		; have fewer than 3 blocks broken?

@@ -83,8 +83,9 @@ BuildSprites:
 		btst	#5,d4		; is static mappings flag on?
 		bne.s	@drawFrame	; if yes, branch
 		move.b	obFrame(a0),d1
-		add.b	d1,d1
+		add.w	d1,d1
 		adda.w	(a1,d1.w),a1	; get mappings frame address
+		moveq 	#0, d1
 		move.w	(a1)+,d1	; number of sprite pieces
 		subq.w	#1,d1
 		bmi.s	@setVisible

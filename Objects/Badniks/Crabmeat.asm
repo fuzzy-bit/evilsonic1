@@ -204,6 +204,8 @@ Crab_BallMain:	; Routine 6
 		move.b	#7,obAnim(a0)
 
 		crabmeatball_bounces:		equ $30
+		tst.b 	(v_difficulty).w ; is difficulty is over 0?
+		beq.s	Crab_BallMove	; if not, branch
 		move.b	#4, crabmeatball_bounces(a0)
 
 Crab_BallMove:	; Routine 8
@@ -221,12 +223,8 @@ Crab_BallMove:	; Routine 8
 		cmpi.w	#4, d1		; has ball hit the floor?
 		ble.s 	@bounce	; if not, branch
 
-		rts	
-
-	@addbounce:
+		rts			
 		
-		
-
 	@bounce:
 		subi.b	#1, crabmeatball_bounces(a0)
 		

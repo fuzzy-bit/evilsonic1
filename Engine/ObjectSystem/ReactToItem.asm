@@ -14,7 +14,7 @@ ReactToItem:
 		move.b	obHeight(a0),d5	; load Sonic's height
 		subq.b	#3,d5
 		sub.w	d5,d3
-		cmpi.b	#fr_Duck,obFrame(a0) ; is Sonic ducking?
+		cmpi.b	#id_Duck,obAnim(a0) ; is Sonic ducking?
 		bne.s	@notducking	; if not, branch
 		addi.w	#$C,d3
 		moveq	#$A,d5
