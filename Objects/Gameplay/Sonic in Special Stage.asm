@@ -473,8 +473,8 @@ Obj09_GetCont:
 		bcs.s	Obj09_NoCont
 		bset	#0,(v_lifecount).w
 		bne.s	Obj09_NoCont
-		addq.b	#1,(v_continues).w ; add 1 to number of continues
-		sfx	sfx_Continue	; play extra continue sound
+		; addq.b	#1,(v_continues).w ; add 1 to number of continues
+		; sfx	sfx_Continue	; play extra continue sound
 
 Obj09_NoCont:
 		moveq	#0,d4

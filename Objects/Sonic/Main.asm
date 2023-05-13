@@ -99,12 +99,13 @@ Sonic_Modes:	dc.w Sonic_MdNormal-Sonic_Modes
 ; ---------------------------------------------------------------------------
 
 Sonic_MdNormal:
+		bsr.w	Sonic_SpinDash
 		bsr.w	Sonic_Jump
 		bsr.w	Sonic_SlopeResist
 		bsr.w	Sonic_Move
 		bsr.w	Sonic_Roll
 		bsr.w	Sonic_LevelBound
-		jsr	(SpeedToPos).l
+		jsr		(SpeedToPos).l
 		bsr.w	Sonic_AnglePos
 		bsr.w	Sonic_SlopeRepel
 		rts
@@ -150,6 +151,7 @@ loc_12EA6:
 		bsr.w	Sonic_Floor
 		rts
 
+		include	"Objects\Sonic\Spindash.asm"
 		include	"Objects\Sonic\Move.asm"
 		include	"Objects\Sonic\RollSpeed.asm"
 		include	"Objects\Sonic\JumpDirection.asm"

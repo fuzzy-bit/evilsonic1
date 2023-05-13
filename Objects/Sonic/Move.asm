@@ -213,6 +213,11 @@ loc_1309A:
 		neg.w	d1
 		cmp.w	d1,d0
 		bgt.s	loc_130A6
+		if SpeedCap=0
+		add.w	d5,d0
+		cmp.w	d1,d0
+		ble.s	loc_130A6
+		endc
 		move.w	d1,d0
 
 loc_130A6:
@@ -258,6 +263,11 @@ loc_13104:
 		add.w	d5,d0
 		cmp.w	d6,d0
 		blt.s	loc_1310C
+		if SpeedCap=0
+		sub.w	d5,d0
+		cmp.w	d6,d0
+		bge.s	loc_1310C
+		endc
 		move.w	d6,d0
 
 loc_1310C:
