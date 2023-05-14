@@ -472,7 +472,7 @@ Obj09_GetCont:
 		cmpi.w	#50,(v_rings).w	; check if you have 50 rings
 		bcs.s	Obj09_NoCont
 		bset	#0,(v_lifecount).w
-		bne.s	Obj09_NoCont
+		; bne.s	Obj09_NoCont
 		; addq.b	#1,(v_continues).w ; add 1 to number of continues
 		; sfx	sfx_Continue	; play extra continue sound
 
