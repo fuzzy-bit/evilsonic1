@@ -119,6 +119,7 @@ obSubtype:	equ $28	; object subtype
 obSolid:	equ ob2ndRout ; solid status flag
 
 ; Object variables used by Sonic
+spindash_charger:	equ $2E	; spindash charge value
 flashtime:	equ $30	; time between flashes after getting hit
 invtime:	equ $32	; time left for invincibility
 shoetime:	equ $34	; time left for speed shoes

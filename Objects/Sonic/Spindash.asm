@@ -14,11 +14,11 @@ Sonic_SpinDash:
 	andi.b #$70,d0 
 	beq.w	return_1AC8C
 	move.b #id_Spindash,obAnim(a0) 
-	move.w #$BE,d0 
+	move.w #$D1,d0 
 	jsr	(PlaySound_Special).l
 	addq.l	#4,sp
 	move.b	#1,f_spindash(a0)
-	move.w	#0,$3A(a0)
+	move.w	#0,spindash_charger(a0)
 	cmpi.b #$C,$28(a0) 	; if he's drowning, branch to not make dust
 	blo.s	loc_1AC84
 	move.b #2,($FFFFD11C).w
@@ -50,7 +50,7 @@ Sonic_UpdateSpindash:
 	addq.w	#5,y_pos(a0)	; add the difference between Sonic's rolling and standing heights
 	move.b	#0,f_spindash(a0)
 	moveq	#0,d0
-	move.b	$3A(a0),d0
+	move.b	spindash_charger(a0),d0
 	add.w	d0,d0
 	move.w	SpindashSpeeds(pc,d0.w),obInertia(a0)
 ;	tst.b	(Super_Sonic_flag).w
@@ -99,24 +99,24 @@ SpindashSpeeds:
 ; ===========================================================================
 ; loc_1AD30:
 Sonic_ChargingSpindash:			; If still charging the dash...
-	tst.w	$3A(a0)
+	tst.w	spindash_charger(a0)
 	beq.s	loc_1AD48
-	move.w	$3A(a0),d0
+	move.w	spindash_charger(a0),d0
 	lsr.w	#5,d0
-	sub.w	d0,$3A(a0)
+	sub.w	d0,spindash_charger(a0)
 	bcc.s	loc_1AD48
-	move.w	#0,$3A(a0)
+	move.w	#0,spindash_charger(a0)
 loc_1AD48:
 	move.b  (v_jpadpress2).w,d0 
 	andi.b  #$70,d0 ; 'p' 
 	beq.w   Obj01_Spindash_ResetScr
-	move.w  #$1F00,$1C(a0) 
-	move.w  #$BE,d0 ; 'à' 
+	move.w  #id_Spindash<<8,obAnim(a0) ; reset spin dash animation to the beginning
+	move.w  #$D1,d0 ; 'à' 
 	jsr	(PlaySound_Special).l
-	addi.w	#$200,$3A(a0)
-	cmpi.w	#$800,$3A(a0)
+	addi.w	#$200,spindash_charger(a0)
+	cmpi.w	#$800,spindash_charger(a0)
 	blo.s	Obj01_Spindash_ResetScr
-	move.w	#$800,$3A(a0)
+	move.w	#$800,spindash_charger(a0)
 
 ; loc_1AD78:
 Obj01_Spindash_ResetScr:
