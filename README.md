@@ -37,7 +37,7 @@ A violent Sonic 1 hack.
     - Marble
     - Spring Yard
     - ~~Star Light~~
-- 2 acts for Labyrinth (no boss) and 1 act for Scrap Brain
+- 2 acts for Labyrinth (no boss)
 - ~~DMA Queue~~
 - Custom levels if possible
 - Mogeko easter egg level
@@ -54,9 +54,10 @@ A violent Sonic 1 hack.
     - Short SHC splash (?)
 
 ## Credits
-- Code: Fuzzy, Vladikcomper, Giovanni, Rivet, Savok
-- Music: Jet, KCEXE, Vladikcomper, FoxConED, ArcaniaCQ, Oerg866, dust hill resident, Lightning_Splash
+- Code: Fuzzy, Vladikcomper, Giovanni
+- Music: Jet, KCEXE, Vladikcomper, FoxConED, ArcaniaCQ, Oerg866, dust hill resident, Lightning_Splash, Amphobius
 - VEPS Sound Driver + MegaPCM: Vladikcomper
-- Graphics: Fuzzy, Selbi, TheBlad768
+- Graphics: Fuzzy, Selbi, TheBlad768, funamusea
 - Levels: Fuzzy
 - Original Game: SEGA, Sonic Team
+...And others I probably forgot to mention.

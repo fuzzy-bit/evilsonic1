@@ -320,7 +320,7 @@ KillSonic:
 		bne.s	@dontdie	; if yes, branch
 
 		Instance.new Splatter, a1
-		move.w 	a2,	ParentObj(a1)
+		move.w 	a2,	$30(a1) ; ParentObj
 
 		move.b	#0,(v_invinc).w	; remove invincibility
 		move.b	#6,obRoutine(a0)

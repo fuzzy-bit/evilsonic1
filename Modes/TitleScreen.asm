@@ -2,6 +2,10 @@
 ; Title	screen
 ; ---------------------------------------------------------------------------
 
+; Gonna redo the whole title screen at some point
+	rsset	$FFFF8000
+TitleScrollTimer:	rs.l	1		; scroll count
+
 TitleScreen:
 		command	mus_fadeout	; stop music
 		bsr.w	ClearPLC
@@ -79,42 +83,33 @@ TitleScreen:
 		move.w	#0,($FFFFFFEA).w ; unused variable
 		move.w	#(id_GHZ<<8),(v_zone).w	; set level to GHZ (00)
 		move.w	#0,(v_pcyc_time).w ; disable palette cycling
-		bsr.w	LevelSizeLoad
-		bsr.w	DeformLayers
-		lea	(v_16x16).w,a1
-		lea	(Blk16_GHZ).l,a0 ; load	GHZ 16x16 mappings
-		move.w	#0,d0
-		bsr.w	EniDec
-		lea	(Blk256_GHZ).l,a0 ; load GHZ 256x256 mappings
-		lea	(v_256x256).l,a1
-		bsr.w	KosDec
-		bsr.w	LevelLayoutLoad
+
 		bsr.w	PaletteFadeOut
 		disable_ints
 		bsr.w	ClearScreen
 		lea	(vdp_control_port).l,a5
 		lea	(vdp_data_port).l,a6
 		lea	(v_bgscreenposx).w,a3
-		lea	(v_lvllayout+$40).w,a4
-		move.w	#$6000,d2
-		bsr.w	DrawChunks
-		lea	($FF0000).l,a1
-		lea	(Eni_Title).l,a0 ; load	title screen mappings
-		move.w	#0,d0
-		bsr.w	EniDec
+		; lea	(v_lvllayout+$40).w,a4
+		; move.w	#$6000,d2
+		; bsr.w	DrawChunks
+		; lea	($FF0000).l,a1
+		; lea	(Eni_Title).l,a0 ; load	title screen mappings
+		; move.w	#0,d0
+		; bsr.w	EniDec
 
-		copyTilemap	$FF0000,$C206,$21,$15
+		; copyTilemap	$FF0000,$C206,$21,$15
 
-		lea    ($FF0000), a1 ; load background here
-		lea    TitleBGMap, a0
-		move.w #320, d0
-		jsr    EniDec.w
+		; lea    ($FF0000), a1 ; load background here
+		; lea    TitleBGMap, a0
+		; move.w #320, d0
+		; jsr    EniDec.w
 
-		lea     ($FF0000), a1
-		move.l  #$60000003, d0
-		moveq   #39, d1
-		moveq   #30, d2
-		jsr	   	TilemapToVRAM 	; mpaaings -> vram
+		; lea     ($FF0000), a1
+		; move.l  #$60000003, d0
+		; moveq   #39, d1
+		; moveq   #30, d2
+		; jsr	   	TilemapToVRAM 	; mpaaings -> vram
 
 		lea    ($FF0000), a1 ; load background here
 		lea    TitleBGMap, a0
@@ -167,7 +162,18 @@ TitleScreen:
         jsr    	PlaySample
 
 		jsr	(ExecuteObjects).l
-		bsr.w	DeformLayers
+
+		lea		TitleScrollTimer, a0
+		addi.l	#65536*32/16, (a0)
+		move.w	(a0), d0
+		neg.w	d0 ; go left
+		move.w	d0, (v_hscrolltablebuffer+2).w
+
+		bsr.w 	TitleSine
+
+		add.b	#1, (v_bgscroll_buffer).w
+		move.w	#$10, (v_scrposy_dup+2).w
+
 		;jsr	(BuildSprites).l
 		moveq	#plcid_Main,d0
 		bsr.w	NewPLC
@@ -185,6 +191,18 @@ Tit_MainLoop:
 		jsr	(ExecuteObjects).l
 		; bsr.w	DeformLayers
 		jsr	(BuildSprites).l
+
+		lea		TitleScrollTimer, a0
+		addi.l	#65536*32/16, (a0)
+		move.w	(a0), d0
+		neg.w	d0 ; go left
+		move.w	d0, (v_hscrolltablebuffer+2).w
+
+		bsr.w 	TitleSine
+
+		add.b	#1, (v_bgscroll_buffer).w
+		move.w	#$10, (v_scrposy_dup+2).w
+
 		; bsr.w	PCycle_Title
 		; bsr.w	RunPLC
 		move.w	(v_objspace+obX).w,d0
@@ -297,6 +315,31 @@ Tit_ChkLevSel:
 
 		;move.w	#MusOff,($FFFFFF84).w
 		bsr.w	LevSelTextLoad
+		bra.s 	LevelSelect
+
+TitleSine:
+		moveq	#0, d4
+		moveq	#0, d5
+		lea	v_hscrolltablebuffer.w, a1
+		move.b	(v_bgscroll_buffer).w, d6
+
+		move.w	(v_bg2screenposx).w, d2
+		neg.w	d2
+		swap	d2			;Puts plane A's X pos in topmost word
+
+		move.w	#224, d3
+
+@Deform:
+		move.b	d6, d0
+		add.w	d5, d0
+		bsr.w	CalcSine
+		asr.w	#3, d1
+		move.w	d1, (a1)+		;Send AAAA HScroll entry
+		move.w	d0, (a1)+		;Send BBBB HScroll entry
+		addq.w	#1, d5			;Inc wave every line
+		dbra	d3, @Deform
+
+		rts
 
 ; ---------------------------------------------------------------------------
 ; Level	Select

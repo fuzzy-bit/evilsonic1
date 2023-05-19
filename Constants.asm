@@ -129,9 +129,6 @@ f_spindash:	equ $39
 ; Object variables used by objects with DPLC support (Sonic, Spin Dust)
 obDPLCFrame:	equ	$3A
 
-; Object variables used by splatters
-ParentObj:		equ $30	; time between flashes after getting hit
-
 ; Object variables (Sonic 2 disassembly nomenclature)
 render_flags:	equ 1	; bitfield for x/y flip, display mode
 art_tile:	equ 2	; palette line & VRAM setting (2 bytes)
