@@ -84,7 +84,7 @@ Splatter:
 		addq.w  #4, sp   ; Fix from Vladikcomper: Return to higher in the stack rather than caller 
 		jmp 	DeleteObject
 		
-; GFX VRAM LOCATION: 0xD800
+; GFX VRAM LOCATION: 0xD160
 ; ---------------------------------------------------------------------------
 ; LUT FORMAT
 ; #$E bytes/index
