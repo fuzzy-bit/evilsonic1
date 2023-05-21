@@ -55,21 +55,22 @@ Art_MKBlood:
 
 
 CreateMKBlood:
-                lea     @BloodLUT(pc),a2			; lookup table
-                moveq	#11,d1						; number of values to be read -1
+                lea     @BloodLUT(pc), a2			; load lookup table
+                moveq	#11, d1						; number of values to be read -1
 
 @Loop1:
 				jsr     FindFreeObj					; gee i wonder what this does
                 bne.s   @Return						; oh noes the object didn't load so sad :(
-                move.b  #id_MKBlood,(a1)			; load object into a1
-                move.w  8(a0),8(a1)					; xpos of item
-                move.w  $C(a0),$C(a1)				; ypos of item
-                move.l  (a2)+,$10(a1)				; get all speed data
+                move.b  #id_MKBlood, (a1)			; load object into a1
+                move.w  obX(a0), obX(a1)			; xpos of item
+                move.w  obY(a0), obY(a1)			; ypos of item
+
+                move.l  (a2)+, $10(a1)				; get all speed data
 				bpl.s   @NoFlip						; if speed is positive, branch   
-				bset    #0,$22(a1)					; else, flip X orientation
+				bset    #0, $22(a1)					; else, flip X orientation
 
 @NoFlip:       
-                dbf     d1,@Loop1 ; create next object
+                dbf     d1, @Loop1 ; create next object
 
 @Return:
                 rts
