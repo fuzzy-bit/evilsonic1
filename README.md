@@ -37,7 +37,7 @@ A violent Sonic 1 hack.
     - Marble
     - Spring Yard
     - ~~Star Light~~
-- 2 acts for Labyrinth (no boss)
+- No boss in labyrinth
 - ~~DMA Queue~~
 - Custom levels if possible
 - Mogeko easter egg level

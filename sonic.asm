@@ -40,6 +40,11 @@ StartOfRom:
 BizhawkCompatibility:
 		dc.w 0
 
+HiddenMessage:
+		align 24
+		dc.b "THIS HACK WAS   NOT BROUGHT TO  YOU BY "
+		dc.b "DR.      EGGMAN, BUT THE ONE AND ONLY    MOGE-KO         "
+
 ; ===========================================================================
 ; Crash/Freeze the 68000. Unlike Sonic 2, Sonic 1 uses the 68000 for playing music, so it stops too
 
@@ -884,6 +889,7 @@ Map_MisDissolve:include	"Data\Mappings\Objects\Buzz Bomber Missile Dissolve.asm"
 		include	"Data\Mappings\Objects\Explosions.asm"
 
 		include	"Objects\Effects\Animals.asm"
+		include	"Objects\Effects\MK Blood.asm"
 		include	"Objects\Gameplay\Points.asm"
 Map_Animal1:	include	"Data\Mappings\Objects\Animals 1.asm"
 Map_Animal2:	include	"Data\Mappings\Objects\Animals 2.asm"
@@ -1945,7 +1951,7 @@ Nem_JapNames:	incbin	"Data\Art\Nemesis\Hidden Japanese Credits.bin"
 		even
 
 Map_Sonic:	include	"Data\Mappings\Objects\Sonic.asm"
-SonicDynPLC:	include	"Data\Mappings\Objects\Sonic - Dynamic Gfx Script.asm"
+		include	"Data\DPLCs\Sonic.asm"
 
 ; ---------------------------------------------------------------------------
 ; Uncompressed graphics	- Sonic
@@ -2689,5 +2695,4 @@ TitleBGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
 ; Error Handler
 ; ---------------------------------------------------------------------------
 		include	"ErrorHandler/ErrorHandler.asm"
-
 EndOfRom:	END

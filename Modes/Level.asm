@@ -262,7 +262,7 @@ Level_ClrCardArt:
 		jsr	(AddPLC).l	; load explosion gfx
 		moveq	#0,d0
 		move.b	(v_zone).w,d0
-		addi.w	#plcid_GHZAnimals,d0
+		; addi.w	#plcid_GHZAnimals,d0
 		jsr	(AddPLC).l	; load animal gfx (level no. + $15)
 
 Level_StartGame:

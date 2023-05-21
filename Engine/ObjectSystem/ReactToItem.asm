@@ -263,6 +263,8 @@ HurtSonic:
 		tst.w	(v_rings).w	; does Sonic have any rings?
 		beq.w	@norings	; if not, branch
 
+		jsr		CreateMKBlood
+
 		jsr	(FindFreeObj).l
 		bne.s	@hasshield
 		move.b	#id_RingLoss,0(a1) ; load bouncing multi rings object

@@ -295,54 +295,42 @@ PLC_SpecialStage:	dc.w ((PLC_SpeStageend-PLC_SpecialStage-2)/6)-1
 ; Pattern load cues - GHZ animals
 ; ---------------------------------------------------------------------------
 PLC_GHZAnimals:	dc.w ((PLC_GHZAnimalsend-PLC_GHZAnimals-2)/6)-1
-		plcm	Nem_Rabbit, $B000	; rabbit
-		plcm	Nem_Flicky, $B240	; flicky
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_GHZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - LZ animals
 ; ---------------------------------------------------------------------------
 PLC_LZAnimals:	dc.w ((PLC_LZAnimalsend-PLC_LZAnimals-2)/6)-1
-		plcm	Nem_BlackBird, $B000	; blackbird
-		plcm	Nem_Seal, $B240		; seal
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_LZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - MZ animals
 ; ---------------------------------------------------------------------------
 PLC_MZAnimals:	dc.w ((PLC_MZAnimalsend-PLC_MZAnimals-2)/6)-1
-		plcm	Nem_Squirrel, $B000	; squirrel
-		plcm	Nem_Seal, $B240		; seal
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_MZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - SLZ animals
 ; ---------------------------------------------------------------------------
 PLC_SLZAnimals:	dc.w ((PLC_SLZAnimalsend-PLC_SLZAnimals-2)/6)-1
-		plcm	Nem_Pig, $B000		; pig
-		plcm	Nem_Flicky, $B240	; flicky
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_SLZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - SYZ animals
 ; ---------------------------------------------------------------------------
 PLC_SYZAnimals:	dc.w ((PLC_SYZAnimalsend-PLC_SYZAnimals-2)/6)-1
-		plcm	Nem_Pig, $B000		; pig
-		plcm	Nem_Chicken, $B240	; chicken
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+			plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_SYZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - SBZ animals
 ; ---------------------------------------------------------------------------
 PLC_SBZAnimals:	dc.w ((PLC_SBZAnimalsend-PLC_SBZAnimals-2)/6)-1
-		plcm	Nem_Rabbit, $B000		; rabbit
-		plcm	Nem_Chicken, $B240	; chicken
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_SBZAnimalsend:
 ; ---------------------------------------------------------------------------
