@@ -79,8 +79,8 @@ loc_E0:
 	endif
 MEGADRIVE:	dc.b "SEGA MEGA DRIVE " ; Hardware system ID (Console name)
 Date:		dc.b "(C)FUZZY 2023   " ; Copyright holder and release date (generally year)
-Title_Local:	dc.b "S1 ENGINE TEST                                  " ; Domestic name
-Title_Int:	dc.b "S1 ENGINE TEST                                  " ; International name
+Title_Local:	dc.b "BRUTALSONIC                                     " ; Domestic name
+Title_Int:	dc.b "BRUTALSONIC                                     " ; International name
 Serial:		if Revision=0
 		dc.b "GM 00001009-00"   ; Serial/version number (Rev 0)
 		else
