@@ -7,7 +7,7 @@ active_particles:	= $30			; a number of on-screen particles so far
 obj_generator:		= $34			; links parent generator object
 
 MKBlood:
-        move.w  $24(a0), d0
+        move.w  obRoutine(a0), d0
         move.w  @Index(pc,d0.w), d0
         jmp     @Index(pc,d0.w)
 
@@ -44,24 +44,24 @@ MKBlood_Generate:
 			bne.s	@Done
 			move.b  #id_MKBlood, (a1)
 			addq.w	#1, d6						; account for this particle
-            move.b	#%00000100, 1(a1)			; object is placed on playfield
-            move.w  #$8580, 2(a1)				; VRAM art data		
-            move.l  #Map_Blood, 4(a1)			; the mappings
+            move.b	#4, obRender(a1)			; object is placed on playfield
+            move.w  #$8580, obGfx(a1)			; VRAM art data		
+            move.l  #Map_Blood, obMap(a1)		; the mappings
             move.w  obX(a0), obX(a1)			; xpos of item
             move.w  obY(a0), obY(a1)			; ypos of item
             move.w	a0, obj_generator(a1)		; link parent obj
-            move.w	#4, $24(a1)					; => "MKBlood_ParticleMoveUp"
-            move.l  (a2)+, $10(a1)				; get all speed data
+            move.w	#4, obRoutine(a1)			; => "MKBlood_ParticleMoveUp"
+            move.l  (a2)+, obVelX(a1)			; get all speed data
 			bpl.s   @Next						; if speed is positive, branch   
-			bset    #0, 1(a1)					; else, flip X orientation
+			bset    #0, obRender(a1)			; else, flip X orientation
     @Next:
             dbf		d5, @Loop					; repeat for the number of partiles
 
 	@Done:
-        move.b	d6, active_particles(a0)	; remember number of active particles
-        addq.w	#2, $24(a0)					; => "MKBlood_UpdateGlobal"
-        move.b	#1, $1C(a0)
-        st.b	obDPLCFrame(a0)				; set last frame for DPLC to $FF to force redraw
+        move.b	d6, active_particles(a0)		; remember number of active particles
+        addq.w	#2, obRoutine(a0)				; => "MKBlood_UpdateGlobal"
+        move.b	#1, obAnim(a0)
+        st.b	obDPLCFrame(a0)					; set last frame for DPLC to $FF to force redraw
         ; fallthrough
 
 ; ---------------------------------------------------------------------------
@@ -82,26 +82,26 @@ MKBlood_UpdateGlobal:
 
 ; ---------------------------------------------------------------------------
 MKBlood_ParticleMoveUp:
-		tst.w	$12(a0)							; moving up?
+		tst.w	obVelY(a0)						; moving up?
 		bmi.s	MKBlood_ParticleMove			; if yes, branch
-		addq.w	#2, $24(a0)						; => "MKBlood_ParticleMoveDown
+		addq.w	#2, obRoutine(a0)				; => "MKBlood_ParticleMoveDown
 		; fallthrough
 
 ; ---------------------------------------------------------------------------
 MKBlood_ParticleMoveDown:
-		tst.b	1(a0)							; is object on screen?
+		tst.b	obRender(a0)					; is object on screen?
 		bpl.s	MKBlood_DeleteParticle			; if not, branch
 
 MKBlood_ParticleMove:
        	jsr     ObjectFall
 		movea.w	obj_generator(a0), a1			; get parent generator object
-		move.b	$1A(a1), $1A(a0)				; inherit global frame from the parent
+		move.b	obFrame(a1), obFrame(a0)		; inherit global frame from the parent
        	jmp		DisplaySprite
 
 ; ---------------------------------------------------------------------------
 MKBlood_DeleteParticle:
-		movea.w	obj_generator(a0), a1		; get parent generator object
-		subq.b	#1, active_particles(a1)	; tell that this particle is dead =(
+		movea.w	obj_generator(a0), a1			; get parent generator object
+		subq.b	#1, active_particles(a1)		; tell that this particle is dead =(
 		; fallthrough
 
 MKBlood_Delete:
