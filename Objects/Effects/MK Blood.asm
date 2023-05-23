@@ -1,41 +1,53 @@
-; =============== S U B R O U T I N E =======================================
-
-
+; ---------------------------------------------------------------------------
+; Mortal Kombat Blood
+; ---------------------------------------------------------------------------
 MKBlood:
                 moveq   #0,d0
                 move.b  $24(a0),d0
-                move.w  bloodshow_index(pc,d0.w),d0
-                jsr     bloodshow_index(pc,d0.w)
+                move.w  @Index(pc,d0.w),d0
+                jsr     @Index(pc,d0.w)
+				
+				tst.b 	@ControlDPLC(a0)
+				bne.s	@NoUpdate
+
                 lea     (Anim_MKBlood).l,a1
-                jsr     AnimateSprite
 				jsr 	MKBlood_LoadGFX
+                jsr     AnimateSprite
+				jsr 	UpdateDPLC
                 jmp     DisplaySprite
 
-; ---------------------------------------------------------------------------
-bloodshow_index:     
-				dc.w bloodshow_main-bloodshow_index
-				dc.w bloodshow_chkdown-bloodshow_index
-                dc.w bloodshow_checkfall_checkremove-bloodshow_index
+@NoUpdate:
+                jsr     AnimateSprite
+                jmp     DisplaySprite
 
-bloodshow_main:
+
+@ControlDPLC:		equ $30
+
+; ---------------------------------------------------------------------------
+@Index:     
+				dc.w @Main-@Index
+				dc.w @CheckDown-@Index
+                dc.w @CheckFall-@Index
+
+@Main:
 				addq.b	#2,$24(a0)
                 move.w  #$8580,2(a0)				; VRAM art data		
                 move.l  #Map_Blood,4(a0)			; the mappings
                 ori.b	#%00000100,1(a0)			; object is placed on playfield
 				
-bloodshow_chkdown:
+@CheckDown:
 				tst.b	$12(a0)
-				bmi.s	bloodshow_locret
+				bmi.s	@Return
 				move.b	#$1,$1C(a0)
 
-bloodshow_checkfall_checkremove:		; used by blood
+@CheckFall:		; used by blood
 				btst	#7,1(a0)
-				beq.s	bloodshow_delete
+				beq.s	@Delete
 				
-bloodshow_locret:	
+@Return:	
                 jmp     ObjectFall	
 
-bloodshow_delete:
+@Delete:
 				addq	#4,sp
 				jmp		DeleteObject
 ; ---------------------------------------------------------------------------
@@ -57,6 +69,7 @@ Art_MKBlood:
 CreateMKBlood:
                 lea     @BloodLUT(pc), a2			; load lookup table
                 moveq	#11, d1						; number of values to be read -1
+				move.b 	#1, d2						; flag for if the object should update the DPLC
 
 @Loop1:
 				jsr     FindFreeObj					; gee i wonder what this does
@@ -64,6 +77,8 @@ CreateMKBlood:
                 move.b  #id_MKBlood, (a1)			; load object into a1
                 move.w  obX(a0), obX(a1)			; xpos of item
                 move.w  obY(a0), obY(a1)			; ypos of item
+				move.b 	d2,	$30(a1)					; move DPLC update flag
+				move.b 	#0, d2						; unset d2
 
                 move.l  (a2)+, $10(a1)				; get all speed data
 				bpl.s   @NoFlip						; if speed is positive, branch   
