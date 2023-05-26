@@ -28,8 +28,6 @@ UpdateDPLC:
 		bmi.s	@Done
 		move.w	(@dplc_cfg)+, @vram_dest
 
-		subq.w	#2, sp							; allocate vladik device
-
 		lea		VDPDraw_AddDMATransfer, @add_transfer
 
 		@entry_loop:
@@ -38,10 +36,8 @@ UpdateDPLC:
 			@dma_dest:	equr	d1				; DMA destination (VRAM)
 			@dma_src:	equr	a2				; DMA source (ROM / RAM)
 
-			moveq	#0, @var0
-			move.b	(@dplc)+, (sp)
-			move.b	(@dplc)+, 1(sp)
-			move.w	(sp), @var0					; @var0 = $LTTT
+			moveq	#0, @var0					; NOTE: Don't optimize, `@var0` is used as a longword later
+			move.w	(@dplc)+, @var0				; @var0 = $LTTT
 			rol.w	#4, @var0					; @var0 = $TTTL
 
 			moveq	#$F, @dma_len
@@ -60,8 +56,6 @@ UpdateDPLC:
 			jsr		(@add_transfer)
 
 			dbf		@dplc_cnt, @entry_loop
-
-		addq.w	#2, sp							; free vladik device
 
 @Done:
 		rts
