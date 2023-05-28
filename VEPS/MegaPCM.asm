@@ -83,15 +83,14 @@ MegaPCM:
 		DAC_Entry		$09, Tom2, pcm					; $9A	- Tom-2 Lo-Mid
 		DAC_Entry		$0F, Tom2, pcm					; $9B	- Tom-2 Low
 		DAC_Entry		$03, SonicCD_Yes, pcm+pri+panLR ; $9C	- Sonic CD Yes
-		DAC_Entry		$01, GreatSuccess, pcm			; $9D	- Borat
-		DAC_Entry		$04, Winrar, pcm				; $9E	- Winrar
-		DAC_Entry		$08, Tails, pcm+loop			; $9F	- Tails
+		DAC_Entry		$04, Winrar, pcm				; $9D	- Winrar
+		DAC_Entry		$08, Tails, pcm+loop			; $9E	- Tails
+		DAC_Entry		$08, Brawl, pcm					; $9F	- Brawl Theme
 		DAC_Entry		$1B, Mogege, pcm				; $A0	- Mogege~
-		DAC_Entry		$08, Brawl, pcm					; $A1	- Brawl Theme
-		DAC_Entry		$1B, Minnaaa, pcm				; $A2	- Minnaaa!
-		DAC_Entry		$1B, Mogegegege, pcm			; $A3	- Mogegegege
-		DAC_Entry		$1B, Strike, pcm				; $A4	- Strike
-		DAC_Entry		$04, Scream, pcm				; $A5	- Scream
+		DAC_Entry		$1B, Minnaaa, pcm				; $A1	- Minnaaa!
+		DAC_Entry		$1B, Mogegegege, pcm			; $A2	- Mogegegege
+		DAC_Entry		$1B, Strike, pcm				; $A3	- Strike
+		DAC_Entry		$04, Scream, pcm				; $A4	- Scream
 
 
 MegaPCM_End:
@@ -128,11 +127,10 @@ MegaPCM_End:
 		IncludeDAC		SonicCD_Yes, snd
 
 		; Fuzzy ------------------------------
-		IncludeDAC		GreatSuccess, wav
 		IncludeDAC		Winrar, wav
 		IncludeDAC		Tails, wav
-		IncludeDAC		Mogege, wav
 		IncludeDAC		Brawl, wav
+		IncludeDAC		Mogege, wav
 		IncludeDAC		Minnaaa, wav
 		IncludeDAC		Mogegegege, wav
 		IncludeDAC		Strike, wav

@@ -51,7 +51,7 @@ TailsEasterEgg:
 		dbf 	d0, @PaletteLoop
 		jsr 	PaletteFadeIn
 
-		moveq  	#$FFFFFF9F,d0
+		moveq  	#$FFFFFF9E,d0
         jsr    	PlaySample
 		move.b 	#2, (v_countdown)
 
@@ -67,7 +67,7 @@ TailsEasterEgg:
 		jsr 	WaitForVBla
 
 		bra.s   @MainLoop
-	
+
 @InvertPalette:
 		tst.b 	(v_countdown)
 		bne.s 	@Return

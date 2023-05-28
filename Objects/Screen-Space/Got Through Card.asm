@@ -29,7 +29,7 @@ Got_ChkPLC:	; Routine 0
 ; ===========================================================================
 
 Got_Main:
-		moveq  	#$FFFFFF9E,d0
+		moveq  	#$FFFFFF9D,d0
         jsr    	PlaySample
 		
 		movea.l	a0,a1

@@ -158,7 +158,7 @@ TitleScreen:
 		bsr.w	WaitForVBla		; late, or we will lose the YM data and break music
 		; music	mus_Title		; play title screen music
 
-		moveq  	#$FFFFFFA1,d0
+		moveq  	#$FFFFFF9F,d0
         jsr    	PlaySample
 
 		jsr	(ExecuteObjects).l

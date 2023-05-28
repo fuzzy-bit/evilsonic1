@@ -50,10 +50,6 @@ Splatter:
 
 		move.w 	d1, @XOffset(a0)
 		move.w 	d2, @YOffset(a0)
-
-		; locVRAM	$D800
-		; lea		d3, a0
-		; bsr.w	NemDec
 		
 		move.l	d4, obMap(a0) 
 
@@ -83,7 +79,7 @@ Splatter:
 @DeleteObject:
 		addq.w  #4, sp   ; Fix from Vladikcomper: Return to higher in the stack rather than caller 
 		jmp 	DeleteObject
-		
+
 ; GFX VRAM LOCATION: 0xD160
 ; ---------------------------------------------------------------------------
 ; LUT FORMAT
