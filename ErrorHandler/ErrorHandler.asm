@@ -63,6 +63,8 @@ Line1111Emu:
 ErrorExcept:
 	__ErrorMessage "ERROR EXCEPTION", _eh_default
 
+ErrorTrap:
+	__ErrorMessage "ERROR TRAP", _eh_default
 
 
 ; ---------------------------------------------------------------
