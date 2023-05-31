@@ -4,7 +4,7 @@
 ptr_SonicPlayer:		dc.l SonicPlayer	; $01
 ptr_Splatter:			dc.l Splatter
 ptr_MKBlood:			dc.l MKBlood
-ptr_Obj04:				dc.l NullObject
+ptr_SegaLetter:			dc.l SegaLetter
 ptr_Obj05:				dc.l NullObject
 ptr_Obj06:				dc.l NullObject
 ptr_Obj07:				dc.l NullObject
@@ -149,7 +149,7 @@ NullObject:
 id_SonicPlayer:			equ ((ptr_SonicPlayer-Obj_Index)/4)+1		; $01
 id_Splatter:			equ ((ptr_Splatter-Obj_Index)/4)+1
 id_MKBlood:				equ ((ptr_MKBlood-Obj_Index)/4)+1
-id_Obj04:				equ ((ptr_Obj04-Obj_Index)/4)+1
+id_SegaLetter:			equ ((ptr_SegaLetter-Obj_Index)/4)+1
 id_Obj05:				equ ((ptr_Obj05-Obj_Index)/4)+1
 id_Obj06:				equ ((ptr_Obj06-Obj_Index)/4)+1
 id_Obj07:				equ ((ptr_Obj07-Obj_Index)/4)+1

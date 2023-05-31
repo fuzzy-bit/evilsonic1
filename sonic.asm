@@ -336,7 +336,7 @@ Pal_Sega2:	incbin	"Data\Palette\Sega2.bin"
 ; ---------------------------------------------------------------------------
 ; Palette data
 ; ---------------------------------------------------------------------------
-Pal_SegaBG:	incbin	"Data\Palette\Sega Background.bin"
+Pal_SegaBG:	incbin	"Data\Palette\Sega.bin"
 Pal_Title:	incbin	"Data\Palette\Title Screen.bin"
 Pal_LevelSel:	incbin	"Data\Palette\Level Select.bin"
 Pal_Sonic:	incbin	"Data\Palette\Sonic.bin"
@@ -373,14 +373,13 @@ WaitForVBla:
 		rts
 ; End of function WaitForVBla
 
-
 ; ---------------------------------------------------------------------------
 ; Math
 ; ---------------------------------------------------------------------------
 		include	"Engine\Math\RandomNumber.asm"
 		include	"Engine\Math\CalcSine.asm"
 		include	"Engine\Math\CalcAngle.asm"
-		
+
 ; ---------------------------------------------------------------------------
 ; Modes
 ; ---------------------------------------------------------------------------
@@ -1808,6 +1807,7 @@ Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
 
 		include	"Objects\Effects\Splatter.asm"
 		include	"Objects\Menu\Menu Character.asm"
+		include	"Objects\Screen-Space\Sega Logo Letters.asm"
 
 ; ---------------------------------------------------------------------------
 ; Add points subroutine

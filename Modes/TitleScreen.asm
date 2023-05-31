@@ -138,7 +138,7 @@ TitleScreen:
 		move.l	d0,(a1)+
 		dbf	d1,Tit_ClrObj2
 
-		;move.b	#id_TitleSonic,(v_objspace+$40).w ; load big Sonic object
+		;move.b	#id_SegaLetter,(v_objspace+$40).w ; load big Sonic object
 		;move.b	#id_PSBTM,(v_objspace+$80).w ; load "PRESS START BUTTON" object
 
 		if Revision=0

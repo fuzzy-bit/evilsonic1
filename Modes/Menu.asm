@@ -12,6 +12,5 @@ Menu:
 		jsr 	WaitForVBla
 		jsr		(ExecuteObjects).l
 		jsr		(BuildSprites).l
-
 		bra.s 	@MenuLoop
 		rts
