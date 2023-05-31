@@ -32,8 +32,16 @@ SegaScreen:
 		move.w	#0,(v_pal_buffer+$10).w
 		clr.b	v_csum_start.w			; clear start button check
 		move.w	(v_vdp_buffer1).w,d0
-		ori.b	#$40,d0
+		ori.b	#$40,d0					; enable display
 		move.w	d0,(vdp_control_port).l
+
+		lea	(v_objspace).w,a1
+		moveq	#0,d0
+		move.w	#$7FF,d1
+
+	@clrobjram:
+		move.l	d0,(a1)+
+		dbf	d1,@clrobjram ; clear object RAM
 
 		Instance.new SegaLetter, a1
 
