@@ -18,7 +18,6 @@ Splatter:
 ; ===========================================================================
 
 @Init:	; Routine 0
-		; TODO: FINISH INIT CODE
 		lea 	@SplatterTable, a2
 		
 @CheckValidParent:
@@ -56,19 +55,32 @@ Splatter:
 		rts
 		
 @Main:	; Routine 2
+		; TODO: APPLY DPLC FRAME
 		move.w	#$584, obGfx(a0)		
 		move.b	#4, obRender(a0)
 		move.b	#8, obActWid(a0)
-
+		
+		; Put parent object into a1 and set object priority
 		movea.w	@ParentObj(a0), a1
 		move.b	obPriority(a1), obPriority(a0)
 		sub.b 	#$1, obPriority(a0)
 
-		; - AFTER APPLYING POSITION, ADD OFFSET --------
+		; Load offset into registers d0 and d1
+		move.w 	@XOffset(a0), d0
+		move.w 	@YOffset(a0), d1
+
+		; Apply position and subsequently offset
 		move.w 	obX(a1), obX(a0)
 		move.w 	obY(a1), obY(a0)
-		; ----------------------------------------------
+		add.w 	d0, obX(a0)
+		add.w 	d1, obY(a0)
 
+		; Update DPLC
+        st.b	obDPLCFrame(a0)					; set last frame for DPLC to $FF to force redraw
+		lea		@DPLCConfig(pc), a6
+		jsr		UpdateDPLC
+
+		; Remove splatter if offscreen
 		tst.b	obRender(a0)
 		bmi.s	@DeleteObject
 
@@ -81,7 +93,7 @@ Splatter:
 ; GFX VRAM LOCATION: 0xD160
 ; ---------------------------------------------------------------------------
 ; LUT FORMAT
-; #$E bytes/index
+; #$A bytes/index
 ; ---------------------------------------------------------------------------
 ; ObjectID		  ; DPLCFrame      
 ; XOffset 		  ; YOffset 
@@ -89,8 +101,8 @@ Splatter:
 ; ---------------------------------------------------------------------------
 @SplatterTable:
 		; MZ Pillar
-        dc.b $20, $00
-		dc.w $0010, $0010 
+        dc.b $30, $00
+		dc.w $0000, $0046
 		dc.l Map_Splat
 
 		; SLZ Elevators
@@ -98,7 +110,7 @@ Splatter:
 		dc.w $0010, $0010 
 		dc.l Map_Splat
 
-		; Crabmeat
+		; Crabmeat (dummy/test)
         dc.b $1F, $00
 		dc.w $0010, $0010 
 		dc.l Map_Splat
@@ -107,6 +119,19 @@ Splatter:
 		dc.w $FFFF
 
 ; ---------------------------------------------------------------------------
+; DPLC Config
+; ---------------------------------------------------------------------------
+@DPLCConfig:
+		dc.l	PLC_Splatters	; DPLC pointer
+		dc.l	@SplatterArt	; Art pointer
+		dc.w	$584*$20		; VRAM address
+
+; ---------------------------------------------------------------------------
 ; Includes
 ; ---------------------------------------------------------------------------
+@SplatterArt:
+		incbin "Data\Art\Uncompressed\Blood Splatters.bin"
+		even
+
 		include "Data\Mappings\Objects\Blood Splatters.asm"
+		include "Data\DPLCs\Blood Splatters.asm"

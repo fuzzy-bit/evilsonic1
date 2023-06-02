@@ -27,8 +27,8 @@
                     },
                     "dplcs": {
                         "enabled": true,
-                        "path": "Data\\DPLCs\\Blood Splatters.bin",
-                        "label": ""
+                        "path": "Data\\DPLCs\\Blood Splatters.asm",
+                        "label": "PLC_Splatters"
                     }
                 },
                 {
