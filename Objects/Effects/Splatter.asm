@@ -19,7 +19,7 @@ Splatter:
 
 @Init:	; Routine 0
 		; TODO: FINISH INIT CODE
-		lea 	SplatterTable, a2
+		lea 	@SplatterTable, a2
 		
 @CheckValidParent:
 		move.b 	(a2)+, d0
@@ -37,15 +37,14 @@ Splatter:
 		move.b 	(a2)+, d0
 		move.l 	(a2)+, d0
 		move.l 	(a2)+, d0
-		move.l 	(a2)+, d0
 
 		bra.s 	@CheckValidParent
 
 @SetUp:
-		move.b 	(a2)+, d0 ; Unused
+		; Load values into registers
+		move.b 	(a2)+, d0 ; DPLC frame
 		move.w 	(a2)+, d1 ; X offset
 		move.w 	(a2)+, d2 ; Y offset
-		move.l 	(a2)+, d3 ; Nemesis GFX
 		move.l 	(a2)+, d4 ; Mapping data 
 
 		move.w 	d1, @XOffset(a0)
@@ -57,16 +56,15 @@ Splatter:
 		rts
 		
 @Main:	; Routine 2
-		; - REPLACE THESE WITH STUFF FROM THE LUT ------
-		move.w	#$D800, obGfx(a0)
-		; ----------------------------------------------
-		
+		move.w	#$584, obGfx(a0)		
 		move.b	#4, obRender(a0)
-		move.b	#1, obPriority(a0)
 		move.b	#8, obActWid(a0)
 
+		movea.w	@ParentObj(a0), a1
+		move.b	obPriority(a1), obPriority(a0)
+		sub.b 	#$1, obPriority(a0)
+
 		; - AFTER APPLYING POSITION, ADD OFFSET --------
-		move.w 	@ParentObj(a0), a1
 		move.w 	obX(a1), obX(a0)
 		move.w 	obY(a1), obY(a0)
 		; ----------------------------------------------
@@ -85,21 +83,30 @@ Splatter:
 ; LUT FORMAT
 ; #$E bytes/index
 ; ---------------------------------------------------------------------------
-; ObjectID		  ; Unused      ; XOffset ; YOffset 
-; NemesisGraphics ; MappingData
+; ObjectID		  ; DPLCFrame      
+; XOffset 		  ; YOffset 
+; MappingData
 ; ---------------------------------------------------------------------------
-SplatterTable:
+@SplatterTable:
 		; MZ Pillar
-        dc.w $2001, $0010, $0010 
-		dc.l Nem_Points, Map_Poi
+        dc.b $20, $00
+		dc.w $0010, $0010 
+		dc.l Map_Poi
+
+		; SLZ Elevators
+        dc.b $59, $00
+		dc.w $0010, $0010 
+		dc.l Map_Poi
 
 		; Crabmeat
-        dc.w $1F01, $0010, $0010 
-		dc.l Nem_Points, Map_Poi
-
-		; Motobug
-        dc.w $4001, $0010, $0010 
-		dc.l Nem_Points, Map_Poi
+        dc.b $1F, $00
+		dc.w $0010, $0010 
+		dc.l Map_Splat
 
 		; End
 		dc.b $FF
+
+; ---------------------------------------------------------------------------
+; Includes
+; ---------------------------------------------------------------------------
+		include "Data\Mappings\Objects\Blood Splatters.asm"

@@ -12,26 +12,27 @@ SegaScreen:
 		move.w	#$8400+(vram_bg>>13),(a6) ; set background nametable address
 		move.w	#$8700,(a6)	; set background colour (palette entry 0)
 		move.w	#$8B00,(a6)	; full-screen vertical scrolling
+
 		clr.b	(f_wtr_state).w
+
 		disable_ints
 		move.w	(v_vdp_buffer1).w,d0
 		andi.b	#$BF,d0
 		move.w	d0,(vdp_control_port).l
 		bsr.w	ClearScreen
+		
 		locVRAM	 $200
 		lea	(Art_Sega).l,a0 ; load Sega	logo patterns
 		bsr.w	NemDec
 		lea	($FF0000).l,a1
 
-	@loadpal:
+@loadpal:
 		moveq	#palid_SegaBG,d0
 		bsr.w	PalLoad2	; load Sega logo palette
-		move.w	#-$A,(v_pcyc_num).w
-		move.w	#0,(v_pcyc_time).w
-		move.w	#0,(v_pal_buffer+$12).w
-		move.w	#0,(v_pal_buffer+$10).w
+
 		clr.b	v_csum_start.w			; clear start button check
 		move.w	(v_vdp_buffer1).w,d0
+
 		ori.b	#$40,d0					; enable display
 		move.w	d0,(vdp_control_port).l
 
@@ -39,11 +40,34 @@ SegaScreen:
 		moveq	#0,d0
 		move.w	#$7FF,d1
 
-	@clrobjram:
+@clrobjram:
 		move.l	d0,(a1)+
 		dbf	d1,@clrobjram ; clear object RAM
 
+		; THIS SUCKS SO MUCH
 		Instance.new SegaLetter, a1
+		move.w	#$E0-$6, obX(a1)
+		move.w	#$50+2, obScreenY(a1)
+		move.w	#-$400, $3A(a1)
+
+		Instance.new SegaLetter, a1
+		move.w	#$FF0A-$6, obX(a1)
+		move.w	#$50-$6, obScreenY(a1)
+		move.b 	#1, obFrame(a1)
+		move.w	#-$400+16, $3A(a1)
+
+		Instance.new SegaLetter, a1
+		move.w	#$FF36-$6, obX(a1)
+		move.w	#$50-$F, obScreenY(a1)
+		move.b 	#2, obFrame(a1)
+		move.w	#-$400+32, $3A(a1)
+
+		Instance.new SegaLetter, a1
+		move.w	#$FF68-$6, obX(a1)
+		move.w	#$50-$18, obScreenY(a1)
+		move.b 	#3, obFrame(a1)
+		move.w	#-$400+64, $3A(a1)
+		; End of suckage
 
 Sega_WaitPal:
 		move.b	#2,(v_vbla_routine).w
@@ -56,21 +80,23 @@ Sega_WaitPal:
 		move.b	(v_jpadpress1).w,d0		; is Start button pressed?
 		or.b	d0,v_csum_start.w		; if so, save it in a variable
 
-		moveq  	#$FFFFFF8F,d0
-        jsr    	PlaySample
-
 		move.b	#$14,(v_vbla_routine).w
 		bsr.w	WaitForVBla
 
 Sega_WaitEnd:
 		move.b	#2,(v_vbla_routine).w
+
 		bsr.w	WaitForVBla
 		bsr.w	DoChecksum
 		jsr 	(ExecuteObjects).l
 		jsr		(BuildSprites).l
+
 		move.b	(v_jpadpress1).w,d0		; is Start button pressed?
 		or.b	d0,v_csum_start.w		; if so, save it in a variable
 		bra.s	Sega_WaitEnd			; we go to title screen when checksum check is done
+
+		moveq  	#$FFFFFF8F,d0
+        jsr    	PlaySample
 DoChecksum:
 		move.l	RomEndLoc.w,a6			; load ROM end address to a6
 		sub.w	#56-1,a6			; this will trip the detection before ROM ends (in case it would happen mid-transfer)
@@ -152,7 +178,7 @@ DoChecksum:
 		jmp	CheckSumError(pc)		; we have a checksum error
 
 ChecksumEndChk:
-		;tst.b	mComm.w				; ### REPLACE THIS CHECK! mComm is removed!
+		; tst.b	mComm.w				; ### REPLACE THIS CHECK! mComm is removed!
 		bne.s	Sega_GotoTitle			; if yes, branch
 		tst.b	v_csum_start.w			; check if start button was pressed
 		bpl.s	Sega_Locret			; if not, do not return

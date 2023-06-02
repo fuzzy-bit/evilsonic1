@@ -91,6 +91,7 @@ MegaPCM:
 		DAC_Entry		$1B, Mogegegege, pcm			; $A2	- Mogegegege
 		DAC_Entry		$1B, Strike, pcm				; $A3	- Strike
 		DAC_Entry		$04, Scream, pcm				; $A4	- Scream
+		DAC_Entry       $04, Ground, pcm+panLR+pri		; $A5   - Ground Wave
 
 
 MegaPCM_End:
@@ -135,4 +136,5 @@ MegaPCM_End:
 		IncludeDAC		Mogegegege, wav
 		IncludeDAC		Strike, wav
 		IncludeDAC		Scream, wav
+		IncludeDAC		Ground, raw
 		even
