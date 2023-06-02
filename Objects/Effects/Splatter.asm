@@ -91,12 +91,12 @@ Splatter:
 		; MZ Pillar
         dc.b $20, $00
 		dc.w $0010, $0010 
-		dc.l Map_Poi
+		dc.l Map_Splat
 
 		; SLZ Elevators
         dc.b $59, $00
 		dc.w $0010, $0010 
-		dc.l Map_Poi
+		dc.l Map_Splat
 
 		; Crabmeat
         dc.b $1F, $00
@@ -104,7 +104,7 @@ Splatter:
 		dc.l Map_Splat
 
 		; End
-		dc.b $FF
+		dc.w $FFFF
 
 ; ---------------------------------------------------------------------------
 ; Includes
