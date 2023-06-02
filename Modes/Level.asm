@@ -384,8 +384,9 @@ ColPointers:	dc.l Col_GHZ
 		dc.l Col_SLZ
 		dc.l Col_SYZ
 		dc.l Col_SBZ
-		zonewarning ColPointers,4
-;		dc.l Col_GHZ ; Pointer for Ending is missing by default.
+		dc.l Col_GHZ ; GIO: had to restore this pointer because i need it for padding		
+		zonewarning ColPointers,4	; did i already mention why i don't like this macro
+		dc.l Col_Zone7
 
 		include	"Includes\Oscillatory Routines.asm"
 

@@ -23,8 +23,9 @@ lhead:	macro plc1,lvlgfx,plc2,sixteen,twofivesix,music,pal
 	lhead	plcid_SLZ,	Nem_SLZ,	plcid_SLZ2,	Blk16_SLZ,	Blk256_SLZ,	mus_SLZ,	palid_SLZ	; Star Light
 	lhead	plcid_SYZ,	Nem_SYZ,	plcid_SYZ2,	Blk16_SYZ,	Blk256_SYZ,	mus_SYZ,	palid_SYZ	; Spring Yard
 	lhead	plcid_SBZ,	Nem_SBZ,	plcid_SBZ2,	Blk16_SBZ,	Blk256_SBZ,	mus_SBZ,	palid_SBZ1	; Scrap Brain
-	zonewarning LevelHeaders,$10
 	lhead	0,		Nem_GHZ_2nd,	0,		Blk16_GHZ,	Blk256_GHZ,	mus_SBZ,	palid_Ending	; Ending
+	zonewarning LevelHeaders,$10
+	lhead	plcid_Zone7, Nem_Zone7,	plcid_Zone7_2,	Blk16_Zone7,	Blk256_Zone7,	mus_Zone7,	palid_Zone7	; Zone 7	
 	even
 
 ;	* music and level gfx are actually set elsewhere, so these values are useless

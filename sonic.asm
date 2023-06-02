@@ -29,7 +29,7 @@ Revision:	equ 1
 Respawn: 	equ 0
 SpeedCap: 	equ 0
 
-ZoneCount:	equ 6	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
+ZoneCount:	equ 7	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
 
 		opt w-
 ; ===========================================================================
@@ -356,6 +356,7 @@ Pal_SBZ3SonWat:	incbin	"Data\Palette\Sonic - SBZ3 Underwater.bin"
 Pal_SSResult:	incbin	"Data\Palette\Special Stage Results.bin"
 Pal_Continue:	incbin	"Data\Palette\Special Stage Continue Bonus.bin"
 Pal_Ending:	incbin	"Data\Palette\Ending.bin"
+Pal_Zone7:	incbin	"Data\Palette\Zone 7.bin"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	wait for VBlank routines to complete
@@ -2314,6 +2315,14 @@ Blk256_SBZ:	if Revision=0
 		incbin	"Data\Mappings\Levels\256\SBZ (JP1).bin"
 		endc
 		even
+Nem_Zone7:		incbin	"Data\Art\Nemesis\8x8 - Zone 7.bin"	; Zone 7 primary patterns
+		even	
+Blk256_Zone7:
+				incbin	"Data\Mappings\Levels\256\Zone 7.bin"	
+		even
+Blk16_Zone7:
+				incbin	"Data\Mappings\Levels\16\Zone 7.bin"	
+		even		
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - bosses and ending sequence
 ; ---------------------------------------------------------------------------
@@ -2371,6 +2380,8 @@ Col_SYZ:	incbin	"Data\Levels\Collision\SYZ.bin"	; SYZ index
 		even
 Col_SBZ:	incbin	"Data\Levels\Collision\SBZ.bin"	; SBZ index
 		even
+Col_Zone7:		incbin	"Data\Levels\Collision\Zone 7.bin"	; Zone 7 index
+		even		
 ; ---------------------------------------------------------------------------
 ; Special Stage layouts
 ; ---------------------------------------------------------------------------
@@ -2444,12 +2455,18 @@ Level_Index:
 		dc.w Level_SBZ2-Level_Index, Level_SBZ2bg-Level_Index, Level_SBZ2bg-Level_Index
 		dc.w Level_SBZ2-Level_Index, Level_SBZ2bg-Level_Index, byte_6A2F8-Level_Index
 		dc.w byte_6A2FC-Level_Index, byte_6A2FC-Level_Index, byte_6A2FC-Level_Index
-		zonewarning Level_Index,24
 		; Ending
 		dc.w Level_End-Level_Index, Level_GHZbg-Level_Index, byte_6A320-Level_Index
 		dc.w Level_End-Level_Index, Level_GHZbg-Level_Index, byte_6A320-Level_Index
 		dc.w byte_6A320-Level_Index, byte_6A320-Level_Index, byte_6A320-Level_Index
 		dc.w byte_6A320-Level_Index, byte_6A320-Level_Index, byte_6A320-Level_Index
+		zonewarning Level_Index,24		
+		; Zone 7
+		dc.w Level_Zone7-Level_Index, Level_Zone7bg-Level_Index, Level_Zone7-Level_Index
+		dc.w byte_68F88-Level_Index, byte_68F88-Level_Index, byte_68F88-Level_Index
+		dc.w byte_68F88-Level_Index, byte_68F88-Level_Index, byte_68F88-Level_Index
+		dc.w byte_68F88-Level_Index, byte_68F88-Level_Index, byte_68F88-Level_Index
+		
 
 Level_GHZ1:	incbin	"Data\Levels\LevelData\ghz1.bin"
 		even
@@ -2536,6 +2553,11 @@ Level_End:	incbin	"Data\Levels\LevelData\ending.bin"
 		even
 byte_6A320:	dc.b 0,	0, 0, 0
 
+Level_Zone7:	incbin	"Data\Levels\LevelData\zone7.bin"
+		even
+Level_Zone7bg:	incbin	"Data\Levels\LevelData\zone7bg.bin"
+		even
+		
 Art_BigRing:	incbin	"Data\Art\Uncompressed\Giant Ring.bin"
 		even
 
@@ -2573,13 +2595,18 @@ ObjPos_Index:
 		dc.w ObjPos_SBZ2-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_FZ-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_SBZ1-ObjPos_Index, ObjPos_Null-ObjPos_Index
-		zonewarning ObjPos_Index,$10
 		; Ending
 		dc.w ObjPos_End-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_End-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_End-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_End-ObjPos_Index, ObjPos_Null-ObjPos_Index
+		zonewarning ObjPos_Index,$10		
 		; --- Put extra object data here. ---
+		dc.w ObjPos_Zone7-ObjPos_Index, ObjPos_Null-ObjPos_Index
+		dc.w ObjPos_Zone7-ObjPos_Index, ObjPos_Null-ObjPos_Index
+		dc.w ObjPos_Zone7-ObjPos_Index, ObjPos_Null-ObjPos_Index
+		dc.w ObjPos_Zone7-ObjPos_Index, ObjPos_Null-ObjPos_Index	
+		
 ObjPosLZPlatform_Index:
 		dc.w ObjPos_LZ1pf1-ObjPos_Index, ObjPos_LZ1pf2-ObjPos_Index
 		dc.w ObjPos_LZ2pf1-ObjPos_Index, ObjPos_LZ2pf2-ObjPos_Index
@@ -2679,6 +2706,8 @@ ObjPos_SBZ1pf6:	incbin	"Data\Levels\Objects\sbz1pf6.bin"
 		even
 ObjPos_End:	incbin	"Data\Levels\Objects\ending.bin"
 		even
+ObjPos_Zone7:	incbin	"Data\Levels\Objects\zone7.bin"
+		even		
 ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 
 ; ===========================================================================

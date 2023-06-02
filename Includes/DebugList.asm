@@ -8,8 +8,9 @@ DebugList:
 	dc.w @SLZ-DebugList
 	dc.w @SYZ-DebugList
 	dc.w @SBZ-DebugList
-	zonewarning DebugList,2
 	dc.w @Ending-DebugList
+	zonewarning DebugList,2
+	dc.w @Zone7-DebugList
 
 dbug:	macro map,object,subtype,frame,vram
 	dc.l map+(object<<24)
@@ -194,4 +195,10 @@ dbug:	macro map,object,subtype,frame,vram
 	endc
 	@Endingend:
 
+	even
+	
+@Zone7:
+	dbug	Map_Ring,	id_Rings,	0,	0,	$27B2	
+	dbug	Map_Monitor,	id_Monitor,	0,	0,	$680	
+	dbug	Map_Spring,	id_Springs,	0,	0,	$523	
 	even

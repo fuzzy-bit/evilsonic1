@@ -20,7 +20,11 @@ ptr_PLC_SYZ:		dc.w PLC_SYZ-ArtLoadCues
 ptr_PLC_SYZ2:		dc.w PLC_SYZ2-ArtLoadCues
 ptr_PLC_SBZ:		dc.w PLC_SBZ-ArtLoadCues
 ptr_PLC_SBZ2:		dc.w PLC_SBZ2-ArtLoadCues
+ptr_PLC_Padding:	dc.w PLC_GHZ-ArtLoadCues ; need padding for ending
+ptr_PLC_Padding2: 	dc.w PLC_GHZ2-ArtLoadCues
 			zonewarning PLC_Levels,4
+ptr_PLC_Zone7:		dc.w PLC_Zone7-ArtLoadCues
+ptr_PLC_Zone7_2:	dc.w PLC_Zone7_2-ArtLoadCues
 ptr_PLC_TitleCard:	dc.w PLC_TitleCard-ArtLoadCues
 ptr_PLC_Boss:		dc.w PLC_Boss-ArtLoadCues
 ptr_PLC_Signpost:	dc.w PLC_Signpost-ArtLoadCues
@@ -33,7 +37,9 @@ ptr_PLC_MZAnimals:	dc.w PLC_MZAnimals-ArtLoadCues
 ptr_PLC_SLZAnimals:	dc.w PLC_SLZAnimals-ArtLoadCues
 ptr_PLC_SYZAnimals:	dc.w PLC_SYZAnimals-ArtLoadCues
 ptr_PLC_SBZAnimals:	dc.w PLC_SBZAnimals-ArtLoadCues
+ptr_PLC_Padding3:	dc.w PLC_GHZAnimals-ArtLoadCues
 			zonewarning PLC_Animals,2
+ptr_PLC_Zone7Animals:	dc.w PLC_MZAnimals-ArtLoadCues
 ptr_PLC_SSResult:	dc.w PLC_SSResult-ArtLoadCues
 ptr_PLC_Ending:		dc.w PLC_Ending-ArtLoadCues
 ptr_PLC_TryAgain:	dc.w PLC_TryAgain-ArtLoadCues
@@ -392,6 +398,29 @@ PLC_FZBoss:	dc.w ((PLC_FZBossend-PLC_FZBoss-2)/6)-1
 		even
 
 ; ---------------------------------------------------------------------------
+; Pattern load cues - Zone 7
+; ---------------------------------------------------------------------------
+PLC_Zone7:		dc.w ((PLC_Zone7_2-PLC_Zone7-2)/6)-1
+		plcm	Nem_Zone7,0			; Zone 7 main patterns
+		plcm	Nem_MzMetal, $6000	; metal	blocks
+		plcm	Nem_MzFire, $68A0	; fireballs
+		plcm	Nem_Swing, $7000	; swinging platform
+		plcm	Nem_MzGlass, $71C0	; green	glassy block
+		plcm	Nem_Lava, $7500		; lava
+		plcm	Nem_Buzz, $8880		; buzz bomber enemy
+		plcm	Nem_Yadrin, $8F60	; yadrin enemy
+		plcm	Nem_Basaran, $9700	; basaran enemy
+		plcm	Nem_Cater, $9FE0	; caterkiller enemy
+
+PLC_Zone7_2:	dc.w ((PLC_Zone7_2end-PLC_Zone7_2-2)/6)-1
+		plcm	Nem_MzSwitch, $A260	; switch
+		plcm	Nem_Spikes, $A360	; spikes
+		plcm	Nem_HSpring, $A460	; horizontal spring
+		plcm	Nem_VSpring, $A660	; vertical spring
+		plcm	Nem_MzBlock, $5700	; green	stone block
+	PLC_Zone7_2end:
+
+; ---------------------------------------------------------------------------
 ; Pattern load cue IDs
 ; ---------------------------------------------------------------------------
 plcid_Main:		equ (ptr_PLC_Main-ArtLoadCues)/2	; 0
@@ -426,3 +455,5 @@ plcid_Ending:		equ (ptr_PLC_Ending-ArtLoadCues)/2	; $1C
 plcid_TryAgain:		equ (ptr_PLC_TryAgain-ArtLoadCues)/2	; $1D
 plcid_EggmanSBZ2:	equ (ptr_PLC_EggmanSBZ2-ArtLoadCues)/2	; $1E
 plcid_FZBoss:		equ (ptr_PLC_FZBoss-ArtLoadCues)/2	; $1F
+plcid_Zone7:	equ (ptr_PLC_Zone7-ArtLoadCues)/2		; $20
+plcid_Zone7_2:  equ (ptr_PLC_Zone7_2-ArtLoadCues)/2		; $21

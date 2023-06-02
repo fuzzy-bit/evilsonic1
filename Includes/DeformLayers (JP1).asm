@@ -35,8 +35,9 @@ DeformLayers:
 Deform_Index:	dc.w Deform_GHZ-Deform_Index, Deform_LZ-Deform_Index
 		dc.w Deform_MZ-Deform_Index, Deform_SLZ-Deform_Index
 		dc.w Deform_SYZ-Deform_Index, Deform_SBZ-Deform_Index
-		zonewarning Deform_Index,2
 		dc.w Deform_GHZ-Deform_Index
+		zonewarning Deform_Index,2
+		dc.w Deform_MZ-Deform_Index
 ; ---------------------------------------------------------------------------
 ; Green	Hill Zone background layer deformation code
 ; ---------------------------------------------------------------------------
@@ -653,6 +654,15 @@ Deform_SBZ2:;loc_68A2:
 		dbf	d1,@loop
 		rts
 ; End of function Deform_SBZ
+
+; ---------------------------------------------------------------------------
+; For the zones for which you don't need deformation...
+; ---------------------------------------------------------------------------
+
+Deform_Null:
+		rts
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	scroll the level horizontally as Sonic moves

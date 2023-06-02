@@ -758,8 +758,9 @@ MusicList:
 		dc.b mus_SLZ	; SLZ
 		dc.b mus_SYZ	; SYZ
 		dc.b mus_SBZ	; SBZ
-		zonewarning MusicList,1
-		dc.b mus_FZ	; Ending
+		dc.b mus_FZ	; Ending		
+		zonewarning MusicList,1	; Note: It's another one of those oddly placed macros.
+		dc.b mus_Zone7
 		even
 
 MenuPalette: 	incbin "Data/Palette/Menu.bin"
