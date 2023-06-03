@@ -32,7 +32,7 @@ SegaLetter:
 		cmpi.w 	#$EE, obScreenY(a0)
 		ble.s 	@Display
 
-		sfx 	sfx_stomp
+		sfx 	sfx_bouncy
 		move.w	@Bouncification(a0), obVelY(a0)
 		addi.w 	#$80, @Bouncification(a0)
 
