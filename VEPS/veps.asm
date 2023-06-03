@@ -429,3 +429,4 @@ sfx_waterfall: equ	$D0
 sfxcount: equ		$D1
 sfxoff: equ		$D2
 sfx_violence: equ		$D6
+sfx_bouncy: equ		$D7
