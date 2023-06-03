@@ -254,6 +254,11 @@ v_bg1_scroll_flags_dup:	equ $FFFFFF32
 v_bg2_scroll_flags_dup:	equ $FFFFFF34
 v_bg3_scroll_flags_dup:	equ $FFFFFF36
 
+v_shakespritebackupx:	equ $FFFFFF60
+v_shakespritebackupy:	equ $FFFFFF62
+v_shaketime:			equ $FFFFFF64
+v_screenposybackup: 	equ $FFFFFF66
+
 v_levseldelay:	equ $FFFFFF80	; level select - time until change when up/down is held (2 bytes)
 v_levselitem:	equ $FFFFFF82	; level select - item selected (2 bytes)
 v_levselsound:	equ $FFFFFF84	; level select - sound selected (2 bytes)

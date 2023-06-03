@@ -206,7 +206,7 @@ React_Enemy:
 
 	@lessthan16:
 		bsr.w	AddPoints
-		move.b	#id_ExplosionItem,0(a1) ; change object to explosion
+		move.b	#id_ExplosionBomb,0(a1) ; change object to explosion
 		move.b	#0,obRoutine(a1)
 		tst.w	obVelY(a0)
 		bmi.s	@bouncedown

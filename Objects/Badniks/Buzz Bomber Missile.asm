@@ -58,7 +58,7 @@ Msl_Animate:	; Routine 2
 
 Msl_ChkCancel:
 		movea.l	msl_parent(a0),a1
-		cmpi.b	#id_ExplosionItem,0(a1) ; has Buzz Bomber been destroyed?
+		cmpi.b	#id_ExplosionBomb,0(a1) ; has Buzz Bomber been destroyed?
 		beq.w	Msl_Delete	; if yes, branch
 		rts	
 ; End of function Msl_ChkCancel

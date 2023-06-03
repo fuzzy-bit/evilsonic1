@@ -94,7 +94,7 @@ ExplosionBomb:
 		jmp	ExBom_Index(pc,d1.w)
 ; ===========================================================================
 ExBom_Index:	dc.w ExBom_Main-ExBom_Index
-		dc.w ExItem_Animate-ExBom_Index
+		dc.w ExBomb_Animate-ExBom_Index
 ; ===========================================================================
 
 ExBom_Main:	; Routine 0
@@ -105,7 +105,21 @@ ExBom_Main:	; Routine 0
 		move.b	#1,obPriority(a0)
 		move.b	#0,obColType(a0)
 		move.b	#$C,obActWid(a0)
-		move.b	#7,obTimeFrame(a0)
+		move.b	#5,obTimeFrame(a0)
 		move.b	#0,obFrame(a0)
-		sfx	sfx_Explode	; play exploding bomb sound
+		move.b	#10, (v_shaketime).w	
+		jsr		RandomDirection
+		sfx	sfx_superexplosion	; play exploding bomb sound
 		rts
+
+ExBomb_Animate:
+		jsr 	SpeedToPos
+		subq.b	#1,obTimeFrame(a0) ; subtract 1 from frame duration
+		bpl.s	@display
+		move.b	#5,obTimeFrame(a0) ; set frame duration to 7 frames
+		addq.b	#1,obFrame(a0)	; next frame
+		cmpi.b	#5,obFrame(a0)	; is the final frame (05) displayed?
+		beq.w	DeleteObject	; if yes, branch
+
+@display:
+		bra.w	DisplaySprite

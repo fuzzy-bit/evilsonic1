@@ -20,7 +20,6 @@ DrawChunks:
 		rts
 ; End of function DrawChunks
 
-		if Revision>=1
 	Draw_GHz_Bg:
 			moveq	#0,d4
 			moveq	#((224+16+16)/16)-1,d6
@@ -91,4 +90,3 @@ DrawChunks:
 			bsr.w	DrawBlocks_LR_3
 	locj_72EE:
 			rts
-		endc

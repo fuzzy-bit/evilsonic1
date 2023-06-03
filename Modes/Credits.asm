@@ -218,10 +218,5 @@ Demo_EndSBZ2:	incbin	"Data\Demos\Ending - SBZ2.bin"
 Demo_EndGHZ2:	incbin	"Data\Demos\Ending - GHZ2.bin"
 		even
 
-		if Revision=0
 		include	"Includes\LevelSizeLoad & BgScrollSpeed.asm"
 		include	"Includes\DeformLayers.asm"
-		else
-		include	"Includes\LevelSizeLoad & BgScrollSpeed (JP1).asm"
-		include	"Includes\DeformLayers (JP1).asm"
-		endc

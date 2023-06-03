@@ -1787,6 +1787,7 @@ Map_Plasma:	include	"Data\Mappings\Objects\Plasma Balls.asm"
 Map_Pri:	include	"Data\Mappings\Objects\Prison Capsule.asm"
 
 		include	"Engine\ObjectSystem\ReactToItem.asm"
+		include	"Engine\ObjectSystem\RandomDirection.asm"
 
 		include	"Engine\ObjectSystem\UpdateDPLC.asm"
 
@@ -2346,10 +2347,7 @@ Nem_EndSonic:	incbin	"Data\Art\Nemesis\Ending - Sonic.bin"
 		even
 Nem_TryAgain:	incbin	"Data\Art\Nemesis\Ending - Try Again.bin"
 		even
-Nem_EndEggman:	if Revision=0
-		incbin	"Data\Art\Nemesis\Unused - Eggman Ending.bin"
-		else
-		endc
+Nem_EndEggman:
 		even
 Kos_EndFlowers:	incbin	"Data\Art\Kosinski\Flowers at Ending.bin" ; ending sequence animated flowers
 		even
@@ -2393,15 +2391,9 @@ SS_3:		incbin	"Data\Levels\SpecialStages\3.bin"
 		even
 SS_4:		incbin	"Data\Levels\SpecialStages\4.bin"
 		even
-		if Revision=0
-SS_5:		incbin	"Data\Levels\SpecialStages\5.bin"
-		even
-SS_6:		incbin	"Data\Levels\SpecialStages\6.bin"
-		else
-	SS_5:		incbin	"Data\Levels\SpecialStages\5 (JP1).bin"
+SS_5:		incbin	"Data\Levels\SpecialStages\5 (JP1).bin"
 			even
-	SS_6:		incbin	"Data\Levels\SpecialStages\6 (JP1).bin"
-		endc
+SS_6:		incbin	"Data\Levels\SpecialStages\6 (JP1).bin"
 		even
 ; ---------------------------------------------------------------------------
 ; Animated uncompressed graphics
