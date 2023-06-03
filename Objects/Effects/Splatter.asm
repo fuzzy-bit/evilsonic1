@@ -87,10 +87,9 @@ Splatter:
 		rts
 
 @DeleteObject:
-		addq.w  #4, sp   ; Fix from Vladikcomper: Return to higher in the stack rather than caller 
+		addq.w  #4, sp  						; Fix from Vladikcomper: Return to higher in the stack rather than caller 
 		jmp 	DeleteObject
 
-; GFX VRAM LOCATION: 0xD160
 ; ---------------------------------------------------------------------------
 ; LUT FORMAT
 ; #$A bytes/index
@@ -105,7 +104,7 @@ Splatter:
 		dc.w $0000, $0046
 		dc.l Map_Splat
 
-		; SLZ Elevators
+		; SLZ Elevators (maybe a dummy)
         dc.b $59, $00
 		dc.w $0010, $0010 
 		dc.l Map_Splat

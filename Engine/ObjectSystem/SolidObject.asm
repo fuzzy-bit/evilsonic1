@@ -244,6 +244,8 @@ Solid_Squash:
 		move.l	a0,-(sp)
 		move.w 	a0, a2
 		movea.l	a1,a0
+		sfx 	sfx_violence
+        move.b  #4, (v_flashtimer).w
 		jsr	(KillSonic).l	; kill Sonic
 		movea.l	(sp)+,a0
 		moveq	#-1,d4

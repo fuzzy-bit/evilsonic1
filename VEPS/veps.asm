@@ -108,6 +108,9 @@ ptr_sndD0:      dc.l SoundD0
                 dc.l SoundD2
                 dc.l SoundD3
                 dc.l SoundD4
+ptr_sndD5:      dc.l SoundD5
+ptr_sndD6:      dc.l SoundD6
+ptr_sndD7:      dc.l SoundD7
 
 ; ------------------------------------------------------
 ; Music table
@@ -330,7 +333,12 @@ SoundD4:        dc.w @0-SoundD4,$0101
 @1:             dc.b $EF,$00,$B0,$06,$80,$06,$B0,$18,$F2
 @0:             dc.b $38,$00,$00,$00,$00,$1F,$1F,$1F,$1F,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$0F,$0F,$0F,$0F,$1F,$17,$0C,$00        ; 17-0C swapped
-
+SoundD5:        incbin  VEPS\sound\soundD5.bin
+                even
+SoundD6:        incbin  VEPS\sound\soundD6.bin
+                even
+SoundD7:        incbin  VEPS\sound\soundD7.bin
+                even
 
 ; FIX THESE!
 
@@ -420,3 +428,4 @@ sfx_buzzexplode: equ	$a9 ; ignore, for now
 sfx_waterfall: equ	$D0
 sfxcount: equ		$D1
 sfxoff: equ		$D2
+sfx_violence: equ		$D6

@@ -110,6 +110,27 @@ VBla_10:
 
 VBla_08:
 		bsr.w	ReadJoypads
+		tst.b 	(v_flashtimer).w
+		beq.s 	@noflash
+
+		subq.b  #1, (v_flashtimer).w
+        lea     (vdp_data_port).l, a6
+        move.l  #$C0000000, ($C00004).l ; CRAM write mode
+		move.w  #$E,d0
+        move.w  #$1F,d1
+
+@fillpalette:
+		move.w  d0, (a6)
+		dbf     d1, @fillpalette
+		move.w  #0, (a6)
+		move.w  #$1E, d1
+
+@fillpalette2:
+		move.w  d0, (a6)
+		dbf     d1, @fillpalette2
+		bra.s   @waterbelow
+
+@noflash:
 		tst.b	(f_wtr_state).w
 		bne.s	@waterabove
 
@@ -119,7 +140,7 @@ VBla_08:
 @waterabove:
 		writeCRAM	v_pal_water,$80,0
 
-	@waterbelow:
+@waterbelow:
 		move.w	(v_hbla_hreg).w,(a5)
 
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
