@@ -111,6 +111,7 @@ ptr_sndD0:      dc.l SoundD0
 ptr_sndD5:      dc.l SoundD5
 ptr_sndD6:      dc.l SoundD6
 ptr_sndD7:      dc.l SoundD7
+ptr_sndD8:      dc.l SoundD8
 
 ; ------------------------------------------------------
 ; Music table
@@ -339,6 +340,8 @@ SoundD6:        incbin  VEPS\sound\soundD6.bin
                 even
 SoundD7:        incbin  VEPS\sound\soundD7.bin
                 even
+SoundD8:        incbin  VEPS\sound\soundD8.bin
+                even
 
 ; FIX THESE!
 
@@ -430,3 +433,4 @@ sfxcount: equ		$D1
 sfxoff: equ		$D2
 sfx_violence: equ		$D6
 sfx_bouncy: equ		$D7
+sfx_superexplosion: equ		$D8

@@ -42,9 +42,14 @@ BuildSprites:
 		move.w	d3,d1
 		sub.w	d0,d1
 		cmpi.w	#320,d1
-		bge.s	@skipObject	; right edge out of bounds
+		bge.w	@skipObject	; right edge out of bounds
 		addi.w	#128,d3		; VDP sprites start at 128px
 
+		tst.b	(v_shaketime).w
+		beq.s	@continueX
+		sub.w	(v_shakespritebackupy).w,d3	; backup for sprite shaking
+
+@continueX:
 		btst	#4,d4		; is assume height flag on?
 		beq.s	@assumeHeight	; if yes, branch
 		moveq	#0,d0
@@ -60,6 +65,8 @@ BuildSprites:
 		bge.s	@skipObject
 		addi.w	#128,d2		; VDP sprites start at 128px
 		bra.s	@drawObject
+
+		
 ; ===========================================================================
 
 	@screenCoords:
