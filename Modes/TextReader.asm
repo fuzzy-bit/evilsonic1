@@ -78,12 +78,19 @@ TextReader_Test:
 	moveq	#0,d1
 	lea		(TextData_Test).l,a1	; Find text
 	lea		(vdp_data_port).l,a6			; point to VDP
-	move.l	#$41040003,4(a6)	; position of first line on screen
+	moveq	#$4,d2				; left margin
+	moveq	#$46,d6				; right margin
+	move.l	#$40040003,d4		; position of first line
+	move.l	#$800000,d5			; line spacing
 	move.w	#$A680,d3			; which palette the font should use and where it is in VRAM
-	moveq	#24,d2		; number of characters to be rendered in a line -1	
-	bra.w	SingleLineRender	
+	move.w	#1,(Script_FirstLine).l
+;	moveq	#24,d2		; number of characters to be rendered in a line -1	
+	bra.w	RenderLongScript
 ; ===========================================================================
 
 TextData_Test:
-	dc.b	"THIS IS A TEST. FUCK YOU."
+	dc.b	"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA "
+	dc.b	"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA "
+	dc.b	"I FELL FROM THE LIGHT TALK OR SHOULD I FIGHT MONSTER GENOCIDE THIS MY UNDERTALE"
+	dc.b	" ",$FF
 	even
