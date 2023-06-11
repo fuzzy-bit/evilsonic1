@@ -236,7 +236,8 @@ GameModeArray:
 		ptr_GM_Cont:	bra.w	Continue	; Continue Screen ($18)
 		ptr_GM_Ending:	bra.w	Ending	; End of game sequence ($1C)
 		ptr_GM_Credits:	bra.w	Credits	; Credits ($20)
-		ptr_GM_Tails:	jmp		TailsEasterEgg	; LOL DRAMA ($24)
+		ptr_GM_Tails:	bra.w	JmpTo_TailsEasterEgg	; LOL DRAMA ($24)
+		ptr_GM_Text:	bra.w	JmpTo_TextReader		; Text reader ($28)
 		rts
 ; ===========================================================================
 
@@ -252,6 +253,12 @@ CheckSumError:
 	@endlessloop:
 		bra.s	@endlessloop
 ; ===========================================================================
+
+JmpTo_TailsEasterEgg:
+		jmp		TailsEasterEgg
+		
+JmpTo_TextReader:
+		jmp		TextReader
 
 Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level select and debug mode
 		even
@@ -281,6 +288,7 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 		include	"Engine\Rendering\Fading.asm"
 		include	"Engine\Rendering\Palette.asm"
 		include	"Engine\Rendering\VDPDrawBuffer.asm"
+		include "Engine\Rendering\Text.asm"
 
 ; ---------------------------------------------------------------------------
 ; Compression
@@ -357,6 +365,7 @@ Pal_SSResult:	incbin	"Data\Palette\Special Stage Results.bin"
 Pal_Continue:	incbin	"Data\Palette\Special Stage Continue Bonus.bin"
 Pal_Ending:	incbin	"Data\Palette\Ending.bin"
 Pal_Zone7:	incbin	"Data\Palette\Zone 7.bin"
+Pal_TextReader: incbin	"Data\Palette\Text Reader.bin"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	wait for VBlank routines to complete
@@ -392,6 +401,7 @@ WaitForVBla:
 		include	"Modes\Continue.asm"
 		include	"Modes\Ending.asm"
 		include	"Modes\Credits.asm"
+		include "Modes\TextReader.asm"
 
 ; ---------------------------------------------------------------------------
 ; Level System

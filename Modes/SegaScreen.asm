@@ -187,7 +187,7 @@ ChecksumEndChk:
 
 ; loc_395E:
 Sega_GotoTitle:
-		move.b	#id_Title,(v_gamemode).w	; go to title screen
+		move.b	#id_TextReader,(v_gamemode).w	; go to title screen
 		addq.l	#4,sp				; do not return
 
 Sega_Locret:
