@@ -37,9 +37,9 @@ DAC_Entry macro Pitch,Offset,Flags
 IncludeDAC macro Name,Extension
 \Name:
 		if strcmp('\extension','wav')
-				incbin	'VEPS\dac/\Name\.\Extension\',$3A
+				incbin	'Data\Audio\DAC/\Name\.\Extension\',$3A
 		else
-				incbin	'VEPS\dac/\Name\.\Extension\'
+				incbin	'Data\Audio\DAC/\Name\.\Extension\'
 		endc
 \Name\_End:
 		endm
@@ -49,7 +49,7 @@ IncludeDAC macro Name,Extension
 ; ---------------------------------------------------------------
 
 MegaPCM:
-		incbin	'VEPS\MegaPCM.z80'
+		incbin	'Engine\Audio\MegaPCM\MegaPCM.z80'
 
 ; ---------------------------------------------------------------
 ; DAC Samples Table

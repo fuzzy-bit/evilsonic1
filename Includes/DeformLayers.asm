@@ -32,9 +32,9 @@ ShakePw2 = $0001
 ShakePw3 = $0003
 
 GenerateCameraShake:
-		tst.b	(v_shaketime).w
+		tst.b	(v_shaketimer).w
 		beq.s	@cont
-		subq.b	#1,(v_shaketime).w
+		subq.b	#1,(v_shaketimer).w
 		jsr		RandomNumber			; random number
 		swap	d0
 		move.w	d0,d1
@@ -54,7 +54,7 @@ GenerateCameraShake:
 		move.w	d1,(v_shakespritebackupy).w
 
 @cont:
-		tst.b	(v_shaketime).w
+		tst.b	(v_shaketimer).w
 		beq.s	@contxx
 		move.w	(v_shakespritebackupy).w,d0
 		add.w	d0,(v_screenposx).w	; backup for sprite shaking
@@ -64,7 +64,7 @@ GenerateCameraShake:
 		add.w	d0,d0
 		move.w	Deform_Index(pc,d0.w),d0
 		jsr	Deform_Index(pc,d0.w)
-		tst.b	(v_shaketime).w
+		tst.b	(v_shaketimer).w
 		beq.s	@contxxx
 		move.w	(v_shakespritebackupy).w,d0	; backup for sprite shaking
 		sub.w	d0,(v_screenposx).w
@@ -924,7 +924,7 @@ loc_6720:
 		move.w	(v_limitbtm2).w,d1
 
 loc_6724:
-		tst.b	(v_shaketime).w
+		tst.b	(v_shaketimer).w
 		beq.s	loc_6724_Continue
 
 ScrVert_ShakeCam2:

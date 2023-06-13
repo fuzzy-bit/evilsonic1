@@ -3,7 +3,7 @@ A violent Sonic 1 hack.
 
 ## Things that should be implemented before release
 - ~~Refactored Sonic 1 engine~~
-- Red screen flash on death
+- ~~Red screen flash on death~~
 - Tint water palette red when Sonic dies in water (Without drowning)
 - ~~S3K sprite format~~
 - ~~S3K art~~
@@ -14,12 +14,12 @@ A violent Sonic 1 hack.
 - Blood stain object
     - Stain sprites + mappings
 - Blood particles
-    - MK (Default)
+    - ~~MK (Default)~~
     - Hedgehog Abuse
 - Sonic gets cut in half with saws
 - Difficulty levels
-    - Easy (Regular S1 behavior without spike bug)
-    - Normal (Default - bouncing projectiles)
+    - ~~Easy (Regular S1 behavior without spike bug)~~
+    - ~~Normal (Default - spike bug + bouncing projectiles)~~
     - Hard (Bouncing projectiles, spike bug, no rings in bosses)
     - Nightmare (Hard + no rings)
 - Menu
@@ -48,10 +48,10 @@ A violent Sonic 1 hack.
     - Unlocks "Fan Mode" when beaten (see: experimental/fan-disasm)
     - Going to the hidden spot with "Fan Mode" enabled, it will bring you to another easter egg...
 - Splash screens
+    - Warning (Appears once, or if SRAM is not present)
     - New SEGA screen
+    - Sonic Retro
     - Fuzzy presents
-    - Sonic Retro (?)
-    - Short SHC splash (?)
 
 ## Credits
 - Code: Fuzzy, Vladikcomper, Giovanni

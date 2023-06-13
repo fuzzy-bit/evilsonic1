@@ -219,7 +219,7 @@ MainGameLoop:
 		andi.w	#$7C,d0	; limit Game Mode value to $1C max (change to a maximum of 7C to add more game modes)
 		jsr	GameModeArray(pc,d0.w) ; jump to apt location in ROM
 		bra.s	MainGameLoop	; loop indefinitely
-
+		dc.b	"HEY GUYS IM ARIF TODAY IM GOING TO KILL MYSELF"
 		
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -236,8 +236,12 @@ GameModeArray:
 		ptr_GM_Cont:	bra.w	Continue	; Continue Screen ($18)
 		ptr_GM_Ending:	bra.w	Ending	; End of game sequence ($1C)
 		ptr_GM_Credits:	bra.w	Credits	; Credits ($20)
-		ptr_GM_Tails:	jmp		TailsEasterEgg	; LOL DRAMA ($24)
+		ptr_GM_Tails:	bra.w	@TailsEasterEgg	; LOL DRAMA ($24)
 		rts
+
+@TailsEasterEgg:
+		jmp TailsEasterEgg
+		
 ; ===========================================================================
 
 CheckSumError:
@@ -2706,9 +2710,9 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 ; ---------------------------------------------------------------------------
 ; VEPS Sound Driver
 ; ---------------------------------------------------------------------------
-		include	"VEPS\VEPS.asm"
-		include	"VEPS\MegaPCM.asm"
-		include	"VEPS\utils.asm"
+		include	"Engine\Audio\VEPS\VEPS.asm"
+		include	"Engine\Audio\MegaPCM\Main.asm"
+		include	"Engine\Audio\Utils.asm"
 
 		include	"Modes\TailsEasterEgg.asm"
 TitleBGArt: 	incbin "Data/Art/Nemesis/Title Screen Background.bin"

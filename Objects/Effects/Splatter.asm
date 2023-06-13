@@ -26,7 +26,7 @@ Splatter:
 
 		; Check for end of LUT
 		cmp.b   #$FF, d0
-		beq.s 	@DeleteObject
+		beq.w 	@DeleteObject
 
 		; Check for object match
 		cmp.b   $0(a1), d0
@@ -41,19 +41,28 @@ Splatter:
 
 @SetUp:
 		; Load values into registers
-		move.b 	(a2)+, d0 ; DPLC frame
-		move.w 	(a2)+, d1 ; X offset
-		move.w 	(a2)+, d2 ; Y offset
-		move.l 	(a2)+, d4 ; Mapping data 
+		move.b 	(a2)+, d4 ; DPLC frame
+		move.w 	(a2)+, d5 ; X offset
+		move.w 	(a2)+, d6 ; Y offset
 
-		move.w 	d1, @XOffset(a0)
-		move.w 	d2, @YOffset(a0)
+		movea.w a0, a3
+		movea.w	@ParentObj(a0), a0
+		jsr 	GetOrientationToPlayer
+		movea.w a3, a0
+
+		tst.b 	d1
+		bne.s 	@DontNegateY
+		neg.w 	d6
+
+@DontNegateY:
+		move.w 	d5, @XOffset(a0)
+		move.w 	d6, @YOffset(a0)
 		
-		move.l	d4, obMap(a0) 
+		move.l	(a2)+, obMap(a0) 
 
 		add.b 	#2, obRoutine(a0)
 		rts
-		
+
 @Main:	; Routine 2
 		; TODO: APPLY DPLC FRAME
 		move.w	#$584, obGfx(a0)		
@@ -104,9 +113,9 @@ Splatter:
 		dc.w $0000, $0046
 		dc.l Map_Splat
 
-		; SLZ Elevators (maybe a dummy)
-        dc.b $59, $00
-		dc.w $0010, $0010 
+		; SYZ Big Blocks
+        dc.b $56, $00
+		dc.w $0000, $001E
 		dc.l Map_Splat
 
 		; Crabmeat (dummy/test)

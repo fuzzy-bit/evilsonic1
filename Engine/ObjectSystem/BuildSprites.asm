@@ -45,7 +45,7 @@ BuildSprites:
 		bge.w	@skipObject	; right edge out of bounds
 		addi.w	#128,d3		; VDP sprites start at 128px
 
-		tst.b	(v_shaketime).w
+		tst.b	(v_shaketimer).w
 		beq.s	@continueX
 		sub.w	(v_shakespritebackupy).w,d3	; backup for sprite shaking
 

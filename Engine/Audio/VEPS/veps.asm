@@ -11,7 +11,7 @@ UpdateMusic:
 
 ; ------------------------------------------------------
 VEPS:
-	incbin	"VEPS\veps.bin"
+	incbin	"Engine\Audio\VEPS\veps.bin"
 
 ; ------------------------------------------------------
 VEPS_DataPointers:
@@ -39,15 +39,15 @@ PSGIndex:
 	dc.l vPSG4, vPSG5, vPSG6
 	dc.l vPSG7, vPSG8, vPSG9
 
-vPSG1:	incbin	"VEPS/sound/psg1.bin"
-vPSG2:	incbin	"VEPS/sound/psg2.bin"
-vPSG3:	incbin	"VEPS/sound/psg3.bin"
-vPSG4:	incbin	"VEPS/sound/psg4.bin"
-vPSG6:	incbin	"VEPS/sound/psg6.bin"
-vPSG5:	incbin	"VEPS/sound/psg5.bin"
-vPSG7:	incbin	"VEPS/sound/psg7.bin"
-vPSG8:	incbin	"VEPS/sound/psg8.bin"
-vPSG9:	incbin	"VEPS/sound/psg9.bin"
+vPSG1:	incbin	"Data/Audio/PSG/psg1.bin"
+vPSG2:	incbin	"Data/Audio/PSG/psg2.bin"
+vPSG3:	incbin	"Data/Audio/PSG/psg3.bin"
+vPSG4:	incbin	"Data/Audio/PSG/psg4.bin"
+vPSG6:	incbin	"Data/Audio/PSG/psg6.bin"
+vPSG5:	incbin	"Data/Audio/PSG/psg5.bin"
+vPSG7:	incbin	"Data/Audio/PSG/psg7.bin"
+vPSG8:	incbin	"Data/Audio/PSG/psg8.bin"
+vPSG9:	incbin	"Data/Audio/PSG/psg9.bin"
 
 ; ------------------------------------------------------
 ; Sound table
@@ -157,67 +157,67 @@ MusicIndex:
 ; ===============================================================
 
 
-Music81:        incbin  VEPS\sound\music81.bin
+Music81:        incbin  Data\Audio\Music\music81.bin
                 even
-Music82:        incbin  VEPS\sound\music82.bin
+Music82:        incbin  Data\Audio\Music\music82.bin
                 even
-Music83:        incbin  VEPS\sound\music83.bin
+Music83:        incbin  Data\Audio\Music\music83.bin
                 even
-Music84:        incbin  VEPS\sound\music84.bin
+Music84:        incbin  Data\Audio\Music\music84.bin
                 even
-Music85:        incbin  VEPS\sound\music85.bin
+Music85:        incbin  Data\Audio\Music\music85.bin
                 even
-Music86:        incbin  VEPS\sound\music86.bin
+Music86:        incbin  Data\Audio\Music\music86.bin
                 even
-Music87:        incbin  VEPS\sound\music87.bin
+Music87:        incbin  Data\Audio\Music\music87.bin
                 even
-Music88:        incbin  VEPS\sound\music88.bin
+Music88:        incbin  Data\Audio\Music\music88.bin
                 even
-Music89:        incbin  VEPS\sound\music89.bin
+Music89:        incbin  Data\Audio\Music\music89.bin
                 even         
-Music8A:        incbin  VEPS\sound\music8A.bin
+Music8A:        incbin  Data\Audio\Music\music8A.bin
                 even
-Music8B:        incbin  VEPS\sound\music8B.bin
+Music8B:        incbin  Data\Audio\Music\music8B.bin
                 even
-Music8C:        incbin  VEPS\sound\music8C.bin
+Music8C:        incbin  Data\Audio\Music\music8C.bin
                 even
-Music8D:        incbin  VEPS\sound\music8D.bin
+Music8D:        incbin  Data\Audio\Music\music8D.bin
                 even
-Music8E:        incbin  VEPS\sound\music8E.bin
+Music8E:        incbin  Data\Audio\Music\music8E.bin
                 even
-Music8F:        incbin  VEPS\sound\music8F.bin
+Music8F:        incbin  Data\Audio\Music\music8F.bin
                 even
-Music90:        incbin  VEPS\sound\music90.bin
+Music90:        incbin  Data\Audio\Music\music90.bin
                 even
-Music91:        incbin  VEPS\sound\music91.bin
+Music91:        incbin  Data\Audio\Music\music91.bin
                 even
-Music92:        incbin  VEPS\sound\music92.bin
+Music92:        incbin  Data\Audio\Music\music92.bin
                 even
-Music93:        incbin  VEPS\sound\music93.bin
+Music93:        incbin  Data\Audio\Music\music93.bin
                 even
-Music94:        incbin  VEPS\sound\music94.bin
+Music94:        incbin  Data\Audio\Music\music94.bin
                 even
-Music95:        incbin  VEPS\sound\music95.bin
+Music95:        incbin  Data\Audio\Music\music95.bin
                 even    
-Music96:        incbin  VEPS\sound\music96.bin
+Music96:        incbin  Data\Audio\Music\music96.bin
                 even
-Music97:        incbin  VEPS\sound\music97.bin
+Music97:        incbin  Data\Audio\Music\music97.bin
                 even    
-Music98:        incbin  VEPS\sound\music98.bin
+Music98:        incbin  Data\Audio\Music\music98.bin
                 even    
-Music99:        incbin  VEPS\sound\music99.bin
+Music99:        incbin  Data\Audio\Music\music99.bin
                 even    
-Music9A:        incbin  VEPS\sound\music9A.bin
+Music9A:        incbin  Data\Audio\Music\music9A.bin
                 even    
-Music9B:        incbin  VEPS\sound\music9B.bin
+Music9B:        incbin  Data\Audio\Music\music9B.bin
                 even    
-Music9C:        incbin  VEPS\sound\TFIV_Boss_5.bin
+Music9C:        incbin  Data\Audio\Music\TFIV_Boss_5.bin
                 even    
-Music9D:        incbin  VEPS\sound\music9D.bin
+Music9D:        incbin  Data\Audio\Music\music9D.bin
                 even    
-Music9E:        incbin  VEPS\sound\music9E.bin
+Music9E:        incbin  Data\Audio\Music\music9E.bin
                 even            
-Music9F:        incbin  VEPS\sound\music9F.bin
+Music9F:        incbin  Data\Audio\Music\music9F.bin
                 even
 
 
@@ -225,125 +225,123 @@ Music9F:        incbin  VEPS\sound\music9F.bin
 ; Sound effects data
 ; ===============================================================
 
-SoundA0:        incbin  VEPS\sound\soundA0.bin
+SoundA0:        incbin  Data\Audio\Sound\soundA0.bin
                 even
-SoundA1:        incbin  VEPS\sound\soundA1.bin
+SoundA1:        incbin  Data\Audio\Sound\soundA1.bin
                 even
-SoundA2:        incbin  VEPS\sound\soundA2.bin
+SoundA2:        incbin  Data\Audio\Sound\soundA2.bin
                 even
-SoundA3:        incbin  VEPS\sound\soundA3.bin
+SoundA3:        incbin  Data\Audio\Sound\soundA3.bin
                 even
-SoundA4:        incbin  VEPS\sound\soundA4.bin
+SoundA4:        incbin  Data\Audio\Sound\soundA4.bin
                 even
-SoundA5:        incbin  VEPS\sound\soundA5.bin
+SoundA5:        incbin  Data\Audio\Sound\soundA5.bin
                 even
-SoundA6:        incbin  VEPS\sound\soundA6.bin
+SoundA6:        incbin  Data\Audio\Sound\soundA6.bin
                 even
-SoundA7:        incbin  VEPS\sound\soundA7.bin
+SoundA7:        incbin  Data\Audio\Sound\soundA7.bin
                 even
-SoundA8:        incbin  VEPS\sound\soundA8.bin
+SoundA8:        incbin  Data\Audio\Sound\soundA8.bin
                 even
-SoundA9:        incbin  VEPS\sound\soundA9.bin
+SoundA9:        incbin  Data\Audio\Sound\soundA9.bin
                 even
-SoundAA:        incbin  VEPS\sound\soundAA.bin
+SoundAA:        incbin  Data\Audio\Sound\soundAA.bin
                 even
-SoundAB:        incbin  VEPS\sound\soundAB.bin
+SoundAB:        incbin  Data\Audio\Sound\soundAB.bin
                 even
-SoundAC:        incbin  VEPS\sound\soundAC.bin
+SoundAC:        incbin  Data\Audio\Sound\soundAC.bin
                 even
-SoundAD:        incbin  VEPS\sound\soundAD.bin
+SoundAD:        incbin  Data\Audio\Sound\soundAD.bin
                 even
-SoundAE:        incbin  VEPS\sound\soundAE.bin
+SoundAE:        incbin  Data\Audio\Sound\soundAE.bin
                 even
-SoundAF:        incbin  VEPS\sound\soundAF.bin
+SoundAF:        incbin  Data\Audio\Sound\soundAF.bin
                 even
-SoundB0:        incbin  VEPS\sound\soundB0.bin
+SoundB0:        incbin  Data\Audio\Sound\soundB0.bin
                 even
-SoundB1:        incbin  VEPS\sound\soundB1.bin
+SoundB1:        incbin  Data\Audio\Sound\soundB1.bin
                 even
-SoundB2:        incbin  VEPS\sound\soundB2.bin
+SoundB2:        incbin  Data\Audio\Sound\soundB2.bin
                 even
-SoundB3:        incbin  VEPS\sound\soundB3.bin
+SoundB3:        incbin  Data\Audio\Sound\soundB3.bin
                 even
-SoundB4:        incbin  VEPS\sound\soundB4.bin
+SoundB4:        incbin  Data\Audio\Sound\soundB4.bin
                 even
-SoundB5:        incbin  VEPS\sound\soundB5.bin
+SoundB5:        incbin  Data\Audio\Sound\soundB5.bin
                 even
-SoundB6:        incbin  VEPS\sound\soundB6.bin
+SoundB6:        incbin  Data\Audio\Sound\soundB6.bin
                 even
-SoundB7:        incbin  VEPS\sound\soundB7.bin
+SoundB7:        incbin  Data\Audio\Sound\soundB7.bin
                 even
-SoundB8:        incbin  VEPS\sound\soundB8.bin
+SoundB8:        incbin  Data\Audio\Sound\soundB8.bin
                 even
-SoundB9:        incbin  VEPS\sound\soundB9.bin
+SoundB9:        incbin  Data\Audio\Sound\soundB9.bin
                 even
-SoundBA:        incbin  VEPS\sound\soundBA.bin
+SoundBA:        incbin  Data\Audio\Sound\soundBA.bin
                 even
-SoundBB:        incbin  VEPS\sound\soundBB.bin
+SoundBB:        incbin  Data\Audio\Sound\soundBB.bin
                 even
-SoundBC:        incbin  VEPS\sound\soundBC.bin
+SoundBC:        incbin  Data\Audio\Sound\soundBC.bin
                 even
-SoundBD:        incbin  VEPS\sound\soundBD.bin
+SoundBD:        incbin  Data\Audio\Sound\soundBD.bin
                 even
-SoundBE:        incbin  VEPS\sound\soundBE.bin
+SoundBE:        incbin  Data\Audio\Sound\soundBE.bin
                 even
-SoundBF:        incbin  VEPS\sound\soundBF.bin
+SoundBF:        incbin  Data\Audio\Sound\soundBF.bin
                 even
-SoundC0:        incbin  VEPS\sound\soundC0.bin
+SoundC0:        incbin  Data\Audio\Sound\soundC0.bin
                 even
-SoundC1:        incbin  VEPS\sound\soundC1.bin
+SoundC1:        incbin  Data\Audio\Sound\soundC1.bin
                 even
-SoundC2:        incbin  VEPS\sound\soundC2.bin
+SoundC2:        incbin  Data\Audio\Sound\soundC2.bin
                 even
-SoundC3:        incbin  VEPS\sound\soundC3.bin
+SoundC3:        incbin  Data\Audio\Sound\soundC3.bin
                 even
-SoundC4:        incbin  VEPS\sound\soundC4.bin
+SoundC4:        incbin  Data\Audio\Sound\soundC4.bin
                 even
-SoundC5:        incbin  VEPS\sound\soundC5.bin
+SoundC5:        incbin  Data\Audio\Sound\soundC5.bin
                 even
-SoundC6:        incbin  VEPS\sound\soundC6.bin
+SoundC6:        incbin  Data\Audio\Sound\soundC6.bin
                 even
-SoundC7:        incbin  VEPS\sound\soundC7.bin
+SoundC7:        incbin  Data\Audio\Sound\soundC7.bin
                 even
-SoundC8:        incbin  VEPS\sound\soundC8.bin
+SoundC8:        incbin  Data\Audio\Sound\soundC8.bin
                 even
-SoundC9:        incbin  VEPS\sound\soundC9.bin
+SoundC9:        incbin  Data\Audio\Sound\soundC9.bin
                 even
-SoundCA:        incbin  VEPS\sound\soundCA.bin
+SoundCA:        incbin  Data\Audio\Sound\soundCA.bin
                 even
-SoundCB:        incbin  VEPS\sound\soundCB.bin
+SoundCB:        incbin  Data\Audio\Sound\soundCB.bin
                 even
-SoundCC:        incbin  VEPS\sound\soundCC.bin
+SoundCC:        incbin  Data\Audio\Sound\soundCC.bin
                 even
-SoundCD:        incbin  VEPS\sound\soundCD.bin
+SoundCD:        incbin  Data\Audio\Sound\soundCD.bin
                 even
-SoundCE:        incbin  VEPS\sound\soundCE.bin
+SoundCE:        incbin  Data\Audio\Sound\soundCE.bin
                 even
-SoundCF:        incbin  VEPS\sound\soundCF.bin
+SoundCF:        incbin  Data\Audio\Sound\soundCF.bin
                 even
-SoundD0:        incbin  VEPS\sound\soundD0.bin
+SoundD0:        incbin  Data\Audio\Sound\soundD0.bin
                 even
-SoundD1:        incbin  VEPS\sound\soundD1.bin
+SoundD1:        incbin  Data\Audio\Sound\soundD1.bin
                 even
-SoundD2:        incbin  VEPS\sound\soundD2.bin
+SoundD2:        incbin  Data\Audio\Sound\soundD2.bin
                 even
-SoundD3:        incbin  VEPS\sound\soundD3.bin
+SoundD3:        incbin  Data\Audio\Sound\soundD3.bin
                 even
 SoundD4:        dc.w @0-SoundD4,$0101
                 dc.w $8005,@1-SoundD4,$0004
 @1:             dc.b $EF,$00,$B0,$06,$80,$06,$B0,$18,$F2
 @0:             dc.b $38,$00,$00,$00,$00,$1F,$1F,$1F,$1F,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$0F,$0F,$0F,$0F,$1F,$17,$0C,$00        ; 17-0C swapped
-SoundD5:        incbin  VEPS\sound\soundD5.bin
+SoundD5:        incbin  Data\Audio\Sound\soundD5.bin
                 even
-SoundD6:        incbin  VEPS\sound\soundD6.bin
+SoundD6:        incbin  Data\Audio\Sound\soundD6.bin
                 even
-SoundD7:        incbin  VEPS\sound\soundD7.bin
+SoundD7:        incbin  Data\Audio\Sound\soundD7.bin
                 even
-SoundD8:        incbin  VEPS\sound\soundD8.bin
+SoundD8:        incbin  Data\Audio\Sound\soundD8.bin
                 even
-
-; FIX THESE!
 
 ; Music
 mus_ghz: equ		$81

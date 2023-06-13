@@ -107,7 +107,7 @@ ExBom_Main:	; Routine 0
 		move.b	#$C,obActWid(a0)
 		move.b	#5,obTimeFrame(a0)
 		move.b	#0,obFrame(a0)
-		move.b	#10, (v_shaketime).w	
+		move.b	#10, (v_shaketimer).w	
 		jsr		RandomDirection
 		sfx	sfx_superexplosion	; play exploding bomb sound
 		rts

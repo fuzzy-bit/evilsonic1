@@ -256,7 +256,7 @@ v_bg3_scroll_flags_dup:	equ $FFFFFF36
 
 v_shakespritebackupx:	equ $FFFFFF60
 v_shakespritebackupy:	equ $FFFFFF62
-v_shaketime:			equ $FFFFFF64
+v_shaketimer:			equ $FFFFFF64
 v_screenposybackup: 	equ $FFFFFF66
 
 v_levseldelay:	equ $FFFFFF80	; level select - time until change when up/down is held (2 bytes)
