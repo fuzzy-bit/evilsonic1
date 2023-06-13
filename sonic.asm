@@ -252,6 +252,9 @@ CheckSumError:
 	@fillred:
 		move.w	#cRed,(vdp_data_port).l ; fill palette with red
 		dbf	d7,@fillred	; repeat $3F more times
+		
+		moveq  	#$FFFFFFA6,d0
+        jsr    	PlaySample
 
 	@endlessloop:
 		bra.s	@endlessloop

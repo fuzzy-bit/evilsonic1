@@ -42,8 +42,9 @@ SegaScreen:
 		bsr.w 	DoChecksum
 
 @InitObjects:
-		move.l	d0, (a1)+ 				; clear object RAM first
-		dbf	d1, @InitObjects 
+		; WHY DOES THIS CAUSE AN ADDRESS ERROR????
+		; move.l	d0, (a1)+ 				; clear object RAM first
+		; dbf	d1, @InitObjects 
 
 		; THIS SUCKS SO MUCH
 		Instance.new SegaLetter, a1
