@@ -35,16 +35,16 @@ SegaScreen:
 		ori.b	#$40, d0				; enable display
 		move.w	d0, (vdp_control_port).l
 
+		bsr.w 	DoChecksum
+
 		lea		(v_objspace).w, a1
 		moveq	#0, d0
 		move.w	#$7FF, d1
 
-		bsr.w 	DoChecksum
 
 @InitObjects:
-		; WHY DOES THIS CAUSE AN ADDRESS ERROR????
-		; move.l	d0, (a1)+ 				; clear object RAM first
-		; dbf	d1, @InitObjects 
+		move.l	d0, (a1)+ 				; clear object RAM first
+		dbf	d1, @InitObjects 
 
 		; THIS SUCKS SO MUCH
 		Instance.new SegaLetter, a1
