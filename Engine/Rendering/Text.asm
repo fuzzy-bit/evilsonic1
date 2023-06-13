@@ -143,37 +143,33 @@ RenderLongScript:
 		move.w	#0,(Script_CurrentLine).l
 		moveq	#0,d1
 		move.w	(Script_FirstLine).l,d1
-		add.w	#28,d1
+		add.w	#8,d1
 		move.w	d1,(Script_LastLine).l
 		lea		($FF0000).l,a2		; use start of RAM as a buffer
 		moveq	#0,d1
 		move.b	d2,d1				; copy d2 into d1
 		move.l	d4,4(a6)			; get position of first character in VDP plane
 
-RLS_Loop:		
+RLS_Loop:	
 		move.b	(a1)+,(a2)+			; Place character in buffer
 		cmpi.b	#$FF,-1(a2)			; Check if it's a line terminator
-		beq.s	@end				; If yes, return		
-		add.b	#2,d1				; increment position counter
-		cmp.b	#" ",-1(a2)			; was the added character a space?
+		beq.s	@end				; If yes, return
+		cmp.b	#$A,-1(a2)			; was the added character a new line?
 		bne.s	RLS_Loop			; if not, branch
 
 		moveq	#0,d0
 		move.w	(Script_CurrentLine).l,d0
 		
 		move.b	#$FF,(a2)			; place line terminator in buffer
-		cmp.b	d6,d1				; check if position counter matches margin
-		blt.s	@common				; if lower or equal, branch
 
 		cmp.w	(Script_FirstLine).l,d0			; compare first line against current line
 		blt.s	@dontskipline		
 		cmp.w	(Script_LastLine).l,d0			; compare current line against last line
-		bge.s	@dontskipline	
+		bge.s	@end	
 		add.l	d5,d4				; set start of new line
 		move.l	d4,4(a6)			; send start of new line to VDP so it knows where to put new characters.
 	@dontskipline:
-		add.w	#1,(Script_CurrentLine).l	
-		move.l	d2,d1				; reset position tracker		
+		add.w	#1,(Script_CurrentLine).l		
 
 @common:
 		cmp.w	(Script_FirstLine).l,d0			; compare first line against current line

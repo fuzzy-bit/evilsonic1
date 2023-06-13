@@ -89,7 +89,7 @@ VBla_14:
 
 VBla_04:
 		bsr.w	sub_106E
-		bsr.w	LoadTilesAsYouMove_BGOnly
+		jsr		LoadTilesAsYouMove_BGOnly
 		bsr.w	sub_1642
 		tst.w	(v_demolength).w
 		beq.w	@end
@@ -166,9 +166,9 @@ VBla_08:
 
 
 Demo_Time:
-		bsr.w	LoadTilesAsYouMove
-		jsr	(AnimateLevelGfx).l
-		jsr	(HUD_Update).l
+		jsr		LoadTilesAsYouMove
+		jsr		(AnimateLevelGfx).l
+		jsr		(HUD_Update).l
 		bsr.w	ProcessDPLC2
 		tst.w	(v_demolength).w ; is there time left on the demo?
 		beq.w	@end		; if not, branch
@@ -219,9 +219,9 @@ VBla_0C:
 		movem.l	d0-d7,(v_screenposx_dup).w
 		movem.l	(v_fg_scroll_flags).w,d0-d1
 		movem.l	d0-d1,(v_fg_scroll_flags_dup).w
-		bsr.w	LoadTilesAsYouMove
-		jsr	(AnimateLevelGfx).l
-		jsr	(HUD_Update).l
+		jsr		LoadTilesAsYouMove
+		jsr		(AnimateLevelGfx).l
+		jsr		(HUD_Update).l
 		bsr.w	sub_1642
 		rts
 ; ===========================================================================
