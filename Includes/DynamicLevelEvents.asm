@@ -57,7 +57,7 @@ DLE_Index:	dc.w DLE_GHZ-DLE_Index, DLE_LZ-DLE_Index
 		dc.w DLE_SYZ-DLE_Index, DLE_SBZ-DLE_Index
 		dc.w DLE_Ending-DLE_Index
 		zonewarning DLE_Index,2	
-		dc.w DLE_Null
+		dc.w DLE_Null-DLE_Index
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Green	Hill Zone dynamic level events
