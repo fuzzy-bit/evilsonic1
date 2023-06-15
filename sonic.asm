@@ -2184,6 +2184,13 @@ Nem_SbzDoor2:	incbin	"Data\Art\Nemesis\SBZ Large Horizontal Door.bin"
 		even
 Nem_Girder:	incbin	"Data\Art\Nemesis\SBZ Crushing Girder.bin"
 		even
+
+; ---------------------------------------------------------------------------
+; Compressed graphics - mogege
+; ---------------------------------------------------------------------------
+Nem_Mogeko: 	incbin "Data\Art\Nemesis\Mogeko.bin"
+		even
+		
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - enemies
 ; ---------------------------------------------------------------------------

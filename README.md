@@ -11,11 +11,9 @@ A violent Sonic 1 hack.
     - Detect what direction Sonic was crushed from
     - Slight flinging
     - ~~Art~~
-- Blood stain object
-    - Stain sprites + mappings
-- Blood particles
-    - ~~MK (Default)~~
-    - Hedgehog Abuse
+- ~~Blood stain object~~
+    - ~~Stain sprites + mappings~~
+- ~~Blood particles~~
 - Sonic gets cut in half with saws
 - Difficulty levels
     - ~~Easy (Regular S1 behavior without spike bug)~~
@@ -28,7 +26,7 @@ A violent Sonic 1 hack.
     - Blood particle style
     - Sound test
     - Exit
-- Saving options with SRAM
+- Saving options and data with SRAM
 - ~~Projectiles~~
     - ~~Crabmeat~~
     - ~~Buzzbomber~~

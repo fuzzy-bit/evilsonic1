@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "255e4cc0-4848-4081-a5b0-6d27e5b90c23",
+    "node": "ef341f9e-ac19-41c0-96ae-bd916aaa2454",
     "objects": [
         {
             "name": "Blood",
@@ -37,17 +37,17 @@
                     "name": "MK",
                     "palettes": [],
                     "art": {
-                        "path": "Data\\Art\\Uncompressed\\Blood\\MortalKombat.bin",
+                        "path": "Data/Art/Uncompressed/Blood/MortalKombat.bin",
                         "compression": "Uncompressed",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "Data\\Mappings\\Objects\\Blood\\MortalKombat.asm",
+                        "path": "Data/Mappings/Objects/Blood/MortalKombat.asm",
                         "label": "Map_Blood"
                     },
                     "dplcs": {
                         "enabled": true,
-                        "path": "Data\\DPLCs\\Blood\\MortalKombat.asm",
+                        "path": "Data/DPLCs/Blood/MortalKombat.asm",
                         "label": "PLC_MKBlood"
                     }
                 }
@@ -293,6 +293,35 @@
         {
             "name": "Enemies",
             "children": [
+                {
+                    "format": "Sonic 3&K Player.js",
+                    "name": "Mogeko",
+                    "palettes": [
+                        {
+                            "length": 1,
+                            "blank": true
+                        },
+                        {
+                            "path": "Data/Palette/Zone 7.bin",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "Data/Art/Nemesis/Mogeko.bin",
+                        "compression": "Nemesis",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "Data/Mappings/Objects/Mogeko.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "ef341f9e-ac19-41c0-96ae-bd916aaa2454"
+                },
                 {
                     "uuid": "4f9bef27-0fe0-44f0-8a5b-f4d84c49d5de",
                     "format": "Sonic 3&K Object.js",

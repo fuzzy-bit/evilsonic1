@@ -402,22 +402,9 @@ PLC_FZBoss:	dc.w ((PLC_FZBossend-PLC_FZBoss-2)/6)-1
 ; ---------------------------------------------------------------------------
 PLC_Zone7:		dc.w ((PLC_Zone7_2-PLC_Zone7-2)/6)-1
 		plcm	Nem_Zone7,0			; Zone 7 main patterns
-		plcm	Nem_MzMetal, $6000	; metal	blocks
-		plcm	Nem_MzFire, $68A0	; fireballs
-		plcm	Nem_Swing, $7000	; swinging platform
-		plcm	Nem_MzGlass, $71C0	; green	glassy block
-		plcm	Nem_Lava, $7500		; lava
-		plcm	Nem_Buzz, $8880		; buzz bomber enemy
-		plcm	Nem_Yadrin, $8F60	; yadrin enemy
-		plcm	Nem_Basaran, $9700	; basaran enemy
-		plcm	Nem_Cater, $9FE0	; caterkiller enemy
-
+		plcm	Nem_Mogeko, $6000	; mogegegege
+		
 PLC_Zone7_2:	dc.w ((PLC_Zone7_2end-PLC_Zone7_2-2)/6)-1
-		plcm	Nem_MzSwitch, $A260	; switch
-		plcm	Nem_Spikes, $A360	; spikes
-		plcm	Nem_HSpring, $A460	; horizontal spring
-		plcm	Nem_VSpring, $A660	; vertical spring
-		plcm	Nem_MzBlock, $5700	; green	stone block
 	PLC_Zone7_2end:
 
 ; ---------------------------------------------------------------------------
