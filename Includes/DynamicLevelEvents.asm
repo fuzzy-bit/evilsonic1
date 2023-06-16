@@ -719,5 +719,8 @@ DLE_FZend2:
 ; ---------------------------------------------------------------------------
 
 DLE_Ending:
-DLE_Null:
+		rts
+		
+DLE_Z7:
+		move.w	#$124,(v_limitbtm1).w ; set lower y-boundary
 		rts	
