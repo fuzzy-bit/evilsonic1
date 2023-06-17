@@ -2,10 +2,26 @@
 ; ===============================================================
 ; ---------------------------------------------------------------
 ; Error handling and debugging modules
-; 2016-2017, Vladikcomper
+;
+; (c) 2016-2023, Vladikcomper
 ; ---------------------------------------------------------------
 ; Debugging macros definitions file
 ; ---------------------------------------------------------------
+
+; ---------------------------------------------------------------
+; Debugger customization
+; ---------------------------------------------------------------
+
+; Enable debugger extensions
+; Pressing A/B/C on the exception screen can open other debuggers
+; Pressing Start or unmapped button returns to the exception
+DEBUGGER__EXTENSIONS__ENABLE:			equ		1		; 0 = OFF, 1 = ON
+
+; Debuggers mapped to pressing A/B/C on the exception screen
+; Use 0 to disable button, use debugger's entry point otherwise.
+DEBUGGER__EXTENSIONS__BTN_A_DEBUGGER:	equ		0		; disabled
+DEBUGGER__EXTENSIONS__BTN_B_DEBUGGER:	equ		Debugger_Backtrace	; display exception backtrace
+DEBUGGER__EXTENSIONS__BTN_C_DEBUGGER:	equ		0		; disabled
 
 
 ; ===============================================================
@@ -124,10 +140,21 @@ RaiseError &
 	if strlen("\console_program")			; if console program offset is specified ...
 		dc.b	\opts+_eh_enter_console|(((*&1)^1)*_eh_align_offset)	; add flag "_eh_align_offset" if the next byte is at odd offset ...
 		even															; ... to tell Error handler to skip this byte, so it'll jump to ...
-		jmp		\console_program										; ... an aligned "jmp" instruction that calls console program itself
+		if DEBUGGER__EXTENSIONS__ENABLE
+			jsr		\console_program										; ... an aligned "jmp" instruction that calls console program itself
+			jmp		DebuggerExtensions___global__ErrorHandler_PagesController
+		else
+			jmp		\console_program										; ... an aligned "jmp" instruction that calls console program itself
+		endc
 	else
-		dc.b	\opts+0						; otherwise, just specify \opts for error handler, +0 will generate dc.b 0 ...
-		even								; ... in case \opts argument is empty or skipped
+		if DEBUGGER__EXTENSIONS__ENABLE
+			dc.b	\opts+_eh_return|(((*&1)^1)*_eh_align_offset)			; add flag "_eh_align_offset" if the next byte is at odd offset ...
+			even															; ... to tell Error handler to skip this byte, so it'll jump to ...
+			jmp		DebuggerExtensions___global__ErrorHandler_PagesController
+		else
+			dc.b	\opts+0						; otherwise, just specify \opts for error handler, +0 will generate dc.b 0 ...
+			even								; ... in case \opts argument is empty or skipped
+		endc
 	endc
 	even
 
@@ -156,7 +183,7 @@ Console &
 			lea		4*4(sp), a2
 		endc
 		lea		@str\@(pc), a1
-		jsr		ErrorHandler.__global__Console_\0\_Formatted
+		jsr		ErrorHandler___global__Console_\0\_Formatted
 		movem.l	(sp)+, a0-a2/d7
 		if (__sp>8)
 			lea		__sp(sp), sp
@@ -171,7 +198,7 @@ Console &
 	@instr_end\@:
 
 	elseif strcmp("\0","run")|strcmp("\0","Run")
-		jsr		ErrorHandler.__extern__Console_Only
+		jsr		DebuggerExtensions___global__ErrorHandler_ConsoleOnly
 		jsr		\1
 		bra.s	*
 
@@ -180,14 +207,14 @@ Console &
 		movem.l	d0-d1, -(sp)
 		move.w	\2, -(sp)
 		move.w	\1, -(sp)
-		jsr		ErrorHandler.__global__Console_SetPosAsXY_Stack
+		jsr		ErrorHandler___global__Console_SetPosAsXY_Stack
 		addq.w	#4, sp
 		movem.l	(sp)+, d0-d1
 		move.w	(sp)+, sr
 
 	elseif strcmp("\0","breakline")|strcmp("\0","BreakLine")
 		move.w	sr, -(sp)
-		jsr		ErrorHandler.__global__Console_StartNewLine
+		jsr		ErrorHandler___global__Console_StartNewLine
 		move.w	(sp)+, sr
 
 	else
@@ -202,9 +229,14 @@ __ErrorMessage &
 		__FSTRING_GenerateArgumentsCode \string
 		jsr		ErrorHandler
 		__FSTRING_GenerateDecodedString \string
-		dc.b	\opts+0
-		even
-
+		if DEBUGGER__EXTENSIONS__ENABLE
+			dc.b	\opts+_eh_return|(((*&1)^1)*_eh_align_offset)	; add flag "_eh_align_offset" if the next byte is at odd offset ...
+			even													; ... to tell Error handler to skip this byte, so it'll jump to ...
+			jmp		DebuggerExtensions___global__ErrorHandler_PagesController	; ... extensions controller
+		else
+			dc.b	\opts+0
+			even
+		endc
 	endm
 
 ; ---------------------------------------------------------------
