@@ -1085,6 +1085,10 @@ Map_LWall:	include	"Data\Mappings\Objects\Wall of Lava.asm"
 Map_Moto:	include	"Data\Mappings\Objects\Moto Bug.asm"
 		include	"Objects\Unused\4F.asm"
 
+		include "Data/Mappings/Objects/Mogeko.asm"
+		include "Data/Animations/Mogeko.asm"
+		include "Objects/Badniks/Mogeko.asm"
+
 		include	"Objects\Badniks\Yadrin.asm"
 		include	"Data\Animations\Yadrin.asm"
 Map_Yad:	include	"Data\Mappings\Objects\Yadrin.asm"

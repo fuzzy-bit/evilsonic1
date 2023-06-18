@@ -313,7 +313,7 @@
                     },
                     "mappings": {
                         "path": "Data/Mappings/Objects/Mogeko.asm",
-                        "label": ""
+                        "label": "Map_Mogeko"
                     },
                     "dplcs": {
                         "enabled": false,

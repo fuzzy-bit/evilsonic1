@@ -2,6 +2,8 @@
 ; Title	screen
 ; ---------------------------------------------------------------------------
 
+StartingZone: 	equ 7
+
 ; Gonna redo the whole title screen at some point
 	rsset	$FFFF8000
 TitleScrollTimer:	rs.l	1		; scroll count
@@ -81,7 +83,7 @@ TitleScreen:
 		move.w	#0,(v_debuguse).w ; disable debug item placement mode
 		move.w	#0,(f_demo).w	; disable debug mode
 		move.w	#0,($FFFFFFEA).w ; unused variable
-		move.w	#(id_GHZ<<8),(v_zone).w	; set level to GHZ (00)
+		move.w	#(StartingZone<<8),(v_zone).w	; set level to GHZ (00)
 		move.w	#0,(v_pcyc_time).w ; disable palette cycling
 
 		bsr.w	PaletteFadeOut

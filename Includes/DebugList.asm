@@ -197,8 +197,9 @@ dbug:	macro map,object,subtype,frame,vram
 
 	even
 	
-@Zone7:
-	dbug	Map_Ring,	id_Rings,	0,	0,	$27B2	
-	dbug	Map_Monitor,	id_Monitor,	0,	0,	$680	
-	dbug	Map_Spring,	id_Springs,	0,	0,	$523	
+@Zone7: dc.w (@Zone7End-@Zone7-2)/8
+	dbug 	Map_Ring,	id_Rings,	0,	0,	$27B2
+	dbug	Map_Monitor,id_Monitor,	0,	0,	$680
+	dbug	Map_Mogeko,	id_Mogeko,	0,	0,	$6000/$20	
+	@Zone7End:
 	even
