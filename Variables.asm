@@ -270,13 +270,13 @@ f_debugcheat:	equ $FFFFFFE2	; debug mode cheat flag
 f_creditscheat:	equ $FFFFFFE3	; hidden credits & press start cheat flag
 v_title_dcount:	equ $FFFFFFE4	; number of times the d-pad is pressed on title screen (2 bytes)
 v_title_ccount:	equ $FFFFFFE6	; number of times C is pressed on title screen (2 bytes)
+v_creditsnum:	equ $FFFFFFE8	; credits index number (2 bytes)
 
 v_csum_addr:	equ $FFFFFFEC	; the checksum address we're checking (4 bytes)
 v_csum_value:	equ $FFFFFFF0	; the accumulated value of checksum check (2 bytes)
 v_csum_start:	equ $FFFFFFF4	; set if start button was pressed during checksum check
 f_demo:		equ $FFFFFFF0	; demo mode flag (0 = no; 1 = yes; $8001 = ending) (2 bytes)
 v_demonum:	equ $FFFFFFF2	; demo level number (not the same as the level number) (2 bytes)
-v_creditsnum:	equ $FFFFFFF4	; credits index number (2 bytes)
 
 ConsoleRegion:	equ $FFFFFFF8	; Megadrive machine type (AMPS)
 v_megadrive:	equ $FFFFFFF8	; Megadrive machine type
