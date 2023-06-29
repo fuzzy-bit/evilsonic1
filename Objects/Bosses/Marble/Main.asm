@@ -42,7 +42,7 @@ BossMarble:
 		move.w	obX(a0), @TargetX(a0)
 		move.w	obY(a0), @TargetY(a0)
 		move.b	#$F, obColType(a0)
-		move.b	#1, obColProp(a0) 		; set number of hits
+		move.b	#12, obColProp(a0) 		; set number of hits
 
 		lea	@ObjData(pc), a2 			; setup sprites
 		movea.l	a0, a1
