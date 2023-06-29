@@ -73,50 +73,67 @@ ErrorTrap:
 ; ---------------------------------------------------------------
 
 ; Debugger extension functions
-DebuggerExtensions___global__ErrorHandler_ConsoleOnly: equ DebuggerExtensions+$0
-DebuggerExtensions___global__ErrorHandler_PagesController: equ DebuggerExtensions+$28
+__global__ErrorHandler_ConsoleOnly: equ DebuggerExtensions+$0
+__global__ErrorHandler_ClearConsole: equ DebuggerExtensions+$26
+__global__ErrorHandler_PagesController: equ DebuggerExtensions+$50
+__global__VSync: equ DebuggerExtensions+$C0
 
 ; Error handler & core functions
-ErrorHandler___global__Error_InitConsole: equ ErrorHandler+$13C
-ErrorHandler___global__Error_MaskStackBoundaries: equ ErrorHandler+$148
-ErrorHandler___global__Error_DrawOffsetLocation: equ ErrorHandler+$1B2
-ErrorHandler___global__Error_DrawOffsetLocation2: equ ErrorHandler+$1B6
-ErrorHandler___global__ErrorHandler_SetupVDP: equ ErrorHandler+$23C
-ErrorHandler___global__ErrorHandler_VDPConfig: equ ErrorHandler+$274
-ErrorHandler___global__ErrorHandler_VDPConfig_Nametables: equ ErrorHandler+$28A
-ErrorHandler___global__ErrorHandler_ConsoleConfig_Shared: equ ErrorHandler+$2CA
-ErrorHandler___global__Art1bpp_Font: equ ErrorHandler+$334
-ErrorHandler___global__FormatString: equ ErrorHandler+$8F8
-ErrorHandler___global__Console_Init: equ ErrorHandler+$9CE
-ErrorHandler___global__Console_InitShared: equ ErrorHandler+$A12
-ErrorHandler___global__Console_SetPosAsXY_Stack: equ ErrorHandler+$A4E
-ErrorHandler___global__Console_SetPosAsXY: equ ErrorHandler+$A54
-ErrorHandler___global__Console_GetPosAsXY: equ ErrorHandler+$A82
-ErrorHandler___global__Console_StartNewLine: equ ErrorHandler+$AA4
-ErrorHandler___global__Console_SetBasePattern: equ ErrorHandler+$ACC
-ErrorHandler___global__Console_SetWidth: equ ErrorHandler+$AE0
-ErrorHandler___global__Console_WriteLine_WithPattern: equ ErrorHandler+$AF6
-ErrorHandler___global__Console_WriteLine: equ ErrorHandler+$AF8
-ErrorHandler___global__Console_Write: equ ErrorHandler+$AFC
-ErrorHandler___global__Console_WriteLine_Formatted: equ ErrorHandler+$BA8
-ErrorHandler___global__Console_Write_Formatted: equ ErrorHandler+$BAC
-ErrorHandler___global__Decomp1bpp: equ ErrorHandler+$BDC
+__global__ErrorHandler: equ ErrorHandler+$0
+__global__Error_IdleLoop: equ ErrorHandler+$122
+__global__Error_InitConsole: equ ErrorHandler+$13C
+__global__Error_MaskStackBoundaries: equ ErrorHandler+$148
+__global__Error_DrawOffsetLocation: equ ErrorHandler+$1B2
+__global__Error_DrawOffsetLocation2: equ ErrorHandler+$1B6
+__global__ErrorHandler_SetupVDP: equ ErrorHandler+$23C
+__global__ErrorHandler_VDPConfig: equ ErrorHandler+$274
+__global__ErrorHandler_VDPConfig_Nametables: equ ErrorHandler+$28A
+__global__ErrorHandler_ConsoleConfig_Initial: equ ErrorHandler+$2C6
+__global__ErrorHandler_ConsoleConfig_Shared: equ ErrorHandler+$2CA
+__global__Art1bpp_Font: equ ErrorHandler+$334
+__global__FormatString: equ ErrorHandler+$8F8
+__global__Console_Init: equ ErrorHandler+$9CE
+__global__Console_Reset: equ ErrorHandler+$A10
+__global__Console_InitShared: equ ErrorHandler+$A12
+__global__Console_SetPosAsXY_Stack: equ ErrorHandler+$A4E
+__global__Console_SetPosAsXY: equ ErrorHandler+$A54
+__global__Console_GetPosAsXY: equ ErrorHandler+$A82
+__global__Console_StartNewLine: equ ErrorHandler+$AA4
+__global__Console_SetBasePattern: equ ErrorHandler+$ACC
+__global__Console_SetWidth: equ ErrorHandler+$AE0
+__global__Console_WriteLine_WithPattern: equ ErrorHandler+$AF6
+__global__Console_WriteLine: equ ErrorHandler+$AF8
+__global__Console_Write: equ ErrorHandler+$AFC
+__global__Console_WriteLine_Formatted: equ ErrorHandler+$BA8
+__global__Console_Write_Formatted: equ ErrorHandler+$BAC
+__global__Decomp1bpp: equ ErrorHandler+$BDC
 
 ; ---------------------------------------------------------------
 ; Built-in debuggers
 ; ---------------------------------------------------------------
 
+Debugger_AddressRegisters:
+
+	dc.l	$48E700FE, $41FA002A
+	jsr		__global__Console_Write(pc)
+	dc.l	$49D77C06, $3F3C2000, $2F3CE861, $303A41D7
+	dc.w	$221C
+	jsr		__global__Error_DrawOffsetLocation(pc)
+	dc.l	$522F0002, $51CEFFF2, $4FEF0022, $4E75E0FA, $01F026EA, $41646472, $65737320, $52656769
+	dc.l	$73746572, $733AE0E0
+	dc.w	$0000
+
 Debugger_Backtrace:
 
 	dc.l	$41FA0088
-	jsr		ErrorHandler___global__Console_Write(pc)
+	jsr		__global__Console_Write(pc)
 	dc.l	$22780000, $598945D7
-	jsr		ErrorHandler___global__Error_MaskStackBoundaries(pc)
+	jsr		__global__Error_MaskStackBoundaries(pc)
 	dc.l	$B3CA6570, $0C520040, $64642012, $67602040, $02400001, $66581220, $10200C00, $00616604
 	dc.l	$4A01663A, $0C00004E, $660A0201, $00F80C01, $0090672A, $30200C40, $61006722, $12004200
 	dc.l	$0C404E00, $66120C01, $00A8650C, $0C0100BB, $62060C01, $00B96606, $0C604EB9, $66102F0A
 	dc.l	$2F092208
-	jsr		ErrorHandler___global__Error_DrawOffsetLocation2(pc)
+	jsr		__global__Error_DrawOffsetLocation2(pc)
 	dc.l	$225F245F, $548A548A, $B3CA6490, $4E75E0FA, $01F026EA, $4261636B, $74726163, $653AE0E0
 	dc.w	$0000
 
@@ -127,18 +144,23 @@ Debugger_Backtrace:
 DebuggerExtensions:
 
 	dc.l	$46FC2700, $4FEFFFF2, $48E7FFFE, $47EF003C
-	jsr		ErrorHandler___global__ErrorHandler_SetupVDP(pc)
-	jsr		ErrorHandler___global__Error_InitConsole(pc)
-	dc.l	$4CDF7FFF, $487A0008, $2F2F0012, $4E7560FE, $3F3C0000, $4BF900C0, $00044DED, $FFFC4EBA
-	dc.l	$005441D7, $43F900A1, $00034EBA, $005870F0, $C02F0001, $67DE6B36, $41FA006C, $5888D000
-	dc.l	$64FA2010, $6F282040, $4FEFFFF2
-	lea		ErrorHandler___global__ErrorHandler_ConsoleConfig_Shared(pc), a1
+	jsr		__global__ErrorHandler_SetupVDP(pc)
+	jsr		__global__Error_InitConsole(pc)
+	dc.l	$4CDF7FFF
+	pea		__global__Error_IdleLoop(pc)
+	dc.l	$2F2F0012, $4E752F0B, $4E6B0C2B, $005D000C, $661A48E7, $C4464BF9, $00C00004, $4DEDFFFC
+	lea		__global__ErrorHandler_ConsoleConfig_Initial(pc), a1
+	jsr		__global__Console_Reset(pc)
+	dc.l	$4CDF6223, $265F4E75, $48E7FFFE, $3F3C0000, $4BF900C0, $00044DED, $FFFC4EBA, $005C41D7
+	dc.l	$43F900A1, $00034EBA, $006070F0, $C02F0001, $67DE6B3E, $41FA0074, $5888D000, $64FA2010
+	dc.l	$6F302040, $4FEFFFF2
+	lea		__global__ErrorHandler_ConsoleConfig_Shared(pc), a1
 	dc.l	$47D72A3C, $40000003
-	jsr		ErrorHandler___global__Console_InitShared(pc)
-	dc.l	$2ABC8230, $8406487A, $00044ED0, $4FEF000E
-	dc.w	$60A6
-	move.l	ErrorHandler___global__ErrorHandler_VDPConfig_Nametables(pc), (a5)
-	dc.l	$60A041F9, $00C00004, $44D06BFC, $44D06AFC, $4E7512BC, $00004E71, $72C01011, $E50812BC
+	jsr		__global__Console_InitShared(pc)
+	dc.l	$2ABC8230, $8406487A, $000C4850, $4CEF7FFF, $00144E75, $4FEF000E
+	dc.w	$609E
+	move.l	__global__ErrorHandler_VDPConfig_Nametables(pc), (a5)
+	dc.l	$609841F9, $00C00004, $44D06BFC, $44D06AFC, $4E7512BC, $00004E71, $72C01011, $E50812BC
 	dc.l	$00404E71, $C0011211, $0201003F, $80014600, $1210B101, $10C0C200, $10C14E75
 
 ; WARNING! Don't move! This must be placed directly below "DebuggerExtensions"
@@ -146,7 +168,6 @@ DebuggerExtensions_ExtraDebuggerList:
 	dc.l	DEBUGGER__EXTENSIONS__BTN_A_DEBUGGER	; for button A
 	dc.l	DEBUGGER__EXTENSIONS__BTN_C_DEBUGGER	; for button C (not B)
 	dc.l	DEBUGGER__EXTENSIONS__BTN_B_DEBUGGER	; for button B (not C)
-
 
 ; ---------------------------------------------------------------
 ; Error handler blob
@@ -156,18 +177,18 @@ ErrorHandler:
 
 	dc.l	$46FC2700, $4FEFFFF2, $48E7FFFE, $4EBA022E, $49EF004A, $4E682F08, $47EF0040, $4EBA011E
 	dc.l	$41FA02B2, $4EBA0AD6, $225C45D4, $4EBA0B7A, $4EBA0A72, $49D21C19, $6A025249, $47D10806
-	dc.l	$0000670E, $43FA0295, $222C0002, $4EBA0164, $504C43FA, $0292222C, $00024EBA, $01562278
-	dc.l	$000045EC, $00064EBA, $01AE43FA, $02844EBA, $01424EBA, $0A300806, $00066600, $00AA45EF
+	dc.l	$0000670E, $41FA0295, $222C0002, $4EBA0164, $504C41FA, $0292222C, $00024EBA, $01562278
+	dc.l	$000045EC, $00064EBA, $01AE41FA, $02844EBA, $01424EBA, $0A300806, $00066600, $00AA45EF
 	dc.l	$00044EBA, $09FE3F01, $70034EBA, $09C8303C, $64307A07, $4EBA0132, $321F7011, $4EBA09B6
 	dc.l	$303C6130, $7A064EBA, $0120303C, $73707A00, $2F0C45D7, $4EBA0112, $584F0806, $00016714
 	dc.l	$43FA0240, $45D74EBA, $0AE443FA, $024145D4, $4EBA0AD6, $584F4EBA, $09AA5241, $70014EBA
-	dc.l	$09742038, $007843FA, $022F4EBA, $010A2038, $007043FA, $022B4EBA, $00FE4EBA, $09A82278
+	dc.l	$09742038, $007841FA, $022F4EBA, $010A2038, $007041FA, $022B4EBA, $00FE4EBA, $09A82278
 	dc.l	$000045D4, $53896140, $4EBA0978, $7A199A41, $6B0A6148, $4EBA005A, $51CDFFFA, $08060005
 	dc.l	$660A4E71, $60FC7200, $4EBA09A2, $2ECB4CDF, $7FFF487A, $FFEE2F2F, $FFC44E75, $43FA0152
 	dc.l	$45FA01F2, $4EFA0888, $223C00FF, $FFFF2409, $C4812242, $240AC481, $24424E75, $4FEFFFD0
 	dc.l	$41D77EFF, $20FC2853, $502930FC, $3A206018, $4FEFFFD0, $41D77EFF, $30FC202B, $320A924C
 	dc.l	$4EBA05A4, $30FC3A20, $700572EC, $B5C96502, $72EE10C1, $321A4EBA, $05AC10FC, $002051C8
-	dc.l	$FFEA4218, $41D77200, $4EBA094C, $4FEF0030, $4E754EBA, $09F82F01, $2F0145D7, $43FA013C
+	dc.l	$FFEA4218, $41D77200, $4EBA094C, $4FEF0030, $4E754EBA, $09482F01, $2F0145D7, $43FA013C
 	dc.l	$4EBA09E6, $504F4E75, $4FEFFFF0, $7EFF41D7, $30C030FC, $3A2010FC, $00EC221A, $4EBA055E
 	dc.l	$421841D7, $72004EBA, $090E5240, $51CDFFE0, $4FEF0010, $4E752200, $48414601, $66F62440
 	dc.l	$0C5A4EF9, $66042212, $60A84EBA, $09A043FA, $01174EFA, $09945989, $4EBAFF2E, $B3CA650C
@@ -234,15 +255,15 @@ ErrorHandler:
 	dc.l	$6004584B, $221A6A08, $448110FC, $002D6004, $10FC002B, $51CF0006, $4E9465CA, $4ED351CF
 	dc.l	$00064E94, $65C010D9, $51CFFFBC, $4ED44BF9, $00C00004, $4DEDFFFC, $4A516B10, $2A9941D2
 	dc.l	$38184EBA, $01F843E9, $002060EC, $544941FA, $00482ABC, $C0000000, $70007603, $3C803419
-	dc.l	$3C823419, $6AFA7200, $4EB02010, $51CBFFEE, $2A194E63, $26C526D9, $26D936FC, $434F2A85
+	dc.l	$3C823419, $6AFA7200, $4EB02010, $51CBFFEE, $2A194E63, $26C526D9, $26D936FC, $5D002A85
 	dc.l	$70003219, $61122ABC, $40000000, $72006108, $3ABC8174, $2A854E75, $2C802C80, $2C802C80
-	dc.l	$2C802C80, $2C802C80, $51C9FFEE, $4E754CAF, $00030004, $48E76010, $4E6B0C6B, $434F000C
+	dc.l	$2C802C80, $2C802C80, $51C9FFEE, $4E754CAF, $00030004, $48E76010, $4E6B0C2B, $005D000C
 	dc.l	$661A3413, $0242E000, $C2EB000A, $D441D440, $D4403682, $23DB00C0, $000436DB, $4CDF0806
-	dc.l	$4E752F0B, $4E6B0C6B, $434F000C, $66127200, $32130241, $1FFF82EB, $000A2001, $4840E248
-	dc.l	$265F4E75, $2F0B4E6B, $0C6B434F, $000C6618, $3F003013, $D06B000A, $02405FFF, $368023DB
-	dc.l	$00C00004, $36DB301F, $265F4E75, $2F0B4E6B, $0C6B434F, $000C6604, $37410008, $265F4E75
-	dc.l	$2F0B4E6B, $0C6B434F, $000C6606, $584B36C1, $36C1265F, $4E7561D4, $487AFFAA, $48E77E12
-	dc.l	$4E6B0C6B, $434F000C, $661C2A1B, $4C93005C, $48464DF9, $00C00000, $72001218, $6E0E6B28
+	dc.l	$4E752F0B, $4E6B0C2B, $005D000C, $66127200, $32130241, $1FFF82EB, $000A2001, $4840E248
+	dc.l	$265F4E75, $2F0B4E6B, $0C2B005D, $000C6618, $3F003013, $D06B000A, $02405FFF, $368023DB
+	dc.l	$00C00004, $36DB301F, $265F4E75, $2F0B4E6B, $0C2B005D, $000C6604, $37410008, $265F4E75
+	dc.l	$2F0B4E6B, $0C2B005D, $000C6606, $584B36C1, $36C1265F, $4E7561D4, $487AFFAA, $48E77E12
+	dc.l	$4E6B0C2B, $005D000C, $661C2A1B, $4C93005C, $48464DF9, $00C00000, $72001218, $6E0E6B28
 	dc.l	$4893001C, $27054CDF, $487E4E75, $51CB000E, $D642DA86, $0885001D, $2D450004, $D2443C81
 	dc.l	$72001218, $6EE667D8, $0241001E, $4EFB1002, $DA86721D, $03856020, $6026602A, $6032603A
 	dc.l	$14186014, $181860D8, $60361218, $D2417680, $4843CA83, $48418A81, $36022D45, $000460C0
