@@ -42,7 +42,7 @@ BossMarble:
 		move.w	obX(a0), @TargetX(a0)
 		move.w	obY(a0), @TargetY(a0)
 		move.b	#$F, obColType(a0)
-		move.b	#16, obColProp(a0) 		; set number of hits
+		move.b	#1, obColProp(a0) 		; set number of hits
 
 		lea	@ObjData(pc), a2 			; setup sprites
 		movea.l	a0, a1
@@ -72,6 +72,7 @@ BossMarble:
 		move.w	#$400, obGfx(a1)
 		move.b	#4, obRender(a1)
 		move.b	#$20, obActWid(a1)
+		move.b	#23, obHeight(a1)
 
 		move.l	a0, @FaceStatus(a1)
 		
@@ -188,7 +189,7 @@ BossMarble:
 ; ===========================================================================
 
 @RunBoss:
-		cmp.b 	#15, obColProp(a0)
+		cmp.b 	#4, obColProp(a0)
 		bhi.b 	@NotPhase2
 		
 		move.b	#1, @AttackPattern(a0)
@@ -306,6 +307,7 @@ BossMarble:
 		rts
 
 @StartFiring:
+		bchg	#0, obStatus(a0)
 		addq.b	#2, obSubtype(a0) ; make the missile
 
 @IsShipRight_rts:
@@ -314,14 +316,24 @@ BossMarble:
 ; ===========================================================================
 
 @ControlDirection2:
-        lea     (v_player).w, a1
-        move.w  #$200, d0
-        move.w  #$93, d1
-        jsr     ChaseObject
+		lea     (v_player).w, a1
+		move.w  #$250, d0
+		move.w  #$BA, d1
+		jsr     ChaseObject
 
-        move.w  #0, obVelY(a0)
+		move.w  #0, obVelY(a0)
 		addq.b	#2, obSubtype(a0) ; make the missile
 
+		tst.w 	obVelX(a0)
+		bpl.s 	@Flip
+
+		bclr 	#0, obStatus(a0)
+		bra.s 	@ControlDirection2_Return
+
+@Flip:
+		bset	#0, obStatus(a0)
+
+@ControlDirection2_Return
 		rts
 
 ; ===========================================================================
@@ -330,7 +342,6 @@ BossMarble:
 		bsr.w	BossMove
 		move.w	#$22C, d0
 		move.w	#$10, @DelayTimer(a0)
-		bchg	#0, obStatus(a0)
 		
 		; this sub routine spawn penis
 		Instance.new	BossMissile, a1	; load missile object

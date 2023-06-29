@@ -405,7 +405,7 @@ DLE_MZ3boss:
 		bne.s	loc_70D0
 		move.b	#id_BossMarble,0(a1) ; load MZ boss object
 		move.w	#$19F0,obX(a1)
-		move.w	#$22C,obY(a1)
+		move.w	#$235,obY(a1)
 
 loc_70D0:
 		music	mus_Boss	; play boss music

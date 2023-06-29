@@ -25,7 +25,7 @@ Mogeko:
 		move.b	#$14, obActWid(a0)
 
 		; HELP HOW DOES ANIMATION DELAY WORK
-		move.b	#5, obDelayAni(a0)     ; Prosciutto Love Affair
+		move.b	#5, obTimeFrame(a0)     ; Prosciutto Love Affair
 		addq.b	#2, obRoutine(a0)      ; ~Vows on the Sunset Hill~ 
 
 @Move:
@@ -38,15 +38,24 @@ Mogeko:
 		jsr     SpeedToPos
 
 		jsr	    ObjFloorDist
-		add.w	d1, obY(a0)	            ; Match	object's position with the floor
+		add.w	d1, obY(a0)	            ; Match object's position with the floor
 
 		subq.b 	#1, obDelayAni(a0)
 		tst.b 	obDelayAni(a0)
 		beq.s 	@Return
 
+		tst.w 	obVelX(a0)
+		bpl.s 	@Flip
+
+		bclr 	#0, obRender(a0)
+		bra.s 	@Animate
+
+@Flip:
+		bset	#0, obRender(a0)
+
+@Animate:
 		lea	    (Ani_Mogeko).l, a1
 		jsr     AnimateSprite
-		move.b	#5, obTimeFrame(a0)
 
 @Return:
 		rts                             ; Fun fact: Half of this object was written on a plane
