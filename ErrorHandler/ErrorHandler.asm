@@ -75,8 +75,12 @@ ErrorTrap:
 ; Debugger extension functions
 __global__ErrorHandler_ConsoleOnly: equ DebuggerExtensions+$0
 __global__ErrorHandler_ClearConsole: equ DebuggerExtensions+$26
-__global__ErrorHandler_PagesController: equ DebuggerExtensions+$50
-__global__VSync: equ DebuggerExtensions+$C0
+__global__KDebug_WriteLine_Formatted: equ DebuggerExtensions+$50
+__global__KDebug_Write_Formatted: equ DebuggerExtensions+$54
+__global__KDebug_FlushLine: equ DebuggerExtensions+$AA
+__global__ErrorHandler_PauseConsole: equ DebuggerExtensions+$C2
+__global__ErrorHandler_PagesController: equ DebuggerExtensions+$F8
+__global__VSync: equ DebuggerExtensions+$158
 
 ; Error handler & core functions
 __global__ErrorHandler: equ ErrorHandler+$0
@@ -151,16 +155,22 @@ DebuggerExtensions:
 	dc.l	$2F2F0012, $4E752F0B, $4E6B0C2B, $005D000C, $661A48E7, $C4464BF9, $00C00004, $4DEDFFFC
 	lea		__global__ErrorHandler_ConsoleConfig_Initial(pc), a1
 	jsr		__global__Console_Reset(pc)
-	dc.l	$4CDF6223, $265F4E75, $48E7FFFE, $3F3C0000, $4BF900C0, $00044DED, $FFFC4EBA, $005C41D7
-	dc.l	$43F900A1, $00034EBA, $006070F0, $C02F0001, $67DE6B3E, $41FA0074, $5888D000, $64FA2010
-	dc.l	$6F302040, $4FEFFFF2
+	dc.l	$4CDF6223, $265F4E75, $487A0058, $4E680C28, $005D000C, $67182F0C, $49FA0016, $4FEFFFF0
+	dc.l	$41D77E0E
+	jsr		__global__FormatString(pc)
+	dc.l	$4FEF0010, $285F4E75, $42184447, $0647000F, $90C72F08, $2F0D4BF9, $00C00004, $3E3C9E00
+	dc.l	$60023A87, $1E186EFA, $67080407, $00E067F2, $60F22A5F, $205F7E0E, $4E752F08, $4E680C28
+	dc.l	$005D000C, $670833FC, $9E0000C0, $0004205F, $4E7548E7, $C0D04E6B, $0C2B005D, $000C660C
+	dc.l	$3F3C0000, $610C610A, $67FC544F, $4CDF0B03, $4E756174, $41EF0004, $43F900A1, $00036178
+	dc.l	$70F0C02F, $00054E75, $48E7FFFE, $3F3C0000, $61E04BF9, $00C00004, $4DEDFFFC, $61D467F2
+	dc.l	$6B4041FA, $00765888, $D00064FA, $20106F32, $20404FEF
+	dc.w	$FFF2
 	lea		__global__ErrorHandler_ConsoleConfig_Shared(pc), a1
 	dc.l	$47D72A3C, $40000003
 	jsr		__global__Console_InitShared(pc)
-	dc.l	$2ABC8230, $8406487A, $000C4850, $4CEF7FFF, $00144E75, $4FEF000E
-	dc.w	$609E
+	dc.l	$2ABC8230, $84062A85, $487A000C, $48504CEF, $7FFF0014, $4E754FEF, $000E60B0
 	move.l	__global__ErrorHandler_VDPConfig_Nametables(pc), (a5)
-	dc.l	$609841F9, $00C00004, $44D06BFC, $44D06AFC, $4E7512BC, $00004E71, $72C01011, $E50812BC
+	dc.l	$60AA41F9, $00C00004, $44D06BFC, $44D06AFC, $4E7512BC, $00004E71, $72C01011, $E50812BC
 	dc.l	$00404E71, $C0011211, $0201003F, $80014600, $1210B101, $10C0C200, $10C14E75
 
 ; WARNING! Don't move! This must be placed directly below "DebuggerExtensions"
@@ -198,7 +208,7 @@ ErrorHandler:
 	dc.l	$8D008F02, $90119100, $92008220, $84040000, $44000000, $00000001, $00100011, $01000101
 	dc.l	$01100111, $10001001, $10101011, $11001101, $11101111, $FFFF0EEE, $FFF200CE, $FFF20EEA
 	dc.l	$FFF20E86, $FFF24000, $00020028, $00280000, $008000FF, $EAE0FA01, $F02600EA, $41646472
-	dc.l	$6573733A, $2000EA4D, $6F64756C, $653A2000, $EA43616C, $6C65723A, $2000EC83, $20E8BFEC
+	dc.l	$6573733A, $2000EA4F, $66667365, $743A2000, $EA43616C, $6C65723A, $2000EC83, $20E8BFEC
 	dc.l	$C800FA10, $E8757370, $3A20EC83, $00FA03E8, $73723A20, $EC8100EA, $56496E74, $3A2000EA
 	dc.l	$48496E74, $3A2000E8, $3C756E64, $6566696E, $65643E00, $02F70000, $00000000, $0000183C
 	dc.l	$3C181800, $18006C6C, $6C000000, $00006C6C, $FE6CFE6C, $6C00187E, $C07C06FC, $180000C6
