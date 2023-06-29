@@ -52,10 +52,11 @@ A violent Sonic 1 hack.
     - Fuzzy presents
 
 ## Credits
-- Code: Fuzzy, Vladikcomper, Giovanni
+- Code: Fuzzy, Vladikcomper, Giovanni, Selbi
 - Music: Jet, KCEXE, Vladikcomper, FoxConED, ArcaniaCQ, Oerg866, dust hill resident, Lightning_Splash, Amphobius
 - VEPS Sound Driver + MegaPCM: Vladikcomper
 - Graphics: Fuzzy, Selbi, TheBlad768, funamusea
 - Levels: Fuzzy
 - Original Game: SEGA, Sonic Team
-...And others I probably forgot to mention.
+
+Dedicated to Cyan Helkaraxe

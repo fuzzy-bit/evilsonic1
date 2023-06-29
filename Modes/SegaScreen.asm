@@ -41,7 +41,6 @@ SegaScreen:
 		moveq	#0, d0
 		move.w	#$7FF, d1
 
-
 @InitObjects:
 		move.l	d0, (a1)+ 				; clear object RAM first
 		dbf	d1, @InitObjects 

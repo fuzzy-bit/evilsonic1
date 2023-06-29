@@ -9,6 +9,8 @@ BossMarble:
 
 ; ===========================================================================
 
+@AttackPattern:		equ $2A
+
 @Bounces:			equ $2C ; missile's bounces
 @MissileTimer:		equ $2C
 @MissileTypeFlag:	equ $26
@@ -17,8 +19,8 @@ BossMarble:
 @TargetY:			equ $38
 
 @FaceStatus:		equ $34
-@FlashTimer:		equ $3E
 @DelayTimer:		equ $3C
+@FlashTimer:		equ $3E
 
 @Index:	
 		dc.w @Main-@Index
@@ -40,9 +42,9 @@ BossMarble:
 		move.w	obX(a0), @TargetX(a0)
 		move.w	obY(a0), @TargetY(a0)
 		move.b	#$F, obColType(a0)
-		move.b	#8, obColProp(a0) ; set number of hits to 8
+		move.b	#16, obColProp(a0) 		; set number of hits
 
-		lea	@ObjData(pc), a2 ; setup sprites
+		lea	@ObjData(pc), a2 			; setup sprites
 		movea.l	a0, a1
 		moveq	#3, d1
 		
@@ -186,21 +188,53 @@ BossMarble:
 ; ===========================================================================
 
 @RunBoss:
-		moveq	#0, d0
-		move.b	obSubtype(a0), d0
-		move.w	@ShipIndex2(pc, d0.w), d0
-
-		jsr		@ShipIndex2(pc, d0.w)
+		cmp.b 	#15, obColProp(a0)
+		bhi.b 	@NotPhase2
 		
-		andi.b	#6, obSubtype(a0)
+		move.b	#1, @AttackPattern(a0)
+		bra.s 	@RunAttackPattern
+
+@NotPhase2:
+		moveq	#0, d0
+		move.b	@AttackPattern(a0), d0
+
+@RunAttackPattern:
+		move.w	@AttackIndex(pc, d0.w), d0
+		jsr		@AttackIndex(pc, d0.w)
+
+		andi.b	#6, @AttackPattern(a0)
 		bra.w	@CheckHit
 
+@RunPattern1:
+		moveq	#0, d0
+		move.b	obSubtype(a0), d0
+		move.w	@Pattern1(pc, d0.w), d0
+
+		jsr		@Pattern1(pc, d0.w)
+		rts
+
+@RunPattern2:
+		moveq	#0, d0
+		move.b	obSubtype(a0), d0
+		move.w	@Pattern2(pc, d0.w), d0
+
+		jsr		@Pattern2(pc, d0.w)
+		rts
+
 ; ===========================================================================
-@ShipIndex2:	
-		dc.w @ControlDirection-@ShipIndex2
-		dc.w @FireMissile-@ShipIndex2
-		dc.w @Wait-@ShipIndex2
-		dc.w @CheckPhase2-@ShipIndex2
+@AttackIndex:	
+		dc.w @RunPattern1-@AttackIndex
+		dc.w @RunPattern2-@AttackIndex
+
+@Pattern1:	
+		dc.w @ControlDirection-@Pattern1
+		dc.w @FireMissile-@Pattern1
+		dc.w @Wait-@Pattern1
+
+@Pattern2:	
+		dc.w @ControlDirection2-@Pattern2
+		dc.w @FireMissile-@Pattern2
+		dc.w @Wait-@Pattern2
 ; ===========================================================================
 
 @ControlDirection:
@@ -233,8 +267,6 @@ BossMarble:
 		neg.b 	@MissileTypeFlag(a0)
 		rts
 
-; ===========================================================================
-
 @Swap:
 		move.w	#$150, obVelX(a0)
 		btst	#0, obStatus(a0) ; is bit 0 clear
@@ -262,8 +294,6 @@ BossMarble:
 		move.w	#$1930, @TargetX(a0)
 		bra.s	@StopMoving
 
-; ===========================================================================
-
 @IsShipLeft:
 		cmpi.w	#$1810, @TargetX(a0)
 		bgt.s	@IsShipRight_rts
@@ -280,6 +310,19 @@ BossMarble:
 
 @IsShipRight_rts:
 		rts	
+
+; ===========================================================================
+
+@ControlDirection2:
+        lea     (v_player).w, a1
+        move.w  #$200, d0
+        move.w  #$93, d1
+        jsr     ChaseObject
+
+        move.w  #0, obVelY(a0)
+		addq.b	#2, obSubtype(a0) ; make the missile
+
+		rts
 
 ; ===========================================================================
 
@@ -323,16 +366,9 @@ BossMarble:
 		subq.w	#1, @DelayTimer(a0)
 		bne.s	@Wait_rts
 
-		add.b	#2, obSubtype(a0)
+		move.b	#0, obSubtype(a0)
 
 @Wait_rts:
-		rts
-
-; ===========================================================================
-
-; this subroutine will check if its phase 2 but it doesnt rnLmao 
-@CheckPhase2:
-		add.b	#2, obSubtype(a0)
 		rts
 
 ; ===========================================================================

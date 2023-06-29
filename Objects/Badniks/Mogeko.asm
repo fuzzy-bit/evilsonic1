@@ -26,7 +26,7 @@ Mogeko:
 
         ; HELP HOW DOES ANIMATION DELAY WORK
 		move.b	#5, obDelayAni(a0)     ; Prosciutto Love Affair
-		addq.b	#2, obRoutine(a0)       ; ~Vows on the Sunset Hill~ 
+		addq.b	#2, obRoutine(a0)      ; ~Vows on the Sunset Hill~ 
 
 @Move:
         lea     (v_player).w, a1
