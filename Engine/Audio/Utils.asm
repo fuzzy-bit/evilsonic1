@@ -44,7 +44,7 @@ PlaySound_Special:
         tst.b   (a1)+           ; slot 2 empty?
         beq.s   @AddToQueue     ; if yes, branch
         tst.b   (a1)+           ; slot 3 empty?
-        bne.s   @Quit           ; if not, branch
+        bne.s   @QueueFull		; if not, branch
 
 @AddToQueue:
         move.b  d0, -(a1)
@@ -52,7 +52,20 @@ PlaySound_Special:
 @Quit:
         move.l  (sp)+, a1
         rts
-        
+
+; ------------------------------------------------------
+@QueueFull:
+		RaiseError "Sound queue overflow", @QueueDebugger
+
+; ------------------------------------------------------
+@QueueDebugger:
+		Console.WriteLine "Slot 0: %<.b SoundQueue>"
+		Console.WriteLine "Slot 1: %<.b SoundQueue+1>"
+		Console.WriteLine "Slot 2: %<.b SoundQueue+2>"
+		Console.WriteLine "Slot 3: %<.b SoundQueue+3>"
+		rts
+
+
 ; ======================================================
 ; ------------------------------------------------------
 ; Subroutine to play DAC sample
