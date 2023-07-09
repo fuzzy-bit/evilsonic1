@@ -321,8 +321,15 @@ KillSonic:
 		tst.w	(v_debuguse).w	; is debug mode	active?
 		bne.s	@dontdie	; if yes, branch
 
+		cmpi.b 	#7, (v_zone).w
+		beq.s 	@specialgameover
+
 		Instance.new Splatter, a1
 		move.w 	a2,	$30(a1) ; ParentObj
+
+		Instance.new Missile, a1
+		move.b 	obX(a0), obX(a1)
+		move.b 	obY(a0), obY(a1)
 
 		move.b	#0,(v_invinc).w	; remove invincibility
 		move.b	#6,obRoutine(a0)
@@ -345,6 +352,9 @@ KillSonic:
 	@dontdie:
 		moveq	#-1,d0
 		rts	
+	
+	@specialgameover:
+		jmp BasicallyYoureFucked
 ; End of function KillSonic
 
 

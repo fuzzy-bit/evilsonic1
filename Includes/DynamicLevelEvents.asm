@@ -720,7 +720,46 @@ DLE_FZend2:
 
 DLE_Ending:
 		rts
-		
+
+; ---------------------------------------------------------------------------
+; Zone 7 dynamic level events
+; ---------------------------------------------------------------------------
 DLE_Z7:
+		; - DEFAULT ------------------------------------
 		move.w	#$124,(v_limitbtm1).w ; set lower y-boundary
+		; - PASS 1--------------------------------------
+		tst.b 	(f_lockscreen).w
+		bne.s 	@Return
+		
+		tst.b 	(v_hordeintro).w
+		bne.s 	@Pass2
+
+		cmpi.w	#$1E5, (v_screenposx).w ; has the camera reached $1E5 on x-axis?
+		bcs.s	@Return	; if not, branch
+		
+		sfx		sfx_BigRing
+		music	mus_zone7
+
+		move.b	#1, (f_lockscreen).w ; lock screen
+		jsr		PaletteWhiteIn
+
+		move.w	#$300,(v_limitright2).w
+		move.b 	#1, (v_hordeintro).w
+		move.b  #$20, (v_spawntimer).w
+		bsr.s 	@Return
+
+		; - PASS 2--------------------------------------
+@Pass2:
+		sub.b 	#1, (v_spawntimer).w
+		
+		tst.b 	(v_spawntimer).w
+		beq.s 	@Return
+
+@ResetTimer:
+		move.b  #$50, (v_spawntimer).w
+		not.b 	(v_spawndirection).w
+		move.b 	(v_spawndirection).w, d0
+		; ----------------------------------------------
+		
+@Return:
 		rts	

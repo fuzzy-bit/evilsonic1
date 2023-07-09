@@ -240,6 +240,9 @@ v_ani3_buf:	equ $FFFFFEC8	; synchronised sprite animation 3 - info buffer (2 byt
 v_limittopdb:	equ $FFFFFEF0	; level upper boundary, buffered for debug mode (2 bytes)
 v_limitbtmdb:	equ $FFFFFEF2	; level bottom boundary, buffered for debug mode (2 bytes)
 v_flashtimer: 	equ $FFFFFEF4 	; screen flash timer
+v_spawntimer: 	equ $FFFFFEF5 	; horde spawn timer
+v_spawndirection: equ $FFFFFEF6 ; horde spawn direction
+v_hordeintro: equ $FFFFFEF7 ; horde intro phase
 
 v_screenposx_dup:	equ $FFFFFF10	; screen position x (duplicate) (2 bytes)
 v_screenposy_dup:	equ $FFFFFF14	; screen position y (duplicate) (2 bytes)

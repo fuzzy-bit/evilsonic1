@@ -357,7 +357,8 @@ mus_title: equ		$8A
 mus_ending: equ		$8B
 mus_boss: equ		$8C
 mus_fz: equ		$8D
-mus_zone7: equ	$81 ; you'll have to change this one
+mus_zone7pre: equ	$96
+mus_zone7: equ	$97 
 
 mus_gotthroughact: equ	$8E
 mus_gameover: equ	$8F

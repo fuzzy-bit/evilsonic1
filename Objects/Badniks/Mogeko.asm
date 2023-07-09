@@ -15,6 +15,9 @@ Mogeko:
 ; ===========================================================================
 
 @Init:	; Routine 0
+		moveq  	#$FFFFFFA0,d0
+		jsr    	PlaySample
+
 		move.l	#Map_Mogeko, obMap(a0)
 		move.w	#$6000/$20, obGfx(a0)
 		move.b	#4, obRender(a0)
@@ -30,8 +33,8 @@ Mogeko:
 
 @Move:
 		lea     (v_player).w, a1
-		move.w  #$420, d0
-		move.w  #$93, d1
+		move.w  #$250, d0
+		move.w  #$BA, d1
 		jsr     ChaseObject
 
 		move.w  #0, obVelY(a0)
@@ -58,4 +61,4 @@ Mogeko:
 		jsr     AnimateSprite
 
 @Return:
-		rts                             ; Fun fact: Half of this object was written on a plane
+		rts                             ; Fun fact: this object was written on a plane

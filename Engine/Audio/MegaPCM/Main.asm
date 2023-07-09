@@ -86,7 +86,7 @@ MegaPCM:
 		DAC_Entry		$04, Winrar, pcm				; $9D	- Winrar
 		DAC_Entry		$08, Tails, pcm+loop			; $9E	- Tails
 		DAC_Entry		$08, Brawl, pcm					; $9F	- Brawl Theme
-		DAC_Entry		$1B, Mogege, pcm				; $A0	- Mogege~
+		DAC_Entry		$1B, Mogege, pcm+pri			; $A0	- Mogege~
 		DAC_Entry		$1B, Minnaaa, pcm				; $A1	- Minnaaa!
 		DAC_Entry		$1B, Mogegegege, pcm			; $A2	- Mogegegege
 		DAC_Entry		$1B, Strike, pcm				; $A3	- Strike

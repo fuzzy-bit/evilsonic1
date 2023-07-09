@@ -91,7 +91,7 @@ WaitForZ80:
 		btst	d0,(a1)		; has the Z80 stopped?
 		bne.s	WaitForZ80	; if not, branch
 
-                moveq   #$25,d2
+				moveq   #$25,d2
 Z80InitLoop:
 		move.b	(a5)+,(a0)+
 		dbf	d2,Z80InitLoop
@@ -163,10 +163,10 @@ SetupValues:	dc.w $8000		; VDP register start number
 		dc.b $80		; VDP $97 - DMA fill VRAM
 		dc.l $40000080		; VRAM address 0
 
-                dc.b $AF, 1, $D9, $1F, $11, $27, 0, $21, $26, 0, $F9, $77 ; Z80 instructions
-                dc.b $ED, $B0, $DD, $E1, $FD, $E1, $ED, $47, $ED, $4F
-                dc.b $D1, $E1, $F1, 8, $D9, $C1, $D1, $E1, $F1, $F9, $F3
-                dc.b $ED, $56, $36, $E9, $E9
+				dc.b $AF, 1, $D9, $1F, $11, $27, 0, $21, $26, 0, $F9, $77 ; Z80 instructions
+				dc.b $ED, $B0, $DD, $E1, $FD, $E1, $ED, $47, $ED, $4F
+				dc.b $D1, $E1, $F1, 8, $D9, $C1, $D1, $E1, $F1, $F9, $F3
+				dc.b $ED, $56, $36, $E9, $E9
 
 		dc.w $8104		; VDP display mode
 		dc.w $8F02		; VDP increment
@@ -254,7 +254,7 @@ CheckSumError:
 		dbf	d7,@fillred	; repeat $3F more times
 		
 		moveq  	#$FFFFFFA6,d0
-        jsr    	PlaySample
+		jsr    	PlaySample
 
 	@endlessloop:
 		bra.s	@endlessloop
@@ -1821,6 +1821,73 @@ Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
 		include	"Objects\Effects\Splatter.asm"
 		include	"Objects\Menu\Menu Character.asm"
 		include	"Objects\Screen-Space\Sega Logo Letters.asm"
+
+; ---------------------------------------------------------------------------
+; Special game over
+; ---------------------------------------------------------------------------
+BasicallyYoureFucked:
+		music 	mus_fadeout
+		jsr 	ClearScreen
+		move.w  #$1A, (v_demolength).w
+
+		move.l 	#$FFFFFFA3, d0
+		jsr 	PlaySample
+
+@WaitSample1:
+		move.b	#$4, (v_vbla_routine).w
+		jsr		WaitForVBla
+
+		tst.w 	(v_demolength).w
+		beq.s 	@Sample2
+
+		bra.s 	@WaitSample1
+
+@Sample2:
+		move.l 	#$FFFFFFA4, d0
+		jsr 	PlaySample
+
+		move.l  #$68000000, ($FFC00004).l
+		lea     @Art, a0
+		jsr     NemDec 		; preload art
+
+		move.w  #$40, (v_demolength).w
+
+@WaitSample2:
+		move.b	#$4, (v_vbla_routine).w
+		jsr		WaitForVBla
+
+		tst.w 	(v_demolength).w
+		bne.s 	@WaitSample2
+
+		lea    	($FF0000), a1 ; load background here
+		lea    	@Mappings, a0
+		move.w 	#320, d0
+		jsr    	EniDec.w
+
+		lea     ($FF0000), a1
+		move.l  #$60000003, d0
+		moveq   #39, d1
+		moveq   #30, d2
+		jsr	   	TilemapToVRAM 	; mappings -> vram
+
+		lea 	@Palette, a0
+		lea 	($FFFFFB80), a1
+		move.w  #$9, d0
+ 
+@PaletteLoop:
+		move.l  (a0)+, (a1)+
+		dbf 	d0, @PaletteLoop
+		jsr 	PaletteFadeIn
+
+@Die:
+		bra.s 	@Die
+
+@Mappings: incbin "Data/Mappings/TileMaps/Special Game Over.bin"
+	even
+@Art: incbin "Data/Art/Nemesis/Special Game Over.bin"
+	even
+@Palette: incbin "Data/Palette/Special Game Over.bin"
+	even
 
 ; ---------------------------------------------------------------------------
 ; Add points subroutine

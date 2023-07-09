@@ -236,7 +236,7 @@ out_of_range:	macro exit,pos
 		endm
 
 ; ---------------------------------------------------------------------------
-; AMPS macros
+; VEPS macros
 ; ---------------------------------------------------------------------------
 
 ; Macro for playing a command
@@ -344,3 +344,15 @@ ClearRAM: macro
 		move.l	d0, (a1)+
 		dbf		d1, @ClearVariables3
 	endm
+
+; ---------------------------------------------------------------------------
+; Optimized st/sf
+; - fuzzy
+; ---------------------------------------------------------------------------
+sto: 	macro destination
+		move.b 	#$FF, \destination
+		endm
+		
+sfo: 	macro destination
+		moveq 	#0, \destination
+		endm
