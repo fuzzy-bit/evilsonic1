@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "5e2c2e22-e61f-4552-ba41-d5dff016ade5",
+    "node": "49870ae8-6ce5-4634-8365-548f4cdf905b",
     "objects": [
         {
             "name": "Blood",
@@ -205,8 +205,33 @@
             "expanded": true
         },
         {
-            "uuid": "1ee137aa-b760-4dff-bac9-24c0c454e58d",
+            "uuid": "49870ae8-6ce5-4634-8365-548f4cdf905b",
             "format": "Sonic 1.js",
+            "name": "Sonic Death",
+            "palettes": [
+                {
+                    "path": "Data\\Palette\\Sonic.bin",
+                    "length": 1
+                }
+            ],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "1ee137aa-b760-4dff-bac9-24c0c454e58d",
+            "format": "Sonic 3&K Object.js",
             "name": "SLZ Spikeball Shrapnel",
             "palettes": [],
             "art": {

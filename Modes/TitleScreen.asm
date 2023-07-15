@@ -158,10 +158,7 @@ TitleScreen:
 
 		move.b	#4,(v_vbla_routine).w	; we can not afford to run the sound driver too
 		bsr.w	WaitForVBla		; late, or we will lose the YM data and break music
-		; music	mus_Title		; play title screen music
-
-		moveq  	#$FFFFFF9F,d0
-        jsr    	PlaySample
+		music	mus_Title		; play title screen music
 
 		jsr	(ExecuteObjects).l
 

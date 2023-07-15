@@ -7,4 +7,4 @@ s1built.debug.bin
 SonLVL/SonLVL.log
 SonLVL/dllcache/
 S1SSEdit.undo
-.build/log
+.build/log/*
