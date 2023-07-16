@@ -319,17 +319,20 @@ HurtSonic:
 
 KillSonic:
 		tst.w	(v_debuguse).w	; is debug mode	active?
-		bne.s	@dontdie	; if yes, branch
+		bne.w	@dontdie	; if yes, branch
 
 		cmpi.b 	#7, (v_zone).w
-		beq.s 	@specialgameover
+		beq.w 	@specialgameover
+
+		move.b	#0,(v_shield).w	; remove shield
 
 		Instance.new Splatter, a1
 		move.w 	a2,	$30(a1) ; ParentObj
 
+		sfx 	sfx_violence
+        move.b  #4, (v_flashtimer).w
+		move.b	#15, (v_shaketimer).w	
 		Instance.new SonicDeath, a1
-		move.b 	obX(a0), obX(a1)
-		move.b 	obY(a0), obY(a1)
 
 		move.b	#0,(v_invinc).w	; remove invincibility
 		move.b	#6,obRoutine(a0)

@@ -9,10 +9,9 @@ A violent Sonic 1 hack.
 - Tint water palette red when Sonic dies in water (Without drowning)
 - ~~S3K sprite format~~
 - ~~S3K art~~
-- Dynamic death sprites
-    - Detect what direction Sonic was crushed from, or randomize (depending on how much time is left to finish the hack)
+- ~~Dynamic death sprites~~
+    - ~~Detect what direction Sonic was crushed from, or randomize (depending on how much time is left to finish the hack)~~
     - Sonic gets cut in half with saws
-    - Slight flinging
     - ~~Art~~
 - ~~Blood stain object~~
     - ~~Stain sprites + mappings~~

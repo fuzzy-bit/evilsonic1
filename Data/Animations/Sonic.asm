@@ -44,7 +44,7 @@ SonAni_Roll:	dc.b $FE, $96, $97, $96, $98, $96, $99, $96, $9A, $FF
 		even
 SonAni_Roll2:	dc.b $FE, $96, $97, $96, $98, $96, $99, $96, $9A, $FF
 		even
-SonAni_Push:	dc.b $FD, $B6, $B7, $B8, $B9, $FF, $FF, $FF, $FF, $FF
+SonAni_Push:	dc.b $FD, $B6, $B9, $FF, $FF, $FF, $FF, $FF
 		even
 SonAni_Wait:	dc.b 5, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA
 				dc.b  $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA

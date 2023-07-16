@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "49870ae8-6ce5-4634-8365-548f4cdf905b",
+    "node": "5e2c2e22-e61f-4552-ba41-d5dff016ade5",
     "objects": [
         {
             "name": "Blood",
@@ -206,7 +206,7 @@
         },
         {
             "uuid": "49870ae8-6ce5-4634-8365-548f4cdf905b",
-            "format": "Sonic 1.js",
+            "format": "Sonic 3&K Player.js",
             "name": "Sonic Death",
             "palettes": [
                 {

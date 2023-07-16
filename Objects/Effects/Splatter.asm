@@ -117,12 +117,7 @@ Splatter:
         dc.b $56, $00
 		dc.w $0000, $001E
 		dc.l Map_Splat
-
-		; Crabmeat (dummy/test)
-        dc.b $1F, $00
-		dc.w $0010, $0010 
-		dc.l Map_Splat
-
+		
 		; End
 		dc.w $FFFF
 

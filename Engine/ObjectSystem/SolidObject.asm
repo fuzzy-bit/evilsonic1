@@ -246,9 +246,6 @@ Solid_Squash:
 		movea.l	a1,a0
 
 		; TODO: do the same for pizza cutter object
-		sfx 	sfx_violence
-        move.b  #4, (v_flashtimer).w
-		move.b	#15, (v_shaketimer).w	
 		jsr		CreateMKBlood
 
 		jsr	(KillSonic).l	; kill Sonic

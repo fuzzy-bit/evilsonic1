@@ -237,50 +237,11 @@ locret_13860:
 ; ---------------------------------------------------------------------------
 
 Sonic_Death:	; Routine 6
-		bsr.w	GameOver
 		jsr (DeformLayers).l
 		bsr.w	Sonic_RecordPosition
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
-
-GameOver:
-		move.w	(v_limitbtm2).w,d0
-		addi.w	#$100,d0
-		cmp.w	obY(a0),d0
-		bcc.w	locret_13900
-		move.w	#-$38,obVelY(a0)
-		addq.b	#2,obRoutine(a0)
-		clr.b	(f_timecount).w	; stop time counter
-		addq.b	#1,(f_lifecount).w ; update lives counter
-		subq.b	#1,(v_lives).w	; subtract 1 from number of lives
-		bne.s	loc_138D4
-		move.b	#0,deathtime(a0)
-		move.b	#id_GameOverCard,(v_objspace+$80).w ; load GAME object
-		move.b	#id_GameOverCard,(v_objspace+$C0).w ; load OVER object
-		move.b	#1,(v_objspace+$C0+obFrame).w ; set OVER object to correct frame
-		clr.b	(f_timeover).w
-
-loc_138C2:
-		music	mus_GameOver	; play game over music
-		moveq	#3,d0
-		jmp	(AddPLC).l	; load game over patterns
-; ===========================================================================
-
-loc_138D4:
-		move.b	#60,deathtime(a0)	; set time delay to 1 second
-		tst.b	(f_timeover).w	; is TIME OVER tag set?
-		beq.s	locret_13900	; if not, branch
-		move.b	#0,deathtime(a0)
-		move.b	#id_GameOverCard,(v_objspace+$80).w ; load TIME object
-		move.b	#id_GameOverCard,(v_objspace+$C0).w ; load OVER object
-		move.b	#2,(v_objspace+$80+obFrame).w
-		move.b	#3,(v_objspace+$C0+obFrame).w
-		bra.s	loc_138C2
-; ===========================================================================
-
-locret_13900:
-		rts	
 ; End of function GameOver
 
 ; ---------------------------------------------------------------------------
@@ -288,23 +249,6 @@ locret_13900:
 ; ---------------------------------------------------------------------------
 
 Sonic_ResetLevel: ; Routine 8
-		tst.b	deathtime(a0)
-		beq.s	locret_13914
-		subq.b	#1,deathtime(a0)	; subtract 1 from time delay
-		bne.s	locret_13914
-
-		if Respawn=1
-			move.b	#4,obRoutine(a0)
-			jsr 	LevSz_ChkLamp
-			jsr 	LoadTilesFromStart
-			move.b	#1,	f_timecount
-		else
-			; Old death code
-			move.b	#id_SonicPlayer,(v_player).w ; load Sonic object
-			move.w	#1,(f_restart).w ; restart the level
-		endc
-
-locret_13914:
 		rts
 		
 		include	"Objects\Sonic\Loops.asm"
