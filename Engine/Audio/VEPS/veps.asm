@@ -104,10 +104,10 @@ ptr_sndCD:      dc.l SoundCD
 ptr_sndCE:      dc.l SoundCE
 ptr_sndCF:      dc.l SoundCF
 ptr_sndD0:      dc.l SoundD0
-                dc.l SoundD1
-                dc.l SoundD2
-                dc.l SoundD3
-                dc.l SoundD4
+				dc.l SoundD1
+				dc.l SoundD2
+				dc.l SoundD3
+				dc.l SoundD4
 ptr_sndD5:      dc.l SoundD5
 ptr_sndD6:      dc.l SoundD6
 ptr_sndD7:      dc.l SoundD7
@@ -118,107 +118,102 @@ ptr_sndD8:      dc.l SoundD8
 ; ------------------------------------------------------
 
 MusicIndex:		
-		dc.l Music81
-		dc.l Music82
-		dc.l Music83
-		dc.l Music84
-		dc.l Music85
-		dc.l Music86
-		dc.l Music87
-		dc.l Music88
-		dc.l Music89
-		dc.l Music8A
-		dc.l Music8B
-		dc.l Music8C
-		dc.l Music8D
-		dc.l Music8E
-		dc.l Music8F
-		dc.l Music90
-		dc.l Music91
-		dc.l Music92
-		dc.l Music93
-		dc.l Music94
-		dc.l Music95
-		dc.l Music96
-		dc.l Music97
-		dc.l Music98
-		dc.l Music99
-		dc.l Music9A
-		dc.l Music9B
-		dc.l Music9C
-		dc.l Music9D
-		dc.l Music9E
-		dc.l Music9F
-
-
+		dc.l @GHZ           ; 81
+		dc.l @LZ            ; 82
+		dc.l @MZ            ; 83
+		dc.l @SYZ           ; 84
+		dc.l @SLZ           ; 85
+		dc.l @SBZ           ; 86
+		dc.l @Invincibility ; 87
+		dc.l @Fatality      ; 88
+		dc.l @Title         ; 89
+		dc.l @Boss          ; 8A
+		dc.l @Final1        ; 8B
+		dc.l @Final2        ; 8C
+		dc.l @Monsquaz      ; 8D
+		dc.l @Ambience      ; 8E
+		dc.l @Endurance     ; 8F
+		dc.l @Retro         ; 90
+		dc.l @Drowning      ; 91
+		dc.l @SecretGHZ
+		dc.l @SecretLZ
+		dc.l @SecretMZ
+		dc.l @SecretSYZ
+		dc.l @SecretSLZ
+		dc.l @SecretSBZ
+		dc.l @SecretFZ
+		dc.l @SecretInvincibility
+		dc.l @SecretBoss
+		dc.l @SecretDrowning
+		dc.l @SecretCredits
+		dc.l @CIS
+		dc.l @Monsquaz
+		dc.l @Monsquaz
+		dc.l @Monsquaz
 
 ; ===============================================================
 ; Music data
 ; ===============================================================
 
+@GHZ:                  incbin    Data\Audio\Music\GHZ.bin
+					   even
+@LZ:                   incbin    Data\Audio\Music\LZ.bin
+					   even
+@MZ:                   incbin    Data\Audio\Music\MZ.bin
+					   even
+@SYZ:                  incbin    Data\Audio\Music\SYZ.bin
+					   even
+@SLZ:                  incbin    Data\Audio\Music\SLZ.bin
+					   even
+@SBZ:                  incbin    Data\Audio\Music\SBZ.bin
+					   even
+@Invincibility:        incbin    Data\Audio\Music\Invincibility.bin
+					   even
+@Fatality:             incbin    Data\Audio\Music\Fatality.bin
+					   even
+@Title:                incbin    Data\Audio\Music\TitleScreen.bin
+					   even
+@Boss:                 incbin    Data\Audio\Music\Boss.bin
+					   even
+@Final2:               incbin    Data\Audio\Music\FinalBoss2.bin
+					   even
+@Final1:               incbin    Data\Audio\Music\FinalBoss1.bin
+					   even
+@Monsquaz:             incbin    Data\Audio\Music\Monsquaz.bin
+					   even
+@Retro:                incbin    Data\Audio\Music\SonicRetro.bin
+					   even    
+@Ambience:             incbin    Data\Audio\Music\Ambience.bin
+					   even
+@Endurance:            incbin    Data\Audio\Music\Endurance.bin
+					   even
+@Drowning:             incbin    Data\Audio\Music\Drowning.bin
+					   even
+@SecretGHZ:            incbin    Data\Audio\Music\SecretDifficulty\GHZ.bin
+					   even
+@SecretLZ:             incbin    Data\Audio\Music\SecretDifficulty\LZ.bin
+					   even
+@SecretMZ:             incbin    Data\Audio\Music\SecretDifficulty\MZ.bin
+					   even
+@SecretSYZ:            incbin    Data\Audio\Music\SecretDifficulty\SYZ.bin
+					   even
+@SecretSLZ:            incbin    Data\Audio\Music\SecretDifficulty\SLZ.bin
+					   even
+@SecretSBZ:            incbin    Data\Audio\Music\SecretDifficulty\SBZ.bin
+					   even
+@SecretFZ:			   incbin    Data\Audio\Music\SecretDifficulty\FZ.bin
+					   even
+@SecretInvincibility:  incbin    Data\Audio\Music\SecretDifficulty\Invincibility.bin
+					   even
+@SecretBoss:           incbin    Data\Audio\Music\SecretDifficulty\Boss.bin
+					   even
+@SecretDrowning:       incbin    Data\Audio\Music\SecretDifficulty\Drowning.bin
+					   even
+@SecretCredits:        incbin    Data\Audio\Music\SecretDifficulty\Credits.bin
+					   even
+@CIS:				   incbin    Data\Audio\Music\SecretDifficulty\CIS.bin
+					   even
 
-Music81:        incbin  Data\Audio\Music\music81.bin
-                even
-Music82:        incbin  Data\Audio\Music\music82.bin
-                even
-Music83:        incbin  Data\Audio\Music\music83.bin
-                even
-Music84:        incbin  Data\Audio\Music\music84.bin
-                even
-Music85:        incbin  Data\Audio\Music\music85.bin
-                even
-Music86:        incbin  Data\Audio\Music\music86.bin
-                even
-Music87:        incbin  Data\Audio\Music\music87.bin
-                even
-Music88:        incbin  Data\Audio\Music\music88.bin
-                even
-Music89:        incbin  Data\Audio\Music\music89.bin
-                even         
-Music8A:        incbin  Data\Audio\Music\music8A.bin
-                even
-Music8B:        incbin  Data\Audio\Music\music8B.bin
-                even
-Music8C:        incbin  Data\Audio\Music\music8C.bin
-                even
-Music8D:        incbin  Data\Audio\Music\music8D.bin
-                even
-Music8E:        incbin  Data\Audio\Music\music8E.bin
-                even
-Music8F:        incbin  Data\Audio\Music\music8F.bin
-                even
-Music90:        incbin  Data\Audio\Music\music90.bin
-                even
-Music91:        incbin  Data\Audio\Music\music91.bin
-                even
-Music92:        incbin  Data\Audio\Music\music92.bin
-                even
-Music93:        incbin  Data\Audio\Music\music93.bin
-                even
-Music94:        incbin  Data\Audio\Music\music94.bin
-                even
-Music95:        incbin  Data\Audio\Music\music95.bin
-                even    
-Music96:        incbin  Data\Audio\Music\music96.bin
-                even
-Music97:        incbin  Data\Audio\Music\music97.bin
-                even    
-Music98:        incbin  Data\Audio\Music\music98.bin
-                even    
-Music99:        incbin  Data\Audio\Music\music99.bin
-                even    
-Music9A:        incbin  Data\Audio\Music\music9A.bin
-                even    
-Music9B:        incbin  Data\Audio\Music\music9B.bin
-                even    
-Music9C:        incbin  Data\Audio\Music\TFIV_Boss_5.bin
-                even    
-Music9D:        incbin  Data\Audio\Music\music9D.bin
-                even    
-Music9E:        incbin  Data\Audio\Music\music9E.bin
-                even            
-Music9F:        incbin  Data\Audio\Music\music9F.bin
-                even
 
 
 ; ===============================================================
@@ -226,122 +221,122 @@ Music9F:        incbin  Data\Audio\Music\music9F.bin
 ; ===============================================================
 
 SoundA0:        incbin  Data\Audio\Sound\soundA0.bin
-                even
+				even
 SoundA1:        incbin  Data\Audio\Sound\soundA1.bin
-                even
+				even
 SoundA2:        incbin  Data\Audio\Sound\soundA2.bin
-                even
+				even
 SoundA3:        incbin  Data\Audio\Sound\soundA3.bin
-                even
+				even
 SoundA4:        incbin  Data\Audio\Sound\soundA4.bin
-                even
+				even
 SoundA5:        incbin  Data\Audio\Sound\soundA5.bin
-                even
+				even
 SoundA6:        incbin  Data\Audio\Sound\soundA6.bin
-                even
+				even
 SoundA7:        incbin  Data\Audio\Sound\soundA7.bin
-                even
+				even
 SoundA8:        incbin  Data\Audio\Sound\soundA8.bin
-                even
+				even
 SoundA9:        incbin  Data\Audio\Sound\soundA9.bin
-                even
+				even
 SoundAA:        incbin  Data\Audio\Sound\soundAA.bin
-                even
+				even
 SoundAB:        incbin  Data\Audio\Sound\soundAB.bin
-                even
+				even
 SoundAC:        incbin  Data\Audio\Sound\soundAC.bin
-                even
+				even
 SoundAD:        incbin  Data\Audio\Sound\soundAD.bin
-                even
+				even
 SoundAE:        incbin  Data\Audio\Sound\soundAE.bin
-                even
+				even
 SoundAF:        incbin  Data\Audio\Sound\soundAF.bin
-                even
+				even
 SoundB0:        incbin  Data\Audio\Sound\soundB0.bin
-                even
+				even
 SoundB1:        incbin  Data\Audio\Sound\soundB1.bin
-                even
+				even
 SoundB2:        incbin  Data\Audio\Sound\soundB2.bin
-                even
+				even
 SoundB3:        incbin  Data\Audio\Sound\soundB3.bin
-                even
+				even
 SoundB4:        incbin  Data\Audio\Sound\soundB4.bin
-                even
+				even
 SoundB5:        incbin  Data\Audio\Sound\soundB5.bin
-                even
+				even
 SoundB6:        incbin  Data\Audio\Sound\soundB6.bin
-                even
+				even
 SoundB7:        incbin  Data\Audio\Sound\soundB7.bin
-                even
+				even
 SoundB8:        incbin  Data\Audio\Sound\soundB8.bin
-                even
+				even
 SoundB9:        incbin  Data\Audio\Sound\soundB9.bin
-                even
+				even
 SoundBA:        incbin  Data\Audio\Sound\soundBA.bin
-                even
+				even
 SoundBB:        incbin  Data\Audio\Sound\soundBB.bin
-                even
+				even
 SoundBC:        incbin  Data\Audio\Sound\soundBC.bin
-                even
+				even
 SoundBD:        incbin  Data\Audio\Sound\soundBD.bin
-                even
+				even
 SoundBE:        incbin  Data\Audio\Sound\soundBE.bin
-                even
+				even
 SoundBF:        incbin  Data\Audio\Sound\soundBF.bin
-                even
+				even
 SoundC0:        incbin  Data\Audio\Sound\soundC0.bin
-                even
+				even
 SoundC1:        incbin  Data\Audio\Sound\soundC1.bin
-                even
+				even
 SoundC2:        incbin  Data\Audio\Sound\soundC2.bin
-                even
+				even
 SoundC3:        incbin  Data\Audio\Sound\soundC3.bin
-                even
+				even
 SoundC4:        incbin  Data\Audio\Sound\soundC4.bin
-                even
+				even
 SoundC5:        incbin  Data\Audio\Sound\soundC5.bin
-                even
+				even
 SoundC6:        incbin  Data\Audio\Sound\soundC6.bin
-                even
+				even
 SoundC7:        incbin  Data\Audio\Sound\soundC7.bin
-                even
+				even
 SoundC8:        incbin  Data\Audio\Sound\soundC8.bin
-                even
+				even
 SoundC9:        incbin  Data\Audio\Sound\soundC9.bin
-                even
+				even
 SoundCA:        incbin  Data\Audio\Sound\soundCA.bin
-                even
+				even
 SoundCB:        incbin  Data\Audio\Sound\soundCB.bin
-                even
+				even
 SoundCC:        incbin  Data\Audio\Sound\soundCC.bin
-                even
+				even
 SoundCD:        incbin  Data\Audio\Sound\soundCD.bin
-                even
+				even
 SoundCE:        incbin  Data\Audio\Sound\soundCE.bin
-                even
+				even
 SoundCF:        incbin  Data\Audio\Sound\soundCF.bin
-                even
+				even
 SoundD0:        incbin  Data\Audio\Sound\soundD0.bin
-                even
+				even
 SoundD1:        incbin  Data\Audio\Sound\soundD1.bin
-                even
+				even
 SoundD2:        incbin  Data\Audio\Sound\soundD2.bin
-                even
+				even
 SoundD3:        incbin  Data\Audio\Sound\soundD3.bin
-                even
+				even
 SoundD4:        dc.w @0-SoundD4,$0101
-                dc.w $8005,@1-SoundD4,$0004
+				dc.w $8005,@1-SoundD4,$0004
 @1:             dc.b $EF,$00,$B0,$06,$80,$06,$B0,$18,$F2
 @0:             dc.b $38,$00,$00,$00,$00,$1F,$1F,$1F,$1F,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$0F,$0F,$0F,$0F,$1F,$17,$0C,$00        ; 17-0C swapped
+				dc.b $00,$00,$00,$00,$00,$0F,$0F,$0F,$0F,$1F,$17,$0C,$00        ; 17-0C swapped
 SoundD5:        incbin  Data\Audio\Sound\soundD5.bin
-                even
+				even
 SoundD6:        incbin  Data\Audio\Sound\soundD6.bin
-                even
+				even
 SoundD7:        incbin  Data\Audio\Sound\soundD7.bin
-                even
+				even
 SoundD8:        incbin  Data\Audio\Sound\soundD8.bin
-                even
+				even
 
 ; Music
 mus_ghz: equ		$81
@@ -351,24 +346,17 @@ mus_syz: equ		$84
 mus_slz: equ		$85
 mus_sbz: equ		$86
 mus_invincibility: equ	$87
-mus_unused: equ	$88 ; unused slot for now
-mus_ss: equ		$89
-mus_title: equ		$8A
-mus_ending: equ		$8B
-mus_boss: equ		$8C
-mus_fz: equ		$8D
-mus_zone7pre: equ	$96
-mus_zone7: equ	$97 
+mus_title: equ		$89
+mus_boss: equ		$8A
+mus_fz: equ		$8E
+mus_zone7pre: equ	$8E
+mus_zone7: equ	$8F
 
-mus_gotthroughact: equ	$8E
-mus_gameover: equ	$8F
-mus_continue: 	equ	$90
-mus_credits: 	equ	$91
-mus_drowning: 	equ	$92
-mus_emerald: 	equ	$93
+mus_drowning: equ	$91
+mus_gameover: equ	$88
 
-mus_model: equ		$94
-mus_retro: equ		$95
+mus_model: equ		$8D
+mus_retro: equ		$90
 
 ; Control
 mus_fadeout: equ	$E4 ; the stupidest fix ever

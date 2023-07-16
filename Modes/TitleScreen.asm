@@ -373,13 +373,7 @@ LevSel_Ending:
 		move.b	#id_Ending,(v_gamemode).w ; set screen mode to $18 (Ending)
 		move.w	#(id_EndZ<<8),(v_zone).w ; set level to 0600 (Ending)
 		rts
-; ===========================================================================
-
-LevSel_Credits:
-		move.b	#id_Credits,(v_gamemode).w ; set screen mode to $1C (Credits)
-		music	mus_Credits	; play credits music
-		move.w	#0,(v_creditsnum).w
-		rts
+		
 ; ===========================================================================
 
 LevSel_Level_SS:

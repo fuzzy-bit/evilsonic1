@@ -518,7 +518,6 @@ Obj09_GetEmer:
 		addq.b	#1,(v_emeralds).w ; add 1 to number of emeralds
 
 Obj09_NoEmer:
-		music	mus_Emerald	; play emerald music
 		moveq	#0,d4
 		rts	
 ; ===========================================================================
