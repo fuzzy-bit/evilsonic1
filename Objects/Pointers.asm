@@ -6,7 +6,7 @@ ptr_Splatter:			dc.l Splatter
 ptr_MKBlood:			dc.l MKBlood
 ptr_SegaLetter:			dc.l SegaLetter
 ptr_Mogeko:				dc.l Mogeko
-ptr_Obj06:				dc.l NullObject
+ptr_SonicDeath:			dc.l SonicDeath
 ptr_Obj07:				dc.l NullObject
 ptr_Splash:				dc.l Splash		; $08
 ptr_SonicSpecial:		dc.l SonicSpecial
@@ -151,7 +151,7 @@ id_Splatter:			equ ((ptr_Splatter-Obj_Index)/4)+1
 id_MKBlood:				equ ((ptr_MKBlood-Obj_Index)/4)+1
 id_SegaLetter:			equ ((ptr_SegaLetter-Obj_Index)/4)+1
 id_Mogeko:				equ ((ptr_Mogeko-Obj_Index)/4)+1
-id_Obj06:				equ ((ptr_Obj06-Obj_Index)/4)+1
+id_SonicDeath:			equ ((ptr_SonicDeath-Obj_Index)/4)+1
 id_Obj07:				equ ((ptr_Obj07-Obj_Index)/4)+1
 id_Splash:				equ ((ptr_Splash-Obj_Index)/4)+1		; $08
 id_SonicSpecial:		equ ((ptr_SonicSpecial-Obj_Index)/4)+1

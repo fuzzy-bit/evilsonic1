@@ -1942,6 +1942,7 @@ AddPoints:
 ; End of function AddPoints
 
 		include	"Includes\HUD_Update.asm"
+		include "Objects\Effects\SonicDeath.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	load countdown numbers on the continue screen

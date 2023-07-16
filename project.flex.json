@@ -180,7 +180,7 @@
         },
         {
             "uuid": "5e2c2e22-e61f-4552-ba41-d5dff016ade5",
-            "format": "Sonic 3&K Sonic.js",
+            "format": "Sonic 3&K Player.js",
             "name": "Sonic",
             "palettes": [
                 {
@@ -200,7 +200,7 @@
             "dplcs": {
                 "enabled": true,
                 "path": "Data/DPLCs/Sonic.asm",
-                "label": ""
+                "label": "PLC_Sonic"
             },
             "expanded": true
         },
@@ -215,18 +215,18 @@
                 }
             ],
             "art": {
-                "path": "",
+                "path": "Data\\Art\\Uncompressed\\Sonic Death.bin",
                 "compression": "Uncompressed",
                 "offset": 0
             },
             "mappings": {
-                "path": "",
-                "label": ""
+                "path": "Data\\Mappings\\Objects\\Sonic Death.asm",
+                "label": "Map_SonicDeath"
             },
             "dplcs": {
-                "enabled": false,
-                "path": "",
-                "label": ""
+                "enabled": true,
+                "path": "Data\\DPLCs\\Sonic Death.asm",
+                "label": "PLC_SonicDeath"
             }
         },
         {

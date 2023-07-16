@@ -98,21 +98,21 @@ M_Card_Act2:	dc.w 0			; ACT 2
 M_Card_Act3:	dc.w 0			; ACT 3
 		;dc.b 4,	$C, 0, $0, $FF, $EC
 		;dc.b $F4, 6, 0,	$D, $00, 8
-M_Card_Oval:	dc.w $D			; Oval
-		dc.b $E4, $C, 0, $1D, $FF, $F4
-		dc.b $E4, 2, 0,	$21, $00, $14
-		dc.b $EC, 4, 0,	$24, $FF, $EC 
-		dc.b $F4, 5, 0,	$26, $FF, $E4	
-		dc.b $14, $C, $18, $1D,	$FF, $EC
-		dc.b 4,	2, $18,	$21, $FF, $E4
-		dc.b $C, 4, $18, $24, $00, 4	
-		dc.b $FC, 5, $18, $26, $00, $C	
-		dc.b $EC, 8, 0,	$2A, $FF, $FC
-		dc.b $F4, $C, 0, $29, $FF, $F4
-		dc.b $FC, 8, 0,	$29, $FF, $F4
-		dc.b 4,	$C, 0, $29, $FF, $EC
-		dc.b $C, 8, 0, $29, $FF, $EC
-		even
+M_Card_Oval:	dc.w $0			; Oval
+		; dc.b $E4, $C, 0, $1D, $FF, $F4
+		; dc.b $E4, 2, 0,	$21, $00, $14
+		; dc.b $EC, 4, 0,	$24, $FF, $EC 
+		; dc.b $F4, 5, 0,	$26, $FF, $E4	
+		; dc.b $14, $C, $18, $1D,	$FF, $EC
+		; dc.b 4,	2, $18,	$21, $FF, $E4
+		; dc.b $C, 4, $18, $24, $00, 4	
+		; dc.b $FC, 5, $18, $26, $00, $C	
+		; dc.b $EC, 8, 0,	$2A, $FF, $FC
+		; dc.b $F4, $C, 0, $29, $FF, $F4
+		; dc.b $FC, 8, 0,	$29, $FF, $F4
+		; dc.b 4,	$C, 0, $29, $FF, $EC
+		; dc.b $C, 8, 0, $29, $FF, $EC
+		; even
 M_Card_FZ:	dc.w 5			; FINAL
 		dc.b $F8, 5, 0,	$14, $FF, $DC
 		dc.b $F8, 1, 0,	$20, $FF, $EC

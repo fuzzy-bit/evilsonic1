@@ -238,12 +238,8 @@ locret_13860:
 
 Sonic_Death:	; Routine 6
 		bsr.w	GameOver
-		jsr	(ObjectFall).l
 		jsr (DeformLayers).l
 		bsr.w	Sonic_RecordPosition
-		bsr.w	Sonic_Animate
-		bsr.w	Sonic_LoadGfx
-		jmp	(DisplaySprite).l
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 

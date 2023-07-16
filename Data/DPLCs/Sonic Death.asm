@@ -1,0 +1,46 @@
+PLC_SonicDeath:
+PLC_SonicDeath_0: 	dc.w PLC_SonicDeath_18-PLC_SonicDeath
+PLC_SonicDeath_2: 	dc.w PLC_SonicDeath_1D-PLC_SonicDeath
+PLC_SonicDeath_4: 	dc.w PLC_SonicDeath_20-PLC_SonicDeath
+PLC_SonicDeath_6: 	dc.w PLC_SonicDeath_25-PLC_SonicDeath
+PLC_SonicDeath_8: 	dc.w PLC_SonicDeath_2A-PLC_SonicDeath
+PLC_SonicDeath_A: 	dc.w PLC_SonicDeath_2D-PLC_SonicDeath
+PLC_SonicDeath_C: 	dc.w PLC_SonicDeath_30-PLC_SonicDeath
+PLC_SonicDeath_E: 	dc.w PLC_SonicDeath_35-PLC_SonicDeath
+PLC_SonicDeath_10: 	dc.w PLC_SonicDeath_3A-PLC_SonicDeath
+PLC_SonicDeath_12: 	dc.w PLC_SonicDeath_3F-PLC_SonicDeath
+PLC_SonicDeath_14: 	dc.w PLC_SonicDeath_44-PLC_SonicDeath
+PLC_SonicDeath_16: 	dc.w PLC_SonicDeath_49-PLC_SonicDeath
+PLC_SonicDeath_18: 	dc.b $2
+	dc.b $F0, $0
+	dc.b $0, $10
+PLC_SonicDeath_1D: 	dc.b $1
+	dc.b $D0, $11
+PLC_SonicDeath_20: 	dc.b $2
+	dc.b $F0, $1F
+	dc.b $0, $2F
+PLC_SonicDeath_25: 	dc.b $2
+	dc.b $F0, $30
+	dc.b $10, $40
+PLC_SonicDeath_2A: 	dc.b $1
+	dc.b $E0, $42
+PLC_SonicDeath_2D: 	dc.b $1
+	dc.b $A0, $51
+PLC_SonicDeath_30: 	dc.b $2
+	dc.b $F0, $5C
+	dc.b $0, $6C
+PLC_SonicDeath_35: 	dc.b $2
+	dc.b $F0, $6D
+	dc.b $20, $7D
+PLC_SonicDeath_3A: 	dc.b $2
+	dc.b $F0, $80
+	dc.b $20, $90
+PLC_SonicDeath_3F: 	dc.b $2
+	dc.b $F0, $93
+	dc.b $10, $A3
+PLC_SonicDeath_44: 	dc.b $2
+	dc.b $F0, $A5
+	dc.b $10, $B5
+PLC_SonicDeath_49: 	dc.b $1
+	dc.b $E0, $B7
+	even

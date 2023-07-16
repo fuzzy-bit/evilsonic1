@@ -327,7 +327,7 @@ KillSonic:
 		Instance.new Splatter, a1
 		move.w 	a2,	$30(a1) ; ParentObj
 
-		Instance.new Missile, a1
+		Instance.new SonicDeath, a1
 		move.b 	obX(a0), obX(a1)
 		move.b 	obY(a0), obY(a1)
 
