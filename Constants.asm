@@ -38,8 +38,8 @@ vram_hscroll:	equ $FC00	; horizontal scroll table
 
 ; Game modes
 id_Sega:	equ ptr_GM_Sega-GameModeArray	; $00
-id_Retro:	equ ptr_GM_Menu-GameModeArray	; $04
-id_Title:	equ ptr_GM_Title-GameModeArray	; $08
+id_Title:	equ ptr_GM_Title-GameModeArray	; $04
+id_Menu:	equ ptr_GM_Menu-GameModeArray	; $08
 id_Demo:	equ ptr_GM_Demo-GameModeArray	; $0C
 id_Level:	equ ptr_GM_Level-GameModeArray	; $10
 id_Special:	equ ptr_GM_Special-GameModeArray; $14
@@ -128,6 +128,9 @@ f_spindash:	equ $39
 
 ; Object variables used by objects with DPLC support (Sonic, Spin Dust)
 obDPLCFrame:	equ	$3A
+
+; Object variables used by "DynamicObject"
+obCodePtr:	equ	$3C	; code pointer (4 bytes)
 
 ; Object variables (Sonic 2 disassembly nomenclature)
 render_flags:	equ 1	; bitfield for x/y flip, display mode

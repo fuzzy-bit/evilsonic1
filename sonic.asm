@@ -1757,6 +1757,8 @@ BossMove:
 		include	"Data\Animations\Eggman.asm"
 Map_Eggman:	include	"Data\Mappings\Objects\Eggman.asm"
 Map_BossItems:	include	"Data\Mappings\Objects\Boss Items.asm"
+		
+		include	"Data\Mappings\Sprites\Menu Items.asm"
 
 		include	"Objects\Bosses\Labyrinth\Main.asm"
 		
@@ -1943,6 +1945,7 @@ AddPoints:
 
 		include	"Includes\HUD_Update.asm"
 		include "Objects\Effects\SonicDeath.asm"
+		include	"Objects\DynamicObject.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	load countdown numbers on the continue screen
@@ -2328,6 +2331,10 @@ Nem_Lamp:	incbin	"Data\Art\Nemesis\Lamppost.bin"
 Nem_BigFlash:	incbin	"Data\Art\Nemesis\Giant Ring Flash.bin"
 		even
 Nem_Bonus:	incbin	"Data\Art\Nemesis\Hidden Bonuses.bin" ; hidden bonuses at end of a level
+		even
+Kos_MenuFont:	incbin	"Data\Art\Kosinski\Menu Font.bin"	; SWA menu font
+		even
+Kos_MenuBG:	incbin	"Data\Art\Kosinski\Menu Background.bin"	; manu background
 		even
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - continue screen

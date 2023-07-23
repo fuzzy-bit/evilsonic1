@@ -1,7 +1,6 @@
-Menu:
 
 ; ===============================================================
-; SONIC WINTER ADVENTURES LOGO
+; TOTALLY *NOT* SONIC WINTER ADVENTURES MENU
 ; ===============================================================
 
 ; ---------------------------------------------------------------
@@ -11,17 +10,10 @@ Menu:
 _Nametbl_PlaneA = $C000 ;
 _Nametbl_PlaneB = $E000 ;
 
-_VRAM_LogoBG	= $20
-_VRAM_LogoBG_Pat = (_VRAM_LogoBG/$20) 
+_VRAM_MenuBG = $20
+_VRAM_MenuBG_Pat = (_VRAM_MenuBG/$20)
 _VRAM_MenuFont	= $2000
 _VRAM_MenuFont_Pat = (_VRAM_MenuFont/$20)
-_VRAM_Logo	= $8000
-_VRAM_Logo_Pat	= (_VRAM_Logo/$20)
-_VRAM_PSB	= $A000
-_VRAM_PSB_Pat	= (_VRAM_PSB/$20)
-
-Logo_BGTiles	= $FF0000			;		uncompressed logo bg tiles
-Logo_BGMap	= $FFFF8000			;		uncompressed logo bg mappings
 
 Logo_MenuID	= $FFFFA004			; b		Currently selected menu
 Logo_MenuItemID = $FFFFA005			; b		Currently selected menu item
@@ -36,7 +28,7 @@ Logo_TargetPos	= $FFFFA00A			; w		Logo Target position
 ; Init Screen Mode
 ; ---------------------------------------------------------------
 
-Logo:
+Menu:
 	command	mus_fadeout
 
 	jsr	PaletteFadeOut
@@ -65,7 +57,7 @@ Logo:
 	dbf	d0, @clr
 
 	; Load palette ($40 bytes)
-	lea	Palette+$80,a0
+	lea	v_pal_dry_dup,a0
 	lea	LogoMain_Palette,a1
 	lea	-$80(a0),a2
 	moveq	#5,d0
@@ -81,13 +73,20 @@ Logo:
 	jsr	KosDec
 	writeVRAM $FF0000, $1380, _VRAM_MenuFont
 
+	lea	Kos_MenuBg,a0			; Menu background
+	lea	$FF0000,a1
+	jsr	KosDec
+	writeVRAM $FF0000, $100, _VRAM_MenuBG
+
 	music	mus_title
 
-	; Setup screen vars
-	moveq	#0, d0
-	move.w	d0, $FFFFF616
-	move.w	d0, LevelTimer
-	move.w	d0, CamXPos
+	; Setup screen
+	jsr	Menu_GenerateBG
+	jsr	Menu_InitScrolling
+
+	move.w	(v_vdp_buffer1).w, d0
+	ori.b	#$40, d0				; enable display
+	move.w	d0, (vdp_control_port).l
 
 	; Prepare screen to show up
 	jsr	PaletteFadeIn
@@ -105,6 +104,24 @@ Logo:
 	move.b	d0, Logo_MenuAnim_In
 	jsr	LogoMain_LoadMenu
 
+; ===============================================================
+; ---------------------------------------------------------------
+; Menu appearence loop
+; ---------------------------------------------------------------
+
+LogoMain_MenuAppearLoop:
+	move.b	#2, (v_vbla_routine).w 	; demo time routine
+	jsr	WaitForVBla
+
+	; Run menu objects
+	jsr	ExecuteObjects
+	jsr	BuildSprites
+	jsr	Menu_UpdateScrolling
+
+	; Check if menu items appearence animation is done
+	tst.b	Logo_MenuStatus
+	bne	LogoMain_MenuAppearLoop
+
 ; ---------------------------------------------------------------
 ; Menu controls loop
 ; ---------------------------------------------------------------
@@ -113,11 +130,10 @@ LogoMain_MenuControlLoop:
 	move.b	#2, (v_vbla_routine).w 	; demo time routine
 	jsr	WaitForVBla
 
-	jsr	LogoMain_BGParalax
-
 	; Run menu objects
-	jsr	ObjectsLoad
+	jsr	ExecuteObjects
 	jsr	BuildSprites
+	jsr	Menu_UpdateScrolling
 	jsr	LogoMain_ControlMenu
 	beq	LogoMain_MenuControlLoop 	; if nothing was selected, branch
 
@@ -135,11 +151,12 @@ LogoMain_MenuHide:
 	move.b	d0,Logo_MenuStatus
 
 LogoMain_MenuHideLoop:
-	jsr	WaitVSync
-	addq.w	#2,CamXPos			; scroll bg
-	jsr	LogoMain_BGParalax
-	jsr	ObjectsLoad
+	move.b	#2, (v_vbla_routine).w
+	jsr	WaitForVBla
+
+	jsr	ExecuteObjects
 	jsr	BuildSprites
+	jsr	Menu_UpdateScrolling
 	tst.b	Logo_MenuStatus			; has all items been done?
 	bne.s	LogoMain_MenuHideLoop		; if not, branch
 	
@@ -153,34 +170,23 @@ LogoMain_MenuHideLoop:
 LogoMain_MenuHide2:
 	sfx	sfx_ringright
 
-	move.b	Logo_MenuSize,d0
+	move.b	Logo_MenuSize, d0
 	neg.b	d0
-	move.b	d0,Logo_MenuStatus
-	move.w	#8,Logo_PSBTimer
-	move.b	#$3F,PalEngine_FadeLen
+	move.b	d0, Logo_MenuStatus
 
 LogoMain_MenuHideLoop2:
-	jsr	WaitVSync
-	addq.w	#2,CamXPos				; scroll bg
-	jsr	LogoMain_BGParalax
-	jsr	ObjectsLoad
+	move.b	#2, (v_vbla_routine).w
+	jsr	WaitForVBla
+
+	jsr	ExecuteObjects
 	jsr	BuildSprites
+	jsr	Menu_UpdateScrolling
 	
 	cmpi.w	#-30,d0
-	bne.s	@0
-	moveq	#$FFFFFFE0,d0
-	jsr	PlaySound_Special
+	bne.s	LogoMain_MenuHideLoop2
+
+	command	mus_fadeout
 	bra	LogoMain_MenuHideLoop2
-
-@0	cmpi.w	#-180,d0
-	beq.s	@Quit
-
-	; Fade out BG
-	btst	#0,d0
-	bne	LogoMain_MenuHideLoop2
-	lea	Palette,a0
-	jsr	Pal_SingleFadeFrom
-	bra.s	LogoMain_MenuHideLoop2
 
 @Quit:	move.w	#$8C81, vdp_control_port			; turn off SH
 	rts
@@ -194,6 +200,82 @@ LogoMain_MenuHideLoop2:
 
 
 
+; ===============================================================
+; ---------------------------------------------------------------
+; Subroutine to load a menu
+; ---------------------------------------------------------------
+
+Menu_GenerateBG:
+	lea	vdp_control_port,a6
+	lea	-4(a6),a5		; vdp_data_port
+
+	lea	@BG_Data,a0
+	move.l	(a0)+,(a6)		; d0 = VRAM addr
+	move.l	(a0)+,d1		; d1 = pattern base (doubled)
+	move.l	(a0)+,d2		; d2 = row factor
+	moveq	#4,d7			; d7 = blocks row switcher
+
+	move.w	#7,d6			; d6 = number of 64px block rows
+
+@DrawRowOfBlocks:
+	moveq	#3,d5			; d5 = number rows in block
+
+@DrawRow:
+	moveq	#7,d4			; d4 = number of block pairs in row
+
+@DrawBlocksInRow:
+	jsr	@BlocksTbl(pc,d7.w)
+	jsr	@BlocksTbl+2(pc,d7.w)
+	dbf	d4,@DrawBlocksInRow
+
+	dbf	d5,@DrawRow
+
+	swap	d7			; swap blocks
+	dbf	d6,@DrawRowOfBlocks
+	rts
+
+; ---------------------------------------------------------------
+@BlocksTbl:
+	bra.s	@Block1_Flip	; $00
+	bra.s	@Block0		; $02
+	bra.s	@Block0		; $04
+	bra.s	@Block1_Normal	; $06
+
+; ---------------------------------------------------------------
+@Block0:
+	move.l	d1,(a5)
+	move.l	d1,(a5)
+	rts
+
+; ---------------------------------------------------------------
+@Block1_Flip:
+	move.w	d5,d3
+	addq.w	#4,d3
+	bra.s	@B1_0
+
+@Block1_Normal:
+	move.w	d5,d3
+@B1_0	lsl.w	#3,d3
+	lea	(a0,d3.w),a1
+	move.l	(a1)+,(a5)
+	move.l	(a1)+,(a5)
+	rts
+
+; ---------------------------------------------------------------
+@BG_Data:
+	dcvram	_Nametbl_PlaneB			; VRAM base addr
+	dc.l	(_VRAM_MenuBG_Pat)<<16|(_VRAM_MenuBG_Pat)	; pattern base (dobled)
+	dc.l	$80<<16				; row factor
+
+	dc.w	_VRAM_MenuBG_Pat+1, _VRAM_MenuBG_Pat+1, _VRAM_MenuBG_Pat+1, _VRAM_MenuBG_Pat+1	; Block 1 map (normal)
+	dc.w	_VRAM_MenuBG_Pat+5, _VRAM_MenuBG_Pat+6, _VRAM_MenuBG_Pat+7, _VRAM_MenuBG_Pat+1
+	dc.w	_VRAM_MenuBG_Pat+1, _VRAM_MenuBG_Pat+3, _VRAM_MenuBG_Pat+4, _VRAM_MenuBG_Pat+1
+	dc.w    _VRAM_MenuBG_Pat+1, _VRAM_MenuBG_Pat+1, _VRAM_MenuBG_Pat+2, _VRAM_MenuBG_Pat+1
+
+	dc.w	(_VRAM_MenuBG_Pat+1)|(1<<11), (_VRAM_MenuBG_Pat+1)|(1<<11), (_VRAM_MenuBG_Pat+1)|(1<<11), (_VRAM_MenuBG_Pat+1)|(1<<11)	; Block 1 map (flip)
+	dc.w	(_VRAM_MenuBG_Pat+1)|(1<<11), (_VRAM_MenuBG_Pat+7)|(1<<11), (_VRAM_MenuBG_Pat+6)|(1<<11), (_VRAM_MenuBG_Pat+5)|(1<<11)
+	dc.w	(_VRAM_MenuBG_Pat+1)|(1<<11), (_VRAM_MenuBG_Pat+4)|(1<<11), (_VRAM_MenuBG_Pat+3)|(1<<11), (_VRAM_MenuBG_Pat+1)|(1<<11)
+	dc.w    (_VRAM_MenuBG_Pat+1)|(1<<11), (_VRAM_MenuBG_Pat+2)|(1<<11), (_VRAM_MenuBG_Pat+1)|(1<<11), (_VRAM_MenuBG_Pat+1)|(1<<11)
 
 
 
@@ -201,9 +283,8 @@ LogoMain_MenuHideLoop2:
 ; ---------------------------------------------------------------
 ; Subroutine to load a menu
 ; ---------------------------------------------------------------
-				
-ypos = $A
-index = $1F
+
+obMenuItemIndex = $1F
 
 LogoMain_LoadMenu:
 	moveq	#0,d0
@@ -221,18 +302,19 @@ LogoMain_LoadMenu:
 	subq.w	#1,d0				; d0 = Number of elements
 
 	lea	v_player,a0
-	moveq	#$FFFFFF8F,d1
-	move.l	#Obj_MenuItem,d2
+	moveq	#id_ObjDynamic, d1
+	move.l	#Obj_MenuItem, d2
 
-@CreateItem:
-	move.b	d1,(a0)
-	move.l	d2,obj(a0)			; code offset
-	move.b	(a1)+,index(a0)
-	move.b	(a1)+,frame(a0)
-	add.b	d3,frame(a0)
-	move.w	(a1)+,ypos(a0)
-	lea	$40(a0),a0			; next object
-	dbf	d0,@CreateItem
+	@CreateItem:
+		move.b	d1, (a0)
+		move.l	d2, obCodePtr(a0)		; code pointer
+		move.b	(a1)+, obMenuItemIndex(a0)
+		move.b	(a1)+, obFrame(a0)
+		add.b	d3, obFrame(a0)
+		move.w	(a1)+, obScreenY(a0)
+		lea	$40(a0), a0			; next object
+		dbf	d0,@CreateItem
+
 	rts
 
 ; ===============================================================
@@ -241,11 +323,11 @@ LogoMain_LoadMenu:
 ; ---------------------------------------------------------------
 
 LogoMain_ControlMenu:
-	move.b	v_jpadpress2,d3
-	move.b	Logo_MenuItemID,d1
-	move.b	Logo_MenuSize,d2
+	move.b	v_jpadpress1, d3
+	move.b	Logo_MenuItemID, d1
+	move.b	Logo_MenuSize, d2
 
-	btst	#bitDn,d3			; Down pressed?
+	btst	#bitDn, d3			; Down pressed?
 	beq.s	@ChkUp				; if not, branch
 	addq.b	#1,d1
 	cmp.b	d2,d1
@@ -253,20 +335,20 @@ LogoMain_ControlMenu:
 	moveq	#0,d1
 	bra.s	@SetNewItem
 
-@ChkUp	btst	#iUp,d3				; Up pressed?
+@ChkUp	btst	#bitUp, d3			; Up pressed?
 	beq.s	@ChkSelect			; if not, branch
 	subq.b	#1,d1
 	bpl.s	@SetNewItem		 
-	subq.b	#1,d2				; d2 = max item index
+	subq.b	#1,d2				; d2 = max item obMenuItemIndex
 	move.b	d2,d1
 
 @SetNewItem:
-	move.b	d1,Logo_MenuItemID
+	move.b	d1, Logo_MenuItemID
 
 	sfx	sfx_ringright	
 
 @ChkSelect:
-	andi.b	#btnABC+btnStart,d3		; A/B/C/Start pressed?
+	andi.b	#btnABC+btnStart, d3		; A/B/C/Start pressed?
 	rts
 
 ; ===============================================================
@@ -427,70 +509,51 @@ SRAMChoice_Cmd:
 ; ---------------------------------------------------------------
 
 Hwnd_MainMenu_Play:
-	clr.b	$FFFFFE30			; clear lamp post counter
-	clr.b	LevelMission			; clear mission
-	move.b	#3,$FFFFFE12			; set lives counter to 3
-
-	moveq	#$08,d0				; --> Level Select
-;	tst.b	GameCompleteFlag		; was the game completed?
-;	bne.s	@0				; if yes, branch
-;	moveq	#$0C,d0				; --> Level
-;	move.w	#$0000,CurrentLevel		; --> GHZ 1
-
-	move.b	d0, GameMode
-	move.b	#$04, GameMode
-	rts
+	illegal
 
 ; ---------------------------------------------------------------
 Hwnd_MainMenu_Challenges:
-	move.b	#$14, GameMode
-	rts
+	illegal
 
 ; ---------------------------------------------------------------
 Hwnd_MainMenu_Options:
-	move.b	#$02, Logo_MenuID
-	rts
-
-; ---------------------------------------------------------------
-Hwnd_Locked:
-	moveq	#$FFFFFFD4,d0			; play locked sounda
-	jmp	PlaySound
-
-; ---------------------------------------------------------------
-Hwnd_Options_Lang:
-	rts
-
-; ---------------------------------------------------------------
-Hwnd_Options_ClearSRAM:
-	lea	v_player+$40,a0			; get DeleteProgress object
-	move.l	#MenuItem_Hide_MarkGone,obj(a0) ; delete it...
-	move.l	#Obj_SRAMChoice_Title,d1
-	jsr	FindNextFreeObj			; create object as (A0) child
-	move.w	$A(a0),$A(a1)			; fix ypos
-	move.b	frame(a0),frame(a1)
-	move.b	#$03,Logo_MenuID		; change menus
-	rts
-
-Hwnd_SRAMChoice_Yes:
-	move.b	#$00,GameMode
-	jmp	SRAM_SetDefaults
-	
-Hwnd_SRAMChoice_No:
 	move.b	#$02,Logo_MenuID
 	rts
 
 ; ---------------------------------------------------------------
-Hwnd_Options_SoundTest:
-	move.b	#$18,GameMode
+Hwnd_Locked:
+	illegal
+
+; ---------------------------------------------------------------
+Hwnd_Options_Lang:
+	illegal
+
+; ---------------------------------------------------------------
+Hwnd_Options_ClearSRAM:
+	lea	v_player+$40, a0			; get DeleteProgress object
+	move.l	#MenuItem_Hide_MarkGone, obCodePtr(a0) ; delete it...
+	jsr	FindNextFreeObj			; create object as (A0) child
+	move.b	#id_ObjDynamic, (a1)
+	move.l	#Obj_SRAMChoice_Title, obCodePtr(a1)
+	move.w	obScreenY(a0),obScreenY(a1)
+	move.b	obFrame(a0),obFrame(a1)
+	move.b	#$03, Logo_MenuID		; change menus
+	rts
+
+Hwnd_SRAMChoice_Yes:
+	illegal
+	
+Hwnd_SRAMChoice_No:
+	move.b	#$02, Logo_MenuID
 	rts
 
 ; ---------------------------------------------------------------
+Hwnd_Options_SoundTest:
+	illegal
+
+; ---------------------------------------------------------------
 Hwnd_Options_Back:
-	moveq	#$00,d1				; Missions locked
-	tst.b	GameCompleteFlag
-	bne.s	@0
-	moveq	#$01,d1				; Missions unlocked
-@0	move.b	d1,Logo_MenuID
+	move.b	#$00, Logo_MenuID
 	rts
 
 
@@ -499,6 +562,40 @@ Hwnd_Options_Back:
 
 
 
+
+; ===============================================================
+; ---------------------------------------------------------------
+; Scrolling routines
+; ---------------------------------------------------------------
+
+Menu_InitScrolling:
+	moveq	#0, d0
+	move.w	d0, v_scrposy_dup
+	move.w	d0, v_screenposx
+	rts
+
+; ---------------------------------------------------------------
+Menu_UpdateScrolling:
+	addq.w	#1, v_bgscreenposx
+	addq.w	#1, v_bgscreenposy
+
+	; Update VScroll
+	move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
+
+	; Update HScroll
+	lea	v_hscrolltablebuffer, a0
+	move.w	#224-1, d1
+	moveq	#0, d0
+	move.w	v_bgscreenposx, d0
+	neg.w	d0
+
+	@loop:
+		move.l	d0, (a0)+
+		dbf	d1, @loop
+
+	rts
+
+; ===============================================================
 
 
 
@@ -513,13 +610,12 @@ Hwnd_Options_Back:
 ; Object: Menu Items
 ; ---------------------------------------------------------------
 
-xpos = 8
-ypos = $A
-index = $1F
-xpos2 = $30
-ypos2 = $34
-acc = $38
-timer = $3A
+; Custom variables
+obMenuItemIndex = $1F
+obX2 = $30
+obScreenY2 = $34
+obAcc = $38
+obTimer = $3A
 
 Obj_MenuItem:
 
@@ -528,8 +624,8 @@ Obj_MenuItem:
 	move.b	Logo_MenuAnim_In,d0
 	add.w	d0,d0
 	add.w	d0,d0
-	move.l	@AppearRoutines(pc,d0),obj(a0)
-	move.l	#ObjMap_MenuItems,maps(a0)
+	move.l	@AppearRoutines(pc,d0),obCodePtr(a0)
+	move.l	#ObjMap_MenuItems,obMap(a0)
 	rts
 	
 @AppearRoutines:
@@ -542,40 +638,40 @@ Obj_MenuItem:
 ; ---------------------------------------------------------------
 
 MenuItem_Appear_Bottom:
-	move.l	#@Appear_Process,obj(a0)
-	move.w	#$80+160,xpos(a0)
+	move.l	#@Appear_Process,obCodePtr(a0)
+	move.w	#$80+160,obX(a0)
 
 	; Setup entry position and speeds
 	moveq	#0,d0
-	move.b	index(a0),d0
-	add.w	d0,d0			; d0 = index*2
+	move.b	obMenuItemIndex(a0),d0
+	add.w	d0,d0			; d0 = obMenuItemIndex*2
 	move.w	d0,d1
-	add.w	d0,d0			; d0 = index*4
-	add.w	d1,d0			; d0 = index*6
-	lea		@Appear_Data(pc,d0),a1
-	move.w	ypos(a0),d0
+	add.w	d0,d0			; d0 = obMenuItemIndex*4
+	add.w	d1,d0			; d0 = obMenuItemIndex*6
+	lea	@Appear_Data(pc,d0),a1
+	move.w	obScreenY(a0),d0
 	add.w	(a1)+,d0
-	move.w	d0,ypos2(a0)
-	move.w	(a1)+,yvel(a0)
-	move.w	(a1)+,acc(a0)
+	move.w	d0,obScreenY2(a0)
+	move.w	(a1)+,obVelY(a0)
+	move.w	(a1)+,obAcc(a0)
 	rts
 
 ; ---------------------------------------------------------------
 @Appear_Process:
-	move.w	yvel(a0),d1
+	move.w	obVelY(a0),d1
 	bmi		MenuItem_Goto_ProcessNormal
 	move.w	d1,d0
 	ext.l	d0
 	lsl.l	#8,d0
-	sub.l	d0,ypos2(a0)
+	sub.l	d0,obScreenY2(a0)
 
-	sub.w	acc(a0),d1
-	move.w	d1,yvel(a0)
+	sub.w	obAcc(a0),d1
+	move.w	d1,obVelY(a0)
 
-	move.w	ypos2(a0),d0
-	move.w	d0,ypos(a0)
+	move.w	obScreenY2(a0),d0
+	move.w	d0,obScreenY(a0)
 	cmpi.w	#$80+240,d0
-	bls		MenuItem_Display
+	bls	MenuItem_Display
 	rts	   
 
 ; ---------------------------------------------------------------
@@ -590,25 +686,25 @@ MenuItem_Appear_Bottom:
 ; ---------------------------------------------------------------
 
 MenuItem_Appear_Right:
-	move.w	#-$2000,xvel(a0)
-	move.w	#$80+160+$100,xpos2(a0)
-	move.b	index(a0),d0
+	move.w	#-$2000,obVelX(a0)
+	move.w	#$80+160+$100,obX2(a0)
+	move.b	obMenuItemIndex(a0),d0
 	add.b	d0,d0
 	add.b	d0,d0
-	move.b	d0,timer(a0)
-	move.l	#@Appear_Wait,obj(a0)
+	move.b	d0,obTimer(a0)
+	move.l	#@Appear_Wait,obCodePtr(a0)
 
 @Appear_Wait:
-	subq.b	#1,timer(a0)
+	subq.b	#1,obTimer(a0)
 	bmi.s	@Appear_Process
 	rts
 
 @Appear_Process:
 	move.w	#$1E8,d1
-	bsr		MenuItem_MoveXAcc
-	tst.w	xvel(a0)
+	bsr	MenuItem_MoveXAcc
+	tst.w	obVelX(a0)
 	bmi.s	MenuItem_Display
-	move.l	#MenuItem_Appear_ChkPos,obj(a0)
+	move.l	#MenuItem_Appear_ChkPos,obCodePtr(a0)
 	bra.s	MenuItem_Appear_ChkPos
 
 ; ---------------------------------------------------------------
@@ -616,38 +712,38 @@ MenuItem_Appear_Right:
 ; ---------------------------------------------------------------
 
 MenuItem_Appear_Left:
-	move.w	#$2000,xvel(a0)
-	move.w	#$80+160-$100,xpos2(a0)
-	move.b	index(a0),d0
+	move.w	#$2000,obVelX(a0)
+	move.w	#$80+160-$100,obX2(a0)
+	move.b	obMenuItemIndex(a0),d0
 	add.b	d0,d0
 	add.b	d0,d0
-	move.b	d0,timer(a0)
-	move.l	#@Appear_Wait,obj(a0)
+	move.b	d0,obTimer(a0)
+	move.l	#@Appear_Wait,obCodePtr(a0)
 
 @Appear_Wait:
-	subq.b	#1,timer(a0)
+	subq.b	#1,obTimer(a0)
 	bmi.s	@Appear_Process
 	rts
 
 @Appear_Process:
 	move.w	#-$1E8,d1
-	bsr		MenuItem_MoveXAcc
-	tst.w	xvel(a0)
+	bsr	MenuItem_MoveXAcc
+	tst.w	obVelX(a0)
 	bpl.s	MenuItem_Display
-	move.l	#MenuItem_Appear_ChkPos,obj(a0)
+	move.l	#MenuItem_Appear_ChkPos,obCodePtr(a0)
 
 MenuItem_Appear_ChkPos:
 	moveq	#1,d0
-	cmpi.w	#$80+160,xpos(a0)
+	cmpi.w	#$80+160,obX(a0)
 	beq.s	MenuItem_Goto_ProcessNormal
 	bcs.s	@Move
 	moveq	#-1,d0
-@Move:	add.w	d0,xpos(a0)
+@Move:	add.w	d0,obX(a0)
 	bra.s	MenuItem_Display
 
 ; ---------------------------------------------------------------
 MenuItem_Goto_ProcessNormal:
-	move.l	#MenuItem_ProcessNormal,obj(a0)
+	move.l	#MenuItem_ProcessNormal,obCodePtr(a0)
 	subq.b	#1,Logo_MenuStatus
 
 ; ---------------------------------------------------------------
@@ -662,10 +758,10 @@ MenuItem_ProcessNormal:
 MenuItem_Display:
 	move.w	#$8000+_VRAM_MenuFont_Pat,d1
 	move.b	Logo_MenuItemID,d0
-	cmp.b	index(a0),d0			; is this item selected?
+	cmp.b	obMenuItemIndex(a0),d0			; is this item selected?
 	beq.s	@skip					; if yes, branch
-	addi.w	#_pal3,d1
-@skip	move.w	d1,art(a0)
+	addi.w	#$6000,d1
+@skip	move.w	d1,obGfx(a0)
 
 MenuItem_Display2:
 	jmp		DisplaySprite
@@ -679,7 +775,7 @@ MenuItem_Hide:
 	move.b	Logo_MenuAnim_Out,d0
 	add.w	d0,d0
 	add.w	d0,d0
-	move.l	@HideRoutines(pc,d0),obj(a0)
+	move.l	@HideRoutines(pc,d0),obCodePtr(a0)
 	bra.s	MenuItem_Display2
 	
 @HideRoutines:
@@ -692,27 +788,27 @@ MenuItem_Hide:
 ; ---------------------------------------------------------------
 
 MenuItem_Hide_Left:
-	move.w	#-$180,acc(a0)
+	move.w	#-$180,obAcc(a0)
 	
 MenuItem_Hide_Directional:
-	move.b	index(a0),d0
+	move.b	obMenuItemIndex(a0),d0
 	add.b	d0,d0
 	add.b	d0,d0
-	move.b	d0,timer(a0)
-	move.l	#@Hide_WaitTurn,obj(a0)
+	move.b	d0,obTimer(a0)
+	move.l	#@Hide_WaitTurn,obCodePtr(a0)
 
 ; ---------------------------------------------------------------
 @Hide_WaitTurn:
-	subq.b	#1,timer(a0)			; is it time to hide?
+	subq.b	#1,obTimer(a0)			; is it time to hide?
 	bpl.s	MenuItem_Display2		; if nop, branch
-	move.w	xpos(a0),xpos2(a0)
-	move.l	#@Hide_Process,obj(a0)
+	move.w	obX(a0),obX2(a0)
+	move.l	#@Hide_Process,obCodePtr(a0)
 
 ; ---------------------------------------------------------------
 @Hide_Process:
-	move.w	acc(a0),d1
+	move.w	obAcc(a0),d1
 	bsr.s	MenuItem_MoveXAcc
-	move.w	xpos(a0),d0
+	move.w	obX(a0),d0
 	lsl.w	#6,d0
 	bpl		MenuItem_Display2
 	bra.s	MenuItem_Hide_MarkGone
@@ -722,7 +818,7 @@ MenuItem_Hide_Directional:
 ; ---------------------------------------------------------------
 
 MenuItem_Hide_Right:
-	move.w	#$180,acc(a0)
+	move.w	#$180,obAcc(a0)
 	bra		MenuItem_Hide_Directional
 
 ; ---------------------------------------------------------------
@@ -731,199 +827,45 @@ MenuItem_Hide_Right:
 
 MenuItem_Hide_Bottom:
 	moveq	#$40/$20,d0
-	add.b	index(a0),d0
+	add.b	obMenuItemIndex(a0),d0
 	lsl.w	#5,d0					; d0 *= $20
-	move.w	d0,acc(a0)
-	move.w	ypos(a0),ypos2(a0)
-	clr.w	yvel(a0)
-	move.l	#@Hide_Process,obj(a0)
+	move.w	d0,obAcc(a0)
+	move.w	obScreenY(a0),obScreenY2(a0)
+	clr.w	obVelY(a0)
+	move.l	#@Hide_Process,obCodePtr(a0)
 	
 @Hide_Process:
-	move.w	yvel(a0),d1
+	move.w	obVelY(a0),d1
 	move.w	d1,d0
 	ext.l	d0
 	lsl.l	#8,d0
-	add.l	d0,ypos2(a0)
+	add.l	d0,obScreenY2(a0)
 
-	add.w	acc(a0),d1
-	move.w	d1,yvel(a0)
+	add.w	obAcc(a0),d1
+	move.w	d1,obVelY(a0)
 
-	move.w	ypos2(a0),d0
-	move.w	d0,ypos(a0)
+	move.w	obScreenY2(a0),d0
+	move.w	d0,obScreenY(a0)
 	cmpi.w	#$80+240,d0
-	bls		MenuItem_Display
+	bls	MenuItem_Display
 
 MenuItem_Hide_MarkGone:
 	addq.b	#1,Logo_MenuStatus		; mark obj as gone
-	jmp		DeleteObject
+	jmp	DeleteObject
 
 ; ---------------------------------------------------------------
 ; Subroutine to make item move with acceleration
 ; ---------------------------------------------------------------
 
 MenuItem_MoveXAcc:
-	move.w	xvel(a0),d0
+	move.w	obVelX(a0),d0
 	add.w	d1,d0
-	move.w	d0,xvel(a0)
+	move.w	d0,obVelX(a0)
 	ext.l	d0
 	lsl.l	#8,d0
-	add.l	d0,xpos2(a0)
-	move.w	xpos2(a0),xpos(a0)
+	add.l	d0,obX2(a0)
+	move.w	obX2(a0),obX(a0)
 	rts
-
-
-; ---------------------------------------------------------------
-ObjMap_MenuItems:
-@L
-	dc.w	@PLAY_EN-@L		; $00
-	dc.w	@CHAL_EN-@L		; $01
-	dc.w	@OPTS_EN-@L		; $02
-	dc.w	@LANG_EN-@L		; $03
-	dc.w	@SRAM_EN-@L		; $04
-	dc.w	@SNDT_EN-@L		; $05
-	dc.w	@BACK_EN-@L		; $06
-	dc.w	@LOCKED-@L		; $07
-	dc.w	@YES_EN-@L		; $08
-	dc.w	@NO_EN-@L		; $09
-	
-Logo_MenuFrames equ (*-@l)/4		; define number of frames for the menu
-
-; ---------------------------------------------------------------
-@LOCKED:
-Xdisp = $28/2
-
-	dc.b	3
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $3C, $00-Xdisp ; ?
-	dc.b	$F8, %0001, $00, $3C, $10-Xdisp ; ?
-	dc.b	$F8, %0001, $00, $3C, $20-Xdisp ; ?
-
-; ---------------------------------------------------------------
-@PLAY_EN:
-Xdisp = $10
-
-	dc.b	4
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $5E, $00-Xdisp ; P
-	dc.b	$F8, %0001, $00, $56, $08-Xdisp ; L
-	dc.b	$F8, %0001, $00, $40, $10-Xdisp ; A
-	dc.b	$F8, %0001, $00, $70, $18-Xdisp ; Y
-
-@CHAL_EN:
-Xdisp = $50/2
-
-	dc.b	10
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $44, $00-Xdisp ; C
-	dc.b	$F8, %0001, $00, $4E, $08-Xdisp ; H
-	dc.b	$F8, %0001, $00, $40, $10-Xdisp ; A
-	dc.b	$F8, %0001, $00, $56, $18-Xdisp ; L
-	dc.b	$F8, %0001, $00, $56, $20-Xdisp ; L
-	dc.b	$F8, %0001, $00, $48, $28-Xdisp ; E
-	dc.b	$F8, %0001, $00, $5A, $30-Xdisp ; N
-	dc.b	$F8, %0001, $00, $4C, $38-Xdisp ; G
-	dc.b	$F8, %0001, $00, $48, $40-Xdisp ; E
-	dc.b	$F8, %0001, $00, $64, $48-Xdisp ; S
-
-@OPTS_EN:
-Xdisp = $38/2
-
-	dc.b	6
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0101, $00, $5C, $00-Xdisp ; 0P
-	dc.b	$F8, %0001, $00, $66, $10-Xdisp ; T
-	dc.b	$F8, %0001, $00, $50, $18-Xdisp ; I
-	dc.b	$F8, %0001, $00, $5C, $20-Xdisp ; 0
-	dc.b	$F8, %0001, $00, $5A, $28-Xdisp ; N
-	dc.b	$F8, %0001, $00, $64, $30-Xdisp ; S
-	
-
-@LANG_EN:
-Xdisp = $88/2
-
-	dc.b	16
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $56, $00-Xdisp ; L
-	dc.b	$F8, %0001, $00, $40, $08-Xdisp ; A
-	dc.b	$F8, %0001, $00, $5A, $10-Xdisp ; N
-	dc.b	$F8, %0001, $00, $4C, $18-Xdisp ; G
-	dc.b	$F8, %0001, $00, $68, $20-Xdisp ; U
-	dc.b	$F8, %0001, $00, $40, $28-Xdisp ; A
-	dc.b	$F8, %0001, $00, $4C, $30-Xdisp ; G
-	dc.b	$F8, %0001, $00, $48, $38-Xdisp ; E
-	dc.b	$F8, %0001, $00, $32, $40-Xdisp ; :
-
-	dc.b	$F8, %0001, $00, $48, $50-Xdisp ; E
-	dc.b	$F8, %0001, $00, $5A, $58-Xdisp ; N
-	dc.b	$F8, %0001, $00, $4C, $60-Xdisp ; G
-	dc.b	$F8, %0001, $00, $56, $68-Xdisp ; L
-	dc.b	$F8, %0001, $00, $50, $70-Xdisp ; I
-	dc.b	$F8, %0001, $00, $64, $78-Xdisp ; S
-	dc.b	$F8, %0001, $00, $4E, $80-Xdisp ; H
-	
-@SRAM_EN:
-Xdisp = $80/2
-
-	dc.b	14
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $46, $00-Xdisp ; D
-	dc.b	$F8, %0001, $00, $48, $08-Xdisp ; E
-	dc.b	$F8, %0001, $00, $56, $10-Xdisp ; L
-	dc.b	$F8, %0001, $00, $48, $18-Xdisp ; E
-	dc.b	$F8, %0001, $00, $66, $20-Xdisp ; T
-	dc.b	$F8, %0001, $00, $48, $28-Xdisp ; E
-
-	dc.b	$F8, %0001, $00, $64, $38-Xdisp ; S
-	dc.b	$F8, %0001, $00, $40, $40-Xdisp ; A
-	dc.b	$F8, %0001, $00, $6A, $48-Xdisp ; V
-	dc.b	$F8, %0001, $00, $48, $50-Xdisp ; E
-
-	dc.b	$F8, %0001, $00, $46, $60-Xdisp ; D
-	dc.b	$F8, %0001, $00, $40, $68-Xdisp ; A
-	dc.b	$F8, %0001, $00, $66, $70-Xdisp ; T
-	dc.b	$F8, %0001, $00, $40, $78-Xdisp ; A
-	
-@SNDT_EN:
-Xdisp = $50/2
-
-	dc.b	8
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $64, $00-Xdisp ; S
-	dc.b	$F8, %0001, $00, $5C, $08-Xdisp ; 0
-	dc.b	$F8, %0001, $00, $68, $10-Xdisp ; U
-	dc.b	$F8, %0001, $00, $5A, $18-Xdisp ; N
-	dc.b	$F8, %0001, $00, $46, $20-Xdisp ; D
-
-	dc.b	$F8, %0001, $00, $66, $30-Xdisp ; T
-	dc.b	$F8, %0001, $00, $48, $38-Xdisp ; E
-	dc.b	$F8, %0101, $00, $64, $40-Xdisp ; ST
-	
-@BACK_EN:
-Xdisp = $20/2
-
-	dc.b	4
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $42, $00-Xdisp ; B
-	dc.b	$F8, %0001, $00, $40, $08-Xdisp ; A
-	dc.b	$F8, %0001, $00, $44, $10-Xdisp ; C
-	dc.b	$F8, %0001, $00, $54, $18-Xdisp ; K
-	
-@YES_EN:
-Xdisp	= $18/2
-
-	dc.b	3
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $70, $00-Xdisp ; Y
-	dc.b	$F8, %0001, $00, $48, $08-Xdisp ; E
-	dc.b	$F8, %0001, $00, $64, $10-Xdisp ; S
-
-@NO_EN:
-Xdisp	= $10/2
-
-	dc.b	2
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $5A, $00-Xdisp ; N
-	dc.b	$F8, %0001, $00, $5C, $08-Xdisp ; 0
 
 ; ===============================================================
 
@@ -943,19 +885,18 @@ Xdisp	= $10/2
 ; Object: Delete Progress title in a specific menu
 ; ---------------------------------------------------------------
 
-xpos = 8
-ypos = $A
+obParent = $34
 
 Obj_SRAMChoice_Title:
 
-	move.l	#ObjMap_MenuItems,maps(a0)
-	move.w	#$8000+_VRAM_MenuFont_Pat,art(a0)
-	move.l	#@WaitAppear,obj(a0)
+	move.l	#ObjMap_MenuItems,obMap(a0)
+	move.w	#$8000+_VRAM_MenuFont_Pat,obGfx(a0)
+	move.l	#@WaitAppear,obCodePtr(a0)
 
 	; Create question mark object
 	move.l	#Obj_SRAMChoice_QuestionMark,d1
 	jsr	FindNextFreeObj
-	move.w	a1,parent(a0)
+	move.w	a1,obParent(a0)
 
 ; ---------------------------------------------------------------
 @WaitAppear:
@@ -964,10 +905,10 @@ Obj_SRAMChoice_Title:
 	bmi.s	@Display
 	
 	; Move menu
-	subq.w	#1,ypos(a0)
-	cmpi.w	#$110,ypos(a0)
+	subq.w	#1,obScreenY(a0)
+	cmpi.w	#$110,obScreenY(a0)
 	bne.s	@Display
-	move.l	#@WaitHide,obj(a0)
+	move.l	#@WaitHide,obCodePtr(a0)
 
 ; ---------------------------------------------------------------
 @WaitHide:
@@ -975,9 +916,9 @@ Obj_SRAMChoice_Title:
 	tst.b	Logo_MenuStatus
 	bpl.s	@Display
 	move.l	#MenuItem_Hide_Left,d0	; MEGA HACK 
-	movea.w parent(a0),a1
-	move.l	d0,obj(a0)
-	move.l	d0,obj(a1)
+	movea.w obParent(a0),a1
+	move.l	d0,obCodePtr(a0)
+	move.l	d0,obCodePtr(a1)
 	subq.b	#2,Logo_MenuStatus		; simulate extra 2 items
 
 ; ---------------------------------------------------------------
@@ -989,23 +930,23 @@ Obj_SRAMChoice_Title:
 timer	= $38
 
 Obj_SRAMChoice_QuestionMark:
-	move.l	#@Maps,maps(a0)
-	move.w	#$8000+_VRAM_MenuFont_Pat,art(a0)	
+	move.l	#@Maps,obMap(a0)
+	move.w	#$8000+_VRAM_MenuFont_Pat,obGfx(a0)	
 	moveq	#$80/2-8,d0
-	add.w	d0,xpos(a0)
-	move.w	#8,timer(a0)
-	move.l	#@Move,obj(a0)
+	add.w	d0,obX(a0)
+	move.w	#8,obTimer(a0)
+	move.l	#@Move,obCodePtr(a0)
 
 ; ---------------------------------------------------------------
 @Move:
-	addq.w	#1,xpos(a0)
-	subq.w	#1,timer(a0)
+	addq.w	#1,obX(a0)
+	subq.w	#1,obTimer(a0)
 	bne.s	@Display
-	move.l	#@Display,obj(a0)
+	move.l	#@Display,obCodePtr(a0)
 
 @Display
-	movea.w parent(a0),a1
-	move.w	ypos(a1),ypos(a0)
+	movea.w obParent(a0),a1
+	move.w	obScreenY(a1),obScreenY(a0)
 	jmp	DisplaySprite
 
 @Maps:
@@ -1018,55 +959,11 @@ Xdisp = $00
 	even
 
 
-
-; ===============================================================
-; ---------------------------------------------------------------
-; Logo VBlank routine
-; ---------------------------------------------------------------
-
-LogoMain_VBlank_Init:
-	movem.l d0-a6,-(sp)
-	lea	vdp_control_port,a6
-	move.w	#$8174,(a6)				; enable display
-	move.w	#$8C89,(a6)				; enable SH
-	move.l	#LogoMain_VBlank_Intro,VBlank_Sub
-	bra.s	LogoMain_VBlank_Common
-
-; ---------------------------------------------------------------
-LogoMain_VBlank_Intro:
-	movem.l d0-a6,-(sp)
-	tst.b	$FFFFF62A
-	beq	LogoMain_VBlank_Misc
-	writeVRAM Logo_PSBTiles, $2A0, _VRAM_PSB
-	bra.s	LogoMain_VBlank_Common
-
-; ---------------------------------------------------------------
-LogoMain_VBlank_Menu:
-	movem.l d0-a6,-(sp)
-	tst.b	$FFFFF62A
-	beq	LogoMain_VBlank_Misc
-	writeVRAM $FFF800,$280,$F800	; transfer sprites
-
-LogoMain_VBlank_Common:
-	sf.b	$FFFFF62A				; reset VBlank pending flag
-	lea	vdp_control_port,a6
-	move.l	#$40000010,(a6)			; access VSRAM at addess $00
-	move.l	($FFFFF616).w,-4(a6)	; send to VSRAM
-	jsr	ReadJoypads
-	writeCRAM $FFFFFB00, $80, 0		; transfer palette
-	writeVRAM HSRAM_Buffer, $380, $FC00 ; transfer HSRAM
-
-LogoMain_VBlank_Misc:
-	jsr	Int_SoundDriver
-	movem.l (sp)+,d0-a6
-	rte
-
 ; ===============================================================
 ; ---------------------------------------------------------------
 ; Data
 ; ---------------------------------------------------------------
 
 LogoMain_Palette:
-
-Kos_MenuFont:
-	
+	dc.w	$0000, $0EA6, $0ECA, $0EEC, $0AEE, $00CE, $06CE, $0000
+	dc.w	$0844, $0A88, $0644, $0000, $0000, $0000, $0EEE, $0000

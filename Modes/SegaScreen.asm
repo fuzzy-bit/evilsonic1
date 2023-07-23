@@ -30,8 +30,8 @@ SegaScreen:
 		bsr.w	PalLoad2				; load Sega logo palette
 
 		clr.b	v_csum_start.w			; clear start button check
-		move.w	(v_vdp_buffer1).w, d0
 
+		move.w	(v_vdp_buffer1).w, d0
 		ori.b	#$40, d0				; enable display
 		move.w	d0, (vdp_control_port).l
 
