@@ -533,12 +533,15 @@ Hwnd_Options_Lang:
 Hwnd_Options_ClearSRAM:
 	lea	v_player+$40, a0			; get DeleteProgress object
 	move.l	#MenuItem_Hide_MarkGone, obCodePtr(a0) ; delete it...
-	jsr	FindNextFreeObj			; create object as (A0) child
+
+	jsr	FindNextFreeObj
 	move.b	#id_ObjDynamic, (a1)
 	move.l	#Obj_SRAMChoice_Title, obCodePtr(a1)
-	move.w	obScreenY(a0),obScreenY(a1)
-	move.b	obFrame(a0),obFrame(a1)
-	move.b	#$03, Menu_ID		; change menus
+	move.w	obX(a0), obX(a1)
+	move.w	obScreenY(a0), obScreenY(a1)
+	move.b	obFrame(a0), obFrame(a1)
+
+	move.b	#$03, Menu_ID			; change menus
 	rts
 
 Hwnd_SRAMChoice_Yes:
@@ -660,7 +663,7 @@ MenuItem_Appear_Bottom:
 ; ---------------------------------------------------------------
 @Appear_Process:
 	move.w	obVelY(a0),d1
-	bmi		MenuItem_Goto_ProcessNormal
+	bmi	MenuItem_Goto_ProcessNormal
 	move.w	d1,d0
 	ext.l	d0
 	lsl.l	#8,d0
@@ -677,10 +680,10 @@ MenuItem_Appear_Bottom:
 
 ; ---------------------------------------------------------------
 @Appear_Data:
-	;		Position		Start Speed		Acceleration
-	dc.w	$80+4,			$800,			$40
-	dc.w	$100+$8,		$1000,			$80
-	dc.w	$180+$C,		$1800,			$C0
+	;	Position	Start Speed	Acceleration
+	dc.w	$80+4,		$800,		$40
+	dc.w	$100+$8,	$1000,		$80
+	dc.w	$180+$C,	$1800,		$C0
 
 ; ---------------------------------------------------------------
 ; Menu appears from right
@@ -811,7 +814,7 @@ MenuItem_Hide_Directional:
 	bsr.s	MenuItem_MoveXAcc
 	move.w	obX(a0),d0
 	lsl.w	#6,d0
-	bpl		MenuItem_Display2
+	bpl	MenuItem_Display2
 	bra.s	MenuItem_Hide_MarkGone
 
 ; ---------------------------------------------------------------
@@ -889,15 +892,19 @@ MenuItem_MoveXAcc:
 obParent = $34
 
 Obj_SRAMChoice_Title:
-
 	move.l	#ObjMap_MenuItems,obMap(a0)
 	move.w	#$8000+_VRAM_MenuFont_Pat,obGfx(a0)
 	move.l	#@WaitAppear,obCodePtr(a0)
 
 	; Create question mark object
-	move.l	#Obj_SRAMChoice_QuestionMark,d1
 	jsr	FindNextFreeObj
-	move.w	a1,obParent(a0)
+	move.b	#id_ObjDynamic, (a1)
+	move.l	#Obj_SRAMChoice_QuestionMark, obCodePtr(a1)
+	move.w	obX(a0), obX(a1)
+	move.w	obScreenY(a0), obScreenY(a1)
+	move.w	a0, obParent(a1)
+
+	move.w	a1, obParent(a0)
 
 ; ---------------------------------------------------------------
 @WaitAppear:
@@ -931,12 +938,12 @@ Obj_SRAMChoice_Title:
 timer	= $38
 
 Obj_SRAMChoice_QuestionMark:
-	move.l	#@Maps,obMap(a0)
-	move.w	#$8000+_VRAM_MenuFont_Pat,obGfx(a0)	
+	move.l	#@Maps, obMap(a0)
+	move.w	#$8000+_VRAM_MenuFont_Pat, obGfx(a0)	
 	moveq	#$80/2-8,d0
-	add.w	d0,obX(a0)
-	move.w	#8,obTimer(a0)
-	move.l	#@Move,obCodePtr(a0)
+	add.w	d0, obX(a0)
+	move.w	#8, obTimer(a0)
+	move.l	#@Move, obCodePtr(a0)
 
 ; ---------------------------------------------------------------
 @Move:
@@ -950,13 +957,12 @@ Obj_SRAMChoice_QuestionMark:
 	move.w	obScreenY(a1),obScreenY(a0)
 	jmp	DisplaySprite
 
+; ---------------------------------------------------------------
 @Maps:
-Xdisp = $00
-
 	dc.w	2
-	dc.b	1
-	;		 YY	  WWHH		  TT   XX
-	dc.b	$F8, %0001, $00, $3C, $00-Xdisp ; ?
+	dc.w	1
+	;	YY   WWHH	 TT   XX
+	dc.b	$F8, %0001, $00, $3C, $00, $00 ; ?
 	even
 
 
