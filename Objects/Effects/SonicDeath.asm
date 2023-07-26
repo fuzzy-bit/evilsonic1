@@ -21,7 +21,7 @@ SonicDeath:
 		move.b	d0, obDPLCFrame(a0)
 		move.l	#Map_SonicDeath, obMap(a0) 
 
-		lea	(v_player).w, a1
+		lea		(v_player).w, a1
 		move.w 	obX(a1), obX(a0)
 		move.w 	obY(a1), obY(a0)
 
@@ -49,6 +49,7 @@ SonicDeath:
 		move.b	#id_SonicPlayer, (v_player).w
 		move.w	#1, (f_restart).w
 		rts
+
 @GameOver:
 		lea		v_player, a1
 
