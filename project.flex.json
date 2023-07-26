@@ -288,7 +288,12 @@
                 {
                     "format": "Sonic 3&K Player.js",
                     "name": "Items",
-                    "palettes": [],
+                    "palettes": [
+                        {
+                            "path": "Data/Palette/Menu Font.bin",
+                            "length": 1
+                        }
+                    ],
                     "art": {
                         "path": "Data/Art/Kosinski/Menu Font.bin",
                         "compression": "Kosinski",

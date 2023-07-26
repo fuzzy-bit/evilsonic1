@@ -272,9 +272,9 @@ loc_3230:
 
 Tit_ChkLevSel:
 		tst.b	(f_levselcheat).w ; check if level select code is on
-		beq.w	PlayLevel	; if not, play level
+		beq.w	TitleScreen_GoToMenu	; if not, play level
 		btst	#bitA,(v_jpadhold1).w ; check if A is pressed
-		beq.w	PlayLevel	; if not, play level
+		beq.w	TitleScreen_GoToMenu	; if not, play level
 
 		move.b 	#6, (v_countdown)
 		move.w	#$C680, (v_levelselpal)
@@ -338,6 +338,11 @@ TitleSine:
 		addq.w	#1, d5			;Inc wave every line
 		dbra	d3, @Deform
 
+		rts
+
+; ---------------------------------------------------------------------------
+TitleScreen_GoToMenu:
+		move.b	#id_Menu, (v_gamemode).w
 		rts
 
 ; ---------------------------------------------------------------------------

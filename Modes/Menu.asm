@@ -52,6 +52,7 @@ Menu:
 	move.w	#$8ADF,(a6)
 	move.w	#$9001,(a6)			; plane size: 64x32
 	move.w	#$8B03,(a6)			; VScroll: full; HScroll: 1px
+	move.w	#$8C89,(a6)			; enable S&H
 	move.w	#$8134,(a6)			; disable display
 	jsr	ClearScreen
 
@@ -151,7 +152,7 @@ MainMenu_MenuControlLoop:
 ; ---------------------------------------------------------------
 
 MainMenu_MenuHide:
-	sfx	sfx_ringright
+	sfx	sfx_lamppost
 
 	move.b	Menu_NumItems, d0
 	neg.b	d0
@@ -176,7 +177,7 @@ MainMenu_MenuHideLoop:
 ; ---------------------------------------------------------------
 
 MainMenu_MenuHide2:
-	sfx	sfx_ringright
+	sfx	sfx_lamppost
 
 	move.b	Menu_NumItems, d0
 	neg.b	d0
@@ -195,7 +196,9 @@ MainMenu_MenuHideLoop2:
 	tst.b	Menu_Status			; has all items been done?
 	bne.s	MainMenu_MenuHideLoop2		; if not, branch
 
-@Quit:	rts
+@Quit:	jsr	PaletteFadeOut
+	move.w	#$8C81, vdp_control_port	; turn off S&H
+	rts
 
 ; ===============================================================
 
@@ -350,7 +353,7 @@ MainMenu_ControlMenu:
 @SetNewItem:
 	move.b	d1, Menu_ItemID
 
-	sfx	sfx_ringright	
+	sfx	sfx_switch	
 
 @ChkSelect:
 	andi.b	#btnABC+btnStart, d3		; A/B/C/Start pressed?
@@ -510,7 +513,7 @@ SRAMChoice_Cmd:
 ; ---------------------------------------------------------------
 
 Hwnd_MainMenu_Play:
-	illegal
+	jmp	PlayLevel
 
 ; ---------------------------------------------------------------
 Hwnd_MainMenu_Challenges:
@@ -973,7 +976,12 @@ Obj_SRAMChoice_QuestionMark:
 ; ---------------------------------------------------------------
 
 Pal_MenuMain:
-	dc.w	$0000, $0EA6, $0ECA, $0EEC, $0AEE, $00CE, $06CE, $0000
-	dc.w	$0844, $0A88, $0644, $0000, $0000, $0000, $0EEE, $0000
+	; Line 0
+	incbin	'Data/Palette/Menu Font Alt.bin'
 
+	; Line 1
+	incbin	'Data/Palette/Menu Font Highlighted.bin'
+
+	; Line 2
 	incbin	'Data/Palette/Menu Font.bin'
+
