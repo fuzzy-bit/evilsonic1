@@ -82,7 +82,7 @@ Menu:
 	lea	Kos_MenuFont,a0			; Menu font
 	lea	$FF0000,a1
 	jsr	KosDec
-	writeVRAM $FF0000, $1380, _VRAM_MenuFont
+	writeVRAM $FF0000, $1D80, _VRAM_MenuFont
 
 	lea	Kos_MenuBg,a0			; Menu background
 	lea	$FF0000,a1
@@ -412,9 +412,9 @@ MainMenu_MenuElements:
 MainMenu_Full:
 	dc.b	0				; Default Item
 	dc.b	3				; Size
-	dc.w	$0000, $120			; Index/Frame, Y-pos
-	dc.w	$0101, $132			;
-	dc.w	$0202, $144			;
+	dc.w	$0000, $E0			; Index/Frame, Y-pos
+	dc.w	$0101, $100			;
+	dc.w	$0202, $120			;
 		
 MainMenu_Full_Cmd:
 	; PLAY
@@ -436,9 +436,9 @@ MainMenu_Full_Cmd:
 MainMenu_Locked:
 	dc.b	0				; Default Item
 	dc.b	3				; Size
-	dc.w	$0000, $120			; Index/Frame, Y-pos
-	dc.w	$0107, $132			;
-	dc.w	$0202, $144			;
+	dc.w	$0000, $E0			; Index/Frame, Y-pos
+	dc.w	$0107, $100			;
+	dc.w	$0202, $120			;
 
 MainMenu_Locked_Cmd:
 	; PLAY
@@ -460,10 +460,10 @@ MainMenu_Locked_Cmd:
 OptionsMenu:
 	dc.b	0				; Default Item
 	dc.b	4				; Size
-	dc.w	$0003, $10E			; Index/Frame, Y-pos
-	dc.w	$0104, $120			;
-	dc.w	$0205, $132			;
-	dc.w	$0306, $144			;
+	dc.w	$0003, $D0			; Index/Frame, Y-pos
+	dc.w	$0104, $D0+$18			;
+	dc.w	$0205, $D0+$18*2		;
+	dc.w	$0306, $D0+$18*3+$10		;
 	
 OptionsMenu_Cmd:
 	; LANGUAGE
@@ -490,8 +490,8 @@ OptionsMenu_Cmd:
 SRAMChoice:
 	dc.b	1				; Default Item
 	dc.b	2				; Size
-	dc.w	$0008, $128			; Index/Frame, Y-pos
-	dc.w	$0109, $138			;
+	dc.w	$0008, $100			; Index/Frame, Y-pos
+	dc.w	$0109, $118			;
 
 SRAMChoice_Cmd:
 	; YES
@@ -622,6 +622,8 @@ obAcc = $38
 obTimer = $3A
 
 Obj_MenuItem:
+	move.w	#$2000, obGfx(a0)
+	move.l	#ObjMap_MenuItems,obMap(a0)
 
 	; Select appear routine according to menu animation
 	moveq	#0,d0
@@ -629,7 +631,6 @@ Obj_MenuItem:
 	add.w	d0,d0
 	add.w	d0,d0
 	move.l	@AppearRoutines(pc,d0),obCodePtr(a0)
-	move.l	#ObjMap_MenuItems,obMap(a0)
 	rts
 	
 @AppearRoutines:
@@ -760,15 +761,15 @@ MenuItem_ProcessNormal:
 
 ; ---------------------------------------------------------------
 MenuItem_Display:
-	move.w	#$8000+_VRAM_MenuFont_Pat,d1
+	move.w	#$8000+$2000+_VRAM_MenuFont_Pat,d1
 	move.b	Menu_ItemID,d0
 	cmp.b	obMenuItemIndex(a0),d0			; is this item selected?
 	beq.s	@skip					; if yes, branch
-	addi.w	#$6000,d1
+	addi.w	#$2000,d1
 @skip	move.w	d1,obGfx(a0)
 
 MenuItem_Display2:
-	jmp		DisplaySprite
+	jmp	DisplaySprite
 
 ; ---------------------------------------------------------------
 
@@ -914,7 +915,7 @@ Obj_SRAMChoice_Title:
 	
 	; Move menu
 	subq.w	#1,obScreenY(a0)
-	cmpi.w	#$110,obScreenY(a0)
+	cmpi.w	#$D0+8,obScreenY(a0)
 	bne.s	@Display
 	move.l	#@WaitHide,obCodePtr(a0)
 
@@ -940,9 +941,9 @@ timer	= $38
 Obj_SRAMChoice_QuestionMark:
 	move.l	#@Maps, obMap(a0)
 	move.w	#$8000+_VRAM_MenuFont_Pat, obGfx(a0)	
-	moveq	#$80/2-8,d0
+	moveq	#$80-28,d0
 	add.w	d0, obX(a0)
-	move.w	#8, obTimer(a0)
+	move.w	#16, obTimer(a0)
 	move.l	#@Move, obCodePtr(a0)
 
 ; ---------------------------------------------------------------
@@ -962,7 +963,7 @@ Obj_SRAMChoice_QuestionMark:
 	dc.w	2
 	dc.w	1
 	;	YY   WWHH	 TT   XX
-	dc.b	$F8, %0001, $00, $3C, $00, $00 ; ?
+	dc.b	$F8, %0101, $00, 124, $00, $00 ; ?
 	even
 
 
@@ -974,3 +975,5 @@ Obj_SRAMChoice_QuestionMark:
 Pal_MenuMain:
 	dc.w	$0000, $0EA6, $0ECA, $0EEC, $0AEE, $00CE, $06CE, $0000
 	dc.w	$0844, $0A88, $0644, $0000, $0000, $0000, $0EEE, $0000
+
+	incbin	'Data/Palette/Menu Font.bin'
