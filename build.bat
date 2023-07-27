@@ -23,7 +23,7 @@ goto :Assemble
 	echo.
 
 	call :Message Creating debug build...
-		.build\asm68k /e _DEBUG_ /k /m /o ws+ /o op+ /o os+ /o ow+ /o oz+ /o oaq+ /o osq+ /o omq+ /p /o ae- /o v+ sonic.asm, s1built.debug.bin, .build\log\s1built.debug.sym, .build\log\Build.debug.lst>.build\log\Build.debug.log
+		.build\asm68k /e __DEBUG__=1 /k /m /o ws+ /o op+ /o os+ /o ow+ /o oz+ /o oaq+ /o osq+ /o omq+ /p /o ae- /o v+ sonic.asm, s1built.debug.bin, .build\log\s1built.debug.sym, .build\log\Build.debug.lst>.build\log\Build.debug.log
 		type .build\log\Build.debug.log
 		
 		ErrorHandler\convsym .build\log\s1built.debug.sym s1built.debug.bin -a

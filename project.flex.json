@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "5e2c2e22-e61f-4552-ba41-d5dff016ade5",
+    "node": "9aab3f18-9822-4d1f-87f6-a5a76d45b0b1",
     "objects": [
         {
             "name": "Blood",
@@ -285,6 +285,31 @@
         {
             "name": "Menu",
             "children": [
+                {
+                    "format": "Sonic 3&K Player.js",
+                    "name": "Items",
+                    "palettes": [
+                        {
+                            "path": "Data/Palette/Menu Font.bin",
+                            "length": 1
+                        }
+                    ],
+                    "art": {
+                        "path": "Data/Art/Kosinski/Menu Font.bin",
+                        "compression": "Kosinski",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "Data/Mappings/Sprites/Menu Items.asm",
+                        "label": "ObjMap_MenuItems"
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "9aab3f18-9822-4d1f-87f6-a5a76d45b0b1"
+                },
                 {
                     "uuid": "3082539f-4cb9-46e9-9fc2-055bed3f55d6",
                     "format": "Sonic 3&K Object.js",
