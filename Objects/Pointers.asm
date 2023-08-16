@@ -116,14 +116,14 @@ ptr_Girder:				dc.l Girder		; $70
 ptr_Invisibarrier:		dc.l Invisibarrier
 ptr_Teleport:			dc.l Teleport
 ptr_BossMarble:			dc.l BossMarble
-ptr_BossMissile:		dc.l BossMissile
+ptr_SLZBossMissile:		dc.l SLZBossMissile
 ptr_BossSpringYard:		dc.l BossSpringYard
 ptr_BossBlock:			dc.l BossBlock
 ptr_BossLabyrinth:		dc.l BossLabyrinth
 ptr_Caterkiller:		dc.l Caterkiller	; $78
 ptr_Lamppost:			dc.l Lamppost
 ptr_BossStarLight:		dc.l BossStarLight
-ptr_BossSpikeball:		dc.l BossSpikeball
+ptr_BossSpikeball:		dc.l NullObject
 ptr_RingFlash:			dc.l RingFlash
 ptr_HiddenBonus:		dc.l HiddenBonus
 ptr_SSResult:			dc.l SSResult
@@ -261,7 +261,7 @@ id_Girder:				equ ((ptr_Girder-Obj_Index)/4)+1		; $70
 id_Invisibarrier:		equ ((ptr_Invisibarrier-Obj_Index)/4)+1
 id_Teleport:			equ ((ptr_Teleport-Obj_Index)/4)+1
 id_BossMarble:			equ ((ptr_BossMarble-Obj_Index)/4)+1
-id_BossMissile:			equ ((ptr_BossMissile-Obj_Index)/4)+1
+id_SLZBossMissile:		equ ((ptr_SLZBossMissile-Obj_Index)/4)+1
 id_BossSpringYard:		equ ((ptr_BossSpringYard-Obj_Index)/4)+1
 id_BossBlock:			equ ((ptr_BossBlock-Obj_Index)/4)+1
 id_BossLabyrinth:		equ ((ptr_BossLabyrinth-Obj_Index)/4)+1

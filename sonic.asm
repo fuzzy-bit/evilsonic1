@@ -1762,14 +1762,13 @@ Map_BossItems:	include	"Data\Mappings\Objects\Boss Items.asm"
 
 		include	"Objects\Bosses\Labyrinth\Main.asm"
 		
-		include	"Objects\Bosses\Marble\Main.asm"
-		include	"Objects\Bosses\Marble\Missile.asm"
+		include	"Objects\Bosses\Star Light\Main.asm"
+		include	"Objects\Bosses\Star Light\Missile.asm"
 
 	Obj7A_Delete:
 		jmp	(DeleteObject).l
 
-		include	"Objects\Bosses\Star Light\Main.asm"
-		include	"Objects\Bosses\Star Light\SLZ Boss Spikeball.asm"
+		include	"Objects\Bosses\Marble\Main.asm"
 Map_BSBall:	include	"Data\Mappings\Objects\SLZ Boss Spikeball.asm"
 		include	"Objects\Bosses\Spring Yard\Main.asm"
 		include	"Objects\Bosses\Spring Yard\SYZ Boss Blocks.asm"

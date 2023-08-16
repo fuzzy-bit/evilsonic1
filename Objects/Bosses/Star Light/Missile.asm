@@ -2,7 +2,7 @@
 ; Object 74 - Boss Missile
 ; ---------------------------------------------------------------------------
 
-BossMissile:
+SLZBossMissile:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
 		move.w	@Index(pc,d0.w),d1

@@ -85,14 +85,13 @@ MegaPCM:
 		DAC_Entry		$03, SonicCD_Yes, pcm+pri+panLR ; $9C	- Sonic CD Yes
 		DAC_Entry		$04, Winrar, pcm				; $9D	- Winrar
 		DAC_Entry		$08, Tails, pcm+loop			; $9E	- Tails
-		DAC_Entry		$08, Brawl, pcm					; $9F	- Brawl Theme
+		DAC_Entry		$04, ChillToTheMax, pcm			; $9F	- Lightning_Splash - Chill To The Max
 		DAC_Entry		$1B, Mogege, pcm+pri			; $A0	- Mogege~
 		DAC_Entry		$1B, Minnaaa, pcm				; $A1	- Minnaaa!
 		DAC_Entry		$1B, Mogegegege, pcm			; $A2	- Mogegegege
 		DAC_Entry		$1B, Strike, pcm				; $A3	- Strike
 		DAC_Entry		$04, Scream, pcm				; $A4	- Scream
 		DAC_Entry       $04, Ground, pcm+panLR+pri		; $A5   - Ground Wave
-		DAC_Entry       $1A, Warning, pcm+loop			; $A6   - Warning
 
 
 MegaPCM_End:
@@ -131,12 +130,11 @@ MegaPCM_End:
 		; Fuzzy ------------------------------
 		IncludeDAC		Winrar, wav
 		IncludeDAC		Tails, wav
-		IncludeDAC		Brawl, wav
+		IncludeDAC		ChillToTheMax, wav
 		IncludeDAC		Mogege, wav
 		IncludeDAC		Minnaaa, wav
 		IncludeDAC		Mogegegege, wav
 		IncludeDAC		Strike, wav
 		IncludeDAC		Scream, wav
 		IncludeDAC		Ground, raw
-		IncludeDAC		Warning, wav
 		even

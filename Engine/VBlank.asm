@@ -89,7 +89,7 @@ VBla_14:
 
 VBla_04:
 		bsr.w	sub_106E
-		bsr.w	LoadTilesAsYouMove_BGOnly
+		jsr 	LoadTilesAsYouMove_BGOnly
 		bsr.w	sub_1642
 		tst.w	(v_demolength).w
 		beq.w	@end
@@ -166,7 +166,7 @@ VBla_08:
 
 
 Demo_Time:
-		bsr.w	LoadTilesAsYouMove
+		jsr	LoadTilesAsYouMove
 		jsr	(AnimateLevelGfx).l
 		jsr	(HUD_Update).l
 		bsr.w	ProcessDPLC2

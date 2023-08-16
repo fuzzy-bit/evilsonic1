@@ -74,9 +74,9 @@ DoChecksum:
 		cmp.l	a5,a6				; check if we have passed the final address
 		bhi.s	@end				; if not, go back to loop
 
-		cmp.w	Checksum.w,d0			; check if the checksum matches
-		beq.s	ChecksumEndChk			; if yes, we are golden
-		jmp	CheckSumError(pc)		; we have a checksum error
+		; cmp.w	Checksum.w,d0			; check if the checksum matches
+		; beq.s	ChecksumEndChk			; if yes, we are golden
+		; jmp	CheckSumError(pc)		; we have a checksum error
 
 ChecksumEndChk:
         rts

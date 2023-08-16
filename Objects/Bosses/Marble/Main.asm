@@ -56,7 +56,7 @@ BossMarble:
 		jsr	(FindNextFreeObj).l
 		bne.s	@ShipMain
 
-		move.b	#id_BossMarble, 0(a1)
+		move.b	#id_BossStarLight, 0(a1)
 		move.w	obX(a0), obX(a1)
 		move.w	obY(a0), obY(a1)
 
@@ -344,7 +344,7 @@ BossMarble:
 		move.w	#$10, @DelayTimer(a0)
 		
 		; this sub routine spawn penis
-		Instance.new	BossMissile, a1	; load missile object
+		Instance.new	SLZBossMissile, a1	; load missile object
 		bsr.s 	@MakeMissile
 
 		subi.w	#$5,obY(a1)
@@ -357,7 +357,7 @@ BossMarble:
 ; ===========================================================================
 
 @MakeMissile:
-		Instance.new	BossMissile, a1	; load missile object
+		Instance.new	SLZBossMissile, a1	; load missile object
 		move.w 	#0, @Bounces(a1) ; meh, default bounces. only a move so it shouldn't use too many cycles
 		move.w	@TargetX(a0), obX(a1)
 		move.w	@TargetY(a0), obY(a1)

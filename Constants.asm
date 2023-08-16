@@ -165,3 +165,54 @@ afChange:	equ $FD	; run specified animation
 afRoutine:	equ $FC	; increment routine counter
 afReset:	equ $FB	; reset animation and 2nd object routine counter
 af2ndRoutine:	equ $FA	; increment 2nd routine counter
+
+; ---------------------------------------------------------------
+; Vladikcomper's global constants
+; ---------------------------------------------------------------
+
+; VRAM Offsets
+
+_VRAM_PlaneA	equ	$C000
+_VRAM_PlaneB	equ	$E000
+_VRAM_BG	equ	$0020
+_VRAM_BG_T	equ	(_VRAM_BG/$20)
+_VRAM_Emer	equ	$0120
+_VRAM_Emer_T	equ	(_VRAM_Emer/$20)
+_VRAM_Font	equ	$840
+_VRAM_Font_T	equ	(_VRAM_Font/$20)
+_VRAM_CArt	equ	$4000
+_VRAM_CArt_T	equ	(_VRAM_CArt/$20)
+
+; VRAM flags
+
+_pal0		equ	0	; palette select
+_pal1		equ	1<<13	;
+_pal2		equ	2<<13	;
+_pal3		equ	3<<13	;
+_pr		equ	$8000	; high priority flag
+_fvh		equ	3<<11	; flip
+_fv		equ	2<<11	;
+_fh		equ	1<<11	;
+
+; Joypads Setup
+
+Held		equ	0
+Press		equ	1
+
+iStart		equ 	7
+iA		equ 	6
+iC		equ 	5
+iB		equ 	4
+iRight		equ 	3
+iLeft		equ 	2
+iDown		equ 	1
+iUp		equ 	0
+
+Start		equ 	1<<7
+A		equ 	1<<6
+C		equ 	1<<5
+B		equ 	1<<4
+Right		equ 	1<<3
+Left		equ 	1<<2
+Down		equ 	1<<1
+Up		equ 	1

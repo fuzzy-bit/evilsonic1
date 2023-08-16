@@ -237,6 +237,7 @@ locret_13860:
 ; ---------------------------------------------------------------------------
 
 Sonic_Death:	; Routine 6
+		move.b	#1,(f_nobgscroll).w
 		jsr (DeformLayers).l
 		bsr.w	Sonic_RecordPosition
 

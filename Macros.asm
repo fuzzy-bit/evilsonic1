@@ -16,13 +16,13 @@ align:		macro position, value
 ; input: 16-bit VRAM address, control port (default is ($C00004).l)
 ; ---------------------------------------------------------------------------
 
-locVRAM:	macro loc,controlport
-		if (narg=1)
-		move.l	#($40000000+((loc&$3FFF)<<16)+((loc&$C000)>>14)),(vdp_control_port).l
-		else
-		move.l	#($40000000+((loc&$3FFF)<<16)+((loc&$C000)>>14)),controlport
-		endc
-		endm
+locVRAM:	macro	offset,operand
+	if (narg=1)
+		move.l	#($40000000+(((\offset)&$3FFF)<<16)+(((\offset)&$C000)>>14)),VDP_Ctrl
+	else
+		move.l	#($40000000+(((\offset)&$3FFF)<<16)+(((\offset)&$C000)>>14)),\operand
+	endc
+	endm
 
 ; ---------------------------------------------------------------------------
 ; VRAM request const
