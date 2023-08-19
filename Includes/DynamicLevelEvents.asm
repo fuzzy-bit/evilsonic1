@@ -556,6 +556,7 @@ DLE_SYZ3boss:
 		move.w	#$535,obY(a1)
 
 loc_71EC:
+		addq.b	#2,(v_dle_routine).w	; => "DLE_SYZ3end"
 		music	mus_Boss	; play boss music
 		move.b	#1,(f_lockscreen).w ; lock screen
 		moveq	#plcid_Boss,d0
