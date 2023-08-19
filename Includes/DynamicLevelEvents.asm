@@ -552,7 +552,8 @@ DLE_SYZ3boss:
 		bsr.w	FindFreeObj
 		bne.s	loc_71EC
 		move.b	#id_BossSpringYard,(a1) ; load SYZ boss	object
-		addq.b	#2,(v_dle_routine).w
+		move.w	#$2D60,obX(a1)
+		move.w	#$535,obY(a1)
 
 loc_71EC:
 		music	mus_Boss	; play boss music
