@@ -471,7 +471,7 @@ DLE_SLZ3boss:
 		bne.s	loc_7144
 		move.b	#id_BossStarLight,(a1) ; load SLZ boss object
 		move.w	#$2170,obX(a1)
-		move.w	#$22A,obY(a1)
+		move.w	#$255,obY(a1)
 loc_7144:
 		music	mus_Boss	; play boss music
 		move.b	#1,(f_lockscreen).w ; lock screen
@@ -553,7 +553,7 @@ DLE_SYZ3boss:
 		bne.s	loc_71EC
 		move.b	#id_BossSpringYard,(a1) ; load SYZ boss	object
 		move.w	#$2D60,obX(a1)
-		move.w	#$535,obY(a1)
+		move.w	#$4F0,obY(a1)
 
 loc_71EC:
 		addq.b	#2,(v_dle_routine).w	; => "DLE_SYZ3end"

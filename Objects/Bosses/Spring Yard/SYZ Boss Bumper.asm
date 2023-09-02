@@ -1,8 +1,8 @@
 ; ---------------------------------------------------------------------------
-; Object 47 - pinball bumper (SYZ)
+; Object 76 - SYZ Boss Bumper
 ; ---------------------------------------------------------------------------
 
-Bumper:
+BossBumper:
 		moveq	#0, d0
 		move.b	obRoutine(a0), d0
 		move.w	@Index(pc,d0.w), d1
@@ -10,21 +10,32 @@ Bumper:
 
 ; ===========================================================================
 @ResizeDelay:		equ $2
+@Parent:	equ $3C
+@Bounces:	equ $2C
 ; ===========================================================================
-@Index:		dc.w @Main-@Index
-			dc.w @Hit-@Index
+@Index:		dc.w @Init-@Index
+			dc.w @Main-@Index
 ; ===========================================================================
 
-@Main:	; Routine 0
+@Init:	; Routine 0
 		addq.b	#2, obRoutine(a0)
 		move.l	#Map_Bump, obMap(a0)
 		move.w	#$380, obGfx(a0)
 		move.b	#4, obRender(a0)
 		move.b	#$10, obActWid(a0)
-		move.b	#1, obPriority(a0)
+		move.b	#5, obPriority(a0)
 		move.b	#$D7, obColType(a0)
 
-@Hit:	; Routine 2
+		rts
+
+@Main:	; Routine 2
+		jsr		(ObjFloorDist).l
+		cmpi.w	#$4, d1		; has ball hit the floor?
+		ble.w	@Bounce
+
+		jsr		ObjectFall
+		jsr		SpeedToPos
+
 		tst.b	obColProp(a0)	; has Sonic touched the	bumper?
 		beq.w	@display	; if not, branch
 		clr.b	obColProp(a0)
@@ -41,10 +52,14 @@ Bumper:
 		muls.w	#-$700, d1
 		asr.l	#8, d1
 		move.w	d1, obVelX(a1)	; bounce Sonic away
-		
+		neg.w 	d1
+		move.w	d1, obVelX(a0)	; bounce bumper away
+
 		muls.w	#-$700, d0
 		asr.l	#8, d0
 		move.w	d0, obVelY(a1)	; bounce Sonic away
+		neg.w 	d2
+		move.w	d1, obVelY(a0)	; bounce bumper away
 		
 		bset	#1, obStatus(a1)
 		bclr	#4, obStatus(a1)
@@ -70,9 +85,32 @@ Bumper:
 
 @Display:
 		lea		(Ani_Bump).l, a1
-		bsr.w	AnimateSprite
+		jsr		AnimateSprite
 		out_of_range.s	@Resetcount
-		bra.w	DisplaySprite
+		jmp		DisplaySprite
+
+; ===========================================================================
+
+@Bounce:
+		subi.w 	#1, @Bounces(a0)
+
+		move.b	#1, obAnim(a0)	; use "hit" animation
+		sfx	sfx_Bumper	; play bumper sound
+
+		tst.w 	@Bounces(a0)
+		bmi.s 	@Explode	
+
+		move.w	#-$300,obVelY(a0) ; :3c
+		jsr		SpeedToPos
+
+		add.w 	#-10, obY(a0) ; preventing duplicate Bounces
+		rts
+
+@Explode:
+		move.b	#id_ExplosionBomb,0(a0)	; change object	to an explosion	($3F)
+		move.b	#0,obRoutine(a0) ; reset routine counter
+		move.w 	#0, @Bounces(a0)
+		jmp		ExplosionBomb	; jump to explosion code
 
 ; ===========================================================================
 
@@ -84,4 +122,4 @@ Bumper:
 		bclr	#7, @ResizeDelay(a2,d0.w)
 
 @Delete:
-		bra.w	DeleteObject
+		jmp		DeleteObject

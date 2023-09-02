@@ -1771,7 +1771,7 @@ Map_BossItems:	include	"Data\Mappings\Objects\Boss Items.asm"
 		include	"Objects\Bosses\Marble\Main.asm"
 Map_BSBall:	include	"Data\Mappings\Objects\SLZ Boss Spikeball.asm"
 		include	"Objects\Bosses\Spring Yard\Main.asm"
-		include	"Objects\Bosses\Spring Yard\SYZ Boss Blocks.asm"
+		include	"Objects\Bosses\Spring Yard\SYZ Boss Bumper.asm"
 Map_BossBlock:	include	"Data\Mappings\Objects\SYZ Boss Blocks.asm"
 
 loc_1982C:

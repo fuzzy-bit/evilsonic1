@@ -118,7 +118,7 @@ ptr_Teleport:			dc.l Teleport
 ptr_BossMarble:			dc.l BossMarble
 ptr_SLZBossMissile:		dc.l SLZBossMissile
 ptr_BossSpringYard:		dc.l BossSpringYard
-ptr_BossBlock:			dc.l BossBlock
+ptr_BossBumper:			dc.l BossBumper
 ptr_BossLabyrinth:		dc.l BossLabyrinth
 ptr_Caterkiller:		dc.l Caterkiller	; $78
 ptr_Lamppost:			dc.l Lamppost
@@ -263,7 +263,7 @@ id_Teleport:			equ ((ptr_Teleport-Obj_Index)/4)+1
 id_BossMarble:			equ ((ptr_BossMarble-Obj_Index)/4)+1
 id_SLZBossMissile:		equ ((ptr_SLZBossMissile-Obj_Index)/4)+1
 id_BossSpringYard:		equ ((ptr_BossSpringYard-Obj_Index)/4)+1
-id_BossBlock:			equ ((ptr_BossBlock-Obj_Index)/4)+1
+id_BossBumper:			equ ((ptr_BossBumper-Obj_Index)/4)+1
 id_BossLabyrinth:		equ ((ptr_BossLabyrinth-Obj_Index)/4)+1
 id_Caterkiller:			equ ((ptr_Caterkiller-Obj_Index)/4)+1		; $78
 id_Lamppost:			equ ((ptr_Lamppost-Obj_Index)/4)+1

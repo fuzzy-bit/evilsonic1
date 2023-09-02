@@ -172,6 +172,7 @@ BossStarLight:
 		jsr	(CalcSine).l
 
 		asr.w	#2, d0
+		neg.w 	d0
 		move.w	d0, obVelY(a0)
 		rts
 
@@ -431,7 +432,7 @@ BossStarLight:
 ; ===========================================================================
 
 @DeleteShip:
-		music	mus_MZ		; play MZ music
+		music	mus_SLZ		; play SLZ music
 		add.w	#300, (v_limitright2).w
 
 		jsr	(DeleteObject).l
