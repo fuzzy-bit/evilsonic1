@@ -217,13 +217,13 @@ BossSpringYard:
 
 @Pattern1:	
 		dc.w @ControlDirection-@Pattern1
-		dc.w @Wait-@Pattern1
+		dc.w @Groundpound-@Pattern1
 
 ; ===========================================================================
 
 @ControlDirection:
-		tst.b 	@SwapsLeft(a0)
-		beq.w	@StartGroundpound
+		tst.b 	@SwapsLeft(a0) ; TODO: only do this check when sonic is in range
+		beq.w	@StartGroundpound 
 
 		tst.w 	@DelayTimer(a0)
 		bne.s 	@CheckThrow
@@ -297,8 +297,8 @@ BossSpringYard:
 ; ===========================================================================
 
 @StartGroundpound:
-		move.w	#50, @DelayTimer(a0)
-		add.b 	#1, obSubtype(a0)
+		move.w	#90, @DelayTimer(a0)
+		add.b 	#2, obSubtype(a0)
 		rts
 
 ; ===========================================================================
@@ -314,16 +314,19 @@ BossSpringYard:
 
 ; ===========================================================================
 
-@Wait:
+@Groundpound:
 		bsr.w 	@BobShip
 		bsr.w	BossMove
 
 		subq.w	#1, @DelayTimer(a0)
-		bne.s	@Wait_rts
 
+		tst.w 	@DelayTimer(a0)
+		bne.s	@Groundpound_rts
+
+		move.b 	#4, @SwapsLeft(a0)
 		move.b	#0, obSubtype(a0)
 
-@Wait_rts:
+@Groundpound_rts:
 		rts
 
 ; ===========================================================================
