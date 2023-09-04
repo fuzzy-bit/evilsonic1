@@ -42,8 +42,7 @@ BizhawkCompatibility:
 
 HiddenMessage:
 		align 24
-		dc.b "THIS HACK WAS   NOT BROUGHT TO  YOU BY "
-		dc.b "DR.      EGGMAN, BUT THE ONE AND ONLY    MOGE-KO         "
+		dc.b "RIVET DID 7-11  "
 
 ; ===========================================================================
 ; Crash/Freeze the 68000. Unlike Sonic 2, Sonic 1 uses the 68000 for playing music, so it stops too
@@ -1724,7 +1723,7 @@ locret_178A2:
 		rts
 ; End of function BossDefeated
 
-		dc.b 	"    MY BUNNI WEIGHS 2 KILOS         "
+		dc.b 	"MY BUNNI WEIGHS 2 KILOS "
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	move a boss

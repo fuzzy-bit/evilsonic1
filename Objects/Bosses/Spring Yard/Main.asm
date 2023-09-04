@@ -82,7 +82,7 @@ BossSpringYard:
 		
 		dbf	d1, @InitLoop	; repeat sequence 3 more times
 		move.b	#@ThrowCooldown, @ThrowTimer(a0)
-		move.b 	#4, @SwapsLeft(a0)
+		move.b 	#2, @SwapsLeft(a0)
 
 @ShipMain:	; Routine 2
 		moveq	#0, d0
@@ -222,9 +222,18 @@ BossSpringYard:
 ; ===========================================================================
 
 @ControlDirection:
-		tst.b 	@SwapsLeft(a0) ; TODO: only do this check when sonic is in range
-		beq.w	@StartGroundpound 
+		tst.b 	@SwapsLeft(a0)
+		bne.w	@CheckDelay
 
+		lea		(v_player).w, a2
+		move.w 	obX(a2), d0
+		sub.w 	obX(a0), d0
+		abs.w 	d0
+
+		cmpi.w	#8, d0
+		bls.w 	@StartGroundpound
+
+@CheckDelay:
 		tst.w 	@DelayTimer(a0)
 		bne.s 	@CheckThrow
 		sub.w 	#$1, @DelayTimer(a0)
@@ -244,11 +253,6 @@ BossSpringYard:
 		neg.w	d0
 
 @ContinueMoving:
-		; TODO: 
-		; - Add flag for groundpounding. If true, skip groundpound check and setup.
-		; - If not groundpounding, check. Subtract Sonic's X position from the boss' X position
-		;   and run `and.b #$7F, d0` on the result (gets absolute value by clearing the most significant bit), 
-		;   then check if it's in bounds.
 		bra.w	BossMove
 
 @Swap:
@@ -315,15 +319,20 @@ BossSpringYard:
 ; ===========================================================================
 
 @Groundpound:
-		bsr.w 	@BobShip
-		bsr.w	BossMove
+		; SHIT I HAVE TO DO TO MAKE THE BOSS INTERESTING
+		; go down really quick unless we're too low
+		; if we are too low, shake by ASRing a CalcSine call
+		; next routine is getting back up, then goes back to ControlDirection
 
+		move.w	#-$100, obVelY(a0)
+		jsr 	SpeedToPos
+		
 		subq.w	#1, @DelayTimer(a0)
 
 		tst.w 	@DelayTimer(a0)
 		bne.s	@Groundpound_rts
-
-		move.b 	#4, @SwapsLeft(a0)
+		
+		move.b 	#2, @SwapsLeft(a0)
 		move.b	#0, obSubtype(a0)
 
 @Groundpound_rts:

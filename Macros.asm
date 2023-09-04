@@ -364,3 +364,14 @@ sto: 	macro destination
 sfo: 	macro destination
 		moveq 	#0, \destination
 		endm
+
+; ---------------------------------------------------------------------------
+; Absoulte value
+; - fuzzy
+; ---------------------------------------------------------------------------
+abs: macro source
+		tst.\0 \source
+		bpl.s  @positive\@
+		neg.\0 \source
+		@positive\@:
+		endm
