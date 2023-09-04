@@ -1828,7 +1828,7 @@ Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
 BasicallyYoureFucked:
 		music 	mus_fadeout
 		jsr 	ClearScreen
-		move.w  #$1A, (v_demolength).w
+		move.w  #$24, (v_demolength).w
 
 		move.l 	#$FFFFFFA3, d0
 		jsr 	PlaySample

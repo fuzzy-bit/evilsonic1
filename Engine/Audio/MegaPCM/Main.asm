@@ -89,7 +89,7 @@ MegaPCM:
 		DAC_Entry		$1B, Mogege, pcm+pri			; $A0	- Mogege~
 		DAC_Entry		$1B, Minnaaa, pcm				; $A1	- Minnaaa!
 		DAC_Entry		$1B, Mogegegege, pcm			; $A2	- Mogegegege
-		DAC_Entry		$1B, Strike, pcm				; $A3	- Strike
+		DAC_Entry		$04, Strike, pcm				; $A3	- Strike
 		DAC_Entry		$04, Scream, pcm				; $A4	- Scream
 		DAC_Entry       $04, Ground, pcm+panLR+pri		; $A5   - Ground Wave
 
