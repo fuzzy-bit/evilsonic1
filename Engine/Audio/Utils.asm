@@ -44,7 +44,7 @@ PlaySound_Special:
         tst.b   (a1)+           ; slot 2 empty?
         beq.s   @AddToQueue     ; if yes, branch
         tst.b   (a1)+           ; slot 3 empty?
-        bne.s   @QueueFull		; if not, branch
+        bne.s   @Quit		; if not, branch
 
 @AddToQueue:
         move.b  d0, -(a1)
@@ -54,7 +54,7 @@ PlaySound_Special:
         rts
 
 ; ------------------------------------------------------
-@QueueFull:
+@QueueFullError:
 		RaiseError "Sound queue overflow", @QueueDebugger
 
 ; ------------------------------------------------------
