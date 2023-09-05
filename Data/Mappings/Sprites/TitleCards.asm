@@ -37,12 +37,12 @@ M_Card_LZ:	dc.w 9			; LABYRINTH
 		dc.b	$F8, 5, 0, $49, $00, $31
 		even
 M_Card_MZ:	dc.w 6			; MARBLE
-		dc.b $F8, 5, 0,	$2A, $FF, $CF
-		dc.b $F8, 5, 0,	0, $FF, $E0
-		dc.b $F8, 5, 0,	$3A, $FF, $F0
-		dc.b $F8, 5, 0,	4, $00, 0
-		dc.b $F8, 5, 0,	$26, $00, $10
-		dc.b $F8, 5, 0,	$10, $00, $20
+		dc.b	$F8, 5, 0, $5D, $FF, $CB
+		dc.b	$F8, 5, 0, $2D, $FF, $DA
+		dc.b	$F8, 5, 0, $71, $FF, $EA
+		dc.b	$F8, 5, 0, $31, $FF, $FA
+		dc.b	$F8, 5, 0, $59, $0, $B
+		dc.b	$F8, 5, 0, $3D, $0, $1B
 		even
 M_Card_SLZ:	dc.w 9		; STAR LIGHT
 		dc.b	$F8, 5, 0, $75, $FF, $B8
@@ -83,11 +83,11 @@ M_Card_SBZ:	dc.w 9		; CLOCK WORK
 		dc.b	$F8, 5, 0, $71, $00, $31
 		dc.b	$F8, 5, 0, $55, $00, $40
 		even
-M_Card_Zone:	dc.w 4			; ZONE
-		dc.b $F8, 5, 0,	$91, $FF, $E0
-		dc.b $F8, 5, 0,	$65, $FF, $F0
-		dc.b $F8, 5, 0,	$61, $00, 0
-		dc.b $F8, 5, 0,	$3D, $00, $10
+M_Card_Zone:	dc.w 0			; ZONE
+		; dc.b $F8, 5, 0,	$91, $FF, $E0
+		; dc.b $F8, 5, 0,	$65, $FF, $F0
+		; dc.b $F8, 5, 0,	$61, $00, 0
+		; dc.b $F8, 5, 0,	$3D, $00, $10
 		even
 M_Card_Act1:	dc.w 0			; ACT 1
 		;dc.b 4,	$C, 0, $0, $FF, $EC
@@ -159,28 +159,30 @@ M_Got_Passed:	dc.w 7		; SUPREME
 		dc.b	$F8, 5, 0, $3D, $0, $2B
 
 M_Got_Score:	dc.w 6			; SCORE
-		dc.b $F8, $D, 1, $4A, $FF, $B0
-		dc.b $F8, 1, 1,	$62, $FF, $D0
-		dc.b $F8, 9, 1,	$64, $00, $18
-		dc.b $F8, $D, 1, $6A, $00, $30
-		dc.b $F7, 4, 0,	$6E, $FF, $CD
-		dc.b $FF, 4, $18, $6E, $FF, $CD
+		dc.b 	$F8, $D, 1,   $3D, $FF, $B0
+		dc.b 	$F8, 1,  1,   $3D, $FF, $D0
+		dc.b 	$F8, 9,  1,	  $3D, $00, $18
+		dc.b 	$F8, $D, 1,   $6A, $00, $30
+		dc.b 	$F7, 4,  0,	  $6E, $FF, $CD
+		dc.b 	$FF, 4,  $18, $6E, $FF, $CD
+
 M_Got_TBonus:	dc.w 7			; TIME BONUS
-		dc.b $F8, $D, 1, $5A, $FF, $B0
-		dc.b $F8, $D, 0, $66, $FF, $D9
-		dc.b $F8, 1, 1,	$4A, $FF, $F9
-		dc.b $F7, 4, 0,	$6E, $FF, $F6
-		dc.b $FF, 4, $18, $6E, $FF, $F6
-		dc.b $F8, $D, $FF, $F0,	$00, $28
-		dc.b $F8, 1, 1,	$70, $00, $48
+		dc.b 	$F8, $D, 1,   $5A, $FF, $B0
+		dc.b 	$F8, $D, 0,   $66, $FF, $D9
+		dc.b 	$F8, 1,  1,	  $4A, $FF, $F9
+		dc.b 	$F7, 4,  0,	  $6E, $FF, $F6
+		dc.b 	$FF, 4,  $18, $6E, $FF, $F6
+		dc.b 	$F8, $D, $FF, $F0, $00, $28
+		dc.b 	$F8, 1,  1,	  $70, $00, $48
+
 M_Got_RBonus:	dc.w 7			; RING BONUS
-		dc.b $F8, $D, 1, $52, $FF, $B0
-		dc.b $F8, $D, 0, $66, $FF, $D9
-		dc.b $F8, 1, 1,	$4A, $FF, $F9
-		dc.b $F7, 4, 0,	$6E, $FF, $F6
-		dc.b $FF, 4, $18, $6E, $FF, $F6
-		dc.b $F8, $D, $FF, $F8,	$00, $28
-		dc.b $F8, 1, 1,	$70, $00, $48
+		dc.b 	$F8, $D, 1,   $52, $FF, $B0
+		dc.b 	$F8, $D, 0,   $66, $FF, $D9
+		dc.b 	$F8, 1,  1,	  $4A, $FF, $F9
+		dc.b 	$F7, 4,  0,	  $6E, $FF, $F6
+		dc.b 	$FF, 4,  $18, $6E, $FF, $F6
+		dc.b 	$F8, $D, $FF, $F8, $00, $28
+		dc.b 	$F8, 1,  1,	  $70, $00, $48
 		even
 ; ---------------------------------------------------------------------------
 ; Sprite mappings - special stage results screen
