@@ -45,7 +45,7 @@ Map_SStom_internal:
 		dc.b $F8, 5, 0,	$41, $00, $30
 		dc.b $F8, 5, 0,	$41, $00, $40
 		dc.b $F8, 5, 0,	$41, $00, $50
-@pole5:		dc.b 8		; Incorrect: this should be $A
+@pole5:		dc.b $A		; Incorrect: this should be $A
 		dc.b $F8, 5, 0,	$41, $FF, $E0
 		dc.b $F8, 5, 0,	$41, $FF, $F0
 		dc.b $F8, 5, 0,	$41, $00, 0

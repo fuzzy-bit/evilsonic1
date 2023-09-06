@@ -20,8 +20,9 @@ namespace S1ObjectDefinitions.MZ
 			tmpartfile.AddRange(padding);
 			tmpartfile.AddRange(spikes);
 			byte[] artfile = tmpartfile.ToArray();
-			for (int i = 0; i < labels.Length; i++)
+			for (int i = 0; i < labels.Length; i++) {
 				imgs.Add(ObjectHelper.MapASMToBmp(artfile, "../Data/Mappings/Objects/Sideways Stomper.asm", labels[i], 0));
+			}
 		}
 
 		public override ReadOnlyCollection<byte> Subtypes

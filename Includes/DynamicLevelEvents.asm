@@ -283,18 +283,19 @@ off_6FB2:	dc.w loc_6FBA-off_6FB2
 ; ===========================================================================
 
 loc_6FBA:
-		move.w	#$1D0,(v_limitbtm1).w
-		cmpi.w	#$700,(v_screenposx).w
-		bcs.s	locret_6FE8
-		move.w	#$220,(v_limitbtm1).w
-		cmpi.w	#$D00,(v_screenposx).w
-		bcs.s	locret_6FE8
-		move.w	#$340,(v_limitbtm1).w
-		cmpi.w	#$340,(v_screenposy).w
-		bcs.s	locret_6FE8
-		addq.b	#2,(v_dle_routine).w
+		; - DEFAULT ------------------------------------
+		move.w	#$12C,(v_limitbtm1).w ; set lower y-boundary
+		; - PASS 1--------------------------------------
+		cmpi.w	#$215,(v_screenposy).w ; has the camera reached $0215 on y-axis?
+		bcc.s	@Pass2	; if yes, branch
 
-locret_6FE8:
+		cmpi.w	#$44A,(v_screenposx).w ; has the camera reached $044A on x-axis?
+		bcs.s	@Return	; if not, branch
+		; - PASS 2 -------------------------------------
+@Pass2:
+		move.w	#$560,(v_limitbtm1).w ; set lower y-boundary
+		; ----------------------------------------------
+@Return:
 		rts	
 ; ===========================================================================
 

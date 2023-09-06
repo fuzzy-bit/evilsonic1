@@ -1,8 +1,28 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "9aab3f18-9822-4d1f-87f6-a5a76d45b0b1",
+    "node": "6267aac5-791c-47de-ac5e-b12fef4f53f5",
     "objects": [
+        {
+            "uuid": "6267aac5-791c-47de-ac5e-b12fef4f53f5",
+            "format": "Sonic 3&K Player.js",
+            "name": "Stomper",
+            "palettes": [],
+            "art": {
+                "path": "Data\\Art\\Nemesis\\MZ Metal Blocks.bin",
+                "compression": "Nemesis",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Data\\Mappings\\Objects\\Sideways Stomper.asm",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
         {
             "name": "Blood",
             "children": [
