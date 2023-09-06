@@ -39,14 +39,16 @@ return_1AC8C:
 
 ; loc_1AC8E:
 Sonic_UpdateSpindash:
+	move.b	#id_Spindash,obAnim(a0)	
 	move.b  (v_jpadhold2).w,d0 
 	btst    #1,d0 
 	bne.w	Sonic_ChargingSpindash
+	
 
 	; unleash the charged spindash and start rolling quickly:
 	move.b #$E,$16(a0) 
 	move.b #7,$17(a0) 
-	move.b	#2,obAnim(a0)
+	move.b	#id_Roll,obAnim(a0)
 	addq.w	#5,y_pos(a0)	; add the difference between Sonic's rolling and standing heights
 	move.b	#0,f_spindash(a0)
 	moveq	#0,d0
