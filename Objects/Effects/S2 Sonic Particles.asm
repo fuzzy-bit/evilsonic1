@@ -147,7 +147,6 @@ loc_1DEE0:				; CODE XREF: h+6EF4?j h+6F00?j ...
 ; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
 
 loc_1DEE4:				; CODE XREF: h+6EC0?p h+6F6C?p
-	st.b	obDPLCFrame(a0)
 	lea	@Config(pc), a6
 	jmp	UpdateDPLC
 
