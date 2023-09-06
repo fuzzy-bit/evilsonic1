@@ -56,6 +56,15 @@ loc_131AA:
 		subq.w	#5,obY(a0)
 
 loc_131CC:
+		cmpi.w	#(224/2)-16,(v_lookshift).w
+		beq.s	@skip
+		bhs.s	@sub
+		addq.w	#4,(v_lookshift).w
+@sub:
+		subq.w	#2,(v_lookshift).w
+
+@skip:
+
 		move.b	obAngle(a0),d0
 		jsr	(CalcSine).l
 		muls.w	obInertia(a0),d0

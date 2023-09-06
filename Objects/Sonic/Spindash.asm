@@ -123,14 +123,14 @@ loc_1AD48:
 ; loc_1AD78:
 Obj01_Spindash_ResetScr:
 	addq.l	#4,sp
-	cmpi.w	#(224/2)-16,($FFFFEED8).w
-	beq.s	loc_1AD8C
-	bhs.s	loc_1AD88
-	addq.w	#4,($FFFFEED8).w
-loc_1AD88:
-    subq.w	#2,($FFFFEED8).w
+	cmpi.w	#(224/2)-16,(v_lookshift).w
+	beq.s	@skip
+	bhs.s	@sub
+	addq.w	#4,(v_lookshift).w
+@sub:
+    subq.w	#2,(v_lookshift).w
 
-loc_1AD8C:
+@skip:
 	bsr.w	Sonic_LevelBound
 	bsr.w	Sonic_AnglePos
 	rts
