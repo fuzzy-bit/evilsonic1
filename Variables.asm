@@ -17,6 +17,7 @@ v_tracksonic:	equ $FFFFCB00	; position tracking data for Sonic ($100 bytes)
 v_hscrolltablebuffer:	equ $FFFFCC00 ; scrolling table data (actually $380 bytes, but $400 is reserved for it)
 v_objspace:	equ $FFFFD000	; object variable space ($40 bytes per object) ($2000 bytes)
 v_player:	equ v_objspace	; object variable space for Sonic ($40 bytes)
+v_player_particles:	equ	v_objspace+$1C0	; object variable space for the dust ($40 bytes)
 v_lvlobjspace:	equ $FFFFD800	; level object variable space ($1800 bytes)
 
 SoundDriverRAM:		equ $FFFFF000 ; start of RAM for the sound driver data

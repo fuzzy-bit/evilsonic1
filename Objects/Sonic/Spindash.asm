@@ -19,9 +19,9 @@ Sonic_SpinDash:
 	addq.l	#4,sp
 	move.b	#1,f_spindash(a0)
 	move.w	#0,spindash_charger(a0)
-	cmpi.b #$C,$28(a0) 	; if he's drowning, branch to not make dust
-	blo.s	loc_1AC84
-	move.b #2,($FFFFD11C).w
+;	cmpi.b #$C,$28(a0) 	; if he's drowning, branch to not make dust
+;	blo.s	loc_1AC84
+	move.b  #2,(v_player_particles+obAnim).w
 loc_1AC84:
 	bsr.w	Sonic_LevelBound
 	bsr.w	Sonic_AnglePos
@@ -71,7 +71,7 @@ Sonic_UpdateSpindash:
 	neg.w   $14(a0)
 loc_1ACF4:
 	bset    #2,$22(a0) 
-	move.b #0,($FFFFD11C).w 
+	move.b #0,(v_player_particles+obAnim).w 
 	move.w #$BC,d0 
 	jsr     (PlaySound_Special).l 
 	bra.s	Obj01_Spindash_ResetScr

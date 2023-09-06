@@ -142,6 +142,7 @@ ptr_CreditsText:		dc.l CreditsText
 ptr_EndEggman:			dc.l EndEggman
 ptr_TryChaos:			dc.l TryChaos
 ptr_MenuCharacter:		dc.l MenuCharacter
+ptr_S2SonicParticles:		dc.l S2SonicParticles
 
 NullObject:
 		jmp	(DeleteObject).l	; It would be safer to have this instruction here, but instead it just falls through to ObjectFall
@@ -286,4 +287,5 @@ id_EndSTH:				equ ((ptr_EndSTH-Obj_Index)/4)+1
 id_CreditsText:			equ ((ptr_CreditsText-Obj_Index)/4)+1
 id_EndEggman:			equ ((ptr_EndEggman-Obj_Index)/4)+1
 id_TryChaos:			equ ((ptr_TryChaos-Obj_Index)/4)+1
-id_MenuCharacter: 		equ ((ptr_MenuCharacter)/4)+1
+id_MenuCharacter: 		equ ((ptr_MenuCharacter-Obj_Index)/4)+1
+id_S2SonicParticles:	equ	((ptr_S2SonicParticles-Obj_Index)/4)+1

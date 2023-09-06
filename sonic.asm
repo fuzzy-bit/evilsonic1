@@ -1161,6 +1161,7 @@ Map_Bub:	include	"Data\Mappings\Objects\Bubbles.asm"
 		include	"Objects\Level\Waterfalls.asm"
 		include	"Data\Animations\Waterfalls.asm"
 Map_WFall	include	"Data\Mappings\Objects\Waterfalls.asm"
+		include	"Objects\Effects\S2 Sonic Particles.asm"
 		include "Objects\Sonic\Main.asm"
 		include	"Objects\Gameplay\Drowning Countdown.asm"
 
@@ -2041,6 +2042,12 @@ Map_Sonic:	include	"Data\Mappings\Objects\Sonic.asm"
 ; Uncompressed graphics	- Sonic
 ; ---------------------------------------------------------------------------
 Art_Sonic:	incbin	"Data\Art\Uncompressed\Sonic.bin"	; Sonic
+		even
+
+; ---------------------------------------------------------------------------
+; Uncompressed graphics	- Sonic 2's dust/splash particles
+; ---------------------------------------------------------------------------
+Art_Dust:	incbin	"Data\Art\Uncompressed\S2 Sonic Particles.bin"	; Sonic
 		even
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - various

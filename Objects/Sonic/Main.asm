@@ -24,6 +24,7 @@ Sonic_Index:	dc.w Sonic_Main-Sonic_Index
 ; ===========================================================================
 
 Sonic_Main:	; Routine 0
+		move.b	#id_S2SonicParticles,(v_player_particles).w
 		addq.b	#2,obRoutine(a0)
 		move.b	#$13,obHeight(a0)
 		move.b	#9,obWidth(a0)
