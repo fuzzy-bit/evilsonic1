@@ -149,8 +149,8 @@ Got_NextLevel:	; Routine $A
 		andi.w	#3,d1
 		add.w	d1,d1
 		add.w	d1,d0
-		move.w	LevelOrder(pc,d0.w),d0 ; load level from level order array
-		add.b	#1,(v_zone).w	; set level number
+		move.w	LevelOrder(pc,d0.w),d0  ; load level from level order array
+		move.w	d0,(v_zone).w			; set level number
 		tst.w	d0
 		bne.s	Got_ChkSS
 		move.b	#id_Sega,(v_gamemode).w
@@ -173,43 +173,44 @@ Got_Display2:
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Level	order array
+; "Invalid" means it's not meant to be used by this ROM hack
 ; ---------------------------------------------------------------------------
 LevelOrder:
 		; Green Hill Zone
-		dc.b id_GHZ, 1	; Act 1
-		dc.b id_GHZ, 2	; Act 2
-		dc.b id_MZ, 0	; Act 3
-		dc.b 0, 0
+		dc.b id_MZ, 0	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
-		; Labyrinth Zone
-		dc.b id_LZ, 1	; Act 1
-		dc.b id_LZ, 2	; Act 2
-		dc.b id_SLZ, 0	; Act 3
-		dc.b id_SBZ, 2	; Scrap Brain Zone Act 3
+		; Labyrinth Zone (Invalid)
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
 		; Marble Zone
-		dc.b id_MZ, 1	; Act 1
-		dc.b id_MZ, 2	; Act 2
-		dc.b id_SYZ, 0	; Act 3
-		dc.b 0, 0
+		dc.b id_SYZ, 0	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
 		; Star Light Zone
-		dc.b id_SLZ, 1	; Act 1
-		dc.b id_SLZ, 2	; Act 2
-		dc.b id_SBZ, 0	; Act 3
-		dc.b 0, 0
+		dc.b id_SBZ, 0	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
 		; Spring Yard Zone
-		dc.b id_SYZ, 1	; Act 1
-		dc.b id_SYZ, 2	; Act 2
-		dc.b id_LZ, 0	; Act 3
-		dc.b 0, 0
+		dc.b id_SLZ, 0	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
 		; Scrap Brain Zone
-		dc.b id_SBZ, 1	; Act 1
-		dc.b id_LZ, 3	; Act 2
-		dc.b 0, 0	; Final Zone
-		dc.b 0, 0
+		dc.b id_SBZ, 2	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 		even
 		
 		; Ending (padding)
