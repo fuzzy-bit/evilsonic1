@@ -286,7 +286,7 @@ loc_6FBA:
 		; - DEFAULT ------------------------------------
 		move.w	#$12C,(v_limitbtm1).w ; set lower y-boundary
 		; - PASS 1--------------------------------------
-		cmpi.w	#$215,(v_screenposy).w ; has the camera reached $0215 on y-axis?
+		cmpi.w	#$154,(v_screenposy).w ; has the camera reached $0154 on y-axis?
 		bcc.s	@Pass2	; if yes, branch
 
 		cmpi.w	#$44A,(v_screenposx).w ; has the camera reached $044A on x-axis?
