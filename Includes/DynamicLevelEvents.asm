@@ -289,7 +289,7 @@ loc_6FBA:
 		cmpi.w	#$154,(v_screenposy).w ; has the camera reached $0154 on y-axis?
 		bcc.s	@Pass2	; if yes, branch
 
-		cmpi.w	#$44A,(v_screenposx).w ; has the camera reached $044A on x-axis?
+		cmpi.w	#$41A,(v_screenposx).w ; has the camera reached $044A on x-axis?
 		bcs.s	@Return	; if not, branch
 		; - PASS 2 -------------------------------------
 @Pass2:
