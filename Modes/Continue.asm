@@ -20,7 +20,7 @@ Continue:
 		move.l	d0,(a1)+
 		dbf	d1,Cont_ClrObjRam ; clear object RAM
 
-		locVRAM	$AD60
+		locVRAM	$AFC0
 		lea	(Nem_TitleCard).l,a0 ; load title card patterns
 		bsr.w	NemDec
 		locVRAM	$A000

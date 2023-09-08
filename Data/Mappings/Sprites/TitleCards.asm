@@ -126,64 +126,7 @@ Map_Over:	include	"Data\Mappings\Objects\Game Over.asm"
 ; ---------------------------------------------------------------------------
 ; Sprite mappings - "SONIC HAS PASSED" title card
 ; ---------------------------------------------------------------------------
-Map_Got:	dc.w M_Got_SonicHas-Map_Got
-		dc.w M_Got_Passed-Map_Got
-		dc.w M_Got_Score-Map_Got
-		dc.w M_Got_TBonus-Map_Got
-		dc.w M_Got_RBonus-Map_Got
-		dc.w M_Card_Oval-Map_Got
-		dc.w M_Card_Act1-Map_Got
-		dc.w M_Card_Act2-Map_Got
-		dc.w M_Card_Act3-Map_Got
-M_Got_SonicHas:	dc.w 11		; SONIC REIGNS
-		dc.b	$F8, 5, 0, $75, $FF, $A4
-		dc.b	$F8, 5, 0, $65, $FF, $B3
-		dc.b	$F8, 5, 0, $61, $FF, $C2
-		dc.b	$F8, 5, 0, $4D, $FF, $D5
-		dc.b	$F8, 5, 0, $35, $FF, $E0
-
-		dc.b	$F8, 5, 0, $71, $FF, $FE
-		dc.b	$F8, 5, 0, $3D, $0, $E
-		dc.b	$F8, 5, 0, $4D, $0, $21
-		dc.b	$F8, 5, 0, $45, $0, $2C
-		dc.b	$F8, 5, 0, $61, $0, $3B
-		dc.b	$F8, 5, 0, $75, $0, $4A
-		
-M_Got_Passed:	dc.w 7		; SUPREME
-		dc.b	$F8, 5, 0, $75, $FF, $CA
-		dc.b	$F8, 5, 0, $7D, $FF, $DA
-		dc.b	$F8, 5, 0, $69, $FF, $EA
-		dc.b	$F8, 5, 0, $71, $FF, $FA
-		dc.b	$F8, 5, 0, $3D, $0, $B
-		dc.b	$F8, 5, 0, $5D, $0, $1C
-		dc.b	$F8, 5, 0, $3D, $0, $2B
-
-M_Got_Score:	dc.w 6			; SCORE
-		dc.b 	$F8, $D, 1,   $3D, $FF, $B0
-		dc.b 	$F8, 1,  1,   $3D, $FF, $D0
-		dc.b 	$F8, 9,  1,	  $3D, $00, $18
-		dc.b 	$F8, $D, 1,   $6A, $00, $30
-		dc.b 	$F7, 4,  0,	  $6E, $FF, $CD
-		dc.b 	$FF, 4,  $18, $6E, $FF, $CD
-
-M_Got_TBonus:	dc.w 7			; TIME BONUS
-		dc.b 	$F8, $D, 1,   $5A, $FF, $B0
-		dc.b 	$F8, $D, 0,   $66, $FF, $D9
-		dc.b 	$F8, 1,  1,	  $4A, $FF, $F9
-		dc.b 	$F7, 4,  0,	  $6E, $FF, $F6
-		dc.b 	$FF, 4,  $18, $6E, $FF, $F6
-		dc.b 	$F8, $D, $FF, $F0, $00, $28
-		dc.b 	$F8, 1,  1,	  $70, $00, $48
-
-M_Got_RBonus:	dc.w 7			; RING BONUS
-		dc.b 	$F8, $D, 1,   $52, $FF, $B0
-		dc.b 	$F8, $D, 0,   $66, $FF, $D9
-		dc.b 	$F8, 1,  1,	  $4A, $FF, $F9
-		dc.b 	$F7, 4,  0,	  $6E, $FF, $F6
-		dc.b 	$FF, 4,  $18, $6E, $FF, $F6
-		dc.b 	$F8, $D, $FF, $F8, $00, $28
-		dc.b 	$F8, 1,  1,	  $70, $00, $48
-		even
+Map_Got:	include "Data\Mappings\Objects\End of level card.asm"
 ; ---------------------------------------------------------------------------
 ; Sprite mappings - special stage results screen
 ; ---------------------------------------------------------------------------
