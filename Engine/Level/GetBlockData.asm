@@ -29,7 +29,7 @@ GetBlockData:
 		andi.w	#$7F,d0
 		; Get chunk from level layout
 		add.w	d3,d0
-		moveq	#-1,d3
+		moveq	#0,d3		; was -1 (Chunks in ROM)
 		move.b	(a4,d0.w),d3
 		beq.s	locret_6C1E	; If chunk 00, just return a pointer to the first block (expected to be empty)
 		; Turn chunk ID into index into chunk table
@@ -44,6 +44,7 @@ GetBlockData:
 		; Get block metadata from chunk
 		add.w	d4,d3
 		add.w	d5,d3
+		add.l	(v_256x256).l,d3	; (Chunks in ROM)		
 		movea.l	d3,a0
 		move.w	(a0),d3
 		; Turn block ID into address
