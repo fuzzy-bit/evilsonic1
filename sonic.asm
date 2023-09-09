@@ -2041,9 +2041,10 @@ Map_Sonic:	include	"Data\Mappings\Objects\Sonic.asm"
 ; ---------------------------------------------------------------------------
 ; Uncompressed graphics	- Sonic
 ; ---------------------------------------------------------------------------
+		align $20000
 Art_Sonic:	incbin	"Data\Art\Uncompressed\Sonic.bin"	; Sonic
-		even
 
+		
 ; ---------------------------------------------------------------------------
 ; Uncompressed graphics	- Sonic 2's dust/splash particles
 ; ---------------------------------------------------------------------------
@@ -2376,11 +2377,11 @@ Nem_GHZ_2nd:	incbin	"Data\Art\Nemesis\8x8 - GHZ2.bin"	; GHZ secondary patterns
 		even
 Blk256_GHZ:	incbin	"Data\Mappings\Levels\256\GHZ.bin"
 		even
-Blk16_LZ:	incbin	"Data\Mappings\Levels\16\LZ.bin"
+Blk16_LZ:	
 		even
-Nem_LZ:		incbin	"Data\Art\Nemesis\8x8 - LZ.bin"	; LZ primary patterns
+Nem_LZ:		
 		even
-Blk256_LZ:	incbin	"Data\Mappings\Levels\256\LZ.bin"
+Blk256_LZ:	
 		even
 Blk16_MZ:	incbin	"Data\Mappings\Levels\16\MZ.bin"
 		even
@@ -2466,7 +2467,7 @@ CollArray2:	incbin	"Data\Levels\Collision\Collision Array (Rotated).bin"
 		even
 Col_GHZ:	incbin	"Data\Levels\Collision\GHZ.bin"	; GHZ index
 		even
-Col_LZ:		incbin	"Data\Levels\Collision\LZ.bin"	; LZ index
+Col_LZ:		
 		even
 Col_MZ:		incbin	"Data\Levels\Collision\MZ.bin"	; MZ index
 		even
