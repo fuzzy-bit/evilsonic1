@@ -388,41 +388,105 @@ locret_7088:
 DLE_MZ3:
 		moveq	#0,d0
 		move.b	(v_dle_routine).w,d0
-		move.w	off_7098(pc,d0.w),d0
-		jmp	off_7098(pc,d0.w)
+		move.w	@Routines(pc,d0.w),d0
+		jmp	@Routines(pc,d0.w)
 ; ===========================================================================
-off_7098:	dc.w DLE_MZ3boss-off_7098
-		dc.w DLE_MZ3end-off_7098
+@Routines:	dc.w DLE_MZ3boss-@Routines		; $00
+		dc.w DLE_MZ3null-@Routines		; $02
+		dc.w DLE_MZ3warp-@Routines		; $04
+		dc.w DLE_MZ3end-@Routines		; $06
 ; ===========================================================================
 
 DLE_MZ3boss:
-		move.w	#$720,(v_limitbtm1).w
-		cmpi.w	#$1560,(v_screenposx).w
-		bcs.s	locret_70E8
-		move.w	#$210,(v_limitbtm1).w
-		cmpi.w	#$17F0,(v_screenposx).w
-		bcs.s	locret_70E8
-		bsr.w	FindFreeObj
+		move.w	#$720,($FFFFF726).w
+		cmpi.w	#$1560,($FFFFF700).w
+		bcs.s	DLE_MZ3null
+		move.w	#$200,($FFFFF726).w
+		cmpi.w	#$1800,($FFFFF700).w
+		bcs.s	DLE_MZ3null
+
+		jsr	FindFreeObj
 		bne.s	loc_70D0
-		move.b	#id_BossStarLight,0(a1) ; load MZ boss object
-		move.w	#$19F0,obX(a1)
-		move.w	#$235,obY(a1)
+		move.b	#$73,(a1)	; load MZ boss object
+		move.w	#$19F0+$100,8(a1)
+		move.w	#$23C-$20,$C(a1)
 
 loc_70D0:
-		music	mus_Boss	; play boss music
-		move.b	#1,(f_lockscreen).w ; lock screen
-		addq.b	#2,(v_dle_routine).w
-		moveq	#plcid_Boss,d0
-		bra.w	AddPLC		; load boss patterns
-; ===========================================================================
+		move.w	($FFFFF700).w,d0
+		move.w	d0,($FFFFF728).w	; lock left side
+		move.w	#$200,($FFFFF72C).w	; lock the top
 
-locret_70E8:
-		rts	
+		command	mus_FadeOut	; fade out music
+
+		move.b	#1,($FFFFF7AA).w	; lock	screen
+		addq.b	#2,($FFFFF742).w
+		moveq	#plcid_Boss,d0
+		jmp	AddPLC			; load boss patterns
+
+; ===========================================================================
+DLE_MZ3null:
+		rts
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Performs infinite scrolling
+; ---------------------------------------------------------------------------
+
+DLE_MZ3warp:
+
+@WarpPeriod:	= $400
+@ScrollSpeed:	= 2
+
+		move.w	($FFFFF728).w,d0
+		move.w	#$200,(v_scrshiftx).w	; keep camera scrolling ...
+		addq.w	#@ScrollSpeed,d0
+		cmpi.w	#$1900+@WarpPeriod,d0	; has camera went past warp border?
+		bcs.s	@NoWarp			; if not, branch
+
+		move.w	#@WarpPeriod,d1
+		sub.w	d1,d0			; warp Camera
+
+		lea	(v_objspace).w, a3
+		moveq	#$7F,d6
+		
+	@WarpLoop:
+		tst.b	(a3)			; is this slot occupied?
+		beq.s	@WarpNext		; if not, branch
+		moveq	#%1100, d2		; does object use playfield coordinates?
+		and.b	obRender(a3), d2	; ''
+		subq.w	#1<<2, d2		; ''
+		bne.s	@WarpNext		; if not, branch
+
+		sub.w	d1, obX(a3)		; warp object
+
+	@WarpNext:
+		lea	$40(a3),a3
+		dbf	d6,@WarpLoop
+
+	@NoWarp:
+		move.w	d0,($FFFFF728).w	; update camera boundaries
+		move.w	d0,($FFFFF72A).w	;
+		move.w	d0,($FFFFF700).w	; update camera position            
+
+		; Prevent Sonic from getting stuck on the left boundary
+		lea	(v_player).w,a0
+		sub.w	obX(a0), d0
+		cmp.w	#-$11, d0		; is Sonic touching the left boundary?
+		blt.s	@Return			; if nope, branch
+		add.w	#$11, d0		; d0 = CameraX - SonicX + $11
+		add.w	d0, obX(a0)		; SonicX = CameraX + $11
+		move.w	#@ScrollSpeed<<8, obVelX(a0)
+		move.w	#@ScrollSpeed<<8, obInertia(a0)
+	@Return:
+		rts
+
 ; ===========================================================================
 
 DLE_MZ3end:
-		move.w	(v_screenposx).w,(v_limitleft2).w
-		rts	
+		move.w	#$1D00+$180,($FFFFF72A).w		; setup right boundary
+		move.w	($FFFFF700).w,($FFFFF728).w
+		rts
+
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Star Light Zone dynamic level events
@@ -478,7 +542,7 @@ loc_7144:
 		move.b	#1,(f_lockscreen).w ; lock screen
 		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
-		bra.w	AddPLC		; load boss patterns
+		jmp	AddPLC		; load boss patterns
 ; ===========================================================================
 
 locret_715C:
