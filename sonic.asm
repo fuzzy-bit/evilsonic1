@@ -1769,6 +1769,7 @@ Map_BossItems:	include	"Data\Mappings\Objects\Boss Items.asm"
 		jmp	(DeleteObject).l
 
 		include	"Objects\Bosses\Marble\Main.asm"
+		include	"Objects\Bosses\Marble\LavaBall.asm"
 Map_BSBall:	include	"Data\Mappings\Objects\SLZ Boss Spikeball.asm"
 		include	"Objects\Bosses\Spring Yard\Main.asm"
 		include	"Objects\Bosses\Spring Yard\SYZ Boss Bumper.asm"

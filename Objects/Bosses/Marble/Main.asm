@@ -76,7 +76,8 @@ BossMarble_BossLoad:
 	@ConfigBoss:
 		move.b	#v_BossHits,$21(a0)		; set number of hits to beat him  
 		move.w	#-$100,$10(a0)			; set launching speed
-		move.w	#120,$34(a0)			; set timer
+
+		move.w	#60,$34(a0)			; set timer
 
 
 ; =========================================================================
@@ -121,7 +122,7 @@ BossMarble_ShipAppear:
 
 		clr.w	$10(a0)
 		subq.w	#1,$34(a0)		; subtract 1 from timer
-		bne.s	@NoMove		; if time is over, branch
+		bne.s	@NoMove			; if time is over, branch
 		move.w	#-$400,$10(a0)		; setup new speed
 
 	@MoveShip:
@@ -264,12 +265,14 @@ BossMarble_ThrowLava:
 		move.w	$36(a0),$34(a0)		; reset timer
 		jsr	FindFreeObj
 		bne.s	@Return
-		move.b	#$14,(a1)		; load lava ball
-		move.w	8(a0),8(a1)		; set X-pos
-		move.w	$C(a0),d0
-		add.w	#$28,d0
+		move.b	#id_ObjDynamic, (a1)
+		move.l	#MZBossLavaBall, obCodePtr(a1)
+		move.w	obX(a0), obX(a1)	; set X-pos
+		move.w	obVelX(a0), obVelX(a1)	; set X-pos
+		move.w	#$200, obVelY(a1)
+		moveq	#$28, d0
+		add.w	$C(a0),d0
 		move.w	d0,$C(a1)		; set Y-pos
-		move.b	#5,$28(a1)
 		
 	@Return:
 		rts
