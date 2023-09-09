@@ -91,8 +91,6 @@ BossMarble_BossLoad:
 ; -------------------------------------------------------------------------
 
 BossMarble_ShipMain:
-	KDebug.WriteLine "Routine = %<.b $25(a0)>, Pos=%<.w 8(a0)>:%<.w $C(a0)>"
-
 		moveq	#0,d0
 		move.b	$25(a0),d0
 		move.w	@Routines(pc,d0.w),d0
