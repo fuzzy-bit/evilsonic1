@@ -437,7 +437,6 @@ DLE_MZ3warp:
 @WarpPeriod:	= $400
 @ScrollSpeed:	= 2
 
-		lea	($FFFFD000).w,a0
 		move.w	($FFFFF728).w,d0
 		move.w	#$200,(v_scrshiftx).w	; keep camera scrolling ...
 		addq.w	#@ScrollSpeed,d0
@@ -445,45 +444,46 @@ DLE_MZ3warp:
 		bcs.s	@NoWarp			; if not, branch
 
 		move.w	#@WarpPeriod,d1
-		sub.w	d1,8(a0)		; warp Sonic
 		sub.w	d1,d0			; warp Camera
-		lea	($FFFFD800).w,a3
-		moveq	#$5F,d6
+
+		lea	(v_objspace).w, a3
+		moveq	#$7F,d6
 		
 	@WarpLoop:
-		; Only objects on the boss area should be warped
-		cmpi.b	#id_BossMarble, (a3)
-		beq.s	@WarpObject
-		cmpi.b	#id_ObjDynamic, (a3)
-		bne.s	@WarpNext
+		tst.b	(a3)			; is this slot occupied?
+		beq.s	@WarpNext		; if not, branch
+		moveq	#%1100, d2		; does object use playfield coordinates?
+		and.b	obRender(a3), d2	; ''
+		subq.w	#1<<2, d2		; ''
+		bne.s	@WarpNext		; if not, branch
 
-	@WarpObject:
-		sub.w	d1,8(a3)		; warp object
+		sub.w	d1, obX(a3)		; warp object
 
 	@WarpNext:
 		lea	$40(a3),a3
 		dbf	d6,@WarpLoop
 
-	@NoWarp:             
+	@NoWarp:
 		move.w	d0,($FFFFF728).w	; update camera boundaries
 		move.w	d0,($FFFFF72A).w	;
 		move.w	d0,($FFFFF700).w	; update camera position            
 
 		; Prevent Sonic from getting stuck on the left boundary
-		sub.w	x_pos(a0), d0
+		lea	(v_player).w,a0
+		sub.w	obX(a0), d0
 		cmp.w	#-$11, d0		; is Sonic touching the left boundary?
 		blt.s	@Return			; if nope, branch
 		add.w	#$11, d0		; d0 = CameraX - SonicX + $11
-		add.w	d0, x_pos(a0)		; SonicX = CameraX + $11
-		move.w	#@ScrollSpeed<<8, $10(a0)
-		move.w	#@ScrollSpeed<<8, $14(a0)
+		add.w	d0, obX(a0)		; SonicX = CameraX + $11
+		move.w	#@ScrollSpeed<<8, obVelX(a0)
+		move.w	#@ScrollSpeed<<8, obInertia(a0)
 	@Return:
 		rts
 
 ; ===========================================================================
 
 DLE_MZ3end:
-		move.w	#$1D00+$1C0,($FFFFF72A).w		; setup right boundary
+		move.w	#$1D00+$180,($FFFFF72A).w		; setup right boundary
 		move.w	($FFFFF700).w,($FFFFF728).w
 		rts
 
