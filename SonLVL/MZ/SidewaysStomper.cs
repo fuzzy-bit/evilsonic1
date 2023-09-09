@@ -13,7 +13,7 @@ namespace S1ObjectDefinitions.MZ
 		public override void Init(ObjectData data)
 		{
 			byte[] blocks = ObjectHelper.OpenArtFile("../Data/Art/Nemesis/MZ Metal Blocks.bin", CompressionType.Nemesis);
-			byte[] padding = new byte[0x4360-blocks.Length];
+			byte[] padding = new byte[(0xA360-0x6000)-blocks.Length];
 			byte[] spikes = ObjectHelper.OpenArtFile("../Data/Art/Nemesis/Spikes.bin", CompressionType.Nemesis);
 			List<byte> tmpartfile = new List<byte>();
 			tmpartfile.AddRange(blocks);

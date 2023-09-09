@@ -2035,16 +2035,13 @@ Eni_JapNames:	incbin	"Data\Mappings\TileMaps\Hidden Japanese Credits.bin" ; Japa
 Nem_JapNames:	incbin	"Data\Art\Nemesis\Hidden Japanese Credits.bin"
 		even
 
-Map_Sonic:	include	"Data\Mappings\Objects\Sonic.asm"
-		include	"Data\DPLCs\Sonic.asm"
-
 ; ---------------------------------------------------------------------------
 ; Uncompressed graphics	- Sonic
 ; ---------------------------------------------------------------------------
 		align $20000
 Art_Sonic:	incbin	"Data\Art\Uncompressed\Sonic.bin"	; Sonic
+		even
 
-		
 ; ---------------------------------------------------------------------------
 ; Uncompressed graphics	- Sonic 2's dust/splash particles
 ; ---------------------------------------------------------------------------
