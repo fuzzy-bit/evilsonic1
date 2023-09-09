@@ -1749,6 +1749,20 @@ BossMove:
 		rts
 ; End of function BossMove
 
+; ---------------------------------------------------------------------------
+; Subroutine to	move a boss (optimized)
+; ---------------------------------------------------------------------------
+
+BossMove2:
+		; use Blast processing(tm) to calculate position
+		movem.w	obVelX(a0), d0-d1
+		asl.l	#8, d0
+		add.l	d0, obX(a0)
+		asl.l	#8, d1
+		add.l	d1, $38(a0)
+		rts
+; End of function BossMove
+
 ; ===========================================================================
 
 		include	"Objects\Bosses\Green Hill\Main.asm"

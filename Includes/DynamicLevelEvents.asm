@@ -451,8 +451,13 @@ DLE_MZ3warp:
 		moveq	#$5F,d6
 		
 	@WarpLoop:
-		tst.b	(a3)
-		beq.s	@WarpNext
+		; Only objects on the boss area should be warped
+		cmpi.b	#id_BossMarble, (a3)
+		beq.s	@WarpObject
+		cmpi.b	#id_ObjDynamic, (a3)
+		bne.s	@WarpNext
+
+	@WarpObject:
 		sub.w	d1,8(a3)		; warp object
 
 	@WarpNext:
