@@ -15,7 +15,7 @@ timer_interval = $2A
 ; -------------------------------------------------------------------------
 BossMarble:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obRoutine(a0),d0
 		move.w	@Routines(pc,d0.w),d0		; get routine relative offset
 		jmp	@Routines(pc,d0.w)		; jump to routine
 
@@ -48,9 +48,9 @@ BossMarble_ObjData:
 ; -------------------------------------------------------------------------
 
 BossMarble_BossLoad:
-		move.w	$C(a0), $38(a0)
+		move.w	obY(a0), $38(a0)			; setup Y-pos
 
-		lea	BossMarble_ObjData(pc),a2		; a2 => Load config
+		lea	BossMarble_ObjData(pc),a2	; a2 => Load config
 		movea.l	a0,a1				; use this object slot for first object configured
 		moveq	#4-1,d1				; do 4 objects
 		bra.s	@ConfigObject			; skip creation part for the first object
@@ -58,31 +58,31 @@ BossMarble_BossLoad:
 	@CreateObject:
 		jsr	FindNextFreeObj			; important! this slot should be placed after ship slot to aviod code conflicts
 		bne.s	@ConfigBoss			; if we fail, branch
-		move.b	#$73,(a1)			; -- I'm Object 73 and I'm proud of it!
+		move.b	#id_BossMarble,(a1)		; -- I'm MZ Boss and I'm proud of it!
 		move.w	obX(a0), obX(a1)		; copy X, Y coords
-		move.w	$C(a0),$C(a1)			;
-		move.w	a0,$34(a1)			; set parent obj address
+		move.w	obY(a0),obY(a1)			;
+		move.w	a0, $34(a1)			; set parent obj address
 		
 	@ConfigObject:
-		move.b	#4,1(a1)
-		move.w	#$400,2(a1)
-		move.l	#Map_Eggman,4(a1)
-		move.b	#$20,$19(a1)
-		move.b	(a2)+,$24(a1)			; config => set up routine
-		move.b	(a2)+,$1C(a1)			; config => set up animation
-		move.b	(a2)+,$18(a1)			; config => set up priority
+		move.b	#4, obRender(a1)
+		move.w	#$400, obGfx(a1)
+		move.l	#Map_Eggman, obMap(a1)
+		move.b	#$20, obActWid(a1)
+		move.b	(a2)+, obRoutine(a1)		; config => set up routine
+		move.b	(a2)+, obAnim(a1)		; config => set up animation
+		move.b	(a2)+, obPriority(a1)		; config => set up priority
 
-		dbf	d1,@CreateObject
+		dbf	d1, @CreateObject
 
-		move.l	#Map_BossItems,4(a1)		; fix config for boss items
-		move.w	#$246C,2(a1)			;
-		move.b	#4,$1A(a1)			;
+		move.l	#Map_BossItems, obMap(a1)	; fix config for boss items
+		move.w	#$246C, obGfx(a1)		;
+		move.b	#4, obFrame(a1)			;
 		
 	@ConfigBoss:
-		move.b	#v_BossHits,$21(a0)		; set number of hits to beat him  
-		move.w	#-$100,$10(a0)			; set launching speed
+		move.b	#v_BossHits, obColProp(a0)	; set number of hits to beat him  
+		move.w	#-$100, obVelX(a0)		; set launching speed
 
-		move.w	#60,timer(a0)			; set timer
+		move.w	#90, timer(a0)			; set timer
 
 
 ; =========================================================================
@@ -92,7 +92,7 @@ BossMarble_BossLoad:
 
 BossMarble_ShipMain:
 		moveq	#0,d0
-		move.b	$25(a0),d0
+		move.b	ob2ndRout(a0),d0
 		move.w	@Routines(pc,d0.w),d0
 		jsr	@Routines(pc,d0.w)
 
@@ -107,7 +107,7 @@ BossMarble_ShipMain:
 		; Animation, display and flipping stuff
 		lea	(Ani_Eggman).l,a1
 		jsr	AnimateSprite
-		move.b	$22(a0),d0	; load object status
+		move.b	obStatus(a0),d0	; load object status
 		andi.b	#3,d0		; mask only X-Y orientation
 		andi.b	#$FC,1(a0)	; clear X-Y orientation bits in render flags
 		or.b	d0,1(a0)	; set up orientation according to obj status
@@ -125,32 +125,32 @@ BossMarble_ShipMain:
 
 ; =========================================================================
 BossMarble_ShipAppear:
-		cmpi.w	#v_CamXBase+$110+$20,8(a0); has the ship reached boss music point?
+		cmpi.w	#v_CamXBase+$110+$20,obX(a0); has the ship reached boss music point?
 		bne.s	@0			; if not, branch
-		move.w	#$8C,d0			
-		jsr	PlaySound		; play boss music
 
-@0:		cmpi.w	#v_CamXBase+$110,8(a0)	; has the ship reached a laugh-point?
+		music mus_Final			; play boss music
+
+@0:		cmpi.w	#v_CamXBase+$110,obX(a0); has the ship reached a laugh-point?
 		bne.s	@MoveShip		; if not, branch
 
-		clr.w	$10(a0)
+		clr.w	obVelX(a0)
 		subq.w	#1,timer(a0)		; subtract 1 from timer
 		bne.s	@NoMove			; if time is over, branch
-		move.w	#-$400,$10(a0)		; setup new speed
+		move.w	#-$400,obVelX(a0)	; setup new speed
 
 	@MoveShip:
-		cmpi.w	#v_CamXBase-$40,8(a0)	; has the ship gone past left boundary?
+		cmpi.w	#v_CamXBase-$40,obX(a0)	; has the ship gone past left boundary?
 		bcs.s	@NextRoutine		; if yep, go to next routine
 		jmp	BossMove2
 
 	@NextRoutine:
-		addq.b	#2,$25(a0)
-		bset	#0,$22(a0)		; set orientation to right
-		move.w	#$280,$10(a0)		; set speeds
+		addq.b	#2,ob2ndRout(a0)
+		bset	#0,obStatus(a0)		; set orientation to right
+		move.w	#$280,obVelX(a0)	; set speeds
 		move.w	#90,timer(a0)		; set timer
 		move.w	#$20,timer_interval(a0)	; set interval
-		move.b	#$F,$20(a0)		; set touch response
-		addq.b	#2,($FFFFF742).w	; -- Now we ROCK!!!
+		move.b	#$F,obColType(a0)	; set touch response
+		addq.b	#2,(v_dle_routine).w	; -- Now we ROCK!!!
 
 	@NoMove:
 		rts
@@ -162,24 +162,24 @@ BossMarble_ShipAppear:
 
 BossMarble_FlyAction1:
 		bsr.w	BossMarble_ThrowLava
-		tst.w	$12(a0)			; are we going down?
+		tst.w	obVelY(a0)		; are we going down?
 		bne.s	@FlyDown
-		move.w	8(a0),d0		; d0 -> BossX
-		sub.w	($FFFFF700).w,d0	; d0 -> BossX - CamX
+		move.w	obX(a0),d0		; d0 -> BossX
+		sub.w	(v_screenposx).w,d0	; d0 -> BossX - CamX
 		cmpi.w	#200,d0			; is Boss in mid screen?
 		blt.s	@MoveShip		; if not, branch
 		
 	@FlyDown:
-		subq.w	#8,$10(a0)
+		subq.w	#8,obVelX(a0)
 		beq.s	@NextRoutine
-		addq.w	#4,$12(a0)
+		addq.w	#4,obVelY(a0)
 
 	@MoveShip:                     
 		bsr.w	BossMarble_ShipProcess
 		jmp	BossMove2  
 		
 	@NextRoutine:
-		addq.b	#2,$25(a0)
+		addq.b	#2,ob2ndRout(a0)
 
 ; =========================================================================
 ; -------------------------------------------------------------------------
@@ -188,25 +188,25 @@ BossMarble_FlyAction1:
 
 BossMarble_FlyAction2:
 		bsr.w	BossMarble_ThrowLava
-		tst.w	$12(a0)			; is ship going up?
+		tst.w	obVelY(a0)			; is ship going up?
 		bmi.s	@MoveUp			; if yes, branch
-		subq.w	#4-2,$12(a0)		; establish ship
+		subq.w	#4-2,obVelY(a0)		; establish ship
 
 	@MoveUp:
-		subq.w	#2,$12(a0)
-		addq.w	#8,$10(a0)		; accelerate ship horizonatally
-		move.w	8(a0),d0		; d0 -> BossX
-		sub.w	($FFFFF700).w,d0	; d0 -> BossX - CamX
+		subq.w	#2,obVelY(a0)
+		addq.w	#8,obVelX(a0)		; accelerate ship horizonatally
+		move.w	obX(a0),d0		; d0 -> BossX
+		sub.w	(v_screenposx).w,d0	; d0 -> BossX - CamX
 		cmpi.w	#320+$40,d0		; has boss went out of screen?
 		bge.s	@NextRoutine		; if yes, branch  
 		bsr.w	BossMarble_ShipProcess
 		jmp	BossMove2
 
 	@NextRoutine:
-		addq.b	#2,$25(a0)
+		addq.b	#2,ob2ndRout(a0)
 		move.w	#$23C,$38(a0)		; restore Y-pos
-		clr.w	$12(a0)			; reset Y-speed
-		move.w	#$1C0,$10(a0)		; set X-speed
+		clr.w	obVelY(a0)		; reset Y-speed
+		move.w	#$1C0,obVelX(a0)	; set X-speed
 
 ; =========================================================================
 ; -------------------------------------------------------------------------
@@ -215,19 +215,19 @@ BossMarble_FlyAction2:
 
 BossMarble_FlyAction3:
 		bsr.w	BossMarble_ThrowLava
-		move.w	8(a0),d0		; d0 -> BossX
-		sub.w	($FFFFF700).w,d0	; d0 -> BossX - CamX
+		move.w	obX(a0),d0		; d0 -> BossX
+		sub.w	(v_screenposx).w,d0	; d0 -> BossX - CamX
 
 		cmpi.w	#320-$40,d0		; has boss went past screen ~quater?
 		bgt.s	@MoveShip		; if not, branch
-		addq.w	#4,$12(a0)		; make ship fly down
+		addq.w	#4,obVelY(a0)		; make ship fly down
 		cmpi.w	#$23C-$20+$40,$38(a0)	; has the boss passed Y-mid screen?
 		bcs.s	@MoveShip		; if nah, branch
-		subq.w	#8,$12(a0)		; make ship rise
+		subq.w	#8,obVelY(a0)		; make ship rise
 		bne.s	@MoveShip		; if speed is not zero, branch
 		cmpi.w	#160,d0			; has the boss passed X-mid screen?
 		bgt.s	@MoveShip		; if not, branch
-		addq.b	#2,$25(a0)		; => "BossMarble_FlyAction2"
+		addq.b	#2,ob2ndRout(a0)		; => "BossMarble_FlyAction2"
 
 	@MoveShip:         
 		bsr.w	BossMarble_ShipProcess
@@ -239,27 +239,27 @@ BossMarble_FlyAction3:
 ; -------------------------------------------------------------------------
 
 BossMarble_FlyAction4:
-		bclr	#0,$22(a0)		; flip ship right
-		move.w	#-$100,$10(a0)		; set attack speed
-		move.w	8(a0),d0		; d0 -> BossX
-		sub.w	($FFFFF700).w,d0	; d0 -> BossX - CamX
+		bclr	#0,obStatus(a0)		; flip ship right
+		move.w	#-$100,obVelX(a0)	; set attack speed
+		move.w	obX(a0),d0		; d0 -> BossX
+		sub.w	(v_screenposx).w,d0	; d0 -> BossX - CamX
 		cmpi.w	#-$40,d0		; has the boss flied to the left border?
 		blt.s	@NextRoutine		; if yes, branch
-		addi.w	#$1C,$12(a0)		; make ship fly down
+		addi.w	#$1C,obVelY(a0)		; make ship fly down
 		cmpi.w	#$23C-$20+$40,$38(a0)	; has the boss passed Y-mid screen?
 		bcs.s	@MoveShip		; if nah, branch
-		subi.w	#$38,$12(a0)
+		subi.w	#$38,obVelY(a0)
 
 	@MoveShip:                     
 		bsr.w	BossMarble_ShipProcess
 		jmp	BossMove2
 
 	@NextRoutine:
-		move.b	#2,$25(a0)		; => "BossMarble_FlyAction1"
+		move.b	#2,ob2ndRout(a0)	; => "BossMarble_FlyAction1"
 		move.w	#$23C,$38(a0)		; reset Y-pos
-		bset	#0,$22(a0)		; flip boss right
-		move.w	#$280,$10(a0)		; set speeds
-		clr.w	$12(a0)			;
+		bset	#0,obStatus(a0)		; flip boss right
+		move.w	#$280,obVelX(a0)	; set speeds
+		clr.w	obVelY(a0)		;
 		rts
 
 
@@ -280,8 +280,8 @@ BossMarble_ThrowLava:
 		move.w	obVelX(a0), obVelX(a1)	; set X-pos
 		move.w	#$200, obVelY(a1)
 		moveq	#$28, d0
-		add.w	$C(a0),d0
-		move.w	d0,$C(a1)		; set Y-pos
+		add.w	obY(a0),d0
+		move.w	d0,obY(a1)		; set Y-pos
 		
 	@Return:
 		rts
@@ -293,38 +293,37 @@ BossMarble_ThrowLava:
 ; ---------------------------------------------------------------------------
 
 BossMarble_ShipProcess:
-		tst.b	$22(a0)		; was boss defeated?
-		bmi.s	BossMarble_ShipGone	; if yes, branch
-		tst.b	$20(a0)		; is touch response zero?
-		bne.s	@Return		; if not, branch
-		tst.b	$3E(a0)		; is flashes counter zero?
-		bne.s	@ShipFlash	; if not, branch
-		move.b	#$20,$3E(a0)	; set number of	times to flash 
+		tst.b	obStatus(a0)			; was boss defeated?
+		bmi.s	BossMarble_ShipGone		; if yes, branch
+		tst.b	obColType(a0)			; is touch response zero?
+		bne.s	@Return				; if not, branch
+		tst.b	$3E(a0)				; is flashes counter zero?
+		bne.s	@ShipFlash			; if not, branch
+		move.b	#$20,$3E(a0)			; set number of	times to flash 
 
-		cmpi.b	#v_BossPinchHits,$21(a0)	; is it time for pinch mode?
+		cmpi.b	#v_BossPinchHits, obColProp(a0)	; is it time for pinch mode?
 		bne.s	@DamageBoss			; if nah, branch
-		move.w	#4,timer_interval(a0)			; fire harder
-		move.w	#$60,timer(a0)			; wait some time before firing hard
-		addi.b	#$40,$3E(a0)			; flash longer
+		move.w	#4, timer_interval(a0)		; fire harder
+		move.w	#$60, timer(a0)			; wait some time before firing hard
+		addi.b	#$40, $3E(a0)			; flash longer
 
 	@DamageBoss:
-		move.w	#$AC,d0
-		jsr	(PlaySound_Special).l ;	play boss damage sound
+		sfx sfx_bosshit				; play boss damage sound
 
 	@ShipFlash:
-		lea	($FFFFFB22).w,a1 ; load	2nd pallet, 2nd	entry
-		moveq	#0,d0		; move 0 (black) to d0
-		tst.w	(a1)		; is colour in pallete black?
-		bne.s	@MakeFlash	; if not, branch
-		move.w	#$EEE,d0	; move 0EEE (white) to d0
+		lea	(v_pal_dry+$22).w,a1 		; load	2nd pallet, 2nd	entry
+		moveq	#0,d0				; move 0 (black) to d0
+		tst.w	(a1)				; is colour in pallete black?
+		bne.s	@MakeFlash			; if not, branch
+		move.w	#$EEE,d0			; move 0EEE (white) to d0
 
 	@MakeFlash:
-		move.w	d0,(a1)		; apply colour stored in d0
-		subq.b	#1,$3E(a0)	; subtract 1 from flashes counter
-		bne.s	@Return		; if flashes counter is not zero, branch
-		move.b	#$F,$20(a0)	; restore touch responsibility
+		move.w	d0,(a1)				; apply colour stored in d0
+		subq.b	#1,$3E(a0)			; subtract 1 from flashes counter
+		bne.s	@Return				; if flashes counter is not zero, branch
+		move.b	#$F,obColType(a0)		; restore touch responsibility
 
-	;	cmpi.b	#v_BossPinchHits,$21(a0)	; flashed after pinch mode?
+	;	cmpi.b	#v_BossPinchHits,obColProp(a0)	; flashed after pinch mode?
 	;	bne.s	@Return				; if nah, branch
 	;	move.b	#$4A,d0		; play pinch music for the MZ boss
 	;	jsr	(PlaySound).l
@@ -336,24 +335,24 @@ BossMarble_ShipProcess:
 BossMarble_ShipGone:
 		moveq	#100,d0
 		bsr.w	AddPoints		; add 1000 points
-		clr.w	$12(a0)			; clear Y-vel
-		move.w	#$1C0,$10(a0)		; set X-vel
-		move.b	#$C,$25(a0)		; => "BossMarble_Defeated"
+		clr.w	obVelY(a0)		; clear Y-vel
+		move.w	#$1C0,obVelX(a0)	; set X-vel
+		move.b	#$C,ob2ndRout(a0)	; => "BossMarble_Defeated"
 		move.w	#180,$30(a0)		; set up clever timer
-		move.w	#$AC,d0
-		jmp	(PlaySound_Special).l	; play boss damage sound
+
+		sfx sfx_bosshit			; play boss damage sound
 
 ; =========================================================================
 BossMarble_Defeated:
 		subq.w	#1,$30(a0)		; subtract 1 from timer
 		bpl.s	@MoveShip
-		bset	#0,$22(a0)		; flip him right
-		move.w	8(a0),d0		; d0 -> BossX
-		sub.w	($FFFFF700).w,d0	; d0 -> BossX - CamX
-		addq.w	#8,$10(a0)		; move ship horizontally
+		bset	#0,obStatus(a0)		; flip him right
+		move.w	obX(a0),d0		; d0 -> BossX
+		sub.w	(v_screenposx).w,d0	; d0 -> BossX - CamX
+		addq.w	#8,obVelX(a0)		; move ship horizontally
 		cmpi.w	#60,d0			; has the boss passed special point on screen?
 		blt.s	@MoveShip		; if not, branch
-		subq.w	#8,$12(a0)		; move ship vertically
+		subq.w	#8,obVelY(a0)		; move ship vertically
 		cmpi.w	#320+$80,d0		; has the boss run out for quite long distance?
 		bgt.s	@DeleteBoss		; if yes, make it all finish
 		
@@ -362,9 +361,10 @@ BossMarble_Defeated:
 		jmp	BossDefeated		; -- FUCK NO! I'M EXPLODING!!!
 
 	@DeleteBoss:
-		addq.b	#2,($FFFFF742).w
-		move.b	#$83,d0
-		jsr	PlaySound		; TODOh: Custom song
+		addq.b	#2,(v_dle_routine).w
+
+		music mus_mz			; play BGM
+
 		jmp	DeleteObject
 
 
@@ -374,33 +374,33 @@ BossMarble_Defeated:
 ; -------------------------------------------------------------------------
 
 BossMarble_FaceMain:
-		movea.w	$34(a0),a1		; load ship object slot
+		movea.w	$34(a0),a1			; load ship object slot
 		tst.b	(a1)
 		beq.s	BossMarble_DeleteSubObj
-		moveq	#1,d1			; => Normal Face
-		tst.b	$25(a1)
+		moveq	#1,d1				; => Normal Face
+		tst.b	ob2ndRout(a1)
 		bne.s	@BehaveNormal
 		
 	; -- Routine $00
-		tst.w	$10(a1)			; has the boss stoped? (boss only stops to laugh at Sonic, so yeah)
-		bne.s	@SetAnimation		; if nah, branch
-		moveq	#4,d1			; => Face Laugh
+		tst.w	obVelX(a1)			; has the boss stoped? (boss only stops to laugh at Sonic, so yeah)
+		bne.s	@SetAnimation			; if nah, branch
+		moveq	#4,d1				; => Face Laugh
 		bra.s	@SetAnimation
 
 	; -- Routines $02+
 	@BehaveNormal:      
-		tst.b	$20(a1)
+		tst.b	obColType(a1)
 		bne.s	@CheckSonic
-		moveq	#5,d1			; => Face Hurt
+		moveq	#5,d1				; => Face Hurt
 		bra.s	@SetAnimation
 
 	@CheckSonic:
-		cmpi.b	#4,($FFFFD024).w	; is Sonic hurt?
-		bcs.s	@SetAnimation		; if no, branch
-		moveq	#4,d1			; => Face Laugh
+		cmpi.b	#4,(v_player+obRoutine).w	; is Sonic hurt?
+		bcs.s	@SetAnimation			; if no, branch
+		moveq	#4,d1				; => Face Laugh
 
 	@SetAnimation:
-		move.b	d1,$1C(a0)
+		move.b	d1, obAnim(a0)
 
 
 ; =========================================================================
@@ -409,17 +409,17 @@ BossMarble_FaceMain:
 ; -------------------------------------------------------------------------
 
 BossMarble_DisplaySubObj:
-		move.w	8(a1),8(a0)		; copy coords
-		move.w	$C(a1),$C(a0)		;
-		move.b	$22(a1),$22(a0)
-		lea	(Ani_Eggman).l,a1
+		move.w	obX(a1), obX(a0)	; copy coords
+		move.w	obY(a1), obY(a0)	;
+		move.b	obStatus(a1), obStatus(a0)
+		lea	(Ani_Eggman).l, a1
 		jsr	AnimateSprite
 		
 BossMarble_DisplaySubObj2:
-		move.b	$22(a0),d0
-		andi.b	#3,d0
-		andi.b	#$FC,1(a0)
-		or.b	d0,1(a0)
+		move.b	obStatus(a0), d0
+		andi.b	#3, d0
+		andi.b	#$FC, obRender(a0)
+		or.b	d0, obRender(a0)
 		jmp	DisplaySprite
 
 
@@ -438,12 +438,12 @@ BossMarble_FlameMain:
 		tst.b	(a1)
 		beq.s	BossMarble_DeleteSubObj
 		moveq	#0,d1			; => No Flame
-		tst.w	$10(a1)
+		tst.w	obVelX(a1)
 		beq.s	@SetAnimation
 		moveq	#8,d1			; => Normal flame
 		
 	@SetAnimation:
-		move.b	d1,$1C(a0)
+		move.b	d1,obAnim(a0)
 		bra.s	BossMarble_DisplaySubObj
 
 
@@ -454,12 +454,12 @@ BossMarble_FlameMain:
 ; -------------------------------------------------------------------------
 
 BossMarble_TubeMain:
-		movea.w	$34(a0),a1		; load ship object slot
+		movea.w	$34(a0),a1			; load ship object slot
 		tst.b	(a1)
 		beq.s	BossMarble_DeleteSubObj
-		move.w	8(a1),8(a0)		; copy coords
-		move.w	$C(a1),$C(a0)		;
-		move.b	$22(a1),$22(a0)
+		move.w	obX(a1), obX(a0)		; copy coords
+		move.w	obY(a1), obY(a0)		; ''
+		move.b	obStatus(a1), obStatus(a0)
 		bra.s	BossMarble_DisplaySubObj2
 
 ; =========================================================================
