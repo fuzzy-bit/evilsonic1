@@ -360,7 +360,7 @@ DLE_MZ3boss:
 		jsr	FindFreeObj
 		bne.s	loc_70D0
 		move.b	#$73,(a1)	; load MZ boss object
-		move.w	#$19F0+$100,8(a1)
+		move.w	#$19F0+$80,8(a1)
 		move.w	#$23C-$20,$C(a1)
 
 loc_70D0:

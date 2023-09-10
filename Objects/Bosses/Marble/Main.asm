@@ -166,7 +166,7 @@ BossMarble_FlyAction1:
 		bne.s	@FlyDown
 		move.w	obX(a0),d0		; d0 -> BossX
 		sub.w	(v_screenposx).w,d0	; d0 -> BossX - CamX
-		cmpi.w	#200,d0			; is Boss in mid screen?
+		cmpi.w	#180,d0			; is Boss in mid screen?
 		blt.s	@MoveShip		; if not, branch
 		
 	@FlyDown:
@@ -188,7 +188,7 @@ BossMarble_FlyAction1:
 
 BossMarble_FlyAction2:
 		bsr.w	BossMarble_ThrowLava
-		tst.w	obVelY(a0)			; is ship going up?
+		tst.w	obVelY(a0)		; is ship going up?
 		bmi.s	@MoveUp			; if yes, branch
 		subq.w	#4-2,obVelY(a0)		; establish ship
 
@@ -245,15 +245,25 @@ BossMarble_FlyAction4:
 		sub.w	(v_screenposx).w,d0	; d0 -> BossX - CamX
 		cmpi.w	#-$40,d0		; has the boss flied to the left border?
 		blt.s	@NextRoutine		; if yes, branch
-		addi.w	#$1C,obVelY(a0)		; make ship fly down
+		addi.w	#$18,obVelY(a0)		; make ship fly down
+		cmpi.w	#320/2, d0		; is the post past the middle of screen?
+		ble.s	@StopFlyingUp		; if yes, branch
 		cmpi.w	#$23C-$20+$40,$38(a0)	; has the boss passed Y-mid screen?
 		bcs.s	@MoveShip		; if nah, branch
-		subi.w	#$38,obVelY(a0)
+		subi.w	#$18+$20,obVelY(a0)
 
 	@MoveShip:                     
 		bsr.w	BossMarble_ShipProcess
 		jmp	BossMove2
 
+	; -----------------------------------------------------------------
+	@StopFlyingUp:
+		subi.w	#$18,obVelY(a0)		; undo flying down
+		beq.s	@MoveShip
+		addq.w	#8,obVelY(a0)
+		bra.s	@MoveShip
+
+	; -----------------------------------------------------------------
 	@NextRoutine:
 		move.b	#2,ob2ndRout(a0)	; => "BossMarble_FlyAction1"
 		move.w	#$23C,$38(a0)		; reset Y-pos
