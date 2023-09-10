@@ -300,76 +300,28 @@ loc_6FBA:
 ; ===========================================================================
 
 loc_6FEA:
-		cmpi.w	#$340,(v_screenposy).w
-		bcc.s	loc_6FF8
-		subq.b	#2,(v_dle_routine).w
 		rts	
 ; ===========================================================================
 
 loc_6FF8:
-		move.w	#0,(v_limittop2).w
-		cmpi.w	#$E00,(v_screenposx).w
-		bcc.s	locret_702C
-		move.w	#$340,(v_limittop2).w
-		move.w	#$340,(v_limitbtm1).w
-		cmpi.w	#$A90,(v_screenposx).w
-		bcc.s	locret_702C
-		move.w	#$500,(v_limitbtm1).w
-		cmpi.w	#$370,(v_screenposy).w
-		bcs.s	locret_702C
-		addq.b	#2,(v_dle_routine).w
 
 locret_702C:
 		rts	
 ; ===========================================================================
 
 loc_702E:
-		cmpi.w	#$370,(v_screenposy).w
-		bcc.s	loc_703C
-		subq.b	#2,(v_dle_routine).w
 		rts	
 ; ===========================================================================
 
 loc_703C:
-		cmpi.w	#$500,(v_screenposy).w
-		bcs.s	locret_704E
-		if Revision=0
-		else
-			cmpi.w	#$B80,(v_screenposx).w
-			bcs.s	locret_704E
-		endc
-		move.w	#$500,(v_limittop2).w
-		addq.b	#2,(v_dle_routine).w
+
 
 locret_704E:
 		rts	
 ; ===========================================================================
 
 loc_7050:
-		if Revision=0
-		else
-			cmpi.w	#$B80,(v_screenposx).w
-			bcc.s	locj_76B8
-			cmpi.w	#$340,(v_limittop2).w
-			beq.s	locret_7072
-			subq.w	#2,(v_limittop2).w
-			rts
-	locj_76B8:
-			cmpi.w	#$500,(v_limittop2).w
-			beq.s	locj_76CE
-			cmpi.w	#$500,(v_screenposy).w
-			bcs.s	locret_7072
-			move.w	#$500,(v_limittop2).w
-	locj_76CE:
-		endc
 
-		cmpi.w	#$E70,(v_screenposx).w
-		bcs.s	locret_7072
-		move.w	#0,(v_limittop2).w
-		move.w	#$500,(v_limitbtm1).w
-		cmpi.w	#$1430,(v_screenposx).w
-		bcs.s	locret_7072
-		move.w	#$210,(v_limitbtm1).w
 
 locret_7072:
 		rts	
