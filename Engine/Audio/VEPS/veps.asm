@@ -348,6 +348,7 @@ mus_sbz: equ		$86
 mus_invincibility: equ	$87
 mus_title: equ		$89
 mus_boss: equ		$8A
+mus_final: equ		$8C
 mus_fz: equ		$8E
 mus_zone7pre: equ	$8E
 mus_zone7: equ	$8F
@@ -359,11 +360,11 @@ mus_model: equ		$8D
 mus_retro: equ		$90
 
 ; Control
-mus_fadeout: equ	$E4 ; the stupidest fix ever
+mus_fadeout: equ	$E0
 mus_sega: equ		$E1
 mus_shoeson: equ	$E2
 mus_shoesoff: equ	$E3
-mus_stop: equ		$E0
+mus_stop: equ		$E4
 
 ; Sound Effects
 sfx_jump: equ		$A0

@@ -113,7 +113,6 @@ Level_LoadPal:
 		move.b	($FFFFFE53).w,(f_wtr_state).w
 
 Level_GetBgm:
-		command	mus_Stop	; fade reset music
 		tst.w	(f_demo).w
 		bmi.s	Level_SkipTtlCard
 		moveq	#0,d0
