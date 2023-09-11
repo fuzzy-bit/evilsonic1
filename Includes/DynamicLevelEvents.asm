@@ -276,13 +276,13 @@ DLE_MZ1:
 		move.w	off_6FB2(pc,d0.w),d0
 		jmp	off_6FB2(pc,d0.w)
 ; ===========================================================================
-off_6FB2:	dc.w loc_6FBA-off_6FB2
-		dc.w loc_6FEA-off_6FB2
-		dc.w loc_702E-off_6FB2
+off_6FB2:	dc.w @Level-off_6FB2
+		dc.w @Autoscroll-off_6FB2
+		dc.w @End-off_6FB2
 		dc.w loc_7050-off_6FB2
 ; ===========================================================================
 
-loc_6FBA:
+@Level:
 		; - DEFAULT ------------------------------------
 		move.w	#$12C,(v_limitbtm1).w ; set lower y-boundary
 		; - PASS 1--------------------------------------
@@ -294,9 +294,85 @@ loc_6FBA:
 		; - PASS 2 -------------------------------------
 @Pass2:
 		move.w	#$560,(v_limitbtm1).w ; set lower y-boundary
+		; - PASS 3--------------------------------------
+		cmpi.w	#$10A3,(v_screenposx).w ; has the camera reached $10A3 on x-axis?
+		bcs.s	@Return ; if not, branch
+
+		jsr		FindFreeObj
+		bne.s	@StartBoss
+		move.b	#$73,(a1)	; load MZ boss object
+		move.w	#$19F0+$80,8(a1)
+		move.w	#$23C-$20,$C(a1)
+
+@StartBoss:
+		move.w	($FFFFF700).w,d0
+		move.w	d0,($FFFFF728).w	; lock left side
+		move.w	#$200,($FFFFF72C).w	; lock the top
+
+		command	mus_FadeOut	; fade out music
+
+		move.b	#1,($FFFFF7AA).w	; lock screen
+		addq.b	#2,($FFFFF742).w
+		moveq	#plcid_Boss,d0
+		jmp	AddPLC			; load boss patterns
 		; ----------------------------------------------
 @Return:
 		rts	
+
+; ===========================================================================
+
+@Autoscroll:
+@WarpPeriod:	= $400
+@ScrollSpeed:	= 2
+
+		move.w	($FFFFF728).w,d0
+		move.w	#$200,(v_scrshiftx).w	; keep camera scrolling ...
+		addq.w	#@ScrollSpeed,d0
+		cmpi.w	#$1900+@WarpPeriod,d0	; has camera went past warp border?
+		bcs.s	@NoWarp			; if not, branch
+
+		move.w	#@WarpPeriod,d1
+		sub.w	d1,d0			; warp Camera
+
+		lea	(v_objspace).w, a3
+		moveq	#$7F,d6
+		
+	@WarpLoop:
+		tst.b	(a3)			; is this slot occupied?
+		beq.s	@WarpNext		; if not, branch
+		moveq	#%1100, d2		; does object use playfield coordinates?
+		and.b	obRender(a3), d2	; ''
+		subq.w	#1<<2, d2		; ''
+		bne.s	@WarpNext		; if not, branch
+
+		sub.w	d1, obX(a3)		; warp object
+
+	@WarpNext:
+		lea	$40(a3),a3
+		dbf	d6,@WarpLoop
+
+	@NoWarp:
+		move.w	d0,($FFFFF728).w	; update camera boundaries
+		move.w	d0,($FFFFF72A).w	;
+		move.w	d0,($FFFFF700).w	; update camera position            
+
+		; Prevent Sonic from getting stuck on the left boundary
+		lea	(v_player).w,a0
+		sub.w	obX(a0), d0
+		cmp.w	#-$11, d0		; is Sonic touching the left boundary?
+		blt.s	@Return			; if nope, branch
+		add.w	#$11, d0		; d0 = CameraX - SonicX + $11
+		add.w	d0, obX(a0)		; SonicX = CameraX + $11
+		move.w	#@ScrollSpeed<<8, obVelX(a0)
+		move.w	#@ScrollSpeed<<8, obInertia(a0)
+		rts
+
+; ===========================================================================
+
+@End:
+		move.w	#$1D00+$180,($FFFFF72A).w		; setup right boundary
+		move.w	($FFFFF700).w,($FFFFF728).w
+		rts
 ; ===========================================================================
 
 loc_6FEA:
