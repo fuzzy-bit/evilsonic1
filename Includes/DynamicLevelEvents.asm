@@ -273,13 +273,14 @@ DLE_MZx:	dc.w DLE_MZ1-DLE_MZx
 DLE_MZ1:
 		moveq	#0,d0
 		move.b	(v_dle_routine).w,d0
-		move.w	off_6FB2(pc,d0.w),d0
-		jmp	off_6FB2(pc,d0.w)
+		move.w	@Routines(pc,d0.w),d0
+		jmp	@Routines(pc,d0.w)
 ; ===========================================================================
-off_6FB2:	dc.w @Level-off_6FB2
-		dc.w @Autoscroll-off_6FB2
-		dc.w @End-off_6FB2
-		dc.w loc_7050-off_6FB2
+@Routines:	dc.w @Level-@Routines
+		dc.w @Nullsub-@Routines
+		dc.w @Autoscroll-@Routines
+		dc.w @End-@Routines
+		dc.w @Nullsub-@Routines
 ; ===========================================================================
 
 @Level:
@@ -295,7 +296,11 @@ off_6FB2:	dc.w @Level-off_6FB2
 @Pass2:
 		move.w	#$560,(v_limitbtm1).w ; set lower y-boundary
 		; - PASS 3--------------------------------------
-		cmpi.w	#$10A3,(v_screenposx).w ; has the camera reached $10A3 on x-axis?
+		cmpi.w	#$1500,(v_screenposx).w ; has the camera reached $1600 on x-axis?
+		bcs.s	@Return ; if not, branch
+		move.w	#$200,($FFFFF726).w	; locl bottom
+
+		cmpi.w	#$1800,(v_screenposx).w ; has the camera reached $1600 on x-axis?
 		bcs.s	@Return ; if not, branch
 
 		jsr		FindFreeObj
@@ -309,14 +314,15 @@ off_6FB2:	dc.w @Level-off_6FB2
 		move.w	d0,($FFFFF728).w	; lock left side
 		move.w	#$200,($FFFFF72C).w	; lock the top
 
-		command	mus_FadeOut	; fade out music
+	command	mus_FadeOut	; fade out music
 
 		move.b	#1,($FFFFF7AA).w	; lock screen
-		addq.b	#2,($FFFFF742).w
+		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
 		jmp	AddPLC			; load boss patterns
 		; ----------------------------------------------
 
+@Nullsub:
 @Return:
 		rts	
 
@@ -367,41 +373,17 @@ off_6FB2:	dc.w @Level-off_6FB2
 		move.w	#@ScrollSpeed<<8, obVelX(a0)
 		move.w	#@ScrollSpeed<<8, obInertia(a0)
 		rts
-
 ; ===========================================================================
 
 @End:
+		sf.b	($FFFFF7AA).w				; unlock right boundary
+		addq.b	#2,(v_dle_routine).w
 		move.w	#$1D00+$180,($FFFFF72A).w		; setup right boundary
-		move.w	($FFFFF700).w,($FFFFF728).w
-		rts
-; ===========================================================================
+		move.w	($FFFFF700).w,($FFFFF728).w		; limit left boundary
 
-loc_6FEA:
-		rts	
-; ===========================================================================
+		moveq	#plcid_Signpost,d0
+		jmp	NewPLC					; load signpost	patterns
 
-loc_6FF8:
-
-locret_702C:
-		rts	
-; ===========================================================================
-
-loc_702E:
-		rts	
-; ===========================================================================
-
-loc_703C:
-
-
-locret_704E:
-		rts	
-; ===========================================================================
-
-loc_7050:
-
-
-locret_7072:
-		rts	
 ; ===========================================================================
 
 DLE_MZ2:
@@ -455,7 +437,7 @@ loc_70D0:
 		command	mus_FadeOut	; fade out music
 
 		move.b	#1,($FFFFF7AA).w	; lock screen
-		addq.b	#2,($FFFFF742).w
+		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
 		jmp	AddPLC			; load boss patterns
 		; ----------------------------------------------

@@ -161,8 +161,10 @@ Level_TtlCardLoop:
 		move.b	#id_HUD,(v_objspace+$40).w ; load HUD object
 
 Level_ChkDebug:
-		tst.b	(f_debugcheat).w ; has debug cheat been entered?
-		beq.s	Level_ChkWater	; if not, branch
+		if def(__DEBUG__)=0
+			tst.b	(f_debugcheat).w ; has debug cheat been entered?
+			beq.s	Level_ChkWater	; if not, branch
+		endc
 		btst	#bitA,(v_jpadhold1).w ; is A button held?
 		beq.s	Level_ChkWater	; if not, branch
 		move.b	#1,(f_debugmode).w ; enable debug mode
@@ -453,6 +455,8 @@ SignpostArtLoad:
 		bne.w	@exit		; if yes, branch
 		cmpi.b	#2,(v_act).w	; is act number 02 (act 3)?
 		beq.s	@exit		; if yes, branch
+		cmpi.w	#$200,(v_zone).w	; is it MZ1?
+		beq.s	@exit
 
 		move.w	(v_screenposx).w,d0
 		move.w	(v_limitright2).w,d1
