@@ -105,7 +105,7 @@ Menu:
 	jsr	PaletteFadeIn
 
 	; Load the first menu & rock
-	moveq	#1,d1
+	moveq	#0,d1
 	move.b	d1, Menu_ID
 	moveq	#0,d0
 	move.b	d0, Menu_ItemID
@@ -400,15 +400,15 @@ _ToRight = $01
 _ToBottom = $02
 
 MainMenu_MenuCommands:
-@L	dc.w	MainMenu_Full_Cmd-@L		; $00
-	dc.w	MainMenu_Locked_Cmd-@L		; $01
-	dc.w	OptionsMenu_Cmd-@L		; $02
+@L	dc.w	MainMenu_Full_Cmd-@L	; $00
+	dc.w	OptionsMenu_Cmd-@L		; $01
+	dc.w	SRAMChoice_Cmd-@L		; $02
 	dc.w	SRAMChoice_Cmd-@L		; $03
 
 MainMenu_MenuElements:
 @L	dc.w	MainMenu_Full-@L		; $00
-	dc.w	MainMenu_Locked-@L		; $01
-	dc.w	OptionsMenu-@L			; $02
+	dc.w	OptionsMenu-@L			; $01
+	dc.w	SRAMChoice-@L			; $02
 	dc.w	SRAMChoice-@L			; $03
 ; ---------------------------------------------------------------
 
@@ -436,30 +436,6 @@ MainMenu_Full_Cmd:
 	dc.l	Hwnd_MainMenu_Options		; Code handler
 
 ; ---------------------------------------------------------------
-MainMenu_Locked:
-	dc.b	0				; Default Item
-	dc.b	3				; Size
-	dc.w	$0000, $E0			; Index/Frame, Y-pos
-	dc.w	$0107, $100			;
-	dc.w	$0202, $120			;
-
-MainMenu_Locked_Cmd:
-	; PLAY
-	dc.b	0,_ToBottom			; In/Out anim
-	dc.l	MainMenu_MenuHide2		; Loop handler
-	dc.l	Hwnd_MainMenu_Play		; Code handler
-
-	; ? ? ?
-	dc.b	0,_ToBottom			; In/Out anim
-	dc.l	MainMenu_MenuControlLoop	; Loop handler
-	dc.l	Hwnd_Locked			; Code handler
-
-	; OPTIONS
-	dc.b	_FromRight,_ToLeft		; In/Out anim
-	dc.l	MainMenu_MenuHide		; Loop handler
-	dc.l	Hwnd_MainMenu_Options		; Code handler
-
-; ---------------------------------------------------------------
 OptionsMenu:
 	dc.b	0				; Default Item
 	dc.b	4				; Size
@@ -469,10 +445,10 @@ OptionsMenu:
 	dc.w	$0306, $D0+$18*3+$10		;
 	
 OptionsMenu_Cmd:
-	; LANGUAGE
+	; DIFFICULTY
 	dc.b	_FromRight,_ToRight		; In/Out anim
 	dc.l	MainMenu_MenuHide		; Loop handler
-	dc.l	Hwnd_Options_Lang		; Code handler
+	dc.l	Hwnd_Options_Difficulty		; Code handler
 
 	; CLEAR SRAM
 	dc.b	_FromRight,_ToLeft		; In/Out anim
@@ -521,7 +497,7 @@ Hwnd_MainMenu_Challenges:
 
 ; ---------------------------------------------------------------
 Hwnd_MainMenu_Options:
-	move.b	#$02,Menu_ID
+	move.b	#$01,Menu_ID
 	rts
 
 ; ---------------------------------------------------------------
@@ -529,7 +505,7 @@ Hwnd_Locked:
 	illegal
 
 ; ---------------------------------------------------------------
-Hwnd_Options_Lang:
+Hwnd_Options_Difficulty:
 	illegal
 
 ; ---------------------------------------------------------------
@@ -551,7 +527,7 @@ Hwnd_SRAMChoice_Yes:
 	illegal
 	
 Hwnd_SRAMChoice_No:
-	move.b	#$02, Menu_ID
+	move.b	#$01, Menu_ID
 	rts
 
 ; ---------------------------------------------------------------
