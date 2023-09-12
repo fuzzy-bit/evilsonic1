@@ -316,6 +316,7 @@ off_6FB2:	dc.w @Level-off_6FB2
 		moveq	#plcid_Boss,d0
 		jmp	AddPLC			; load boss patterns
 		; ----------------------------------------------
+
 @Return:
 		rts	
 
@@ -439,6 +440,13 @@ DLE_MZ3boss:
 		move.w	#$19F0+$80,8(a1)
 		move.w	#$23C-$20,$C(a1)
 
+		move.b 	(v_difficulty).w, d0
+		cmpi.b 	#2, d0 ; is difficulty hard+?
+		blt.s 	loc_70D0 ; if not, branch
+
+		move.w	#0,(v_rings).w
+		move.b	#$80,(f_ringcount).w ; update ring counter
+
 loc_70D0:
 		move.w	($FFFFF700).w,d0
 		move.w	d0,($FFFFF728).w	; lock left side
@@ -446,10 +454,12 @@ loc_70D0:
 
 		command	mus_FadeOut	; fade out music
 
-		move.b	#1,($FFFFF7AA).w	; lock	screen
+		move.b	#1,($FFFFF7AA).w	; lock screen
 		addq.b	#2,($FFFFF742).w
 		moveq	#plcid_Boss,d0
 		jmp	AddPLC			; load boss patterns
+		; ----------------------------------------------
+
 
 ; ===========================================================================
 DLE_MZ3null:

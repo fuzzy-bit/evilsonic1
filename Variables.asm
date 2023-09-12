@@ -109,7 +109,6 @@ v_sonspeedmax:	equ $FFFFF760	; Sonic's maximum speed (2 bytes)
 v_sonspeedacc:	equ $FFFFF762	; Sonic's acceleration (2 bytes)
 v_sonspeeddec:	equ $FFFFF764	; Sonic's deceleration (2 bytes)
 v_sonframenum:	equ $FFFFF766	; frame to display for Sonic
-v_difficulty:	equ $FFFFF767	; difficulty
 v_anglebuffer:	equ $FFFFF768	; angle of collision block that Sonic or object is standing on
 v_countdown:    equ $FFFFF769
 v_levelselpal:    equ $FFFFF7F2
@@ -281,8 +280,8 @@ v_csum_value:	equ $FFFFFFF0	; the accumulated value of checksum check (2 bytes)
 v_csum_start:	equ $FFFFFFF4	; set if start button was pressed during checksum check
 f_demo:		equ $FFFFFFF0	; demo mode flag (0 = no; 1 = yes; $8001 = ending) (2 bytes)
 v_demonum:	equ $FFFFFFF2	; demo level number (not the same as the level number) (2 bytes)
+v_difficulty:	equ $FFFFFFF4	; difficulty
 
-ConsoleRegion:	equ $FFFFFFF8	; Megadrive machine type (AMPS)
 v_megadrive:	equ $FFFFFFF8	; Megadrive machine type
 
 f_debugmode:	equ $FFFFFFFA	; debug mode flag (sometimes 2 bytes)

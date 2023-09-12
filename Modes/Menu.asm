@@ -90,7 +90,7 @@ Menu:
 	jsr	KosDec
 	writeVRAM $FF0000, $100, _VRAM_MenuBG
 
-	music	mus_title
+	music	mus_model
 
 	; Setup screen
 	jsr	Menu_GenerateBG
@@ -402,22 +402,24 @@ _ToBottom = $02
 MainMenu_MenuCommands:
 @L	dc.w	MainMenu_Full_Cmd-@L	; $00
 	dc.w	OptionsMenu_Cmd-@L		; $01
-	dc.w	SRAMChoice_Cmd-@L		; $02
+	dc.w	DifficultySelect_Cmd-@L		; $02
 	dc.w	SRAMChoice_Cmd-@L		; $03
+	dc.w	LevelSelectMenu_Cmd-@L		; $04
 
 MainMenu_MenuElements:
 @L	dc.w	MainMenu_Full-@L		; $00
 	dc.w	OptionsMenu-@L			; $01
-	dc.w	SRAMChoice-@L			; $02
+	dc.w	DifficultySelect-@L			; $02
 	dc.w	SRAMChoice-@L			; $03
+	dc.w	LevelSelectMenu-@L			; $03
 ; ---------------------------------------------------------------
 
 MainMenu_Full:
 	dc.b	0				; Default Item
 	dc.b	3				; Size
-	dc.w	$0000, $E0			; Index/Frame, Y-pos
-	dc.w	$0101, $100			;
-	dc.w	$0202, $120			;
+	dc.w	$0000, $D0			; Index/Frame, Y-pos
+	dc.w	$0101, $F0			;
+	dc.w	$0202, $110			;
 		
 MainMenu_Full_Cmd:
 	; PLAY
@@ -426,9 +428,9 @@ MainMenu_Full_Cmd:
 	dc.l	Hwnd_MainMenu_Play		; Code handler
 
 	; CHALLENGES
-	dc.b	0,_ToBottom			; In/Out anim
-	dc.l	MainMenu_MenuHide2		; Loop handler
-	dc.l	Hwnd_MainMenu_Challenges	; Code handler
+	dc.b	_FromRight,_ToLeft			; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_MainMenu_LevelSelect	; Code handler
 
 	; OPTIONS
 	dc.b	_FromRight,_ToLeft		; In/Out anim
@@ -438,15 +440,14 @@ MainMenu_Full_Cmd:
 ; ---------------------------------------------------------------
 OptionsMenu:
 	dc.b	0				; Default Item
-	dc.b	4				; Size
+	dc.b	3				; Size
 	dc.w	$0003, $D0			; Index/Frame, Y-pos
-	dc.w	$0104, $D0+$18			;
-	dc.w	$0205, $D0+$18*2		;
-	dc.w	$0306, $D0+$18*3+$10		;
+	dc.w	$0104, $F0			;
+	dc.w	$0206, $D0+$18*3+$10		;
 	
 OptionsMenu_Cmd:
 	; DIFFICULTY
-	dc.b	_FromRight,_ToRight		; In/Out anim
+	dc.b	_FromRight,_ToLeft		; In/Out anim
 	dc.l	MainMenu_MenuHide		; Loop handler
 	dc.l	Hwnd_Options_Difficulty		; Code handler
 
@@ -455,15 +456,52 @@ OptionsMenu_Cmd:
 	dc.l	MainMenu_MenuHide		; Loop handler
 	dc.l	Hwnd_Options_ClearSRAM		; Code handler
 
-	; SOUND TEST
-	dc.b	0,_ToLeft			; In/Out anim
-	dc.l	MainMenu_MenuHide2		; Loop handler
-	dc.l	Hwnd_Options_SoundTest		; Code handler
-
 	; BACK
 	dc.b	_FromLeft,_ToRight		; In/Out anim
 	dc.l	MainMenu_MenuHide		; Loop handler
 	dc.l	Hwnd_Options_Back		; Code handler
+
+; ---------------------------------------------------------------
+DifficultySelect:
+	dc.b	0							; Default Item
+	dc.b	6							; Size
+	dc.w	$000A, $A0					; Index/Frame, Y-pos
+	dc.w	$010B, $B0+$08*1			;
+	dc.w	$020C, $C0+$08*2			;
+	dc.w	$030D, $D0+$08*3			;
+	dc.w	$040E, $E0+$08*4			;
+	dc.w	$0506, $150					;
+
+DifficultySelect_Cmd:
+	; WEAK
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Weak		; Code handler
+
+	; NORMAL
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Normal		; Code handler
+
+	; HARD
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Hard		; Code handler
+
+	; NIGHTMARE
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Nightmare		; Code handler
+
+	; WHY
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Why		; Code handler
+
+	; BACK
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Back		; Code handler
 
 ; ---------------------------------------------------------------
 SRAMChoice:
@@ -481,8 +519,54 @@ SRAMChoice_Cmd:
 	; NO
 	dc.b	_FromLeft,_ToRight		; In/Out anim
 	dc.l	MainMenu_MenuHide		; Loop handler
-	dc.l	Hwnd_SRAMChoice_No		; Code handler
+	dc.l	Hwnd_SRAMChoice_No		;MainMenu_MenuHide2 Code handler
+; ---------------------------------------------------------------
+LevelSelectMenu:
+	dc.b	0							; Default Item
+	dc.b	7							; Size
+	dc.w	$0011, $A0					; Index/Frame, Y-pos
+	dc.w	$0112, $B0+$08*1			;
+	dc.w	$0213, $C0+$08*2			;
+	dc.w	$0314, $D0+$08*3			;
+	dc.w	$0415, $E0+$08*4			;
+	dc.w	$0516, $F0+$08*5			;
+	dc.w	$0606, $150					;
 
+LevelSelectMenu_Cmd:
+	; GHZ
+	dc.b	0,_ToBottom		; In/Out anim
+	dc.l	MainMenu_MenuHide2		; Loop handler
+	dc.l	Hwnd_LevelSelectMenu_GHZ		; Code handler
+
+	; MZ
+	dc.b	0,_ToBottom		; In/Out anim
+	dc.l	MainMenu_MenuHide2		; Loop handler
+	dc.l	Hwnd_LevelSelectMenu_MZ		; Code handler
+
+	; SYZ
+	dc.b	0,_ToBottom		; In/Out anim
+	dc.l	MainMenu_MenuHide2		; Loop handler
+	dc.l	Hwnd_LevelSelectMenu_SYZ		; Code handler
+
+	; SLZ
+	dc.b	0,_ToBottom		; In/Out anim
+	dc.l	MainMenu_MenuHide2		; Loop handler
+	dc.l	Hwnd_LevelSelectMenu_SLZ		; Code handler
+
+	; SBZ
+	dc.b	0,_ToBottom		; In/Out anim
+	dc.l	MainMenu_MenuHide2		; Loop handler
+	dc.l	Hwnd_LevelSelectMenu_SBZ		; Code handler
+
+	; FZ
+	dc.b	0,_ToBottom		; In/Out anim
+	dc.l	MainMenu_MenuHide2		; Loop handler
+	dc.l	Hwnd_LevelSelectMenu_FZ		; Code handler
+
+	; BACK
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_LevelSelectMenu_Back		; Code handler
 
 ; ---------------------------------------------------------------
 ; Menu Handlers
@@ -492,8 +576,9 @@ Hwnd_MainMenu_Play:
 	jmp	PlayLevel
 
 ; ---------------------------------------------------------------
-Hwnd_MainMenu_Challenges:
-	illegal
+Hwnd_MainMenu_LevelSelect:
+	move.b	#$04,Menu_ID
+	rts
 
 ; ---------------------------------------------------------------
 Hwnd_MainMenu_Options:
@@ -506,7 +591,8 @@ Hwnd_Locked:
 
 ; ---------------------------------------------------------------
 Hwnd_Options_Difficulty:
-	illegal
+	move.b	#$02,Menu_ID
+	rts
 
 ; ---------------------------------------------------------------
 Hwnd_Options_ClearSRAM:
@@ -539,6 +625,65 @@ Hwnd_Options_Back:
 	move.b	#$00, Menu_ID
 	rts
 
+; ---------------------------------------------------------------
+Hwnd_DifficultySelect_Weak:
+	move.b 	#0, (v_difficulty).w
+	move.b	#$01, Menu_ID
+	rts
+
+Hwnd_DifficultySelect_Normal:
+	move.b 	#1, (v_difficulty).w
+	move.b	#$01, Menu_ID
+	rts
+
+Hwnd_DifficultySelect_Hard:
+	move.b 	#2, (v_difficulty).w
+	move.b	#$01, Menu_ID
+	rts
+
+Hwnd_DifficultySelect_Nightmare:
+	move.b 	#3, (v_difficulty).w
+	move.b	#$01, Menu_ID
+	rts
+
+Hwnd_DifficultySelect_Why:
+	move.b 	#1, (v_difficulty).w
+	; move.b	#1, (v_secret).w
+	move.b	#$01, Menu_ID
+	rts
+
+Hwnd_DifficultySelect_Back:
+	move.b	#$01, Menu_ID
+	rts
+
+; ---------------------------------------------------------------
+Hwnd_LevelSelectMenu_GHZ:
+	move.b 	#0, (v_zone).w
+	jmp PlayLevel
+
+Hwnd_LevelSelectMenu_MZ:
+	move.b 	#2, (v_zone).w
+	jmp PlayLevel
+
+Hwnd_LevelSelectMenu_SYZ:
+	move.b 	#3, (v_zone).w
+	jmp PlayLevel
+
+Hwnd_LevelSelectMenu_SLZ:
+	move.b 	#4, (v_zone).w
+	jmp PlayLevel
+
+Hwnd_LevelSelectMenu_SBZ:
+	move.b 	#5, (v_zone).w
+	jmp PlayLevel
+
+Hwnd_LevelSelectMenu_FZ:
+	move.b 	#6, (v_zone).w
+	jmp PlayLevel
+
+Hwnd_LevelSelectMenu_Back:
+	move.b	#$00, Menu_ID
+	rts
 
 ; ===============================================================
 

@@ -219,9 +219,9 @@ VBla_0C:
 		movem.l	d0-d7,(v_screenposx_dup).w
 		movem.l	(v_fg_scroll_flags).w,d0-d1
 		movem.l	d0-d1,(v_fg_scroll_flags_dup).w
-		bsr.w	LoadTilesAsYouMove
-		jsr	(AnimateLevelGfx).l
-		jsr	(HUD_Update).l
+		jsr		LoadTilesAsYouMove
+		jsr		(AnimateLevelGfx).l
+		jsr		(HUD_Update).l
 		bsr.w	sub_1642
 		rts
 ; ===========================================================================
