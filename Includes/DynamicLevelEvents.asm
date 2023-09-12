@@ -296,11 +296,11 @@ DLE_MZ1:
 @Pass2:
 		move.w	#$560,(v_limitbtm1).w ; set lower y-boundary
 		; - PASS 3--------------------------------------
-		cmpi.w	#$1500,(v_screenposx).w ; has the camera reached $1600 on x-axis?
+		cmpi.w	#$1500,(v_screenposx).w ; has the camera reached $1500 on x-axis?
 		bcs.s	@Return ; if not, branch
 		move.w	#$200,($FFFFF726).w	; locl bottom
 
-		cmpi.w	#$1800,(v_screenposx).w ; has the camera reached $1600 on x-axis?
+		cmpi.w	#$1800,(v_screenposx).w ; has the camera reached $1800 on x-axis?
 		bcs.s	@Return ; if not, branch
 
 		jsr		FindFreeObj
@@ -314,7 +314,7 @@ DLE_MZ1:
 		move.w	d0,($FFFFF728).w	; lock left side
 		move.w	#$200,($FFFFF72C).w	; lock the top
 
-	command	mus_FadeOut	; fade out music
+		command	mus_FadeOut	; fade out music
 
 		move.b	#1,($FFFFF7AA).w	; lock screen
 		addq.b	#2,(v_dle_routine).w
