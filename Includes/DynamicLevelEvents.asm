@@ -298,25 +298,25 @@ DLE_MZ1:
 		; - PASS 3--------------------------------------
 		cmpi.w	#$1500,(v_screenposx).w ; has the camera reached $1500 on x-axis?
 		bcs.s	@Return ; if not, branch
-		move.w	#$200,($FFFFF726).w	; locl bottom
+		move.w	#$200,(v_limitbtm1).w	; lock bottom
 
 		cmpi.w	#$1800,(v_screenposx).w ; has the camera reached $1800 on x-axis?
 		bcs.s	@Return ; if not, branch
 
-		jsr		FindFreeObj
+		jsr	FindFreeObj
 		bne.s	@StartBoss
-		move.b	#$73,(a1)	; load MZ boss object
-		move.w	#$19F0+$80,8(a1)
-		move.w	#$23C-$20,$C(a1)
+		move.b	#id_BossMarble, (a1)	; load MZ boss object
+		move.w	#$19F0+$80, obX(a1)
+		move.w	#$23C-$20, obY(a1)
 
 @StartBoss:
-		move.w	($FFFFF700).w,d0
-		move.w	d0,($FFFFF728).w	; lock left side
-		move.w	#$200,($FFFFF72C).w	; lock the top
+		move.w	(v_screenposx).w,d0
+		move.w	d0,(v_limitleft2).w	; lock left side
+		move.w	#$200,(v_limittop2).w	; lock the top
 
 		command	mus_FadeOut	; fade out music
 
-		move.b	#1,($FFFFF7AA).w	; lock screen
+		move.b	#1,(f_lockscreen).w	; lock screen
 		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
 		jmp	AddPLC			; load boss patterns
@@ -332,7 +332,7 @@ DLE_MZ1:
 @WarpPeriod:	= $400
 @ScrollSpeed:	= 2
 
-		move.w	($FFFFF728).w,d0
+		move.w	(v_limitleft2).w,d0
 		move.w	#$200,(v_scrshiftx).w	; keep camera scrolling ...
 		addq.w	#@ScrollSpeed,d0
 		cmpi.w	#$1900+@WarpPeriod,d0	; has camera went past warp border?
@@ -359,9 +359,9 @@ DLE_MZ1:
 		dbf	d6,@WarpLoop
 
 	@NoWarp:
-		move.w	d0,($FFFFF728).w	; update camera boundaries
-		move.w	d0,($FFFFF72A).w	;
-		move.w	d0,($FFFFF700).w	; update camera position            
+		move.w	d0,(v_limitleft2).w	; update camera boundaries
+		move.w	d0,(v_limitright2).w	;
+		move.w	d0,(v_screenposx).w	; update camera position            
 
 		; Prevent Sonic from getting stuck on the left boundary
 		lea	(v_player).w,a0
@@ -376,10 +376,10 @@ DLE_MZ1:
 ; ===========================================================================
 
 @End:
-		sf.b	($FFFFF7AA).w				; unlock right boundary
+		sf.b	(f_lockscreen).w				; unlock right boundary
 		addq.b	#2,(v_dle_routine).w
-		move.w	#$1D00+$180,($FFFFF72A).w		; setup right boundary
-		move.w	($FFFFF700).w,($FFFFF728).w		; limit left boundary
+		move.w	#$1D00+$180,(v_limitright2).w		; setup right boundary
+		move.w	(v_screenposx).w,(v_limitleft2).w		; limit left boundary
 
 		moveq	#plcid_Signpost,d0
 		jmp	NewPLC					; load signpost	patterns
@@ -409,11 +409,11 @@ DLE_MZ3:
 ; ===========================================================================
 
 DLE_MZ3boss:
-		move.w	#$720,($FFFFF726).w
-		cmpi.w	#$1560,($FFFFF700).w
+		move.w	#$720,(v_limitbtm1).w
+		cmpi.w	#$1560,(v_screenposx).w
 		bcs.s	DLE_MZ3null
-		move.w	#$200,($FFFFF726).w
-		cmpi.w	#$1800,($FFFFF700).w
+		move.w	#$200,(v_limitbtm1).w
+		cmpi.w	#$1800,(v_screenposx).w
 		bcs.s	DLE_MZ3null
 
 		jsr	FindFreeObj
@@ -430,13 +430,13 @@ DLE_MZ3boss:
 		move.b	#$80,(f_ringcount).w ; update ring counter
 
 loc_70D0:
-		move.w	($FFFFF700).w,d0
-		move.w	d0,($FFFFF728).w	; lock left side
-		move.w	#$200,($FFFFF72C).w	; lock the top
+		move.w	(v_screenposx).w,d0
+		move.w	d0,(v_limitleft2).w	; lock left side
+		move.w	#$200,(v_limittop2).w	; lock the top
 
 		command	mus_FadeOut	; fade out music
 
-		move.b	#1,($FFFFF7AA).w	; lock screen
+		move.b	#1,(f_lockscreen).w	; lock screen
 		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
 		jmp	AddPLC			; load boss patterns
@@ -457,7 +457,7 @@ DLE_MZ3warp:
 @WarpPeriod:	= $400
 @ScrollSpeed:	= 2
 
-		move.w	($FFFFF728).w,d0
+		move.w	(v_limitleft2).w,d0
 		move.w	#$200,(v_scrshiftx).w	; keep camera scrolling ...
 		addq.w	#@ScrollSpeed,d0
 		cmpi.w	#$1900+@WarpPeriod,d0	; has camera went past warp border?
@@ -484,9 +484,9 @@ DLE_MZ3warp:
 		dbf	d6,@WarpLoop
 
 	@NoWarp:
-		move.w	d0,($FFFFF728).w	; update camera boundaries
-		move.w	d0,($FFFFF72A).w	;
-		move.w	d0,($FFFFF700).w	; update camera position            
+		move.w	d0,(v_limitleft2).w	; update camera boundaries
+		move.w	d0,(v_limitright2).w	;
+		move.w	d0,(v_screenposx).w	; update camera position            
 
 		; Prevent Sonic from getting stuck on the left boundary
 		lea	(v_player).w,a0
@@ -503,8 +503,8 @@ DLE_MZ3warp:
 ; ===========================================================================
 
 DLE_MZ3end:
-		move.w	#$1D00+$180,($FFFFF72A).w		; setup right boundary
-		move.w	($FFFFF700).w,($FFFFF728).w
+		move.w	#$1D00+$180,(v_limitright2).w		; setup right boundary
+		move.w	(v_screenposx).w,(v_limitleft2).w
 		rts
 
 ; ===========================================================================
