@@ -165,7 +165,7 @@ v_sonicend:	equ $FFFFF7D7	; routine counter for Sonic in the ending sequence
 v_lz_deform:	equ	$FFFFF7D8	; LZ deformtaion offset, in units of $80 (2 bytes)
 f_switch:	equ $FFFFF7E0	; flags set when Sonic stands on a switch ($10 bytes)
 v_scroll_block_1_size:	equ $FFFFF7F0	; (2 bytes)
-v_scroll_block_2_size:	equ $FFFFF7F2	; unused (2 bytes)
+v_scroll_block_2_size:	equ $FFFFF7F2	; (2 bytes)
 v_scroll_block_3_size:	equ $FFFFF7F4	; unused (2 bytes)
 v_scroll_block_4_size:	equ $FFFFF7F6	; unused (2 bytes)
 

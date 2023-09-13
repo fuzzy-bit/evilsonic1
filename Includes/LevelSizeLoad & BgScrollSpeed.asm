@@ -236,6 +236,11 @@ BgScroll_LZ:
 ; ===========================================================================
 
 BgScroll_MZ:
+		asr.l	#1,d0
+		move.w	d0,(v_bgscreenposy).w
+		moveq	#0, d0
+		move.l	d0, (v_scroll_block_2_size).w
+
 BgScroll_Null:
 	;	sub.w	#64, d0
 	;	move.w	d0, (v_bgscreenposy).w

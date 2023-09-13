@@ -295,19 +295,28 @@ Deform_MZ:
 		asl.l	#1,d4
 		add.l	d1,d4
 		moveq	#2,d6
-		bsr.w	BGScroll_Block1
+		move.l	(v_bgscreenposx).w,d2
+		move.l	d2,d0
+		add.l	d4,d0
+		move.l	d0,(v_bgscreenposx).w
 	; block 3 - mountains
 		move.w	(v_scrshiftx).w,d4
 		ext.l	d4
 		asl.l	#6,d4
 		moveq	#6,d6
-		bsr.w	BGScroll_Block3
+		move.l	(v_bg3screenposx).w,d2
+		move.l	d2,d0
+		add.l	d4,d0
+		move.l	d0,(v_bg3screenposx).w
 	; block 2 - bushes & antique buildings
 		move.w	(v_scrshiftx).w,d4
 		ext.l	d4
 		asl.l	#7,d4
 		moveq	#4,d6
-		bsr.w	BGScroll_Block2
+		move.l	(v_bg2screenposx).w,d2
+		move.l	d2,d0
+		add.l	d4,d0
+		move.l	d0,(v_bg2screenposx).w
 	; calculate y-position of background
 		move.w	#$200,d0	; start with 512px, ignoring 2 chunks
 		move.w	(v_screenposy).w,d1
@@ -322,16 +331,19 @@ Deform_MZ:
 		move.w	d0,(v_bg2screenposy).w
 		move.w	d0,(v_bg3screenposy).w
 		bsr.w	BGScroll_YAbsolute
+		move.b	v_bg1_scroll_flags, d0	; evil BG redraw flag hack
+		lsl.b	#4, d0			; ''
+		move.b	d0, v_bg1_scroll_flags	; ''
 		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
-	; do something with redraw flags
-		move.b	(v_bg1_scroll_flags).w,d0
-		or.b	(v_bg2_scroll_flags).w,d0
-		or.b	d0,(v_bg3_scroll_flags).w
-		clr.b	(v_bg1_scroll_flags).w
-		clr.b	(v_bg2_scroll_flags).w
+
 	; calculate background scroll buffer
+		move.w	(v_scrshiftx).w, d0
+		ext.l	d0
+		asl.l	#8, d0
+		add.l	d0, (v_scroll_block_2_size).w
+
 		lea	(v_bgscroll_buffer).w,a1
-		move.w	(v_screenposx).w,d2
+		move.w	(v_scroll_block_2_size).w,d2
 		neg.w	d2
 		move.w	d2,d0
 		asr.w	#2,d0

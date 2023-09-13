@@ -326,8 +326,6 @@ locret_6AD6:
 	DrawBGScrollBlock3:
 			tst.b	(a2)
 			beq.w	locj_6EF0
-			cmpi.b	#id_MZ,(v_zone).w
-			beq.w	Draw_Mz
 			bclr	#0,(a2)
 			beq.s	locj_6ED0
 			; Draw new tiles on the left
@@ -359,60 +357,6 @@ locret_6AD6:
 			dc.b $02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02
 			dc.b $02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02
 			dc.b $02,$00
-;===============================================================================
-	Draw_Mz:
-			moveq	#-16,d4
-			bclr	#0,(a2)
-			bne.s	locj_6F66
-			bclr	#1,(a2)
-			beq.s	locj_6FAE
-			move.w	#224,d4
-	locj_6F66:
-			lea	(locj_6EF2+1).l,a0
-			move.w	(v_bgscreenposy).w,d0
-			subi.w	#$200,d0
-			add.w	d4,d0
-			andi.w	#$7F0,d0
-			lsr.w	#4,d0
-			move.b	(a0,d0.w),d0
-			movea.w	locj_6FE4(pc,d0.w),a3
-			beq.s	locj_6F9A
-			moveq	#-16,d5
-			movem.l	d4/d5,-(sp)
-			bsr.w	CalculateVRAMPosition
-			movem.l	(sp)+,d4/d5
-			bsr.w	DrawBlocks_LR
-			bra.s	locj_6FAE
-;===============================================================================
-	locj_6F9A:
-			moveq	#0,d5
-			movem.l	d4/d5,-(sp)
-			bsr.w	CalculateVRAMPosition_2
-			movem.l	(sp)+,d4/d5
-			moveq	#(512/16)-1,d6
-			bsr.w	DrawBlocks_LR_3
-	locj_6FAE:
-			tst.b	(a2)
-			bne.s	locj_6FB4
-			rts
-;===============================================================================
-	locj_6FB4:
-			moveq	#-16,d4
-			moveq	#-16,d5
-			move.b	(a2),d0
-			andi.b	#$A8,d0
-			beq.s	locj_6FC8
-			lsr.b	#1,d0
-			move.b	d0,(a2)
-			move.w	#320,d5
-	locj_6FC8:
-			lea	(locj_6EF2).l,a0
-			move.w	(v_bgscreenposy).w,d0
-			subi.w	#$200,d0
-			andi.w	#$7F0,d0
-			lsr.w	#4,d0
-			lea	(a0,d0.w),a0
-			bra.w	locj_6FEC
 ;===============================================================================
 	locj_6FE4:
 			dc.w v_bgscreenposx_dup, v_bgscreenposx_dup, v_bg2screenposx_dup, v_bg3screenposx_dup
