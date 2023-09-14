@@ -145,8 +145,8 @@ SkipSetup:
 
 ResetSRAM:
 		EnableSRAM
-		moveq	#(SRAMLength/8), d0
-		movea.l	($200008).l, a0
+		moveq	#(SRAMLength/8)-1, d0
+		lea		($200009).l, a0
 		lea		SRAMDefaults(pc), a1
 
 @Loop:
