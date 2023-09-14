@@ -7,16 +7,18 @@
 
 ; ===========================================================================
 
-Main		SECTION org(0)
+rom:	section	org(0),obj(0)
 
 	include	"Constants.asm"
 	include	"Variables.asm"
 	include	"Macros.asm"
 
+	include	"Libs/debugger.lib"
+	include	"Libs/veps.lib"
+
 	include "ErrorHandler/debugger.asm"
 
-
-EnableSRAM:	equ 1	; change to 1 to enable SRAM
+EnableSRAM:	equ 0	; change to 1 to enable SRAM
 BackupSRAM:	equ 1
 AddressSRAM:	equ 3	; 0 = odd+even; 2 = even only; 3 = odd only
 
@@ -31,7 +33,6 @@ SpeedCap: 	equ 0
 
 ZoneCount:	equ 7	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
 
-		opt w-
 ; ===========================================================================
 
 StartOfRom:
@@ -41,8 +42,9 @@ BizhawkCompatibility:
 		dc.w 0
 
 HiddenMessage:
-		align 24
+		;align 24
 		dc.b "RIVET DID 7-11  "
+		even
 
 ; ===========================================================================
 ; Crash/Freeze the 68000. Unlike Sonic 2, Sonic 1 uses the 68000 for playing music, so it stops too
@@ -208,7 +210,13 @@ GameInit:
 		dbf	d6,@clearRAM	; clear RAM ($0000-$FDFF)
 
 		bsr.w	VDPSetup
-		jsr	SoundDriverLoad
+		
+		; Initialize sound subsystem
+		jsr	VEPS_Init
+		lea	SampleTable, a0
+		move.w	#(SampleTable_End-SampleTable)/$C-1, d0
+		jsr	VEPS_LoadSampleTable
+
 		bsr.w	JoypadInit
 		jsr	VDPDraw_Init
 		move.b	#id_Sega,(v_gamemode).w ; set Game Mode to Sega Screen
@@ -2056,7 +2064,7 @@ Map_Sonic:	include	"Data\Mappings\Objects\Sonic.asm"
 ; ---------------------------------------------------------------------------
 ; Uncompressed graphics	- Sonic
 ; ---------------------------------------------------------------------------
-		align $20000
+
 Art_Sonic:	incbin	"Data\Art\Uncompressed\Sonic.bin"	; Sonic
 		even
 

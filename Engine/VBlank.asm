@@ -26,7 +26,7 @@ VBlank:
 		jsr	VBla_Index(pc,d0.w)
 
 VBla_Music:
-		jsr	UpdateMusic
+		jsr	VEPS_Update
 
 VBla_Exit:
 		addq.l	#1,(v_vbla_count).w

@@ -82,6 +82,11 @@ __global__ErrorHandler_PauseConsole: equ DebuggerExtensions+$C2
 __global__ErrorHandler_PagesController: equ DebuggerExtensions+$F8
 __global__VSync: equ DebuggerExtensions+$158
 
+; Aliases for linker
+KDebug_WriteLine_Formatted:	equ	__global__KDebug_WriteLine_Formatted
+KDebug_Write_Formatted:		equ	__global__KDebug_Write_Formatted
+KDebug_FlushLine:		equ	__global__KDebug_FlushLine
+
 ; Error handler & core functions
 __global__ErrorHandler: equ ErrorHandler+$0
 __global__Error_IdleLoop: equ ErrorHandler+$122

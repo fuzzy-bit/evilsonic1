@@ -1,0 +1,4 @@
+
+	global	KDebug_WriteLine_Formatted
+	global	KDebug_Write_Formatted
+	global	KDebug_FlushLine

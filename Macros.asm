@@ -1,14 +1,9 @@
 ; ---------------------------------------------------------------------------
 ; Align and pad
-; input: length to align to, value to use as padding (default is 0)
 ; ---------------------------------------------------------------------------
 
-align:		macro position, value
-		if (narg=1)
-		dcb.b (\position-(offset(*)%\position))%\position,0
-		else
-		dcb.b (\position-(offset(*)%\position))%\position,\value
-		endc
+align:		macro
+		cnop 0,\1
 		endm
 
 ; ---------------------------------------------------------------------------
@@ -250,19 +245,19 @@ out_of_range:	macro exit,pos
 ; Macro for playing a command
 command		macro id
 	move.b #id, d0
-	jsr		PlaySound
+	jsr		VEPS_PlaySound
     endm
 
 ; Macro for playing music
 music		macro id
 	move.b 	#id, d0
-	jsr		PlaySound
+	jsr		VEPS_PlaySound
     endm
 
 ; Macro for playing sound effect
 sfx		macro id
 	move.b 	#id, d0
-	jsr		PlaySound
+	jsr		VEPS_PlaySound
     endm
 
 ; ---------------------------------------------------------------------------
