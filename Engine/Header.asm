@@ -1,5 +1,5 @@
 Vectors: 
-		dc.l System_Stack		; Initial stack pointer value
+		dc.l v_systemstack		; Initial stack pointer value
 		dc.l EntryPoint 		; Start of program
 		dc.l BusError			; Bus error
 		dc.l AddressError		; Address error (4)
