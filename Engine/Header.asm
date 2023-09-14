@@ -1,5 +1,6 @@
-Vectors:	dc.l 0	; Initial stack pointer value (NOTE: This has to be $000000 to avoid displaying of broken sprites issue)
-		dc.l EntryPoint			; Start of program
+Vectors: 
+		dc.l 'SONI'				; Initial stack pointer value
+		dc.l ('S'<<24)|EntryPoint ; Start of program
 		dc.l BusError			; Bus error
 		dc.l AddressError		; Address error (4)
 		dc.l IllegalInstr		; Illegal instruction
@@ -63,19 +64,19 @@ Vectors:	dc.l 0	; Initial stack pointer value (NOTE: This has to be $000000 to a
 		dc.l ErrorTrap			; Unused (reserved)
 		dc.l ErrorTrap			; Unused (reserved)
 
-MEGADRIVE:	dc.b "SEGA MEGA DRIVE " ; Hardware system ID (Console name)
-Date:		dc.b "(C)FUZZY 2023   " ; Copyright holder and release date (generally year)
+MEGADRIVE:		dc.b "SEGA MEGA DRIVE " ; Hardware system ID (Console name)
+Date:			dc.b "(C)FUZZY 2023   " ; Copyright holder and release date (generally year)
 Title_Local:	dc.b "BRUTALSONIC                                     " ; Domestic name
-Title_Int:	dc.b "BRUTALSONIC                                     " ; International name
-Serial:		dc.b "GM 00004049-01" ; Serial/version number (Rev non-0)
-Checksum:	dc.w $0
-		dc.b "J               " ; I/O support
+Title_Int:		dc.b "BRUTALSONIC                                     " ; International name
+Serial:			dc.b "MY BALLS ITCH " ; Serial/version number (Rev non-0)
+Checksum:		dc.w $0
+				dc.b "J               " ; I/O support
 RomStartLoc:	dc.l StartOfRom		; Start address of ROM
-RomEndLoc:	dc.l EndOfRom-1		; End address of ROM
+RomEndLoc:		dc.l EndOfRom-1		; End address of ROM
 RamStartLoc:	dc.l $FF0000		; Start address of RAM
-RamEndLoc:	dc.l $FFFFFF		; End address of RAM
-SRAMSupport:	if EnableSRAM=1
-		dc.b $52, $41, $A0+(BackupSRAM<<6)+(AddressSRAM<<3), $20
+RamEndLoc:		dc.l $FFFFFF		; End address of RAM
+SRAMSupport:	if SRAMEnabled=1
+	    dc.b    "RA", $F8, $20
 		else
 		dc.l $20202020
 		endc

@@ -746,19 +746,5 @@ LevelMenuText:	if Revision=0
 		incbin	"Data\Miscellaneous\Level Select Text (JP1).bin"
 		endc
 		even
-; ---------------------------------------------------------------------------
-; Music	playlist
-; ---------------------------------------------------------------------------
-MusicList:
-		dc.b mus_GHZ	; GHZ
-		dc.b mus_LZ	; LZ
-		dc.b mus_MZ	; MZ
-		dc.b mus_SLZ	; SLZ
-		dc.b mus_SYZ	; SYZ
-		dc.b mus_SBZ	; SBZ
-		dc.b mus_FZ	; Ending		
-		zonewarning MusicList,1	; Note: It's another one of those oddly placed macros.
-		dc.b mus_zone7pre
-		even
 
 MenuPalette: 	incbin "Data/Palette/Menu.bin"

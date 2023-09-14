@@ -136,20 +136,20 @@ MusicIndex:
 		dc.l @Endurance     ; 8F
 		dc.l @Retro         ; 90
 		dc.l @Drowning      ; 91
-		dc.l @SecretGHZ
-		dc.l @SecretLZ
-		dc.l @SecretMZ
-		dc.l @SecretSYZ
-		dc.l @SecretSLZ
-		dc.l @SecretSBZ
-		dc.l @SecretFZ
-		dc.l @SecretInvincibility
-		dc.l @SecretBoss
-		dc.l @SecretDrowning
-		dc.l @SecretCredits
-		dc.l @CIS
-		dc.l @Monsquaz
-		dc.l @Monsquaz
+		dc.l @SecretGHZ		; 92
+		dc.l @SecretLZ		; 93
+		dc.l @SecretMZ		; 94
+		dc.l @SecretSYZ		; 95
+		dc.l @SecretSLZ		; 96
+		dc.l @SecretSBZ		; 97
+		dc.l @SecretFZ		; 98
+		dc.l @SecretInvincibility ; 99
+		dc.l @SecretBoss	; 9A
+		dc.l @SecretDrowning	; 9B
+		dc.l @SecretCredits		; 9C
+		dc.l @CIS			; 9D
+		dc.l @Monsquaz		; 9E
+		dc.l @Monsquaz		; 9F
 		dc.l @Monsquaz
 
 ; ===============================================================
@@ -361,6 +361,14 @@ mus_gameover: equ	$88
 
 mus_model: equ		$8D
 mus_retro: equ		$90
+
+mus_secretghz: equ	$92
+mus_secretlz: equ 	$93
+mus_secretmz: equ 	$94
+mus_secretsyz: equ 	$95
+mus_secretslz: equ	$96
+mus_secretsbz: equ	$97
+mus_secretfz: equ	$98
 
 ; Control
 mus_fadeout: equ	$E0

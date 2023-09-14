@@ -15,10 +15,7 @@ Main		SECTION org(0)
 
 	include "ErrorHandler/debugger.asm"
 
-
-EnableSRAM:	equ 1	; change to 1 to enable SRAM
-BackupSRAM:	equ 1
-AddressSRAM:	equ 3	; 0 = odd+even; 2 = even only; 3 = odd only
+SRAMEnabled:	equ 1	; change to 1 to enable SRAM
 
 ; Change to 0 to build the original version of the game, dubbed REV00
 ; Change to 1 to build the later vesion, dubbed REV01, which includes various bugfixes and enhancements
@@ -58,7 +55,7 @@ EntryPoint:
 		tst.w	(z80_expansion_control).l ; test port C control register
 
 PortA_Ok:
-		bne.s	SkipSetup ; Skip the VDP and Z80 setup code if port A, B or C is ok...?
+		bne.w	SkipSetup ; Skip the VDP and Z80 setup code if port A, B or C is ok...?
 		lea	SetupValues(pc),a5	; Load setup values array address.
 		movem.w	(a5)+,d5-d7
 		movem.l	(a5)+,a0-a4
@@ -122,9 +119,50 @@ PSGInitLoop:
 		move.w	d0,(a2)
 		movem.l	(a6),d0-a6	; clear all registers
 		disable_ints
+		bra.s 	InitSRAM
+
+		dc.b "me looking at the iso kilo hyper balls: "
+
+InitSRAM:
+		EnableSRAM
+        lea 	($200001).l, a0     ; Load SRAM memory into a0 (Change the last digit to 0 if you're using even SRAM)
+        
+		movep.l 0(a0), d0        	; Get the existing string at the start of SRAM
+        move.l  #"KINO", d1        	; Write the string "KINO" to d1
+        cmp.l   d0, d1            	; Was it already in SRAM?
+        beq.s   @Continue           ; If so, skip
+        
+		movep.l d1, 0(a0)        	; Write string "KINO"
+		bra.s	ResetSRAM
+
+@Continue:
+		DisableSRAM
 
 SkipSetup:
-		bra.s	GameProgram	; begin game
+		bra.w	GameProgram	; begin game
+
+; ===========================================================================
+
+ResetSRAM:
+		EnableSRAM
+		moveq	#(SRAMLength/8), d0
+		movea.l	($200008).l, a0
+		lea		SRAMDefaults(pc), a1
+
+@Loop:
+		move.l	(a1)+, d1
+		movep.l	d1, 0(a0)		; fill 8 bytes with $FF
+		addq.l	#8, a0			; get next 8 bytes
+		dbf	d0, @Loop		; loop until 0
+
+		DisableSRAM
+		bra.s 	GameProgram
+
+SRAMDefaults:
+		dc.b 0, 3, 0, 0 	; Zone, Lives, Difficulty, Secret Progression
+		dc.b 0, 0, 0, 0 	; Secret Enabled, Game Completed, Null, Null
+		even
+
 
 ; ===========================================================================
 SetupValues:	dc.w $8000		; VDP register start number
@@ -408,6 +446,7 @@ WaitForVBla:
 		include	"Engine\Level\LevelLayoutLoad.asm"
 
 		include	"Includes\DynamicLevelEvents.asm"
+		include	"Engine\Level\Randomizers.asm"
 
 		include	"Objects\Level\Bridge (part 1).asm"
 

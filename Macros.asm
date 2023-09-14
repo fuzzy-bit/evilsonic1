@@ -270,13 +270,13 @@ sfx		macro id
 ; (remember to enable SRAM in the header first!)
 ; ---------------------------------------------------------------------------
 
-gotoSRAM:	macro
-		move.b  #1,($A130F1).l
-		endm
+EnableSRAM:		macro
+	move.b  #1,($A130F1).l
+	endm
 
-gotoROM:	macro
-		move.b  #0,($A130F1).l
-		endm
+DisableSRAM:	macro
+	move.b  #0,($A130F1).l
+	endm
 
 ; ---------------------------------------------------------------------------
 ; compare the size of an index with ZoneCount constant

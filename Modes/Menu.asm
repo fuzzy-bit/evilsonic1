@@ -647,7 +647,7 @@ Hwnd_DifficultySelect_Nightmare:
 	rts
 
 Hwnd_DifficultySelect_Why:
-	move.b 	#1, (v_difficulty).w
+	move.b 	#3, (v_difficulty).w
 	move.b	#1, (v_secret).w
 	move.b	#$01, Menu_ID
 	rts

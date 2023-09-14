@@ -216,3 +216,16 @@ Right		equ 	1<<3
 Left		equ 	1<<2
 Down		equ 	1<<1
 Up		equ 	1
+
+; ---------------------------------------------------------------
+; SRAM Map
+; ---------------------------------------------------------------
+	rsset	0
+
+Kino:               rs.w 4
+ZoneSave:           rs.w 1
+LivesSave:          rs.w 1
+SecretProgression:  rs.w 1
+SecertEnabled:      rs.w 1
+GameCompleted:      rs.w 1
+SRAMLength:          rs.w 0

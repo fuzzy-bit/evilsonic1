@@ -38,7 +38,7 @@ LevelDataLoad:
 		moveq	#0,d0
 		move.b	(a2),d0
 		beq.s	@skipPLC	; if 2nd PLC is 0 (i.e. the ending sequence), branch
-		bsr.w	AddPLC		; load pattern load cues
+		jsr		AddPLC		; load pattern load cues
 
 	@skipPLC:
 		rts

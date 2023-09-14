@@ -127,7 +127,12 @@ Level_GetBgm:
 		moveq	#6,d0		; use 6th music (FZ)
 
 	Level_PlayBgm:
-		lea	(MusicList).l,a1 ; load	music playlist
+		lea		(MusicList).l,a1 ; load	music playlist
+		tst.b 	(v_secret).w
+		beq.s 	@SecretNotEnabled
+		
+		lea		(SecretMusicList).l, a1 ; load	secret music playlist
+	@SecretNotEnabled:
 		move.b	(a1,d0.w),d0
 		jsr		PlaySound
 		move.b	#id_TitleCard,(v_objspace+$80).w ; load title card object
@@ -475,7 +480,35 @@ SignpostArtLoad:
 		rts
 ; End of function SignpostArtLoad 
 
+; ---------------------------------------------------------------------------
+; Music	playlist
+; ---------------------------------------------------------------------------
+MusicList:
+		dc.b mus_GHZ	; GHZ
+		dc.b mus_LZ	; LZ
+		dc.b mus_MZ	; MZ
+		dc.b mus_SLZ	; SLZ
+		dc.b mus_SYZ	; SYZ
+		dc.b mus_SBZ	; SBZ
+		dc.b mus_FZ	; Ending		
+		zonewarning MusicList,1	; Note: It's another one of those oddly placed macros.
+		dc.b mus_zone7pre
+		even
+
+SecretMusicList:
+		dc.b mus_SecretGHZ	; GHZ
+		dc.b mus_SecretLZ	; LZ
+		dc.b mus_SecretMZ	; MZ
+		dc.b mus_SecretSLZ	; SLZ
+		dc.b mus_SecretSYZ	; SYZ
+		dc.b mus_SecretSBZ	; SBZ
+		dc.b mus_SecretFZ	; Ending		
+		zonewarning SecretMusicList,1	; Note: It's another one of those oddly placed macros.
+		dc.b mus_zone7pre
+		even
+
 ; ===========================================================================
+
 
 Demo_GHZ:	incbin	"Data\Demos\Intro - GHZ.bin"
 Demo_MZ:	incbin	"Data\Demos\Intro - MZ.bin"

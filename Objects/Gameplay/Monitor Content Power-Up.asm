@@ -144,6 +144,7 @@ Pow_ChkRings:
 
 Pow_ChkS:
 		cmpi.b	#7,d0		; does monitor contain 'S'?
+		; ADD SECRET LOGIC HERE
 		bne.s	Pow_ChkEnd
 		nop	
 
