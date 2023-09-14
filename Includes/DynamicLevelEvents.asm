@@ -173,7 +173,7 @@ loc_6ED0:
 		move.b	#1,(f_lockscreen).w ; lock screen
 		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
-		bra.w	AddPLC		; load boss patterns
+		jmp		AddPLC		; load boss patterns
 ; ===========================================================================
 
 locret_6EE8:
@@ -230,7 +230,7 @@ loc_6F4A:
 		move.b	#1,(f_lockscreen).w ; lock screen
 		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
-		bra.w	AddPLC		; load boss patterns
+		jmp		AddPLC		; load boss patterns
 ; ===========================================================================
 
 locret_6F62:
@@ -308,6 +308,13 @@ DLE_MZ1:
 		move.b	#id_BossMarble, (a1)	; load MZ boss object
 		move.w	#$19F0+$80, obX(a1)
 		move.w	#$23C-$20, obY(a1)
+
+		move.b 	(v_difficulty).w, d0
+		cmpi.b 	#2, d0 ; is difficulty hard+?
+		blt.s 	@StartBoss ; if not, branch
+
+		move.w	#0,(v_rings).w
+		move.b	#$80,(f_ringcount).w ; update ring counter
 
 @StartBoss:
 		move.w	(v_screenposx).w,d0

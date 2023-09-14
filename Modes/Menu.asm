@@ -648,7 +648,7 @@ Hwnd_DifficultySelect_Nightmare:
 
 Hwnd_DifficultySelect_Why:
 	move.b 	#1, (v_difficulty).w
-	; move.b	#1, (v_secret).w
+	move.b	#1, (v_secret).w
 	move.b	#$01, Menu_ID
 	rts
 
@@ -666,11 +666,11 @@ Hwnd_LevelSelectMenu_MZ:
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_SYZ:
-	move.b 	#3, (v_zone).w
+	move.b 	#4, (v_zone).w
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_SLZ:
-	move.b 	#4, (v_zone).w
+	move.b 	#3, (v_zone).w
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_SBZ:
@@ -678,7 +678,8 @@ Hwnd_LevelSelectMenu_SBZ:
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_FZ:
-	move.b 	#6, (v_zone).w
+	move.b 	#5, (v_zone).w
+	move.b 	#2, (v_act).w
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_Back:

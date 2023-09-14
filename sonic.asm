@@ -31,7 +31,6 @@ SpeedCap: 	equ 0
 
 ZoneCount:	equ 7	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
 
-		opt w-
 ; ===========================================================================
 
 StartOfRom:
@@ -235,11 +234,7 @@ GameModeArray:
 		ptr_GM_Cont:	bra.w	Continue	; Continue Screen ($18)
 		ptr_GM_Ending:	bra.w	Ending	; End of game sequence ($1C)
 		ptr_GM_Credits:	bra.w	Credits	; Credits ($20)
-		ptr_GM_Tails:	bra.w	@TailsEasterEgg	; LOL DRAMA ($24)
 		rts
-
-@TailsEasterEgg:
-		jmp TailsEasterEgg
 		
 ; ===========================================================================
 
@@ -1176,21 +1171,21 @@ Map_WFall	include	"Data\Mappings\Objects\Waterfalls.asm"
 ResumeMusic:
 		cmpi.w	#12,(v_air).w	; more than 12 seconds of air left?
 		bhi.s	@over12		; if yes, branch
-		moveq	#mus_LZ,d0	; play LZ music
+		move.b	#mus_LZ,d0	; play LZ music
 		cmpi.w	#(id_LZ<<8)+3,(v_zone).w ; check if level is 0103 (SBZ3)
 		bne.s	@notsbz
-		moveq	#mus_SBZ,d0	; play SBZ music
+		move.b	#mus_SBZ,d0	; play SBZ music
 
 	@notsbz:
 		if Revision=0
 		else
 			tst.b	(v_invinc).w ; is Sonic invincible?
 			beq.s	@notinvinc ; if not, branch
-			moveq	#mus_Invincibility,d0
+			move.b	#mus_Invincibility,d0
 	@notinvinc:
 			tst.b	(f_lockscreen).w ; is Sonic at a boss?
 			beq.s	@playselected ; if not, branch
-			moveq	#mus_Boss,d0
+			move.b	#mus_Boss,d0
 	@playselected:
 		endc
 
@@ -1835,7 +1830,6 @@ Map_SS_Down:	include	"Data\Mappings\Objects\SS DOWN Block.asm"
 Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
 
 		include	"Objects\Effects\Splatter.asm"
-		include	"Objects\Menu\Menu Character.asm"
 		include	"Objects\Screen-Space\Sega Logo Letters.asm"
 
 ; ---------------------------------------------------------------------------
@@ -2824,7 +2818,6 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 		include	"Engine\Audio\MegaPCM\Main.asm"
 		include	"Engine\Audio\Utils.asm"
 
-		include	"Modes\TailsEasterEgg.asm"
 TitleBGArt: 	incbin "Data/Art/Nemesis/Title Screen Background.bin"
 TitleBGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
 

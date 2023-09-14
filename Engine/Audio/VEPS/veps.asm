@@ -112,6 +112,7 @@ ptr_sndD5:      dc.l SoundD5
 ptr_sndD6:      dc.l SoundD6
 ptr_sndD7:      dc.l SoundD7
 ptr_sndD8:      dc.l SoundD8
+ptr_sndD9:      dc.l SoundD9
 
 ; ------------------------------------------------------
 ; Music table
@@ -337,6 +338,8 @@ SoundD7:        incbin  Data\Audio\Sound\soundD7.bin
 				even
 SoundD8:        incbin  Data\Audio\Sound\soundD8.bin
 				even
+SoundD9:        incbin  Data\Audio\Sound\soundD9.bin
+				even
 
 ; Music
 mus_ghz: equ		$81
@@ -422,3 +425,4 @@ sfxoff: equ		$D2
 sfx_violence: equ		$D6
 sfx_bouncy: equ		$D7
 sfx_superexplosion: equ		$D8
+sfx_error: equ		$D9

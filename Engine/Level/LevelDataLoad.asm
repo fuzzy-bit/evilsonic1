@@ -12,7 +12,7 @@ LevelDataLoad:
 		movea.l	(a2)+,a0
 		lea	(v_16x16).w,a1	; RAM address for 16x16 mappings
 		move.w	#0,d0
-		bsr.w	EniDec
+		jsr		EniDec
 		move.l	(a2)+,(v_256x256).l	; store the ROM address for the chunk mappings (Chunks in ROM)
 		bsr.w	LevelLayoutLoad
 		move.w	(a2)+,d0

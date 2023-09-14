@@ -281,6 +281,7 @@ v_csum_start:	equ $FFFFFFF4	; set if start button was pressed during checksum ch
 f_demo:		equ $FFFFFFF0	; demo mode flag (0 = no; 1 = yes; $8001 = ending) (2 bytes)
 v_demonum:	equ $FFFFFFF2	; demo level number (not the same as the level number) (2 bytes)
 v_difficulty:	equ $FFFFFFF4	; difficulty
+v_secret:	equ $FFFFFFF5	; secret :)
 
 v_megadrive:	equ $FFFFFFF8	; Megadrive machine type
 

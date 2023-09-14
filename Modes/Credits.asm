@@ -4,7 +4,7 @@
 ; ===============================================================
 
 _InfoScreen_BGM = $9C
-_MoveSpeed = $35
+_MoveSpeed = $30
 
 ; TODO: Rename all of the stuff in Variables to these
 ; ---------------------------------------------------------------
@@ -172,12 +172,52 @@ InfoScreen_CalcStringPos:
 InfoScreen_Data:
 		dc.b	2,'        BRUTAL SONIC - CREDITS        ',0
 		dc.b	0
-		dc.b	1,'       MY BALLS ITCH REALLY BAD       ',0
-		dc.b	1,'                 :(                   ',0
-		dc.b	1,'                                      ',0
-		dc.b	1,'                                      ',0
-		dc.b	1,'                 :3                   ',0
-		dc.b	1,'            THIS IS A CAT             ',0
+		dc.b	0
+		dc.b	2,'             PROJECT LEAD             ',0
+		dc.b	1,'             FUZZY                    ',0
+		dc.b	0
+		dc.b	2,'                 CODE                 ',0
+		dc.b	1,'             FUZZY                    ',0
+		dc.b	1,'             VLADIKCOMPER             ',0
+		dc.b	1,'             GIOVANNI                 ',0
+		dc.b	0
+		dc.b	2,'     VEPS SOUND DRIVER, MEGAPCM 2     ',0
+		dc.b	1,'             VLADIKCOMPER             ',0
+		dc.b	0
+		dc.b	2,'               GRAPHICS               ',0
+		dc.b	1,'             FUZZY                    ',0
+		dc.b	1,'             KCEXE                    ',0
+		dc.b	1,'             THEBLAD768               ',0
+		dc.b	1,'             MIDWAY                   ',0
+		dc.b	1,'             FUNAMUSEA                ',0
+		dc.b	0
+		dc.b	2,'             MUSIC, PORTS             ',0
+		dc.b	1,'AMPHOBIUS - MMX SIGMA FORTRESS 1      ',0
+		dc.b	1,'KCEXE - SAILOR MOON STREET TRACK      ',0
+		dc.b	1,'VLADIKCOMPER - MAGICAL HAT TRACK      ',0
+		dc.b	1,'LORDXERNOM - BOWSERS INS. STORY FINALE',0
+		dc.b	1,'KCEXE - YUUYUU HAKUSHO - INTRODUCE    ',0
+		dc.b	1,'KCEXE - SURGING POWER PORT            ',0
+		dc.b	1,'KCEXE - DESTRUCTIVE POWER PORT        ',0
+		dc.b	1,'VLADIKCOMPER - THUNDER FORCE IV BOSS  ',0
+		dc.b	1,'FOXCONED - SLAYER - RAINING BLOOD PORT',0
+		dc.b	1,'DUSTHILLRESIDENT, OERG866 - MONSQUAZ  ',0
+		dc.b	1,'LIGHTNING SPLASH - CHILL TO THE MAX   ',0
+		dc.b	0
+		dc.b	2,'             LEVEL DESIGN             ',0
+		dc.b	1,'             FUZZY                    ',0
+		dc.b	1,'             GIOVANNI                 ',0
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	1,'THIS IS MY FIRST FINISHED HACK, I HOPE',0
+		dc.b	1,'YOU HAD AS MUCH FUN AS I DID MAKING IT',0
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	2,'        LEVEL SELECT UNLOCKED!        ',0
+		dc.b	1,'   THANK YOU FOR PLAYING,  IT MEANS   ',0
+		dc.b	1,'            A LOT TO ME. <3           ',0
 		dc.b	0
 
 		dc.b	-1	; End of screen
