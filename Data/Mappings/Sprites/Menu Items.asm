@@ -78,8 +78,8 @@ ObjMap_MenuItems_140: 	dc.b $0, $8
 	dc.b $F8, $5, $0, $B8, $FF, $E4
 	dc.b $F8, $5, $0, $90, $FF, $F3
 	dc.b $F8, $5, $0, $D0, $0, $A
-	dc.b $F8, $5, $0, $94, $0, $19
-	dc.b $F8, $D, $0, $CC, $0, $29
+	dc.b $F8, $5, $0, $94, $0, $1A
+	dc.b $F8, $D, $0, $CC, $0, $2A
 ObjMap_MenuItems_172: 	dc.b $0, $4
 	dc.b $F8, $5, $0, $88, $FF, $E0
 	dc.b $F8, $5, $0, $84, $FF, $F0

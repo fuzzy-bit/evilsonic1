@@ -1,8 +1,33 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "9aab3f18-9822-4d1f-87f6-a5a76d45b0b1",
+    "node": "7bd3071a-8ccd-46a6-be2f-80d8f5c3ed6f",
     "objects": [
+        {
+            "uuid": "7bd3071a-8ccd-46a6-be2f-80d8f5c3ed6f",
+            "format": "Sonic 1.js",
+            "name": "Title Screen Palette",
+            "palettes": [
+                {
+                    "path": "Data\\Palette\\Title Screen.bin",
+                    "length": 2
+                }
+            ],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
         {
             "uuid": "6267aac5-791c-47de-ac5e-b12fef4f53f5",
             "format": "Sonic 3&K Player.js",

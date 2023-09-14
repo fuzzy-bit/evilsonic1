@@ -2070,10 +2070,6 @@ Eni_SegaLogo:	incbin	"Data\Mappings\TileMaps\Sega Logo.bin" ; large Sega logo (m
 	Eni_SegaLogo:	incbin	"Data\Mappings\TileMaps\Sega Logo (JP1).bin" ; large Sega logo (mappings)
 			even
 		endc
-Eni_Title:	incbin	"Data\Mappings\TileMaps\Title Screen.bin" ; title screen foreground (mappings)
-		even
-Nem_TitleFg:	incbin	"Data\Art\Nemesis\Title Screen Foreground.bin"
-		even
 Nem_TitleSonic:	incbin	"Data\Art\Nemesis\Title Screen Sonic.bin"
 		even
 Nem_TitleTM:	incbin	"Data\Art\Nemesis\Title Screen TM.bin"
@@ -2859,6 +2855,8 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 
 TitleBGArt: 	incbin "Data/Art/Nemesis/Title Screen Background.bin"
 TitleBGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
+TitleFGArt: 	incbin "Data/Art/Nemesis/Title Screen Foreground.bin"
+TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
 
 ; ---------------------------------------------------------------------------
 ; Error Handler
