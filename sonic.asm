@@ -2856,7 +2856,7 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 TitleBGArt: 	incbin "Data/Art/Nemesis/Title Screen Background.bin"
 TitleBGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
 TitleFGArt: 	incbin "Data/Art/Nemesis/Title Screen Foreground.bin"
-TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
+TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen.bin"
 
 ; ---------------------------------------------------------------------------
 ; Error Handler

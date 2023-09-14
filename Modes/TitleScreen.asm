@@ -94,17 +94,24 @@ TitleScreen:
 		; STILL RUSHED
 		lea    ($FF0000), a1 ; load background here
 		lea    TitleBGMap, a0
-		move.w #320, d0
+		move.w #800, d0
 		jsr    EniDec.w
 
-		lea     ($FF0000), a1
-		move.l  #$60000003, d0
-		moveq   #39, d1
-		moveq   #30, d2
-		jsr	   	TilemapToVRAM 	; mpaaings -> vram
+		copyTilemap	$FF0000,$E000,39,30
 
-		move.l  #$68000000, ($FFC00004).l
+		locVRAM	800*$20
 		lea     TitleBGArt, a0
+		jsr     NemDec
+
+		lea    ($FF0000), a1 ; load background here
+		lea    TitleFGMap, a0
+		move.w #400-1, d0
+		jsr    EniDec.w
+
+		copyTilemap	$FF0000,$C000,33,21
+		
+		locVRAM	400*$20
+		lea     TitleFGArt, a0
 		jsr     NemDec
 
 		moveq	#palid_Title,d0	; load title screen palette
