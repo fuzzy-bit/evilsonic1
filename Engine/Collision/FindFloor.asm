@@ -17,7 +17,7 @@
 
 
 FindFloor:
-		bsr.s	FindNearestTile
+		bsr.w	FindNearestTile
 		move.w	(a1),d0		; get value for solidness, orientation and 16x16 tile number
 		move.w	d0,d4
 		andi.w	#$7FF,d0
