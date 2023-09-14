@@ -21,7 +21,7 @@ TitleScreen:
 		move.w	#$9001,(a6)	; 64-cell hscroll size
 		move.w	#$9200,(a6)	; window vertical position
 		move.w	#$8B03,(a6)
-		move.w	#$8720,(a6)	; set background colour (palette line 2, entry 0)
+		move.w	#$8701,(a6)	; set background colour (palette line 0, entry 1)
 		clr.b	(f_wtr_state).w
 		bsr.w	ClearScreen
 
@@ -62,8 +62,6 @@ TitleScreen:
 		bsr.w	PaletteFadeIn
 		disable_ints
 		locVRAM	$4000
-		lea	(Nem_TitleFg).l,a0 ; load title	screen patterns
-		bsr.w	NemDec
 		;locVRAM	$6000
 		;lea	(Nem_TitleSonic).l,a0 ;	load Sonic title screen	patterns
 		;bsr.w	NemDec
@@ -92,34 +90,15 @@ TitleScreen:
 		lea	(vdp_control_port).l,a5
 		lea	(vdp_data_port).l,a6
 		lea	(v_bgscreenposx).w,a3
-		; lea	(v_lvllayout+$40).w,a4
-		; move.w	#$6000,d2
-		; bsr.w	DrawChunks
-		; lea	($FF0000).l,a1
-		; lea	(Eni_Title).l,a0 ; load	title screen mappings
-		; move.w	#0,d0
-		; bsr.w	EniDec
 
-		; copyTilemap	$FF0000,$C206,$21,$15
-
-		; lea    ($FF0000), a1 ; load background here
-		; lea    TitleBGMap, a0
-		; move.w #320, d0
-		; jsr    EniDec.w
-
-		; lea     ($FF0000), a1
-		; move.l  #$60000003, d0
-		; moveq   #39, d1
-		; moveq   #30, d2
-		; jsr	   	TilemapToVRAM 	; mpaaings -> vram
-
+		; STILL RUSHED
 		lea    ($FF0000), a1 ; load background here
 		lea    TitleBGMap, a0
 		move.w #320, d0
 		jsr    EniDec.w
 
 		lea     ($FF0000), a1
-		move.l  #$40000003, d0
+		move.l  #$60000003, d0
 		moveq   #39, d1
 		moveq   #30, d2
 		jsr	   	TilemapToVRAM 	; mpaaings -> vram
@@ -127,7 +106,6 @@ TitleScreen:
 		move.l  #$68000000, ($FFC00004).l
 		lea     TitleBGArt, a0
 		jsr     NemDec
-
 
 		moveq	#palid_Title,d0	; load title screen palette
 		bsr.w	PalLoad1
@@ -319,7 +297,7 @@ Tit_ChkLevSel:
 TitleSine:
 		moveq	#0, d4
 		moveq	#0, d5
-		lea	v_hscrolltablebuffer.w, a1
+		lea		v_hscrolltablebuffer.w, a1
 		move.b	(v_bgscroll_buffer).w, d6
 
 		move.w	(v_bg2screenposx).w, d2
@@ -334,7 +312,7 @@ TitleSine:
 		bsr.w	CalcSine
 		asr.w	#3, d1
 		move.w	d1, (a1)+		;Send AAAA HScroll entry
-		move.w	d0, (a1)+		;Send BBBB HScroll entry
+       	adda.l  #2, a1
 		addq.w	#1, d5			;Inc wave every line
 		dbra	d3, @Deform
 
