@@ -1,6 +1,6 @@
 Vectors: 
-		dc.l 'SONI'				; Initial stack pointer value
-		dc.l ('S'<<24)|EntryPoint ; Start of program
+		dc.l System_Stack		; Initial stack pointer value
+		dc.l EntryPoint 		; Start of program
 		dc.l BusError			; Bus error
 		dc.l AddressError		; Address error (4)
 		dc.l IllegalInstr		; Illegal instruction
