@@ -84,7 +84,7 @@ MegaPCM:
 		DAC_Entry		$0F, Tom2, pcm					; $9B	- Tom-2 Low
 		DAC_Entry		$03, SonicCD_Yes, pcm+pri+panLR ; $9C	- Sonic CD Yes
 		DAC_Entry		$04, Winrar, pcm				; $9D	- Winrar
-		DAC_Entry		$08, Tails, pcm+loop			; $9E	- Tails
+		DAC_Entry		$08, Invalid, pcm				; $9E	- oops
 		DAC_Entry		$04, ChillToTheMax, pcm			; $9F	- Lightning_Splash - Chill To The Max
 		DAC_Entry		$1B, Mogege, pcm+pri			; $A0	- Mogege~
 		DAC_Entry		$1B, Minnaaa, pcm				; $A1	- Minnaaa!
@@ -97,7 +97,7 @@ MegaPCM:
 MegaPCM_End:
 
 ; ---------------------------------------------------------------
-; DAC Samples Files
+; DAC Sample Files
 ; ---------------------------------------------------------------
 
 		IncludeDAC		Tom, raw
@@ -129,7 +129,7 @@ MegaPCM_End:
 
 		; Fuzzy ------------------------------
 		IncludeDAC		Winrar, wav
-		IncludeDAC		Tails, wav
+		IncludeDAC		Invalid, bin
 		IncludeDAC		ChillToTheMax, wav
 		IncludeDAC		Mogege, wav
 		IncludeDAC		Minnaaa, wav
