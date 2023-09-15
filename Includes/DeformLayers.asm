@@ -6,18 +6,17 @@
 
 
 DeformLayers:
-		tst.b	(f_nobgscroll).w
-		beq.s	@bgscroll
-		rts	
-; ===========================================================================
-
-	@bgscroll:
 		clr.w	(v_fg_scroll_flags).w
 		clr.w	(v_bg1_scroll_flags).w
 		clr.w	(v_bg2_scroll_flags).w
 		clr.w	(v_bg3_scroll_flags).w
+
+		tst.b	(f_nobgscroll).w
+		bne.s	@skip_bg_scroll
 		bsr.w	ScrollHoriz
 		bsr.w	ScrollVertical
+	@skip_bg_scroll:
+
 		bsr.w	DynamicLevelEvents
 		move.w	(v_screenposy).w,(v_scrposy_dup).w
 		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
