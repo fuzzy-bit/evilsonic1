@@ -230,7 +230,7 @@ Tele_Data:	dc.w @type00-Tele_Data, @type01-Tele_Data, @type02-Tele_Data
 		dc.w $4AC, $FD0, $4AC
 		dc.w $FA4, $4C0, $F94
 		dc.w $4E8, $F94, $590
-@type05:	dc.w 4,	$1294, $490
+@type05:	dc.w 4,	$E94, $38C
 @type06:	dc.w $1C, $1594, $FFE8
 		dc.w $1584, $FFC0, $1560
 		dc.w $FFAC, $14D0, $FFAC

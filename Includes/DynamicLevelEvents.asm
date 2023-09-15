@@ -680,15 +680,6 @@ DLE_SBZx:	dc.w DLE_SBZ1-DLE_SBZx
 ; ===========================================================================
 
 DLE_SBZ1:
-		move.w	#$720,(v_limitbtm1).w
-		cmpi.w	#$1880,(v_screenposx).w
-		bcs.s	locret_7242
-		move.w	#$620,(v_limitbtm1).w
-		cmpi.w	#$2000,(v_screenposx).w
-		bcs.s	locret_7242
-		move.w	#$2A0,(v_limitbtm1).w
-
-locret_7242:
 		rts	
 ; ===========================================================================
 
