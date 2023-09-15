@@ -1,5 +1,5 @@
 Vectors: 
-		dc.l v_systemstack		; Initial stack pointer value
+		dc.l 0				; Initial stack pointer value (DONTFIX: avoids crash in BuildSprite due to NULL pointer dereference)
 		dc.l EntryPoint 		; Start of program
 		dc.l BusError			; Bus error
 		dc.l AddressError		; Address error (4)
