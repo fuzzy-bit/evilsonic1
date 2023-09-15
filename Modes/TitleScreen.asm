@@ -11,8 +11,9 @@ TitleScrollTimer:	rs.l	1		; scroll count
 TitleScreen:
 		command	mus_fadeout	; stop music
 		bsr.w	ClearPLC
-		bsr.w	PaletteFadeOut
-		
+		jsr 	VDPSetup
+
+
 		disable_ints
 		lea	(vdp_control_port).l,a6
 		move.w	#$8004,(a6)	; 8-colour mode
@@ -317,7 +318,7 @@ TitleSine:
 		move.b	d6, d0
 		add.w	d5, d0
 		bsr.w	CalcSine
-		asr.w	#3, d1
+		asr.w	#4, d1
 		move.w	d1, (a1)+		;Send AAAA HScroll entry
        	adda.l  #2, a1
 		addq.w	#1, d5			;Inc wave every line
