@@ -102,6 +102,9 @@ Orb_ChkSonic:	; Routine 2
 		tst.w	(v_debuguse).w	; is debug mode	on?
 		bne.s	@animate	; if yes, branch
 		move.b	#1,obAnim(a0)	; use "angry" animation
+		cmp.b	#id_SLZ,(v_zone).w	; is current zone Star Light?
+		bne.s	@animate
+		move.b	#2,obAnim(a0)	; use other "angry" animation
 
 @animate:
 		lea	(Ani_Orb).l,a1
@@ -147,8 +150,11 @@ Orb_MoveOrb:	; Routine 6
 		movea.l	orb_parent(a0),a1
 		cmpi.b	#id_Orbinaut,0(a1) ; does parent object still exist?
 		bne.w	DeleteObject	; if not, delete
+		cmpi.b	#4,obFrame(a1)	; is orbinaut angry, but in Star Light?
+		beq.s	@angry
 		cmpi.b	#2,obFrame(a1)	; is orbinaut angry?
 		bne.s	@circle		; if not, branch
+	@angry:	
 		cmpi.b	#$40,obAngle(a0) ; is spikeorb directly under the orbinaut?
 		bne.s	@circle		; if not, branch
 		addq.b	#2,obRoutine(a0)
