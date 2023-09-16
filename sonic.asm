@@ -18,7 +18,7 @@ rom:	section	org(0),obj(0)
 
 	include "ErrorHandler/debugger.asm"
 
-SRAMEnabled:	equ 0	; change to 1 to enable SRAM
+SRAMEnabled:	equ 1	; change to 1 to enable SRAM
 
 ; Change to 0 to build the original version of the game, dubbed REV00
 ; Change to 1 to build the later vesion, dubbed REV01, which includes various bugfixes and enhancements
