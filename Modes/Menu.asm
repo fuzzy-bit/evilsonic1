@@ -11,26 +11,28 @@
 
 ; VRAM locations
 
-_Nametbl_PlaneA = $C000 ;
-_Nametbl_PlaneB = $E000 ;
+_Nametbl_PlaneA = $4000 ;
+_Nametbl_PlaneB = $8000 ;
 
 _VRAM_MenuBG = $20
 _VRAM_MenuBG_Pat = (_VRAM_MenuBG/$20)
 _VRAM_MenuFont	= $2000
 _VRAM_MenuFont_Pat = (_VRAM_MenuFont/$20)
 
-
 ; Menu RAM layout
 
 Menu_RAM:	equ	$FFFFA000
 
 		rsset	Menu_RAM
-Menu_ID:		rs.b	1	; Currently selected menu
-Menu_ItemID:		rs.b	1	; Currently selected menu item
-Menu_NumItems:		rs.b	1	; Number of items in the menu	  
-Menu_Status:		rs.b 	1	; Indicates menu status ($80 - working, indicates number of objects remain)
-Menu_Anim_In: 		rs.b	1	; Menu appear animation
-Menu_Anim_Out:		rs.b	1	; Menu hide animation
+Menu_ID:			rs.b	1	; Currently selected menu
+Menu_ItemID:			rs.b	1	; Currently selected menu item
+Menu_NumItems:			rs.b	1	; Number of items in the menu	  
+Menu_Status:			rs.b 	1	; Indicates menu status ($80 - working, indicates number of objects remain)
+Menu_Anim_In: 			rs.b	1	; Menu appear animation
+Menu_Anim_Out:			rs.b	1	; Menu hide animation
+Menu_HighlightPos:		rs.w	1	; Menu highlighter position
+Menu_HighlightHeight:		rs.b	1	; Menu highlighter height
+Menu_HighlightLastItemID:	rs.b	1	;
 
 ; ===============================================================
 ; ---------------------------------------------------------------
@@ -51,7 +53,7 @@ Menu:
 	move.w	#$8200|(_Nametbl_PlaneA/$400),(a6)	; plane A base
 	move.w	#$8400|(_Nametbl_PlaneB/$2000),(a6)	; plane B base
 	move.w	#$8ADF,(a6)
-	move.w	#$9001,(a6)			; plane size: 64x32
+	move.w	#$9003,(a6)			; plane size: 128x32
 	move.w	#$8B03,(a6)			; VScroll: full; HScroll: 1px
 	move.w	#$8C89,(a6)			; enable S&H
 	move.w	#$8134,(a6)			; disable display
@@ -94,6 +96,7 @@ Menu:
 	music	mus_model
 
 	; Setup screen
+	jsr	Menu_GenerateFG
 	jsr	Menu_GenerateBG
 	jsr	Menu_InitScrolling
 
@@ -140,6 +143,7 @@ MainMenu_MenuControlLoop:
 	jsr	WaitForVBla
 
 	; Run menu objects
+	jsr	Menu_UpdateHighlighter
 	jsr	ExecuteObjects
 	jsr	BuildSprites
 	jsr	Menu_UpdateScrolling
@@ -163,6 +167,7 @@ MainMenu_MenuHideLoop:
 	move.b	#2, (v_vbla_routine).w
 	jsr	WaitForVBla
 
+	jsr	Menu_UpdateHighlighter
 	jsr	ExecuteObjects
 	jsr	BuildSprites
 	jsr	Menu_UpdateScrolling
@@ -190,6 +195,7 @@ MainMenu_MenuHideLoop2:
 	move.b	#2, (v_vbla_routine).w
 	jsr	WaitForVBla
 
+	jsr	Menu_UpdateHighlighter
 	jsr	ExecuteObjects
 	jsr	BuildSprites
 	jsr	Menu_UpdateScrolling
@@ -208,11 +214,40 @@ MainMenu_MenuHideLoop2:
 
 
 
+; ===============================================================
+; ---------------------------------------------------------------
+; Subroutine to generate menu's foreground
+; ---------------------------------------------------------------
+
+Menu_GenerateFG:
+	lea	vdp_control_port,a6
+	lea	-4(a6),a5		; vdp_data_port
+
+	locVRAM	_Nametbl_PlaneA, (a6)
+
+	@tiles_normal:		equr	d0
+	@tiles_highllighted:	equr	d1
+
+	moveq	#32-1, d6
+
+	@draw_row:
+		moveq	#0, @tiles_normal
+		move.l	#$80008000, @tiles_highllighted
+
+		rept (320/8)/2
+			move.l	@tiles_normal, (a5)
+		endr
+		rept (128-(320/8))/2
+			move.l	@tiles_highllighted, (a5)
+		endr
+		dbf	d6, @draw_row
+
+	rts
 
 
 ; ===============================================================
 ; ---------------------------------------------------------------
-; Subroutine to load a menu
+; Subroutine to generate menu's background
 ; ---------------------------------------------------------------
 
 Menu_GenerateBG:
@@ -225,13 +260,13 @@ Menu_GenerateBG:
 	move.l	(a0)+,d2		; d2 = row factor
 	moveq	#4,d7			; d7 = blocks row switcher
 
-	move.w	#7,d6			; d6 = number of 64px block rows
+	moveq	#15,d6			; d6 = number of 64px block rows
 
 @DrawRowOfBlocks:
 	moveq	#3,d5			; d5 = number rows in block
 
 @DrawRow:
-	moveq	#7,d4			; d4 = number of block pairs in row
+	moveq	#15,d4			; d4 = number of block pairs in row
 
 @DrawBlocksInRow:
 	jsr	@BlocksTbl(pc,d7.w)
@@ -303,11 +338,15 @@ MainMenu_LoadMenu:
 	add.w	d0,d0
 	lea	MainMenu_MenuElements,a1
 	add.w	(a1,d0),a1			; get data pointer for this menu
-	move.b	(a1)+,Menu_ItemID		; set default item
-	moveq	#0,d0
 	move.b	(a1)+,d0
-	move.b	d0,Menu_Status		; set menu status for processing shit
+	move.b	d0,Menu_ItemID			; set default item
+	st.b	Menu_HighlightLastItemID	; reset highlighter state
+	moveq	#0,d0
+	move.b	d0,Menu_HighlightHeight
+	move.b	(a1)+,d0
+	move.b	d0,Menu_Status			; set menu status for processing shit
 	move.b	d0,Menu_NumItems
+
 	subq.w	#1,d0				; d0 = Number of elements
 
 	lea	v_player,a0
@@ -325,6 +364,55 @@ MainMenu_LoadMenu:
 		dbf	d0,@CreateItem
 
 	rts
+
+; ===============================================================
+; ---------------------------------------------------------------
+; Subroutine to update menu higlight effect
+; ---------------------------------------------------------------
+
+Menu_UpdateHighlighter:
+	tst.b	Menu_Status				; is menu transitioning?
+	bne.s	@OutroAnimation				; if yes, branch
+
+	move.b	Menu_ItemID, d0
+	cmp.b	Menu_HighlightLastItemID, d0
+	beq.s	@IntroAnimation
+
+	; Reload menu item
+	move.b	d0, Menu_HighlightLastItemID
+	ext.w	d0
+	add.w	d0, d0
+	add.w	d0, d0
+
+	moveq	#0, d1
+	move.b	Menu_ID, d1
+	add.w	d1, d1
+	lea	MainMenu_MenuElements,a1
+	adda.w	(a1, d1), a1			; a1 = menu data
+	lea	2+2(a1, d0), a1			; a1 = menu item position
+
+	move.w	(a1)+, d0
+	sub.w	#128, d0			; d0 = menu item centre (on-screen)
+	move.w	d0, Menu_HighlightPos
+
+	sf.b	Menu_HighlightHeight		; reset highlight animation
+	rts
+
+; ---------------------------------------------------------------
+@IntroAnimation:
+	cmp.b	#$18, Menu_HighlightHeight
+	beq.s	@Quit
+	addq.b	#4, Menu_HighlightHeight
+	rts
+
+; ---------------------------------------------------------------
+@OutroAnimation:
+	tst.b	Menu_HighlightHeight
+	beq.s	@Quit
+	subq.b	#4, Menu_HighlightHeight
+
+@Quit:	rts
+
 
 ; ===============================================================
 ; ---------------------------------------------------------------
@@ -574,6 +662,7 @@ LevelSelectMenu_Cmd:
 ; ---------------------------------------------------------------
 
 Hwnd_MainMenu_Play:
+	move.w	#$000, (v_zone).w
 	jmp	PlayLevel
 
 ; ---------------------------------------------------------------
@@ -739,6 +828,32 @@ Menu_UpdateScrolling:
 		move.l	d0, (a0)+
 		dbf	d1, @loop
 
+	; Apply higlighter, if available
+	tst.b	Menu_HighlightHeight
+	beq.s	@Done
+	move.w	Menu_HighlightPos, d0
+	moveq	#0, d1
+	move.b	Menu_HighlightHeight, d1
+	lsr.b	d1
+	sub.w	d1, d0				; d0 = on-screen Y-pos - height/2 (start)
+
+	move.w	#-320, d1
+	move.w	d0, d2
+	add.w	d2, d2
+	add.w	d2, d2
+	lea	v_hscrolltablebuffer, a0
+	add.w	d2, a0
+
+	moveq	#0, d3
+	move.b	Menu_HighlightHeight, d3
+	subq.w	#1, d3
+
+	@highlight_loop:
+		move.w	d1, (a0)
+		addq.w	#4, a0
+		dbf	d3, @highlight_loop
+
+@Done:
 	rts
 
 ; ===============================================================
