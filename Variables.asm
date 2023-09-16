@@ -257,9 +257,9 @@ v_bg1_scroll_flags_dup:	equ $FFFFFF32
 v_bg2_scroll_flags_dup:	equ $FFFFFF34
 v_bg3_scroll_flags_dup:	equ $FFFFFF36
 
-v_shakespritebackupx:	equ $FFFFFF60
-v_shakespritebackupy:	equ $FFFFFF62
-v_shaketimer:			equ $FFFFFF64
+v_screenposx_final:	equ $FFFFFF60	; final camera x-pos (with shaking, if applicable) 
+v_shaketimer:		equ $FFFFFF62
+v_screenposy_final:	equ $FFFFFF64	; final camera y-pos (with shaking, if applicable) WARNING! Don't move, it should be 4 bytes away from `v_screenposx_final`
 v_screenposybackup: 	equ $FFFFFF66
 
 v_levseldelay:	equ $FFFFFF80	; level select - time until change when up/down is held (2 bytes)

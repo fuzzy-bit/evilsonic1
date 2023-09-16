@@ -1,5 +1,5 @@
 BldSpr_ScrPos:	dc.l 0				; blank
-		dc.l v_screenposx&$FFFFFF	; main screen x-position
+		dc.l v_screenposx_final&$FFFFFF	; main screen x-position
 		dc.l v_bgscreenposx&$FFFFFF	; background x-position	1
 		dc.l v_bg3screenposx&$FFFFFF	; background x-position	2
 ; ---------------------------------------------------------------------------
@@ -44,12 +44,6 @@ BuildSprites:
 		cmpi.w	#320,d1
 		bge.w	@skipObject	; right edge out of bounds
 		addi.w	#128,d3		; VDP sprites start at 128px
-
-		tst.b	(v_shaketimer).w
-		beq.s	@continueX
-		sub.w	(v_shakespritebackupy).w,d3	; backup for sprite shaking
-
-@continueX:
 		btst	#4,d4		; is assume height flag on?
 		beq.s	@assumeHeight	; if yes, branch
 		moveq	#0,d0
