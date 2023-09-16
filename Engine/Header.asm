@@ -85,3 +85,6 @@ SRAMSupport:	if SRAMEnabled=1
 Notes:		dc.b "    https://youtube.com/watch?v=JUtqriLVF5Q         " ; Notes (unused, anything can be put in this space, but it has to be 52 bytes.)
 Region:		dc.b "JUE             " ; Region (Country code)
 EndOfHeader:
+
+SymbolData_Ptr:
+		dc.l 0			; symbol table pointer (injected by ConvSym after build)
