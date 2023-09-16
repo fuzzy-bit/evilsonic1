@@ -81,7 +81,7 @@ SRAMSupport:	if SRAMEnabled=1
 		dc.l $20202020
 		endc
 		dc.l $200001		; SRAM start ($200001)
-		dc.l $20001F		; SRAM end ($20xxxx)
+		dc.l $2003FF		; SRAM end ($20xxxx)
 Notes:		dc.b "    https://youtube.com/watch?v=JUtqriLVF5Q         " ; Notes (unused, anything can be put in this space, but it has to be 52 bytes.)
 Region:		dc.b "JUE             " ; Region (Country code)
 EndOfHeader:

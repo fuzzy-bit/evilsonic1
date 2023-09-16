@@ -122,52 +122,9 @@ PSGInitLoop:
 		dbf	d5,PSGInitLoop	; repeat for other channels
 		move.w	d0,(a2)
 		movem.l	(a6),d0-a6	; clear all registers
-		disable_ints
-		bra.s 	InitSRAM
-
-		dc.b "me looking at the iso kilo hyper balls: "
-
-InitSRAM:
-		EnableSRAM
-        lea 	($200001).l, a0     ; Load SRAM memory into a0 (Change the last digit to 0 if you're using even SRAM)
-        
-		movep.l 0(a0), d0        	; Get the existing string at the start of SRAM
-        move.l  #"KINO", d1        	; Write the string "KINO" to d1
-        cmp.l   d0, d1            	; Was it already in SRAM?
-        beq.s   @Continue           ; If so, skip
-        
-		movep.l d1, 0(a0)        	; Write string "KINO"
-		bsr.s	ResetSRAM
-		bra.w 	GameProgram
-
-@Continue:
-		DisableSRAM
 
 SkipSetup:
 		bra.w	GameProgram	; begin game
-
-; ===========================================================================
-
-ResetSRAM:
-		EnableSRAM
-		moveq	#(SRAMLength/8)-1, d0
-		lea		($200009).l, a0
-		lea		SRAMDefaults(pc), a1
-
-@Loop:
-		move.l	(a1)+, d1
-		movep.l	d1, 0(a0)		; fill 8 bytes with $FF
-		addq.l	#8, a0			; get next 8 bytes
-		dbf	d0, @Loop		; loop until 0
-
-		DisableSRAM
-		rts
-
-SRAMDefaults:
-		dc.b 0, 3, 1, 0 	; Zone, Lives, Difficulty, Secret Progression
-		dc.b 0, 0, 0, 0 	; Secret Enabled, Game Completed, Null, Null
-		even
-
 
 ; ===========================================================================
 SetupValues:	dc.w $8000		; VDP register start number
@@ -256,6 +213,8 @@ GameInit:
 		lea	SampleTable, a0
 		move.w	#(SampleTable_End-SampleTable)/$C-1, d0
 		jsr	VEPS_LoadSampleTable
+
+		jsr		InitSRAM
 
 		bsr.w	JoypadInit
 		jsr	VDPDraw_Init
