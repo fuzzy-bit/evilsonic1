@@ -133,7 +133,8 @@ InitSRAM:
         beq.s   @Continue           ; If so, skip
         
 		movep.l d1, 0(a0)        	; Write string "KINO"
-		bra.s	ResetSRAM
+		bsr.s	ResetSRAM
+		bra.w 	GameProgram
 
 @Continue:
 		DisableSRAM
@@ -156,10 +157,10 @@ ResetSRAM:
 		dbf	d0, @Loop		; loop until 0
 
 		DisableSRAM
-		bra.s 	GameProgram
+		rts
 
 SRAMDefaults:
-		dc.b 0, 3, 0, 0 	; Zone, Lives, Difficulty, Secret Progression
+		dc.b 0, 3, 1, 0 	; Zone, Lives, Difficulty, Secret Progression
 		dc.b 0, 0, 0, 0 	; Secret Enabled, Game Completed, Null, Null
 		even
 
@@ -303,6 +304,11 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 ; ---------------------------------------------------------------------------
 		include "Engine/VBlank.asm"
 		include "Engine/HBlank.asm"
+
+; ---------------------------------------------------------------------------
+; SRAM
+; ---------------------------------------------------------------------------
+		include "Engine/SRAM.asm"
 		
 ; ---------------------------------------------------------------------------
 ; Input

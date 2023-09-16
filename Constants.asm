@@ -225,7 +225,8 @@ Up		equ 	1
 Kino:               rs.w 4
 ZoneSave:           rs.w 1
 LivesSave:          rs.w 1
+DifficultySave:     rs.w 1
 SecretProgression:  rs.w 1
-SecertEnabled:      rs.w 1
+SecretEnabled:      rs.w 1
 GameCompleted:      rs.w 1
-SRAMLength:          rs.w 0
+SRAMLength:         rs.w 0

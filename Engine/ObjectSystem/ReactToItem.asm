@@ -210,14 +210,14 @@ React_Enemy:
 		bsr.w	AddPoints
 		move.b	#id_ExplosionBomb,0(a1) ; change object to explosion
 		move.b	#0,obRoutine(a1)
-		tst.b 	(v_secret).w
-		bne.s 	@changepalette
 		tst.w	obVelY(a0)
 		bmi.s	@bouncedown
 		move.w	obY(a0),d0
 		cmp.w	obY(a1),d0
 		bcc.s	@bounceup
 		neg.w	obVelY(a0)
+		tst.b 	(v_secret).w
+		bne.s 	@changepalette
 ; ===========================================================================
 
 	@bouncedown:
