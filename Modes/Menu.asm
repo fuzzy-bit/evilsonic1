@@ -39,6 +39,7 @@ Menu_Anim_Out:		rs.b	1	; Menu hide animation
 
 Menu:
 	command	mus_fadeout
+	jsr 	LoadSRAM
 
 	jsr	PaletteFadeOut
 	move	#$2700, sr			; disable interrupts
@@ -610,7 +611,9 @@ Hwnd_Options_ClearSRAM:
 	rts
 
 Hwnd_SRAMChoice_Yes:
-	illegal
+	jsr		ResetSRAM
+	jsr 	PaletteFadeOut		
+	jmp 	EntryPoint				; entry point clears ram
 	
 Hwnd_SRAMChoice_No:
 	move.b	#$01, Menu_ID
@@ -628,27 +631,41 @@ Hwnd_Options_Back:
 ; ---------------------------------------------------------------
 Hwnd_DifficultySelect_Weak:
 	move.b 	#0, (v_difficulty).w
+	move.b	#0, (v_secret).w
+	jsr 	SaveSRAM
+
 	move.b	#$01, Menu_ID
 	rts
 
 Hwnd_DifficultySelect_Normal:
 	move.b 	#1, (v_difficulty).w
+	move.b	#0, (v_secret).w
+	jsr 	SaveSRAM
+
 	move.b	#$01, Menu_ID
 	rts
 
 Hwnd_DifficultySelect_Hard:
 	move.b 	#2, (v_difficulty).w
+	move.b	#0, (v_secret).w
+	jsr 	SaveSRAM
+
 	move.b	#$01, Menu_ID
 	rts
 
 Hwnd_DifficultySelect_Nightmare:
 	move.b 	#3, (v_difficulty).w
+	move.b	#0, (v_secret).w
+	jsr 	SaveSRAM
+
 	move.b	#$01, Menu_ID
 	rts
 
 Hwnd_DifficultySelect_Why:
-	move.b 	#1, (v_difficulty).w
-	; move.b	#1, (v_secret).w
+	move.b 	#3, (v_difficulty).w
+	move.b	#1, (v_secret).w
+	jsr 	SaveSRAM
+
 	move.b	#$01, Menu_ID
 	rts
 
@@ -666,11 +683,11 @@ Hwnd_LevelSelectMenu_MZ:
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_SYZ:
-	move.b 	#3, (v_zone).w
+	move.b 	#4, (v_zone).w
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_SLZ:
-	move.b 	#4, (v_zone).w
+	move.b 	#3, (v_zone).w
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_SBZ:
@@ -678,7 +695,8 @@ Hwnd_LevelSelectMenu_SBZ:
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_FZ:
-	move.b 	#6, (v_zone).w
+	move.b 	#5, (v_zone).w
+	move.b 	#2, (v_act).w
 	jmp PlayLevel
 
 Hwnd_LevelSelectMenu_Back:

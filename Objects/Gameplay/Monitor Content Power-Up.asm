@@ -118,6 +118,10 @@ Pow_ChkRings:
 		cmpi.b	#6,d0		; does monitor contain 10 rings?
 		bne.s	Pow_ChkS
 
+		move.b 	(v_difficulty).w, d1
+		cmpi.b 	#3, d1 ; is difficulty nightmare?
+		beq.s 	Pow_DenySound ; if not, branch
+
 		addi.w	#10,(v_rings).w	; add 10 rings to the number of rings you have
 		ori.b	#1,(f_ringcount).w ; update the ring counter
 		cmpi.w	#100,(v_rings).w ; check if you have 100 rings
@@ -132,10 +136,15 @@ Pow_ChkRings:
 	Pow_RingSound:
 		sfx	sfx_RingRight	; play ring sound
 		rts
+	
+	Pow_DenySound:
+		sfx sfx_error
+		rts
 ; ===========================================================================
 
 Pow_ChkS:
 		cmpi.b	#7,d0		; does monitor contain 'S'?
+		; ADD SECRET LOGIC HERE
 		bne.s	Pow_ChkEnd
 		nop	
 

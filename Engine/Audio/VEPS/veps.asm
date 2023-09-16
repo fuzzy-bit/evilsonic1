@@ -82,6 +82,7 @@ ptr_sndD5:      dc.l SoundD5
 ptr_sndD6:      dc.l SoundD6
 ptr_sndD7:      dc.l SoundD7
 ptr_sndD8:      dc.l SoundD8
+ptr_sndD9:      dc.l SoundD9
 
 ; ------------------------------------------------------
 ; Music table
@@ -105,20 +106,20 @@ MusicIndex:
 		dc.l @Endurance     ; 8F
 		dc.l @Retro         ; 90
 		dc.l @Drowning      ; 91
-		dc.l @SecretGHZ
-		dc.l @SecretLZ
-		dc.l @SecretMZ
-		dc.l @SecretSYZ
-		dc.l @SecretSLZ
-		dc.l @SecretSBZ
-		dc.l @SecretFZ
-		dc.l @SecretInvincibility
-		dc.l @SecretBoss
-		dc.l @SecretDrowning
-		dc.l @SecretCredits
-		dc.l @CIS
-		dc.l @Monsquaz
-		dc.l @Monsquaz
+		dc.l @SecretGHZ		; 92
+		dc.l @SecretLZ		; 93
+		dc.l @SecretMZ		; 94
+		dc.l @SecretSYZ		; 95
+		dc.l @SecretSLZ		; 96
+		dc.l @SecretSBZ		; 97
+		dc.l @SecretFZ		; 98
+		dc.l @SecretInvincibility ; 99
+		dc.l @SecretBoss	; 9A
+		dc.l @SecretDrowning	; 9B
+		dc.l @SecretCredits		; 9C
+		dc.l @CIS			; 9D
+		dc.l @Monsquaz		; 9E
+		dc.l @Monsquaz		; 9F
 		dc.l @Monsquaz
 
 ; ===============================================================
@@ -307,6 +308,8 @@ SoundD7:        incbin  Data\Audio\Sound\soundD7.bin
 				even
 SoundD8:        incbin  Data\Audio\Sound\soundD8.bin
 				even
+SoundD9:        incbin  Data\Audio\Sound\soundD9.bin
+				even
 
 ; Music
 mus_ghz: equ		$81
@@ -328,6 +331,14 @@ mus_gameover: equ	$88
 
 mus_model: equ		$8D
 mus_retro: equ		$90
+
+mus_secretghz: equ	$92
+mus_secretlz: equ 	$93
+mus_secretmz: equ 	$94
+mus_secretsyz: equ 	$95
+mus_secretslz: equ	$96
+mus_secretsbz: equ	$97
+mus_secretfz: equ	$98
 
 ; Control
 mus_fadeout: equ	$E0
@@ -392,3 +403,4 @@ sfxoff: equ		$D2
 sfx_violence: equ		$D6
 sfx_bouncy: equ		$D7
 sfx_superexplosion: equ		$D8
+sfx_error: equ		$D9

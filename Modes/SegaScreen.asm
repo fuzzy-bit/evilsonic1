@@ -90,6 +90,7 @@ SegaScreen:
 		bra.s 	@Loop
 
 @NextScreen:
+		bsr.w	PaletteFadeOut
 		move.b	#id_Title, (v_gamemode).w
 		rts
 		

@@ -216,7 +216,8 @@ React_Enemy:
 		cmp.w	obY(a1),d0
 		bcc.s	@bounceup
 		neg.w	obVelY(a0)
-		rts	
+		tst.b 	(v_secret).w
+		bne.s 	@changepalette
 ; ===========================================================================
 
 	@bouncedown:
@@ -226,6 +227,16 @@ React_Enemy:
 	@bounceup:
 		subi.w	#$100,obVelY(a0)
 		rts	
+
+	@changepalette:
+		lea     ($FFFFFB40).w,a1
+		jsr     (RandomPalette2).l
+		jsr     (RandomSound).l
+
+		sfx 	sfx_violence
+        move.b  #4, (v_flashtimer).w
+		move.b	#15, (v_shaketimer).w
+		rts
 
 @points:	dc.w 10, 20, 50, 100	; points awarded div 10
 

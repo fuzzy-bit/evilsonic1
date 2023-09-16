@@ -256,9 +256,9 @@ v_bg1_scroll_flags_dup:	equ $FFFFFF32
 v_bg2_scroll_flags_dup:	equ $FFFFFF34
 v_bg3_scroll_flags_dup:	equ $FFFFFF36
 
-v_shakespritebackupx:	equ $FFFFFF60
-v_shakespritebackupy:	equ $FFFFFF62
-v_shaketimer:			equ $FFFFFF64
+v_screenposx_final:	equ $FFFFFF60	; final camera x-pos (with shaking, if applicable) 
+v_shaketimer:		equ $FFFFFF62
+v_screenposy_final:	equ $FFFFFF64	; final camera y-pos (with shaking, if applicable) WARNING! Don't move, it should be 4 bytes away from `v_screenposx_final`
 v_screenposybackup: 	equ $FFFFFF66
 
 v_levseldelay:	equ $FFFFFF80	; level select - time until change when up/down is held (2 bytes)
@@ -280,6 +280,7 @@ v_csum_start:	equ $FFFFFFF4	; set if start button was pressed during checksum ch
 f_demo:		equ $FFFFFFF0	; demo mode flag (0 = no; 1 = yes; $8001 = ending) (2 bytes)
 v_demonum:	equ $FFFFFFF2	; demo level number (not the same as the level number) (2 bytes)
 v_difficulty:	equ $FFFFFFF4	; difficulty
+v_secret:	equ $FFFFFFF5	; secret :)
 
 v_megadrive:	equ $FFFFFFF8	; Megadrive machine type
 

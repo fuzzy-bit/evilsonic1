@@ -11,8 +11,9 @@ TitleScrollTimer:	rs.l	1		; scroll count
 TitleScreen:
 		command	mus_fadeout	; stop music
 		bsr.w	ClearPLC
-		bsr.w	PaletteFadeOut
-		
+		jsr 	VDPSetup
+
+
 		disable_ints
 		lea	(vdp_control_port).l,a6
 		move.w	#$8004,(a6)	; 8-colour mode
@@ -21,7 +22,7 @@ TitleScreen:
 		move.w	#$9001,(a6)	; 64-cell hscroll size
 		move.w	#$9200,(a6)	; window vertical position
 		move.w	#$8B03,(a6)
-		move.w	#$8720,(a6)	; set background colour (palette line 2, entry 0)
+		move.w	#$8701,(a6)	; set background colour (palette line 0, entry 1)
 		clr.b	(f_wtr_state).w
 		bsr.w	ClearScreen
 
@@ -62,8 +63,6 @@ TitleScreen:
 		bsr.w	PaletteFadeIn
 		disable_ints
 		locVRAM	$4000
-		lea	(Nem_TitleFg).l,a0 ; load title	screen patterns
-		bsr.w	NemDec
 		;locVRAM	$6000
 		;lea	(Nem_TitleSonic).l,a0 ;	load Sonic title screen	patterns
 		;bsr.w	NemDec
@@ -92,42 +91,29 @@ TitleScreen:
 		lea	(vdp_control_port).l,a5
 		lea	(vdp_data_port).l,a6
 		lea	(v_bgscreenposx).w,a3
-		; lea	(v_lvllayout+$40).w,a4
-		; move.w	#$6000,d2
-		; bsr.w	DrawChunks
-		; lea	($FF0000).l,a1
-		; lea	(Eni_Title).l,a0 ; load	title screen mappings
-		; move.w	#0,d0
-		; bsr.w	EniDec
 
-		; copyTilemap	$FF0000,$C206,$21,$15
-
-		; lea    ($FF0000), a1 ; load background here
-		; lea    TitleBGMap, a0
-		; move.w #320, d0
-		; jsr    EniDec.w
-
-		; lea     ($FF0000), a1
-		; move.l  #$60000003, d0
-		; moveq   #39, d1
-		; moveq   #30, d2
-		; jsr	   	TilemapToVRAM 	; mpaaings -> vram
-
+		; STILL RUSHED
 		lea    ($FF0000), a1 ; load background here
 		lea    TitleBGMap, a0
-		move.w #320, d0
+		move.w #800, d0
 		jsr    EniDec.w
 
-		lea     ($FF0000), a1
-		move.l  #$40000003, d0
-		moveq   #39, d1
-		moveq   #30, d2
-		jsr	   	TilemapToVRAM 	; mpaaings -> vram
+		copyTilemap	$FF0000,$E000,39,30
 
-		move.l  #$68000000, ($FFC00004).l
+		locVRAM	800*$20
 		lea     TitleBGArt, a0
 		jsr     NemDec
 
+		lea    ($FF0000), a1 ; load background here
+		lea    TitleFGMap, a0
+		move.w #400-1, d0
+		jsr    EniDec.w
+
+		copyTilemap	$FF0000,$C000,33,21
+		
+		locVRAM	400*$20
+		lea     TitleFGArt, a0
+		jsr     NemDec
 
 		moveq	#palid_Title,d0	; load title screen palette
 		bsr.w	PalLoad1
@@ -319,7 +305,7 @@ Tit_ChkLevSel:
 TitleSine:
 		moveq	#0, d4
 		moveq	#0, d5
-		lea	v_hscrolltablebuffer.w, a1
+		lea		v_hscrolltablebuffer.w, a1
 		move.b	(v_bgscroll_buffer).w, d6
 
 		move.w	(v_bg2screenposx).w, d2
@@ -332,9 +318,9 @@ TitleSine:
 		move.b	d6, d0
 		add.w	d5, d0
 		bsr.w	CalcSine
-		asr.w	#3, d1
+		asr.w	#4, d1
 		move.w	d1, (a1)+		;Send AAAA HScroll entry
-		move.w	d0, (a1)+		;Send BBBB HScroll entry
+       	adda.l  #2, a1
 		addq.w	#1, d5			;Inc wave every line
 		dbra	d3, @Deform
 
@@ -745,20 +731,6 @@ LevelMenuText:	if Revision=0
 		else
 		incbin	"Data\Miscellaneous\Level Select Text (JP1).bin"
 		endc
-		even
-; ---------------------------------------------------------------------------
-; Music	playlist
-; ---------------------------------------------------------------------------
-MusicList:
-		dc.b mus_GHZ	; GHZ
-		dc.b mus_LZ	; LZ
-		dc.b mus_MZ	; MZ
-		dc.b mus_SLZ	; SLZ
-		dc.b mus_SYZ	; SYZ
-		dc.b mus_SBZ	; SBZ
-		dc.b mus_FZ	; Ending		
-		zonewarning MusicList,1	; Note: It's another one of those oddly placed macros.
-		dc.b mus_zone7pre
 		even
 
 MenuPalette: 	incbin "Data/Palette/Menu.bin"

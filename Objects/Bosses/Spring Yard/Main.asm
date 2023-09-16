@@ -175,7 +175,7 @@ BossSpringYard:
 @BobShip:
 		move.b	$3F(a0), d0
 		addq.b	#2, $3F(a0)
-		jsr	(CalcSine).l
+		jsr		(CalcSine).l
 
 		asr.w	#3, d0
 		neg.w 	d0
@@ -324,8 +324,11 @@ BossSpringYard:
 		; if we are too low, shake by ASRing a CalcSine call
 		; next routine is getting back up, then goes back to ControlDirection
 
-		move.w	#-$100, obVelY(a0)
-		jsr 	SpeedToPos
+		jsr 	ObjectFall
+		bsr.s 	@SpeedToTarget
+		
+		cmpi.w  #$0771, obY(a0)
+		blt.s 	@Groundpound_rts
 		
 		subq.w	#1, @DelayTimer(a0)
 
@@ -337,6 +340,21 @@ BossSpringYard:
 
 @Groundpound_rts:
 		rts
+
+@SpeedToTarget:
+		move.l	@TargetX(a0),d2
+		move.l	@TargetY(a0),d3
+		move.w	obVelX(a0),d0	; load horizontal speed
+		ext.l	d0
+		asl.l	#8,d0		; multiply speed by $100
+		add.l	d0,d2		; add to x-axis	position
+		move.w	obVelY(a0),d0	; load vertical	speed
+		ext.l	d0
+		asl.l	#8,d0		; multiply by $100
+		add.l	d0,d3		; add to y-axis	position
+		move.l	d2,@TargetX(a0)	; update x-axis	position
+		move.l	d3,@TargetY(a0)	; update y-axis	position
+		rts	
 
 ; ===========================================================================
 

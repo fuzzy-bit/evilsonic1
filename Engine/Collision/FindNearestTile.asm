@@ -39,9 +39,12 @@ FindNearestTile:
 		add.w	d0,d1
 		add.l	(v_256x256).l,d1	; (Chunks in ROM)		
 
-@blanktile:
 		movea.l	d1,a1
 		rts	
+		
+@blanktile:
+		movea.l	#ConvenientlyPlacedZero,a1		; it should point to a byte that is 0
+		rts
 ; ===========================================================================
 
 @specialtile:
@@ -68,3 +71,7 @@ FindNearestTile:
 		movea.l	d1,a1
 		rts	
 ; End of function FindNearestTile
+
+ConvenientlyPlacedZero:
+		dc.w	0
+		

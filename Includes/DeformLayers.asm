@@ -6,70 +6,65 @@
 
 
 DeformLayers:
-		tst.b	(f_nobgscroll).w
-		beq.s	@bgscroll
-		rts	
-; ===========================================================================
+		moveq	#0, d0
+		move.w	d0, (v_fg_scroll_flags).w
+		move.w	d0, (v_bg1_scroll_flags).w
+		move.w	d0, (v_bg2_scroll_flags).w
+		move.w	d0, (v_bg3_scroll_flags).w
 
-	@bgscroll:
-		clr.w	(v_fg_scroll_flags).w
-		clr.w	(v_bg1_scroll_flags).w
-		clr.w	(v_bg2_scroll_flags).w
-		clr.w	(v_bg3_scroll_flags).w
+		; Update camera position
+		tst.b	(f_nobgscroll).w
+		bne.s	@DontUpdateCamera
 		bsr.w	ScrollHoriz
 		bsr.w	ScrollVertical
-		bsr.w	DynamicLevelEvents
-		move.w	(v_screenposy).w,(v_scrposy_dup).w
-		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
-; End of function DeformLayers
+		bra.s	@CameraUpdateDone
 
-; ---------------------------------------------------------------------------
-; Camera Shaking stolen from Selbi, modified by Fuzzy
-; ---------------------------------------------------------------------------
+	@DontUpdateCamera:
+		assert.w d0, eq			; assert d0 == 0
+		move.w	d0, (v_scrshiftx).w
+		move.w	d0, (v_scrshifty).w
 
-ShakePw1 = $0007
-ShakePw2 = $0001
-ShakePw3 = $0003
+	@CameraUpdateDone:
 
-GenerateCameraShake:
+		; Camera Shaking stolen from Selbi, modified by Fuzzy
+	@ShakePw: = $0007
+
+		move.w	(v_screenposx).w, (v_screenposx_final).w
+		move.w	(v_screenposy).w, (v_screenposy_final).w
+
 		tst.b	(v_shaketimer).w
-		beq.s	@cont
+		beq.s	@ShakeDone
 		subq.b	#1,(v_shaketimer).w
-		jsr		RandomNumber			; random number
+
+		jsr	RandomNumber			; random number
 		swap	d0
 		move.w	d0,d1
 		swap	d0
-		andi.w	#ShakePw1,d0			; limit to 15
-		andi.w	#ShakePw1,d1			; limit to 15
+		moveq	#@ShakePw, d2
+		and.w	d2, d0
+		and.w	d2, d1
+		add.w	d2, d2
+		lsr.w	d2
+		sub.w	d2, d0
+		sub.w	d2, d1
 
-		btst	#0,(v_framebyte).w
-		beq.s	@ShakeX
-		neg.w	d0
-@ShakeX:
-		btst	#0,(v_framebyte).w
-		beq.s	@ShakeY
-		neg.w	d1
-@ShakeY:
-		move.w	d0,($FFFFFF60).w
-		move.w	d1,(v_shakespritebackupy).w
+	@GotShakeDisp:
+		add.w	d0,(v_screenposx_final).w
+		add.w	d1,(v_screenposy_final).w
 
-@cont:
-		tst.b	(v_shaketimer).w
-		beq.s	@contxx
-		move.w	(v_shakespritebackupy).w,d0
-		add.w	d0,(v_screenposx).w	; backup for sprite shaking
-@contxx:
+	@ShakeDone:
+
+		bsr.w	DynamicLevelEvents
+
+		move.w	(v_screenposy_final).w,(v_scrposy_dup).w
+		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
+
+		; Run layer deformation routines
 		moveq	#0,d0
-		move.b	($FFFFFE10).w,d0
+		move.b	(v_zone).w,d0
 		add.w	d0,d0
 		move.w	Deform_Index(pc,d0.w),d0
-		jsr	Deform_Index(pc,d0.w)
-		tst.b	(v_shaketimer).w
-		beq.s	@contxxx
-		move.w	(v_shakespritebackupy).w,d0	; backup for sprite shaking
-		sub.w	d0,(v_screenposx).w
-@contxxx:
-		rts
+		jmp	Deform_Index(pc,d0.w)
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -108,7 +103,7 @@ Deform_GHZ:
 
 	; calculate Y position
 		lea	(v_hscrolltablebuffer).w,a1
-		move.w	(v_screenposy).w,d0
+		move.w	(v_screenposy_final).w,d0
 		andi.w	#$7FF,d0
 		lsr.w	#5,d0
 		neg.w	d0
@@ -118,7 +113,7 @@ Deform_GHZ:
 	@limitY:
 		move.w	d0,d4
 		move.w	d0,(v_bgscrposy_dup).w
-		move.w	(v_screenposx).w,d0
+		move.w	(v_screenposx_final).w,d0
 		cmpi.b	#id_Title,(v_gamemode).w
 		bne.s	@notTitle
 		moveq	#0,d0	; reset foreground position in title screen
@@ -175,7 +170,7 @@ Deform_GHZ:
 		dbf	d1,@hillLoop
 
 		move.w	(v_bg2screenposx).w,d0
-		move.w	(v_screenposx).w,d2
+		move.w	(v_screenposx_final).w,d2
 		sub.w	d0,d2
 		ext.l	d2
 		asl.l	#8,d2
@@ -223,18 +218,18 @@ Deform_LZ:
 
 		add.w	(v_bgscreenposy).w,d2
 		andi.w	#$FF,d2
-		add.w	(v_screenposy).w,d3
+		add.w	(v_screenposy_final).w,d3
 		andi.w	#$FF,d3
 		lea	(v_hscrolltablebuffer).w,a1
 		move.w	#$DF,d1
-		move.w	(v_screenposx).w,d0
+		move.w	(v_screenposx_final).w,d0
 		neg.w	d0
 		move.w	d0,d6
 		swap	d0
 		move.w	(v_bgscreenposx).w,d0
 		neg.w	d0
 		move.w	(v_waterpos1).w,d4
-		move.w	(v_screenposy).w,d5
+		move.w	(v_screenposy_final).w,d5
 	; write normal scroll before meeting water position
 	@normalLoop:		
 		cmp.w	d4,d5	; is current y >= water y?
@@ -319,7 +314,7 @@ Deform_MZ:
 		move.l	d0,(v_bg2screenposx).w
 	; calculate y-position of background
 		move.w	#$200,d0	; start with 512px, ignoring 2 chunks
-		move.w	(v_screenposy).w,d1
+		move.w	(v_screenposy_final).w,d1
 		subi.w	#$1C8,d1	; 0% scrolling when y <= 56px 
 		bcs.s	@noYscroll
 		move.w	d1,d2
@@ -416,7 +411,7 @@ Deform_SLZ:
 		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
 	; calculate background scroll buffer
 		lea	(v_bgscroll_buffer).w,a1
-		move.w	(v_screenposx).w,d2
+		move.w	(v_screenposx_final).w,d2
 		neg.w	d2
 		move.w	d2,d0
 		asr.w	#3,d0
@@ -473,7 +468,7 @@ Deform_SLZ:
 Bg_Scroll_X:
 		lea	(v_hscrolltablebuffer).w,a1
 		move.w	#$E,d1
-		move.w	(v_screenposx).w,d0
+		move.w	(v_screenposx_final).w,d0
 		neg.w	d0
 		swap	d0
 		andi.w	#$F,d2
@@ -521,7 +516,7 @@ Deform_SYZ:
 		move.w	(v_bgscreenposy).w,(v_bgscrposy_dup).w
 	; calculate background scroll buffer
 		lea	(v_bgscroll_buffer).w,a1
-		move.w	(v_screenposx).w,d2
+		move.w	(v_screenposx_final).w,d2
 		neg.w	d2
 		move.w	d2,d0
 		asr.w	#3,d0
@@ -636,7 +631,7 @@ Deform_SBZ:
 		clr.b	(v_bg3_scroll_flags).w
 	; calculate background scroll buffer
 		lea	(v_bgscroll_buffer).w,a1
-		move.w	(v_screenposx).w,d2
+		move.w	(v_screenposx_final).w,d2
 		neg.w	d2
 		asr.w	#2,d2
 		move.w	d2,d0
@@ -699,7 +694,7 @@ Deform_SBZ2:;loc_68A2:
 	; copy fg & bg x-position to hscroll table
 		lea	(v_hscrolltablebuffer).w,a1
 		move.w	#223,d1
-		move.w	(v_screenposx).w,d0
+		move.w	(v_screenposx_final).w,d0
 		neg.w	d0
 		swap	d0
 		move.w	(v_bgscreenposx).w,d0
@@ -936,34 +931,6 @@ loc_6720:
 		move.w	(v_limitbtm2).w,d1
 
 loc_6724:
-		tst.b	(v_shaketimer).w
-		beq.s	loc_6724_Continue
-
-ScrVert_ShakeCam2:
-		move.w	(v_shakespritebackupx).w,d0	; backup for sprite shaking
-		add.w	d0,d0
-	;	add.w	d0,($FFFFF70C).w
-		move.w	(v_shakespritebackupx).w,d0	; backup for sprite shaking
-		add.w	d0,d1	; add to camera shaking
-		move.w	(v_screenposybackup).w,d5
-		addi.w	#$10,d5
-		cmp.w	d5,d1
-		bcs.s	@Continue1
-		move.w	d5,d1
-		bra.s	@Continue2
-
-@Continue1:
-		subi.w	#$20,d5
-		cmp.w	d5,d1
-		bcc.s	@Continue2
-		move.w	d5,d1
-
-@Continue2:
-		tst.w	d1
-		bpl.s	loc_6724_Continue
-		moveq	#0,d1
-
-loc_6724_Continue:
 		move.w	(v_screenposy).w,d4
 		swap	d1
 		move.l	d1,d3
@@ -975,7 +942,6 @@ loc_6724_Continue:
 
 @Continue:
 		move.l	d1,(v_screenposy).w
-		move.w	(v_screenposy).w,(v_screenposybackup).w
 		move.w	(v_screenposy).w,d0
 		andi.w	#$10,d0
 		move.b	(v_fg_yblock).w,d1
