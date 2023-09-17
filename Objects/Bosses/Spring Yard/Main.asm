@@ -327,7 +327,9 @@ BossSpringYard:
 		jsr 	ObjectFall
 		bsr.s 	@SpeedToTarget
 		
-		cmpi.w  #$0771, obY(a0)
+		move.w 	#0, obVelY(a0)
+
+		cmpi.w  #$0550, obY(a0)
 		blt.s 	@Groundpound_rts
 		
 		subq.w	#1, @DelayTimer(a0)

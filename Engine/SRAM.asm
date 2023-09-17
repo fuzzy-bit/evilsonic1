@@ -69,7 +69,9 @@ LoadSRAM:
 		move.b 	ZoneSave(a0), (v_zone).w
 		move.b 	LivesSave(a0), (v_lives).w
 		move.b 	DifficultySave(a0), (v_difficulty).w
+		move.b 	SecretProgression(a0), (v_secretprog).w
 		move.b 	SecretEnabled(a0), (v_secret).w
+		move.b 	GameCompleted(a0), (v_gamecomplete).w
 
 		DisableSRAM
 		startZ80
@@ -89,7 +91,9 @@ SaveSRAM:
 		move.b 	(v_zone).w, ZoneSave(a0)
 		move.b	(v_lives).w, LivesSave(a0)
 		move.b 	(v_difficulty).w, DifficultySave(a0)
+		move.b 	(v_secretprog).w, SecretProgression(a0)
 		move.b 	(v_secret).w, SecretEnabled(a0)
+		move.b 	(v_gamecomplete).w, GameCompleted(a0)
 
 		DisableSRAM
 		startZ80

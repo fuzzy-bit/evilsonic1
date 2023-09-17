@@ -282,8 +282,9 @@ v_demonum:		equ $FFFFFFF2	; demo level number (not the same as the level number)
 v_difficulty:	equ $FFFFFFF4	; difficulty
 v_secret:		equ $FFFFFFF5	; secret :)
 v_sramgameover:	equ $FFFFFFF6	; game over flag to reset SRAM 
-
+v_secretprog:	equ $FFFFFFF7	; secret progression
 v_megadrive:	equ $FFFFFFF8	; Megadrive machine type
+v_gamecomplete:	equ $FFFFFFF9	; game completed
 
 f_debugmode:	equ $FFFFFFFA	; debug mode flag (sometimes 2 bytes)
 v_init:		equ $FFFFFFFC	; 'init' text string (4 bytes)
