@@ -13,6 +13,16 @@ SegaScreen:
 		move.w	#$8700, (a6)			; set background colour (palette entry 0)
 		move.w	#$8B00, (a6)			; full-screen vertical scrolling
 
+		tst.b 	(v_sramgameover).W
+		beq.s	@NotGameOver
+
+		move.b 	#0, (v_sramgameover).W
+
+		move.b 	#0, (v_zone).w
+		move.b 	#3, (v_lives).w
+		jsr 	SaveSRAM
+
+@NotGameOver:
 		clr.b	(f_wtr_state).w
 
 		disable_ints

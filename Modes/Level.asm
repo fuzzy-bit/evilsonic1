@@ -273,6 +273,7 @@ Level_ClrCardArt:
 
 Level_StartGame:
 		bclr	#7,(v_gamemode).w ; subtract $80 from mode to end pre-level stuff
+		jsr 	SaveSRAM
 
 ; ---------------------------------------------------------------------------
 ; Main level loop (when	all title card and loading sequences are finished)

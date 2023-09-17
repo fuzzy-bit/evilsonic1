@@ -662,8 +662,7 @@ LevelSelectMenu_Cmd:
 ; ---------------------------------------------------------------
 
 Hwnd_MainMenu_Play:
-	move.w	#$000, (v_zone).w
-	jmp	PlayLevel
+	jmp	Menu_PlayLevel
 
 ; ---------------------------------------------------------------
 Hwnd_MainMenu_LevelSelect:
@@ -765,28 +764,28 @@ Hwnd_DifficultySelect_Back:
 ; ---------------------------------------------------------------
 Hwnd_LevelSelectMenu_GHZ:
 	move.b 	#0, (v_zone).w
-	jmp PlayLevel
+	jmp Menu_PlayLevel
 
 Hwnd_LevelSelectMenu_MZ:
 	move.b 	#2, (v_zone).w
-	jmp PlayLevel
+	jmp Menu_PlayLevel
 
 Hwnd_LevelSelectMenu_SYZ:
 	move.b 	#4, (v_zone).w
-	jmp PlayLevel
+	jmp Menu_PlayLevel
 
 Hwnd_LevelSelectMenu_SLZ:
 	move.b 	#3, (v_zone).w
-	jmp PlayLevel
+	jmp Menu_PlayLevel
 
 Hwnd_LevelSelectMenu_SBZ:
 	move.b 	#5, (v_zone).w
-	jmp PlayLevel
+	jmp Menu_PlayLevel
 
 Hwnd_LevelSelectMenu_FZ:
 	move.b 	#5, (v_zone).w
 	move.b 	#2, (v_act).w
-	jmp PlayLevel
+	jmp Menu_PlayLevel
 
 Hwnd_LevelSelectMenu_Back:
 	move.b	#$00, Menu_ID
@@ -794,7 +793,23 @@ Hwnd_LevelSelectMenu_Back:
 
 ; ===============================================================
 
-
+Menu_PlayLevel:
+		move.b	#id_Level,(v_gamemode).w ; set screen mode to $0C (level)
+		moveq	#0,d0
+		move.w	d0,(v_rings).w	; clear rings
+		move.l	d0,(v_time).w	; clear time
+		move.l	d0,(v_score).w	; clear score
+		move.b	d0,(v_lastspecial).w ; clear special stage number
+		move.b	d0,(v_emeralds).w ; clear emeralds
+		move.l	d0,(v_emldlist).w ; clear emeralds
+		move.l	d0,(v_emldlist+4).w ; clear emeralds
+		move.b	d0,(v_continues).w ; clear continues
+		if Revision=0
+		else
+			move.l	#5000,(v_scorelife).w ; extra life is awarded at 50000 points
+		endc
+		command	mus_FadeOut	; fade out music
+		rts
 
 
 
