@@ -102,6 +102,8 @@ BossSpringYard:
 		
 		cmp.b	#6, ob2ndRout(a0)
 		beq.s 	@DoNotBob
+		cmp.b	#2,obSubtype(a0)	; is the ship ground pounding?
+		beq.s	@DoNotBob
 		bsr.w 	@BobShip
 
 @DoNotBob:
@@ -327,7 +329,7 @@ BossSpringYard:
 		jsr 	ObjectFall
 		bsr.s 	@SpeedToTarget
 		
-		move.w 	#0, obVelY(a0)
+		move.w 	#0, obVelX(a0)
 
 		cmpi.w  #$0550, obY(a0)
 		blt.s 	@Groundpound_rts
