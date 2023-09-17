@@ -419,12 +419,27 @@ DLE_SLZ:
 		move.w	DLE_SLZx(pc,d0.w),d0
 		jmp	DLE_SLZx(pc,d0.w)
 ; ===========================================================================
-DLE_SLZx:	dc.w DLE_SLZ12-DLE_SLZx
-		dc.w DLE_SLZ12-DLE_SLZx
+DLE_SLZx:	dc.w DLE_SLZ1-DLE_SLZx
+		dc.w DLE_SLZ2-DLE_SLZx
 		dc.w DLE_SLZ3-DLE_SLZx
 ; ===========================================================================
 
-DLE_SLZ12:
+DLE_SLZ1:
+		move.w	#$520,(v_limitbtm1).w
+		cmpi.w	#$1800,(v_screenposx).w
+		bcs.s	locret_7130
+		move.w	#$120,(v_limitbtm1).w
+		cmpi.w	#$1D00,(v_screenposx).w
+		bcs.s	locret_7130		
+		move.w	#$220,(v_limitbtm1).w
+		cmpi.w	#$2500,(v_screenposx).w
+		bcs.s	locret_7130		
+		move.w	#$620,(v_limitbtm1).w
+		move.w	#$620,(v_limitbtm2).w
+		rts	
+; ===========================================================================
+
+DLE_SLZ2:
 		rts	
 ; ===========================================================================
 

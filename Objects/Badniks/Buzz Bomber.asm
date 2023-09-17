@@ -22,6 +22,10 @@ Buzz_Main:	; Routine 0
 		addq.b	#2,obRoutine(a0)
 		move.l	#Map_Buzz,obMap(a0)
 		move.w	#$444,obGfx(a0)
+		cmp.b	#id_SLZ,(v_zone).w
+		bne.s	@notSLZ
+		move.w	#($8900/$20),obGfx(a0)
+	@notSLZ:
 		move.b	#4,obRender(a0)
 		move.b	#3,obPriority(a0)
 		move.b	#8,obColType(a0)
