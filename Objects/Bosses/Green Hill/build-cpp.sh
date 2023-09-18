@@ -10,7 +10,7 @@ GCC_VER="$($CXX -dumpversion)"
 INCS="-I$MARSDEV/m68k-elf/lib/gcc/m68k-elf/$GCC_VER/include"
 
 LDFLAGS="-T md.ld -nostdlib"
-CXXFLAGS="-m68000 -mpcrel -mno-sep-data -Wall -Wextra -std=c++20 -ffreestanding -mshort -fno-exceptions -fno-rtti"
+CXXFLAGS="-m68000 -mno-sep-data -Wall -Wextra -std=c++20 -ffreestanding -mshort -fno-exceptions -fno-rtti"
 OPTIONS="-O3 -fno-web -fno-gcse -fno-unit-at-a-time -fomit-frame-pointer"
 
 $CXX $CXXFLAGS $OPTIONS $INCS "EggmanShip.cpp" -S -fverbose-asm -o "EggmanShip.s"

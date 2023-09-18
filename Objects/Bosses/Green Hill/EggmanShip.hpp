@@ -11,8 +11,10 @@ struct ObjEggmanShip : public LevelObject {
 	/* WARNING! Fragile! Don't swap these variables unless you know what you're doing */
 	uint8_t scriptId;			/* 0x28 */
 	uint8_t scriptRoutineId;
+	uint8_t flash_timer;		/* 0x2A */
 
 	void executeMasterScript();
+	void handleDamage();
 	void script00_TestSeq();
 };
 
