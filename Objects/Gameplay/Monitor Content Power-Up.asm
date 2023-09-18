@@ -107,7 +107,7 @@ Pow_ChkInvinc:
 			bls.s	Pow_NoMusic
 		endc
 
-		music	mus_Invincibility; play invincibility music
+		music	mus_Invincibility	; play invincibility music
 ; ===========================================================================
 
 Pow_NoMusic:

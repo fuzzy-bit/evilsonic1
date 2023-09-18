@@ -427,15 +427,34 @@ DLE_SLZx:	dc.w DLE_SLZ1-DLE_SLZx
 DLE_SLZ1:
 		move.w	#$520,(v_limitbtm1).w
 		cmpi.w	#$1800,(v_screenposx).w
-		bcs.s	locret_7130
+		bcs.w	locret_7130
 		move.w	#$120,(v_limitbtm1).w
 		cmpi.w	#$1D00,(v_screenposx).w
-		bcs.s	locret_7130		
+		bcs.w	locret_7130		
 		move.w	#$220,(v_limitbtm1).w
 		cmpi.w	#$2500,(v_screenposx).w
 		bcs.s	locret_7130		
 		move.w	#$620,(v_limitbtm1).w
 		move.w	#$620,(v_limitbtm2).w
+
+		tst.b 	(f_lockscreen).W
+		bne.s 	locret_7130
+
+		cmpi.w	#$3144,(v_screenposx).w
+		bcs.s	locret_7130
+
+		bsr.w	FindFreeObj
+		bne.s	@NoFreeObject
+		move.b	#id_BossStarLight,(a1) ; load SLZ boss object
+		move.w	#$3059,obX(a1)
+		move.w	#$255,obY(a1)
+@NoFreeObject:
+		music	mus_Boss	; play boss music
+		move.b	#1,(f_lockscreen).w ; lock screen
+		addq.b	#2,(v_dle_routine).w
+		moveq	#plcid_Boss,d0
+		jmp	AddPLC		; load boss patterns
+
 		rts	
 ; ===========================================================================
 
@@ -720,7 +739,7 @@ DLE_Ending:
 ; ---------------------------------------------------------------------------
 DLE_Z7:
 		; - DEFAULT ------------------------------------
-		move.w	#$124,(v_limitbtm1).w ; set lower y-boundary
+		move.w	#$124,(v_limitbtm1).w 	; set lower y-boundary
 		; - PASS 1--------------------------------------
 		tst.b 	(f_lockscreen).w
 		bne.s 	@Return
