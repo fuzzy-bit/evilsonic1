@@ -72,7 +72,7 @@ ptr_EdgeWalls:			dc.l EdgeWalls
 ptr_SideStomp:			dc.l SideStomp
 ptr_MarbleBrick:		dc.l MarbleBrick
 ptr_Bumper:				dc.l Bumper
-ptr_BossBall:			dc.l BossBall		; $48
+ptr_Unused:			dc.l DeleteObject		; $48
 ptr_WaterSound:			dc.l WaterSound
 ptr_VanishSonic:		dc.l VanishSonic
 ptr_GiantRing:			dc.l GiantRing
