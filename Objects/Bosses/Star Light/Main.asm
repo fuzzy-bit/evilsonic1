@@ -443,6 +443,8 @@ BossStarLight:
 		moveq	#0, d0
 		moveq	#1, d1
 		movea.l	@FaceStatus(a0), a1
+		tst.b	(a1)				; does father exist?
+		beq.s	@DeleteFace			; if not, skin his face alive				
 		move.b	ob2ndRout(a1), d0
 		subq.w	#2, d0
 		bne.s	@IHaveNoClue
@@ -493,6 +495,8 @@ BossStarLight:
 @FlameMain:; Routine 6
 		move.b	#7, obAnim(a0)
 		movea.l	@FaceStatus(a0), a1
+		tst.b	(a1)				; does father exist?
+		beq.s	@DeleteFlame		; if not, kill object		
 		cmpi.b	#8, ob2ndRout(a1)
 		blt.s	@CheckXMovement
 		move.b	#$B, obAnim(a0)
@@ -533,6 +537,8 @@ BossStarLight:
 
 @TubeMain:	; Routine 8
 		movea.l	@FaceStatus(a0), a1
+		tst.b	(a1)				; does father exist?
+		beq.s	@DeleteTube			; if not, fuck YouTube			
 		cmpi.b	#8, ob2ndRout(a1)
 		bne.s	@ShowTube
 		tst.b	obRender(a0)
