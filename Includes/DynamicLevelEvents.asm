@@ -423,8 +423,18 @@ DLE_SLZx:	dc.w DLE_SLZ1-DLE_SLZx
 		dc.w DLE_SLZ2-DLE_SLZx
 		dc.w DLE_SLZ3-DLE_SLZx
 ; ===========================================================================
-
 DLE_SLZ1:
+		moveq	#0,d0
+		move.b	(v_dle_routine).w,d0
+		move.w	DLE_SLZ1Table(pc,d0.w),d0
+		jmp		DLE_SLZ1Table(pc,d0.w)
+; ===========================================================================
+DLE_SLZ1Table:	
+		dc.w DLE_SLZ1Main-DLE_SLZ1Table
+		dc.w DLE_SLZ1Boss-DLE_SLZ1Table
+		dc.w DLE_SLZ1End-DLE_SLZ1Table
+; ===========================================================================
+DLE_SLZ1Main:
 		move.w	#$520,(v_limitbtm1).w
 		cmpi.w	#$1800,(v_screenposx).w
 		bcs.w	locret_7130
@@ -433,28 +443,31 @@ DLE_SLZ1:
 		bcs.w	locret_7130		
 		move.w	#$220,(v_limitbtm1).w
 		cmpi.w	#$2500,(v_screenposx).w
-		bcs.s	locret_7130		
+		bcs.w	locret_7130		
 		move.w	#$620,(v_limitbtm1).w
 		move.w	#$620,(v_limitbtm2).w
 
-		tst.b 	(f_lockscreen).W
-		bne.s 	locret_7130
+		addq.b	#2,(v_dle_routine).w
+		rts
 
-		cmpi.w	#$3144,(v_screenposx).w
-		bcs.s	locret_7130
-
+DLE_SLZ1Boss:
+		cmpi.w	#$3100,(v_screenposx).w
+		bcs.s	DLE_SLZ1End
 		bsr.w	FindFreeObj
-		bne.s	@NoFreeObject
+		bne.s	@Start
 		move.b	#id_BossStarLight,(a1) ; load SLZ boss object
-		move.w	#$3059,obX(a1)
-		move.w	#$255,obY(a1)
-@NoFreeObject:
+		move.w	#$3300,obX(a1)
+		move.w	#$450,obY(a1)
+		
+@Start:
 		music	mus_Boss	; play boss music
+		move.w	#$420,(v_limitbtm1).w
 		move.b	#1,(f_lockscreen).w ; lock screen
 		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
 		jmp	AddPLC		; load boss patterns
 
+DLE_SLZ1End:
 		rts	
 ; ===========================================================================
 
