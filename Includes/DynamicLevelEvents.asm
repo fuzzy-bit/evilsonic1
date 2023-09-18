@@ -468,6 +468,7 @@ DLE_SLZ1Boss:
 		jmp	AddPLC		; load boss patterns
 
 DLE_SLZ1End:
+		move.w	(v_screenposx).w,(v_limitleft2).w
 		rts	
 ; ===========================================================================
 
