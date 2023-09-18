@@ -24,7 +24,7 @@ BossSpringYard:
 @FlashTimer:		equ $3E
 @ThrowTimer:		equ $3F
 
-@StartX:			equ $2D15
+@StartX:			equ $3715
 @ThrowCooldown:		equ $1B
 
 @Index:	
@@ -273,19 +273,19 @@ BossSpringYard:
 @IsShipRight:
 		btst	#0, obStatus(a0)
 		beq.s	@IsShipLeft
-		cmpi.w	#$2D15+$F, @TargetX(a0)
+		cmpi.w	#@StartX+$F, @TargetX(a0)
 		blt.s	@Swap_rts
-		move.w	#$2D15+$F, @TargetX(a0)
+		move.w	#@StartX+$F, @TargetX(a0)
 		bra.s	@StopMoving
 
 @IsShipLeft:
-		cmpi.w	#$2C1D, @TargetX(a0)
+		cmpi.w	#@StartX-$100+8, @TargetX(a0)
 		bgt.s	@Swap_rts
-		move.w	#$2C1D, @TargetX(a0)
+		move.w	#@StartX-$100+8, @TargetX(a0)
 
 @StopMoving:
 		clr.w	obVelX(a0)
-		cmpi.w	#$22C, @TargetY(a0)
+		cmpi.w	#$2C, @TargetY(a0)
 		bcc.s	@Flip
 		rts
 
@@ -331,7 +331,7 @@ BossSpringYard:
 		
 		move.w 	#0, obVelX(a0)
 
-		cmpi.w  #$0550, obY(a0)
+		cmpi.w  #$0150, obY(a0)
 		blt.s 	@Groundpound_rts
 		
 		subq.w	#1, @DelayTimer(a0)
@@ -412,7 +412,7 @@ BossSpringYard:
 
 @DeleteShip:
 		music	mus_SYZ		; play SYZ music
-		add.w	#300, (v_limitright2).w
+		add.w	#$300, (v_limitright2).w
 
 		jsr	(DeleteObject).l
 
@@ -422,6 +422,8 @@ BossSpringYard:
 		moveq	#0, d0
 		moveq	#1, d1
 		movea.l	@FaceStatus(a0), a1
+		tst.b	(a1)				; does father exist?
+		beq.s	@DeleteFace			; if not, skin his face alive				
 		move.b	ob2ndRout(a1), d0
 		subq.w	#2, d0
 		bne.s	@IHaveNoClue
@@ -477,6 +479,8 @@ BossSpringYard:
 @FlameMain:; Routine 6
 		move.b	#7, obAnim(a0)
 		movea.l	@FaceStatus(a0), a1
+		tst.b	(a1)				; does father exist?
+		beq.s	@DeleteFlame		; if not, kill object
 		cmpi.b	#8, ob2ndRout(a1)
 		blt.s	@CheckXMovement
 		move.b	#$B, obAnim(a0)
@@ -519,6 +523,8 @@ BossSpringYard:
 
 @SpikeMain:	; Routine 8
 		movea.l	@FaceStatus(a0), a1
+		tst.b	(a1)				; does father exist?
+		beq.s	@DeleteSpike		; if not, kill object		
 		cmpi.b	#8, ob2ndRout(a1)
 		bne.s	@ShowSpike
 		tst.b	obRender(a0)

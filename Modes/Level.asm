@@ -465,6 +465,8 @@ SignpostArtLoad:
 		beq.s	@exit
 		cmpi.w	#(id_SLZ<<8)+0,(v_zone).w	; is it SLZ1?
 		beq.s	@exit
+		cmpi.w	#(id_SYZ<<8)+0,(v_zone).w	; is it SLZ1?
+		beq.s	@exit		
 
 		move.w	(v_screenposx).w,d0
 		move.w	(v_limitright2).w,d1

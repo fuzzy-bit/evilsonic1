@@ -538,6 +538,50 @@ DLE_SYZx:	dc.w DLE_SYZ1-DLE_SYZx
 ; ===========================================================================
 
 DLE_SYZ1:
+		moveq	#0,d0
+		move.b	(v_dle_routine).w,d0
+		move.w	DLE_SYZ1_Table(pc,d0.w),d0
+		jmp	DLE_SYZ1_Table(pc,d0.w)
+; ===========================================================================
+DLE_SYZ1_Table:	dc.w DLE_SYZ1main-DLE_SYZ1_Table
+		dc.w DLE_SYZ1boss-DLE_SYZ1_Table
+		dc.w DLE_SYZ1end-DLE_SYZ1_Table
+; ===========================================================================
+
+DLE_SYZ1main:
+		cmpi.w	#$3600,(v_screenposx).w
+		bcs.s	@return
+		;bsr.w	FindFreeObj
+		;bne.s	locret_71CE
+		;move.b	#id_BossBlock,(a1) ; load blocks that boss picks up
+		addq.b	#2,(v_dle_routine).w
+
+@return:
+		rts	
+; ===========================================================================
+
+DLE_SYZ1boss:
+		move.w	#$CC,(v_limitbtm1).w
+		bsr.w	FindFreeObj
+		bne.s	@loc_71EC
+		move.b	#id_BossSpringYard,(a1) ; load SYZ boss	object
+		move.w	#$3760,obX(a1)
+		move.w	#$F0,obY(a1)
+
+@loc_71EC:
+		addq.b	#2,(v_dle_routine).w	; => "DLE_SYZ3end"
+		music	mus_Boss	; play boss music
+		move.b	#1,(f_lockscreen).w ; lock screen
+		moveq	#plcid_Boss,d0
+		jmp		AddPLC		; load boss patterns
+; ===========================================================================
+
+@locret_7200:
+		rts	
+; ===========================================================================
+
+DLE_SYZ1end:
+		move.w	(v_screenposx).w,(v_limitleft2).w
 		rts	
 ; ===========================================================================
 
