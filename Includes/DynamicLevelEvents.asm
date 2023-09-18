@@ -446,13 +446,12 @@ DLE_SLZ1Main:
 		bcs.w	locret_7130		
 		move.w	#$620,(v_limitbtm1).w
 		move.w	#$620,(v_limitbtm2).w
-
+		cmpi.w	#$3100,(v_screenposx).w
+		bcs.s	locret_7130	
 		addq.b	#2,(v_dle_routine).w
 		rts
 
 DLE_SLZ1Boss:
-		cmpi.w	#$3100,(v_screenposx).w
-		bcs.s	DLE_SLZ1End
 		bsr.w	FindFreeObj
 		bne.s	@Start
 		move.b	#id_BossStarLight,(a1) ; load SLZ boss object
