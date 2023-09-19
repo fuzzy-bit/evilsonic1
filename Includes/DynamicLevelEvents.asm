@@ -455,8 +455,8 @@ DLE_SLZ1Boss:
 		bsr.w	FindFreeObj
 		bne.s	@Start
 		move.b	#id_BossStarLight,(a1) ; load SLZ boss object
-		move.w	#$3300,obX(a1)
-		move.w	#$450,obY(a1)
+		move.w	#$3370,obX(a1)
+		move.w	#$455,obY(a1)
 		
 @Start:
 		music	mus_Boss	; play boss music

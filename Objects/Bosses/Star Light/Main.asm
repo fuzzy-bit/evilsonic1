@@ -115,7 +115,7 @@ BossStarLight:
 		move.w	#-$100, obVelX(a0)
 		bsr.w	BossMove
 
-		cmpi.w	#$2115, @TargetX(a0) ; are we done with the intro?
+		cmpi.w	#$3215, @TargetX(a0) ; are we done with the intro?
 		bne.s	@IntroRandomFace ; fuck you o'm straight
 		
 		addq.b	#2, ob2ndRout(a0)
@@ -291,15 +291,15 @@ BossStarLight:
 @IsShipRight:
 		btst	#0, obStatus(a0)
 		beq.s	@IsShipLeft
-		cmpi.w	#$2120, @TargetX(a0)
+		cmpi.w	#$3220, @TargetX(a0)
 		blt.s	@IsShipRight_rts
-		move.w	#$2120, @TargetX(a0)
+		move.w	#$3220, @TargetX(a0)
 		bra.s	@StopMoving
 
 @IsShipLeft:
-		cmpi.w	#$2115-$100, @TargetX(a0)
+		cmpi.w	#$3215-$100, @TargetX(a0)
 		bgt.s	@IsShipRight_rts
-		move.w	#$2115-$100, @TargetX(a0)
+		move.w	#$3215-$100, @TargetX(a0)
 
 @StopMoving:
 		clr.w	obVelX(a0)
@@ -433,7 +433,7 @@ BossStarLight:
 
 @DeleteShip:
 		music	mus_SLZ		; play SLZ music
-		add.w	#300, (v_limitright2).w
+		add.w	#$300, (v_limitright2).w
 
 		jsr	(DeleteObject).l
 
@@ -538,7 +538,8 @@ BossStarLight:
 @TubeMain:	; Routine 8
 		movea.l	@FaceStatus(a0), a1
 		tst.b	(a1)				; does father exist?
-		beq.s	@DeleteTube			; if not, fuck YouTube			
+		beq.s	@DeleteTube			; if not, fuck YouTube
+		
 		cmpi.b	#8, ob2ndRout(a1)
 		bne.s	@ShowTube
 		tst.b	obRender(a0)
