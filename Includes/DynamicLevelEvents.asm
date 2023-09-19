@@ -455,7 +455,7 @@ DLE_SLZ1Boss:
 		bsr.w	FindFreeObj
 		bne.s	@Start
 		move.b	#id_BossStarLight,(a1) ; load SLZ boss object
-		move.w	#$3370,obX(a1)
+		move.w	#$32C0,obX(a1)
 		move.w	#$455,obY(a1)
 		
 @Start:
@@ -565,7 +565,7 @@ DLE_SYZ1boss:
 		bsr.w	FindFreeObj
 		bne.s	@loc_71EC
 		move.b	#id_BossSpringYard,(a1) ; load SYZ boss	object
-		move.w	#$3760,obX(a1)
+		move.w	#$37C0,obX(a1)
 		move.w	#$F0,obY(a1)
 
 @loc_71EC:
@@ -628,7 +628,7 @@ DLE_SYZ3boss:
 		bsr.w	FindFreeObj
 		bne.s	loc_71EC
 		move.b	#id_BossSpringYard,(a1) ; load SYZ boss	object
-		move.w	#$2D60,obX(a1)
+		move.w	#$2E60,obX(a1)
 		move.w	#$4F0,obY(a1)
 
 loc_71EC:
