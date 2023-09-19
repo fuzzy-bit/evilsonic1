@@ -9,9 +9,10 @@ BossSpringYard:
 
 ; ===========================================================================
 
+@GroundStuck:		equ $29
 @AttackPattern:		equ $2A
 
-@BossBounceAmount:		equ $2C
+@BossBounceAmount:	equ $2C
 @Bounces:			equ $2C
 
 @TargetX:			equ $30
@@ -25,7 +26,13 @@ BossSpringYard:
 @ThrowTimer:		equ $3F
 
 @StartX:			equ $3715
-@ThrowCooldown:		equ $1B
+@ThrowCooldown:		equ $6
+
+@DefaultSwaps:		equ $3
+@LeftX:				equ @StartX-$100+8
+@RightX:			equ @StartX+$F
+@TopY:				equ $00C5
+@BottomY:			equ $0150
 
 @Index:	
 		dc.w @Main-@Index
@@ -47,7 +54,7 @@ BossSpringYard:
 		move.w	obX(a0), @TargetX(a0)
 		move.w	obY(a0), @TargetY(a0)
 		move.b	#$F, obColType(a0)
-		move.b	#8, obColProp(a0) 		; set number of hits
+		move.b	#12, obColProp(a0) 		; set number of hits
 
 		lea	@ObjData(pc), a2 			; setup sprites
 		movea.l	a0, a1
@@ -82,7 +89,7 @@ BossSpringYard:
 		
 		dbf	d1, @InitLoop	; repeat sequence 3 more times
 		move.b	#@ThrowCooldown, @ThrowTimer(a0)
-		move.b 	#2, @SwapsLeft(a0)
+		move.b 	#@DefaultSwaps, @SwapsLeft(a0)
 
 @ShipMain:	; Routine 2
 		moveq	#0, d0
@@ -103,6 +110,8 @@ BossSpringYard:
 		cmp.b	#6, ob2ndRout(a0)
 		beq.s 	@DoNotBob
 		cmp.b	#2,obSubtype(a0)	; is the ship ground pounding?
+		beq.s	@DoNotBob
+		cmp.b	#4,obSubtype(a0)	; is the ship getting up?
 		beq.s	@DoNotBob
 		bsr.w 	@BobShip
 
@@ -220,6 +229,8 @@ BossSpringYard:
 @Pattern1:	
 		dc.w @ControlDirection-@Pattern1
 		dc.w @Groundpound-@Pattern1
+		dc.w @GetUp-@Pattern1
+		dc.w @Resume-@Pattern1
 
 ; ===========================================================================
 
@@ -273,15 +284,15 @@ BossSpringYard:
 @IsShipRight:
 		btst	#0, obStatus(a0)
 		beq.s	@IsShipLeft
-		cmpi.w	#@StartX+$F, @TargetX(a0)
+		cmpi.w	#@RightX, @TargetX(a0)
 		blt.s	@Swap_rts
-		move.w	#@StartX+$F, @TargetX(a0)
+		move.w	#@RightX, @TargetX(a0)
 		bra.s	@StopMoving
 
 @IsShipLeft:
-		cmpi.w	#@StartX-$100+8, @TargetX(a0)
+		cmpi.w	#@LeftX, @TargetX(a0)
 		bgt.s	@Swap_rts
-		move.w	#@StartX-$100+8, @TargetX(a0)
+		move.w	#@LeftX, @TargetX(a0)
 
 @StopMoving:
 		clr.w	obVelX(a0)
@@ -311,10 +322,10 @@ BossSpringYard:
 
 @Throw:
 		Instance.new BossBumper, a1
-		jsr 	RandomDirectionA1
+		; jsr 	RandomDirectionA1
 		move.w 	obX(a0), obX(a1)
 		move.w 	obY(a0), obY(a1)
-		move.w 	#10, @Bounces(a1)
+		move.w 	#6, @Bounces(a1)
 
 		rts
 
@@ -326,24 +337,43 @@ BossSpringYard:
 		; if we are too low, shake by ASRing a CalcSine call
 		; next routine is getting back up, then goes back to ControlDirection
 
-		jsr 	ObjectFall
-		bsr.s 	@SpeedToTarget
-		
+		tst.b 	@GroundStuck(a0)
+		beq.s 	@GroundpoundFall
+
+@GroundpoundChecks:
 		move.w 	#0, obVelX(a0)
 
-		cmpi.w  #$0150, obY(a0)
-		blt.s 	@Groundpound_rts
+		cmpi.w  #@BottomY, obY(a0)
+		ble.s 	@Groundpound_rts
 		
+		move.b 	#1, @GroundStuck(a0)
 		subq.w	#1, @DelayTimer(a0)
 
+		move.w	@DelayTimer(a0), d0
+		and.w 	#1, d0 				; we odd or even?
+		beq.s	@EvenShake			; even.
+
+		add.w 	#2, @TargetY(a0)
+
+@AfterShake:
 		tst.w 	@DelayTimer(a0)
 		bne.s	@Groundpound_rts
 		
-		move.b 	#2, @SwapsLeft(a0)
-		move.b	#0, obSubtype(a0)
+		move.b 	#@DefaultSwaps, @SwapsLeft(a0)
+		move.b 	#0, @GroundStuck(a0)
+		add.b	#2, obSubtype(a0)
 
 @Groundpound_rts:
 		rts
+
+@EvenShake:
+		sub.w 	#2, @TargetY(a0)
+		bra.s 	@AfterShake
+
+@GroundpoundFall:
+		jsr 	ObjectFall
+		bsr.s 	@SpeedToTarget
+		bra.s 	@GroundpoundChecks
 
 @SpeedToTarget:
 		move.l	@TargetX(a0),d2
@@ -358,7 +388,25 @@ BossSpringYard:
 		add.l	d0,d3		; add to y-axis	position
 		move.l	d2,@TargetX(a0)	; update x-axis	position
 		move.l	d3,@TargetY(a0)	; update y-axis	position
-		rts	
+		rts
+
+; ===========================================================================
+
+@GetUp:
+		cmpi.w  #@TopY, obY(a0)
+		ble.s 	@Resume
+
+		subi.w	#$38, obVelY(a0)
+		bsr.s 	@SpeedToTarget
+
+		rts
+
+; ===========================================================================
+
+@Resume:
+		move.w 	#@TopY, obY(a0)
+		move.b 	#0, obSubtype(a0)
+		rts
 
 ; ===========================================================================
 
@@ -413,6 +461,7 @@ BossSpringYard:
 @DeleteShip:
 		music	mus_SYZ		; play SYZ music
 		add.w	#$300, (v_limitright2).w
+		move.b 	#0, (f_lockscreen).w
 
 		jsr	(DeleteObject).l
 		moveq	#plcid_Signpost,d0

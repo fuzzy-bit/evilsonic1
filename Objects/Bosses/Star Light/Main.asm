@@ -434,6 +434,7 @@ BossStarLight:
 @DeleteShip:
 		music	mus_SLZ		; play SLZ music
 		add.w	#$300, (v_limitright2).w		
+		move.b 	#0, (f_lockscreen).w
 
 		jsr	(DeleteObject).l
 		moveq	#plcid_Signpost,d0

@@ -561,12 +561,12 @@ DLE_SYZ1main:
 ; ===========================================================================
 
 DLE_SYZ1boss:
-		move.w	#$CC,(v_limitbtm1).w
+		move.w	#$AC,(v_limitbtm1).w
 		bsr.w	FindFreeObj
 		bne.s	@loc_71EC
 		move.b	#id_BossSpringYard,(a1) ; load SYZ boss	object
 		move.w	#$37C0,obX(a1)
-		move.w	#$F0,obY(a1)
+		move.w	#$C5,obY(a1)
 
 @loc_71EC:
 		addq.b	#2,(v_dle_routine).w	; => "DLE_SYZ3end"
