@@ -433,9 +433,11 @@ BossStarLight:
 
 @DeleteShip:
 		music	mus_SLZ		; play SLZ music
-		add.w	#$300, (v_limitright2).w
+		add.w	#$300, (v_limitright2).w		
 
 		jsr	(DeleteObject).l
+		moveq	#plcid_Signpost,d0
+		jmp	NewPLC					; load signpost	patterns		
 
 ; ===========================================================================
 
