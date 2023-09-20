@@ -4,6 +4,7 @@
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
+RandomNumber__cdecl:
 
 RandomNumber:
 		move.l	(v_random).w,d1

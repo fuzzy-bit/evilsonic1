@@ -5,6 +5,9 @@
 ; Subroutine to play sound
 ; ------------------------------------------------------
 
+PlaySound__cdecl:
+	move.w	4(sp), d0
+
 ; @deprecated
 PlaySound:
 PlaySound_Special:

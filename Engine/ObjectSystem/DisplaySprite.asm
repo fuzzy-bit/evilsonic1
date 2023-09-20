@@ -4,6 +4,8 @@
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
+DisplaySprite__cdecl:
+		move.l	4(sp), a0
 
 DisplaySprite:
 		lea	(v_spritequeue).w,a1

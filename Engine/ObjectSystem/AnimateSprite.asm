@@ -4,6 +4,9 @@
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
+AnimateSprite__cdecl:
+		move.l	4(sp), a0
+		move.l	8(sp), a1
 
 AnimateSprite:
 		moveq	#0,d0

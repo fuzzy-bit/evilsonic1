@@ -14,7 +14,15 @@
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
+ObjFloorDist__cdecl:
+		move.l	4(sp), a0
+		movem.l	d2-d6/a2-a4, -(sp)
+		jsr	ObjFloorDist
+		move.w	d1, d0
+		movem.l	(sp)+, d2-d6/a2-a4
+		rts
 
+; ---------------------------------------------------------------------------
 ObjFloorDist:
 		move.w	obX(a0),d3
 

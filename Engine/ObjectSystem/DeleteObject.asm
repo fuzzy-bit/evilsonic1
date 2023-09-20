@@ -4,7 +4,10 @@
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
+DeleteObject__cdecl:
+		move.l	4(sp), a0
 
+; ---------------------------------------------------------------------------
 DeleteObject:
 		movea.l	a0,a1		; move object RAM address to (a1)
 
