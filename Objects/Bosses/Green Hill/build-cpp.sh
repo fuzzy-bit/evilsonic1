@@ -13,5 +13,8 @@ LDFLAGS="-T md.ld -nostdlib"
 CXXFLAGS="-m68000 -mno-sep-data -Wall -Wextra -std=c++20 -ffreestanding -mshort -fno-exceptions -fno-rtti"
 OPTIONS="-O3 -fno-web -fno-gcse -fno-unit-at-a-time -fomit-frame-pointer"
 
-$CXX $CXXFLAGS $OPTIONS $INCS "EggmanShip.cpp" -S -fverbose-asm -o "EggmanShip.s"
-./gas-to-asm68k.py "EggmanShip.s" "EggmanShip.asm"
+for i in "EggmanShip.cpp" "SpikedBall.cpp" "EggmanMonitor.cpp" ; do 
+	$CXX $CXXFLAGS $OPTIONS $INCS $i -S -fverbose-asm -o `basename $i .cpp`.s
+	./gas-to-asm68k.py `basename $i .cpp`.s `basename $i .cpp`.asm
+done
+

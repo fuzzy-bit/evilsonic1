@@ -1,7 +1,13 @@
 
+#include <cstddef>
+#include <cstdint>
+
+#include "S1Bindings.hpp"
 #include "EggmanShip.hpp"
 #include "Engine.hpp"
-#include <cstdint>
+
+extern "C" LevelObject * BGHZ_CreateSpikedBall__cdecl(LevelObject * parent);
+extern "C" LevelObject * BGHZ_CreateEggmanMonitor__cdecl(LevelObject * parent);
 
 /* Entry point for Eggman ship's master script */
 void ObjEggmanShip::executeMasterScript() {
@@ -23,6 +29,7 @@ void ObjEggmanShip::handleDamage() {
 	if (!collision_flag) {
 		if (!flash_timer) {
 			flash_timer = 0x21;
+			playSound__cdecl(0xAC);	// play boss damage sound
 		}
 
 		if (--flash_timer) {
@@ -53,12 +60,13 @@ void ObjEggmanShip::script00_TestSeq() {
 		// fallthrough
 
 	case 0x01:
-		// Hover up trajectory
 		{
+			// Hover up trajectory
 			const auto camera = getFGCamera();
 			const auto screenX = position.x - camera->x;
 			const auto screenY = position.y - camera->y;
 
+			// Move left-right, slightly tilt up-down
 			if (screenX < 320/2 + 0x50) {
 				velocity.xf += 0x08/4;
 				velocity.yf -= 0x01;
@@ -68,15 +76,39 @@ void ObjEggmanShip::script00_TestSeq() {
 				velocity.yf += 0x01;
 			}
 
+			// Stay within bounds on Y-axis
 			if (screenY > 224/2 - 0x48 && velocity.yf > 0) {
 				velocity.yf -= 0x06;
 			}
-			else if (screenY < 224/2 - 0x60 && velocity.yf < 0) {
-				velocity.yf += 0x04;
+			else if (screenY < 224/2 - 0x64 && velocity.yf < 0) {
+				velocity.yf += 0x08;
+			}
+
+			// Throw shit if within range
+			if (throwCooldown) {
+				throwCooldown--;
+			}
+			if (!throwCooldown 
+				// && (screenX > 200) && (screenX < 200 + 75) && (screenY > 32) && (screenY < 32 + 45)
+			) {
+				throwObject(
+					randomNumber__cdecl() & 1 
+						? BGHZ_CreateEggmanMonitor__cdecl
+						: BGHZ_CreateSpikedBall__cdecl
+				);
+				throwCooldown = 90;
 			}
 
 			break;
 		}
+	}
+}
+
+void ObjEggmanShip::throwObject(objectGenerator createObject) {
+	LevelObject * spikedBall = createObject(this);
+	if (spikedBall != nullptr) {
+		spikedBall->velocity = velocity;	// transfer velocity vector
+		spikedBall->position = position;	// transfer position vector
 	}
 }
 

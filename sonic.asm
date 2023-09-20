@@ -1776,6 +1776,8 @@ BossMove2:
 
 		include	"Objects\Bosses\Green Hill\Main.asm"
 		include	"Objects\Bosses\Green Hill\EggmanShip.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Green Hill\EggmanMonitor.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Green Hill\SpikedBall.asm"	; WARNING! Auto-generated
 		
 		include	"Data\Animations\Eggman.asm"
 Map_Eggman:	include	"Data\Mappings\Objects\Eggman.asm"

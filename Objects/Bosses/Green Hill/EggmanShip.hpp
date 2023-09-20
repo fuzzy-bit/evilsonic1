@@ -12,9 +12,13 @@ struct ObjEggmanShip : public LevelObject {
 	uint8_t scriptId;			/* 0x28 */
 	uint8_t scriptRoutineId;
 	uint8_t flash_timer;		/* 0x2A */
+	uint8_t throwCooldown;
+
+	typedef LevelObject* (*objectGenerator)(LevelObject*);
 
 	void executeMasterScript();
 	void handleDamage();
+	void throwObject(objectGenerator);
 	void script00_TestSeq();
 };
 
