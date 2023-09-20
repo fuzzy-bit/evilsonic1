@@ -92,13 +92,20 @@ Deform_GHZ:
 		asl.l	#1,d4
 		add.l	d1,d4
 		moveq	#0,d6
-		bsr.w	BGScroll_Block3
+		move.l	(v_bg3screenposx).w,d2
+		move.l	d2,d0
+		add.l	d4,d0
+		move.l	d0,(v_bg3screenposx).w		
+
 	; block 2 - hills & waterfalls
 		move.w	(v_scrshiftx).w,d4
 		ext.l	d4
 		asl.l	#7,d4
 		moveq	#0,d6
-		bsr.w	BGScroll_Block2
+		move.l	(v_bg2screenposx).w,d2
+		move.l	d2,d0
+		add.l	d4,d0
+		move.l	d0,(v_bg2screenposx).w
 		
 
 	; calculate Y position
