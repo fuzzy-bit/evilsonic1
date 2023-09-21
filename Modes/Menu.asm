@@ -109,7 +109,13 @@ Menu:
 	jsr	PaletteFadeIn
 
 	; Load the first menu & rock
+	moveq	#5,d1
+	tst.b 	(v_gamecomplete).W
+	beq.s 	@Unlocked
+
 	moveq	#0,d1
+
+@Unlocked:
 	move.b	d1, Menu_ID
 	moveq	#0,d0
 	move.b	d0, Menu_ItemID
@@ -494,13 +500,15 @@ MainMenu_MenuCommands:
 	dc.w	DifficultySelect_Cmd-@L		; $02
 	dc.w	SRAMChoice_Cmd-@L		; $03
 	dc.w	LevelSelectMenu_Cmd-@L		; $04
+	dc.w	MainMenu_Locked_Cmd-@L		; $05
 
 MainMenu_MenuElements:
 @L	dc.w	MainMenu_Full-@L		; $00
 	dc.w	OptionsMenu-@L			; $01
 	dc.w	DifficultySelect-@L			; $02
 	dc.w	SRAMChoice-@L			; $03
-	dc.w	LevelSelectMenu-@L			; $03
+	dc.w	LevelSelectMenu-@L			; $04
+	dc.w	MainMenu_Locked-@L		; $05
 ; ---------------------------------------------------------------
 
 MainMenu_Full:
@@ -658,6 +666,31 @@ LevelSelectMenu_Cmd:
 	dc.l	Hwnd_LevelSelectMenu_Back		; Code handler
 
 ; ---------------------------------------------------------------
+
+MainMenu_Locked:
+	dc.b	0				; Default Item
+	dc.b	3				; Size
+	dc.w	$0000, $D0			; Index/Frame, Y-pos
+	dc.w	$0107, $F0			;
+	dc.w	$0202, $110			;
+		
+MainMenu_Locked_Cmd:
+	; PLAY
+	dc.b	0,_ToBottom			; In/Out anim
+	dc.l	MainMenu_MenuHide2		; Loop handler
+	dc.l	Hwnd_MainMenu_Play		; Code handler
+
+	; CHALLENGES
+	dc.b	0,_ToRight				; In/Out anim
+	dc.l	MainMenu_MenuControlLoop		; Loop handler
+	dc.l	Hwnd_Universal_Locked	; Code handler
+
+	; OPTIONS
+	dc.b	_FromRight,_ToLeft		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_MainMenu_Options		; Code handler
+
+; ---------------------------------------------------------------
 ; Menu Handlers
 ; ---------------------------------------------------------------
 
@@ -713,7 +746,14 @@ Hwnd_Options_SoundTest:
 
 ; ---------------------------------------------------------------
 Hwnd_Options_Back:
-	move.b	#$00, Menu_ID
+	moveq	#5,d1
+	tst.b 	(v_gamecomplete).W
+	beq.s 	@Unlocked
+
+	moveq	#0,d1
+
+@Unlocked:
+	move.b	d1, Menu_ID
 	rts
 
 ; ---------------------------------------------------------------
@@ -789,6 +829,11 @@ Hwnd_LevelSelectMenu_FZ:
 
 Hwnd_LevelSelectMenu_Back:
 	move.b	#$00, Menu_ID
+	rts
+
+; ---------------------------------------------------------------
+Hwnd_Universal_Locked:
+	sfx sfx_error
 	rts
 
 ; ===============================================================

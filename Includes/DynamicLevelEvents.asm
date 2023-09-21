@@ -864,6 +864,9 @@ DLE_FZend2:
 DLE_Ending:
 		rts
 
+LeftSpawnPos: 	equ $01E9
+RightSpawnPos:	equ $045A
+
 ; ---------------------------------------------------------------------------
 ; Zone 7 dynamic level events
 ; ---------------------------------------------------------------------------
@@ -872,13 +875,13 @@ DLE_Z7:
 		move.w	#$124,(v_limitbtm1).w 	; set lower y-boundary
 		; - PASS 1--------------------------------------
 		tst.b 	(f_lockscreen).w
-		bne.s 	@Return
+		bne.w 	@Return
 		
 		tst.b 	(v_hordeintro).w
 		bne.s 	@Pass2
 
 		cmpi.w	#$1E5, (v_screenposx).w ; has the camera reached $1E5 on x-axis?
-		bcs.s	@Return	; if not, branch
+		bcs.w	@Return	; if not, branch
 		
 		sfx		sfx_BigRing
 		music	mus_zone7
@@ -889,19 +892,33 @@ DLE_Z7:
 		move.w	#$300,(v_limitright2).w
 		move.b 	#1, (v_hordeintro).w
 		move.b  #$20, (v_spawntimer).w
-		bsr.s 	@Return
+		bsr.w 	@Return
 
 		; - PASS 2--------------------------------------
 @Pass2:
 		sub.b 	#1, (v_spawntimer).w
 		
 		tst.b 	(v_spawntimer).w
-		beq.s 	@Return
+		beq.w 	@Return
 
 @ResetTimer:
-		move.b  #$50, (v_spawntimer).w
+		move.b  #$9, (v_spawntimer).w
 		not.b 	(v_spawndirection).w
 		move.b 	(v_spawndirection).w, d0
+
+		RaiseError "hey bitch. are you interested in me because i made rbxlware lol"
+
+		move.w 	#LeftSpawnPos, d1
+		tst.b 	(v_spawndirection).w
+		beq.s 	@Spawn
+		move.w 	#RightSpawnPos, d1
+
+@Spawn:
+		RaiseError "you were trying to make me embarrassed nigga,,,, Robloxware sucks big balls lol"
+
+		Instance.new Mogeko, a0
+		move.w 	d1, obX(a0)
+		move.w 	#$01EC, obY(a0)
 		; ----------------------------------------------
 		
 @Return:

@@ -1,9 +1,6 @@
 ;  =========================================================================
 ; |                         Fuzzy's Sonic 1 Engine                         |
 ;  =========================================================================
-;
-; Disassembly created by Hivebrain
-; thanks to drx, Stealth and Esrael L.G. Neto
 
 ; ===========================================================================
 
@@ -23,6 +20,7 @@ SRAMEnabled:	equ 1	; change to 1 to enable SRAM
 ; Change to 0 to build the original version of the game, dubbed REV00
 ; Change to 1 to build the later vesion, dubbed REV01, which includes various bugfixes and enhancements
 ; Change to 2 to build the version from Sonic Mega Collection, dubbed REVXB, which fixes the infamous "spike bug"
+; REVISION CONSTANT IS DEPRECATED AND MAY NOT WORK AS INTENDED
 Revision:	equ 1
 
 ; Custom engine flags

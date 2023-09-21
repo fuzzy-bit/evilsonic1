@@ -35,7 +35,8 @@ Credits:
 		jsr ClearScreen
 		jsr	ClearPLC		; clear pattern load cues
 
-		move.b 	#1, (v_gamecomplete).W
+		move.b 	#0, (v_zone).w
+		move.b 	#1, (v_gamecomplete).w
 		jsr SaveSRAM
 
 		jsr	PaletteFadeIn		; fade out pallete
@@ -101,8 +102,6 @@ InfoScreen_Loop:
 		move.b	#2,VBlankSub
 		jsr		WaitForVBla
 		
-		tst.b	Joypad|Press		; Start pressed?
-		bmi.s	InfoScreen_Quit
 		tst.w	d5			; Strings over?
 		beq.s	InfoScreen_Quit
 

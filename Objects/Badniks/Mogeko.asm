@@ -49,12 +49,13 @@ Mogeko:
 
 		tst.w 	obVelX(a0)
 		bpl.s 	@Flip
+		bclr	#0, obStatus(a0)
 
 		bclr 	#0, obRender(a0)
 		bra.s 	@Animate
 
 @Flip:
-		bset	#0, obRender(a0)
+		bset	#0, obStatus(a0)
 
 @Animate:
 		lea	    (Ani_Mogeko).l, a1
