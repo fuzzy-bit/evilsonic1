@@ -58,7 +58,7 @@ CFlo_Touch:	; Routine 2
 		bset	#0,obRender(a0)
 
 	@remstate:
-		bra.w	RememberState
+		jmp	RememberState
 ; ===========================================================================
 
 CFlo_Collapse:	; Routine 4
