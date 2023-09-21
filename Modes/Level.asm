@@ -137,6 +137,10 @@ Level_GetBgm:
 		jsr		PlaySound
 		move.b	#id_TitleCard,(v_objspace+$80).w ; load title card object
 
+		move.w	(v_vdp_buffer1).w, d0
+		ori.b	#$40, d0				; enable display
+		move.w	d0, (vdp_control_port).l
+
 Level_TtlCardLoop:
 		move.b	#$C,(v_vbla_routine).w
 		bsr.w	WaitForVBla
