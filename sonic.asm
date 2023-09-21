@@ -2838,5 +2838,6 @@ TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen.bin"
 ; ---------------------------------------------------------------------------
 ; Error Handler
 ; ---------------------------------------------------------------------------
+		include	"ErrorHandler/Extras.asm"
 		include	"ErrorHandler/ErrorHandler.asm"
 EndOfRom:	END

@@ -7,6 +7,8 @@
 
 struct ObjGHZBossEggmanMonitor : public LevelObject {
 	bool landedOnFloor;
+	bool isBroken;
+	uint8_t explosionTimer;
 
 	void execute();
 };

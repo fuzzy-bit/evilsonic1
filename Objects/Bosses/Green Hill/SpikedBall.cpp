@@ -3,8 +3,6 @@
 #include "Engine.hpp"
 #include "S1Bindings.hpp"
 
-#include <algorithm>
-
 extern uint8_t Map_SSawBall_internal[];
 
 void ObjGHZBossSpikedBall::execute() {
@@ -14,6 +12,7 @@ void ObjGHZBossSpikedBall::execute() {
 		art = 0xA300 / 0x20;
 		maps = Map_SSawBall_internal;
 		sprite_layer = 6;
+		collision_flag = 0x80 | 0x18;
 		routine_id++;	// => Main
 		//fallthrough
 
@@ -28,7 +27,7 @@ void ObjGHZBossSpikedBall::execute() {
 			const auto floorDist = objFloorDist__cdecl(this) - 0x08;
 			if (floorDist <= 0) {
 				position.y += floorDist;
-				velocity.yf = std::max(- 2 * velocity.yf / 3, -0x400);
+				velocity.yf = -2*velocity.yf/3 > -0x400 ? -2*velocity.yf/3 : -0x400;
 			}
 
 			// Delete when out of view

@@ -22,7 +22,7 @@ _ZN13ObjEggmanShip19executeMasterScriptEv:
 #NO_APP
 .L3:
 | EggmanShip.cpp:29: 	if (!collision_flag) {
-	tst.b 32(%a2)	| this_4(D)->D.1363.collision_flag
+	tst.b 32(%a2)	| this_4(D)->D.1364.collision_flag
 	jne .L4		|
 | EggmanShip.cpp:30: 		if (!flash_timer) {
 	move.b 42(%a2),%d0	| this_4(D)->flash_timer, _21
@@ -44,39 +44,39 @@ _ZN13ObjEggmanShip19executeMasterScriptEv:
 	move.w %d0,-1246.w	| iftmp.1_25, MEM[(uint16_t *)4294966050B]
 .L4:
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
-	move.w 16(%a2),%d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1224.xf,
-	ext.l %d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1224.xf
+	move.w 16(%a2),%d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1225.xf,
+	ext.l %d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1225.xf
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
 	lsl.l #8,%d0	|, tmp53
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
-	add.l %d0,8(%a2)	| tmp53, MEM[(struct LevelObject *)this_4(D)].position.D.1212.xf
+	add.l %d0,8(%a2)	| tmp53, MEM[(struct LevelObject *)this_4(D)].position.D.1213.xf
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
-	move.w 18(%a2),%d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1229.yf,
-	ext.l %d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1229.yf
+	move.w 18(%a2),%d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1230.yf,
+	ext.l %d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1230.yf
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
 	lsl.l #8,%d0	|, tmp55
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
-	add.l %d0,12(%a2)	| tmp55, MEM[(struct LevelObject *)this_4(D)].position.D.1217.yf
+	add.l %d0,12(%a2)	| tmp55, MEM[(struct LevelObject *)this_4(D)].position.D.1218.yf
 | EggmanShip.cpp:26: };
 	move.l (%sp)+,%a2	|,
 	rts	
 .L6:
 | EggmanShip.cpp:40: 			collision_flag = 0xF;	// restore collision
-	move.b #15,32(%a2)	|, this_4(D)->D.1363.collision_flag
+	move.b #15,32(%a2)	|, this_4(D)->D.1364.collision_flag
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
-	move.w 16(%a2),%d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1224.xf,
-	ext.l %d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1224.xf
+	move.w 16(%a2),%d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1225.xf,
+	ext.l %d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1225.xf
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
 	lsl.l #8,%d0	|, tmp53
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
-	add.l %d0,8(%a2)	| tmp53, MEM[(struct LevelObject *)this_4(D)].position.D.1212.xf
+	add.l %d0,8(%a2)	| tmp53, MEM[(struct LevelObject *)this_4(D)].position.D.1213.xf
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
-	move.w 18(%a2),%d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1229.yf,
-	ext.l %d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1229.yf
+	move.w 18(%a2),%d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1230.yf,
+	ext.l %d0	| MEM[(struct LevelObject *)this_4(D)].velocity.D.1230.yf
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
 	lsl.l #8,%d0	|, tmp55
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
-	add.l %d0,12(%a2)	| tmp55, MEM[(struct LevelObject *)this_4(D)].position.D.1217.yf
+	add.l %d0,12(%a2)	| tmp55, MEM[(struct LevelObject *)this_4(D)].position.D.1218.yf
 | EggmanShip.cpp:26: };
 	move.l (%sp)+,%a2	|,
 	rts	
@@ -110,7 +110,7 @@ _ZN13ObjEggmanShip12handleDamageEv:
 	move.l %a2,-(%sp)	|,
 	move.l 8(%sp),%a2	| this, this
 | EggmanShip.cpp:29: 	if (!collision_flag) {
-	tst.b 32(%a2)	| this_8(D)->D.1363.collision_flag
+	tst.b 32(%a2)	| this_8(D)->D.1364.collision_flag
 	jne .L14		|
 | EggmanShip.cpp:30: 		if (!flash_timer) {
 	move.b 42(%a2),%d0	| this_8(D)->flash_timer, _2
@@ -136,7 +136,7 @@ _ZN13ObjEggmanShip12handleDamageEv:
 	rts	
 .L17:
 | EggmanShip.cpp:40: 			collision_flag = 0xF;	// restore collision
-	move.b #15,32(%a2)	|, this_8(D)->D.1363.collision_flag
+	move.b #15,32(%a2)	|, this_8(D)->D.1364.collision_flag
 | EggmanShip.cpp:43: }
 	move.l (%sp)+,%a2	|,
 	rts	
@@ -170,17 +170,17 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	cmp.b #1,%d0	|, _1
 	jne .L24		|
 | EggmanShip.cpp:66: 			const auto screenX = position.x - camera->x;
-	move.w 8(%a2),%a0	| this_12(D)->D.1363.position.D.1212.x, prephitmp_64
+	move.w 8(%a2),%a0	| this_12(D)->D.1364.position.D.1213.x, prephitmp_64
 | EggmanShip.cpp:67: 			const auto screenY = position.y - camera->y;
-	move.w 12(%a2),%d1	| this_12(D)->D.1363.position.D.1217.y, prephitmp_62
+	move.w 12(%a2),%d1	| this_12(D)->D.1364.position.D.1218.y, prephitmp_62
 | EggmanShip.cpp:71: 				velocity.xf += 0x08/4;
-	move.w 16(%a2),%a1	| this_12(D)->D.1363.velocity.D.1224.xf, pretmp_9
+	move.w 16(%a2),%a1	| this_12(D)->D.1364.velocity.D.1225.xf, pretmp_9
 | EggmanShip.cpp:67: 			const auto screenY = position.y - camera->y;
-	sub.w -2300.w,%d1	| MEM[(struct Vector2_32F *)4294964992B].D.1217.y, screenY
+	sub.w -2300.w,%d1	| MEM[(struct Vector2_32F *)4294964992B].D.1218.y, screenY
 | EggmanShip.cpp:72: 				velocity.yf -= 0x01;
-	move.w 18(%a2),%d0	| this_12(D)->D.1363.velocity.D.1229.yf, pretmp_74
+	move.w 18(%a2),%d0	| this_12(D)->D.1364.velocity.D.1230.yf, pretmp_74
 | EggmanShip.cpp:66: 			const auto screenX = position.x - camera->x;
-	sub.w -2304.w,%a0	| MEM[(struct Vector2_32F *)4294964992B].D.1212.x, screenX
+	sub.w -2304.w,%a0	| MEM[(struct Vector2_32F *)4294964992B].D.1213.x, screenX
 | EggmanShip.cpp:70: 			if (screenX < 320/2 + 0x50) {
 	move.w #239,%d2	|,
 	cmp.w %a0,%d2	| screenX,
@@ -192,9 +192,9 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 | EggmanShip.cpp:72: 				velocity.yf -= 0x01;
 	subq.w #1,%d0	|, _28
 | EggmanShip.cpp:71: 				velocity.xf += 0x08/4;
-	move.w %a0,16(%a2)	| _26, this_12(D)->D.1363.velocity.D.1224.xf
+	move.w %a0,16(%a2)	| _26, this_12(D)->D.1364.velocity.D.1225.xf
 | EggmanShip.cpp:72: 				velocity.yf -= 0x01;
-	move.w %d0,18(%a2)	| _28, this_12(D)->D.1363.velocity.D.1229.yf
+	move.w %d0,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
 | EggmanShip.cpp:80: 			if (screenY > 224/2 - 0x48 && velocity.yf > 0) {
 	cmp.w #40,%d1	|, screenY
 	jle .L30		|
@@ -204,7 +204,7 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	jle .L31		|
 | EggmanShip.cpp:81: 				velocity.yf -= 0x06;
 	subq.w #6,%d0	|, _28
-	move.w %d0,18(%a2)	| _28, this_12(D)->D.1363.velocity.D.1229.yf
+	move.w %d0,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
 .L31:
 | EggmanShip.cpp:88: 			if (throwCooldown) {
 	move.b 43(%a2),%d0	| this_12(D)->throwCooldown, _37
@@ -228,9 +228,9 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 | EggmanShip.cpp:76: 				velocity.yf += 0x01;
 	addq.w #1,%d0	|, _28
 | EggmanShip.cpp:71: 				velocity.xf += 0x08/4;
-	move.w %a0,16(%a2)	| _26, this_12(D)->D.1363.velocity.D.1224.xf
+	move.w %a0,16(%a2)	| _26, this_12(D)->D.1364.velocity.D.1225.xf
 | EggmanShip.cpp:72: 				velocity.yf -= 0x01;
-	move.w %d0,18(%a2)	| _28, this_12(D)->D.1363.velocity.D.1229.yf
+	move.w %d0,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
 | EggmanShip.cpp:80: 			if (screenY > 224/2 - 0x48 && velocity.yf > 0) {
 	cmp.w #40,%d1	|, screenY
 	jgt .L39		|
@@ -243,7 +243,7 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	jge .L31		|
 | EggmanShip.cpp:84: 				velocity.yf += 0x08;
 	addq.w #8,%d0	|, _28
-	move.w %d0,18(%a2)	| _28, this_12(D)->D.1363.velocity.D.1229.yf
+	move.w %d0,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
 | EggmanShip.cpp:88: 			if (throwCooldown) {
 	move.b 43(%a2),%d0	| this_12(D)->throwCooldown, _37
 | EggmanShip.cpp:88: 			if (throwCooldown) {
@@ -265,10 +265,10 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	tst.l %d0	| spikedBall
 	jeq .L35		|
 | EggmanShip.cpp:110: 		spikedBall->velocity = velocity;	// transfer velocity vector
-	move.l 16(%a2),16(%a0)	| this_12(D)->D.1363.velocity, spikedBall_44->velocity
+	move.l 16(%a2),16(%a0)	| this_12(D)->D.1364.velocity, spikedBall_44->velocity
 | EggmanShip.cpp:111: 		spikedBall->position = position;	// transfer position vector
-	move.l 8(%a2),%d0	| this_12(D)->D.1363.position,
-	move.l 12(%a2),%d1	| this_12(D)->D.1363.position,
+	move.l 8(%a2),%d0	| this_12(D)->D.1364.position,
+	move.l 12(%a2),%d1	| this_12(D)->D.1364.position,
 	move.l %d0,8(%a0)	|, spikedBall_44->position
 	move.l %d1,12(%a0)	|, spikedBall_44->position
 .L35:
@@ -280,28 +280,28 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	rts	
 .L25:
 | EggmanShip.cpp:52: 			position.x = camera->x + 320/2 + 0x30;
-	move.w -2304.w,%a0	| MEM[(struct Vector2_32F *)4294964992B].D.1212.x, prephitmp_64
+	move.w -2304.w,%a0	| MEM[(struct Vector2_32F *)4294964992B].D.1213.x, prephitmp_64
 	lea (208,%a0),%a0	|, prephitmp_64
 | EggmanShip.cpp:52: 			position.x = camera->x + 320/2 + 0x30;
-	move.w %a0,8(%a2)	| prephitmp_64, this_12(D)->D.1363.position.D.1212.x
+	move.w %a0,8(%a2)	| prephitmp_64, this_12(D)->D.1364.position.D.1213.x
 | EggmanShip.cpp:53: 			position.y = camera->y + 224/2 - 0x50;
-	move.w -2300.w,%d1	| MEM[(struct Vector2_32F *)4294964992B].D.1217.y, prephitmp_62
+	move.w -2300.w,%d1	| MEM[(struct Vector2_32F *)4294964992B].D.1218.y, prephitmp_62
 	add.w #32,%d1	|, prephitmp_62
 | EggmanShip.cpp:53: 			position.y = camera->y + 224/2 - 0x50;
-	move.w %d1,12(%a2)	| prephitmp_62, this_12(D)->D.1363.position.D.1217.y
+	move.w %d1,12(%a2)	| prephitmp_62, this_12(D)->D.1364.position.D.1218.y
 | EggmanShip.cpp:56: 			status_bits |= 1;	// turn right
-	or.b #1,34(%a2)	|, this_12(D)->D.1363.status_bits
+	or.b #1,34(%a2)	|, this_12(D)->D.1364.status_bits
 | EggmanShip.cpp:57: 			health = 255;		// ###
-	st 33(%a2)		| this_12(D)->D.1363.health
+	st 33(%a2)		| this_12(D)->D.1364.health
 | EggmanShip.cpp:58: 			scriptRoutineId++;
 	move.b #1,41(%a2)	|, this_12(D)->scriptRoutineId
 	move.w #768,%a1	|, pretmp_9
 | EggmanShip.cpp:67: 			const auto screenY = position.y - camera->y;
-	sub.w -2300.w,%d1	| MEM[(struct Vector2_32F *)4294964992B].D.1217.y, screenY
+	sub.w -2300.w,%d1	| MEM[(struct Vector2_32F *)4294964992B].D.1218.y, screenY
 | EggmanShip.cpp:72: 				velocity.yf -= 0x01;
-	move.w 18(%a2),%d0	| this_12(D)->D.1363.velocity.D.1229.yf, pretmp_74
+	move.w 18(%a2),%d0	| this_12(D)->D.1364.velocity.D.1230.yf, pretmp_74
 | EggmanShip.cpp:66: 			const auto screenX = position.x - camera->x;
-	sub.w -2304.w,%a0	| MEM[(struct Vector2_32F *)4294964992B].D.1212.x, screenX
+	sub.w -2304.w,%a0	| MEM[(struct Vector2_32F *)4294964992B].D.1213.x, screenX
 | EggmanShip.cpp:70: 			if (screenX < 320/2 + 0x50) {
 	move.w #239,%d2	|,
 	cmp.w %a0,%d2	| screenX,
@@ -328,10 +328,10 @@ _ZN13ObjEggmanShip11throwObjectEPFP11LevelObjectS1_E:
 	tst.l %d0	| spikedBall
 	jeq .L41		|
 | EggmanShip.cpp:110: 		spikedBall->velocity = velocity;	// transfer velocity vector
-	move.l 16(%a2),16(%a0)	| this_4(D)->D.1363.velocity, spikedBall_7->velocity
+	move.l 16(%a2),16(%a0)	| this_4(D)->D.1364.velocity, spikedBall_7->velocity
 | EggmanShip.cpp:111: 		spikedBall->position = position;	// transfer position vector
-	move.l 8(%a2),%d0	| this_4(D)->D.1363.position,
-	move.l 12(%a2),%d1	| this_4(D)->D.1363.position,
+	move.l 8(%a2),%d0	| this_4(D)->D.1364.position,
+	move.l 12(%a2),%d1	| this_4(D)->D.1364.position,
 	move.l %d0,8(%a0)	|, spikedBall_7->position
 	move.l %d1,12(%a0)	|, spikedBall_7->position
 .L41:
@@ -356,7 +356,7 @@ executeMasterScript_ObjEggmanShip:
 #NO_APP
 .L47:
 | EggmanShip.cpp:29: 	if (!collision_flag) {
-	tst.b 32(%a2)	| obj_2(D)->D.1363.collision_flag
+	tst.b 32(%a2)	| obj_2(D)->D.1364.collision_flag
 	jne .L48		|
 | EggmanShip.cpp:30: 		if (!flash_timer) {
 	move.b 42(%a2),%d0	| obj_2(D)->flash_timer, _16
@@ -378,39 +378,39 @@ executeMasterScript_ObjEggmanShip:
 	move.w %d0,-1246.w	| iftmp.1_20, MEM[(uint16_t *)4294966050B]
 .L48:
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
-	move.w 16(%a2),%d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1224.xf,
-	ext.l %d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1224.xf
+	move.w 16(%a2),%d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1225.xf,
+	ext.l %d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1225.xf
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
 	lsl.l #8,%d0	|, tmp53
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
-	add.l %d0,8(%a2)	| tmp53, MEM[(struct LevelObject *)obj_2(D)].position.D.1212.xf
+	add.l %d0,8(%a2)	| tmp53, MEM[(struct LevelObject *)obj_2(D)].position.D.1213.xf
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
-	move.w 18(%a2),%d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1229.yf,
-	ext.l %d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1229.yf
+	move.w 18(%a2),%d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1230.yf,
+	ext.l %d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1230.yf
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
 	lsl.l #8,%d0	|, tmp55
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
-	add.l %d0,12(%a2)	| tmp55, MEM[(struct LevelObject *)obj_2(D)].position.D.1217.yf
+	add.l %d0,12(%a2)	| tmp55, MEM[(struct LevelObject *)obj_2(D)].position.D.1218.yf
 | EggmanShip.cpp:118: }
 	move.l (%sp)+,%a2	|,
 	rts	
 .L50:
 | EggmanShip.cpp:40: 			collision_flag = 0xF;	// restore collision
-	move.b #15,32(%a2)	|, obj_2(D)->D.1363.collision_flag
+	move.b #15,32(%a2)	|, obj_2(D)->D.1364.collision_flag
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
-	move.w 16(%a2),%d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1224.xf,
-	ext.l %d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1224.xf
+	move.w 16(%a2),%d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1225.xf,
+	ext.l %d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1225.xf
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
 	lsl.l #8,%d0	|, tmp53
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
-	add.l %d0,8(%a2)	| tmp53, MEM[(struct LevelObject *)obj_2(D)].position.D.1212.xf
+	add.l %d0,8(%a2)	| tmp53, MEM[(struct LevelObject *)obj_2(D)].position.D.1213.xf
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
-	move.w 18(%a2),%d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1229.yf,
-	ext.l %d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1229.yf
+	move.w 18(%a2),%d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1230.yf,
+	ext.l %d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1230.yf
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
 	lsl.l #8,%d0	|, tmp55
 | Engine.hpp:117: 		this->position.yf += ((int32_t)this->velocity.yf) << 8;
-	add.l %d0,12(%a2)	| tmp55, MEM[(struct LevelObject *)obj_2(D)].position.D.1217.yf
+	add.l %d0,12(%a2)	| tmp55, MEM[(struct LevelObject *)obj_2(D)].position.D.1218.yf
 | EggmanShip.cpp:118: }
 	move.l (%sp)+,%a2	|,
 	rts	
