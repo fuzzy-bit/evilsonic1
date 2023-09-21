@@ -1850,7 +1850,7 @@ Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
 ; Special game over
 ; ---------------------------------------------------------------------------
 BasicallyYoureFucked:
-		music 	mus_fadeout
+		music 	mus_stop
 		jsr 	ClearScreen
 		move.w  #$24, (v_demolength).w
 

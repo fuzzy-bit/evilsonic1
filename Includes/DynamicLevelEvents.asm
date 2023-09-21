@@ -864,21 +864,35 @@ DLE_FZend2:
 DLE_Ending:
 		rts
 
-LeftSpawnPos: 	equ $01E9
-RightSpawnPos:	equ $045A
+LeftSpawnPos: 	equ $0210
+RightSpawnPos:	equ $0420
 
 ; ---------------------------------------------------------------------------
 ; Zone 7 dynamic level events
 ; ---------------------------------------------------------------------------
 DLE_Z7:
-		; - DEFAULT ------------------------------------
+		moveq	#0, d0
+		move.b	(v_dle_routine).w, d0
+		move.w	@Index(pc,d0.w), d0
+		jmp		@Index(pc,d0.w)
+
+@Index:
+		dc.w DLE_Z7_Init-@Index
+		dc.w DLE_Z7_Main-@Index
+		dc.w DLE_Z7_Intro-@Index
+		dc.w DLE_Z7_Horde-@Index
+; ===========================================================================
+
+DLE_Z7_Init:
 		move.w	#$124,(v_limitbtm1).w 	; set lower y-boundary
-		; - PASS 1--------------------------------------
-		tst.b 	(f_lockscreen).w
-		bne.w 	@Return
-		
-		tst.b 	(v_hordeintro).w
-		bne.s 	@Pass2
+		move.b  #$9, (v_spawntimer).w 
+		addq.b 	#2, (v_dle_routine).w
+		rts
+; ===========================================================================
+
+DLE_Z7_Main:
+		tst.b 	(f_lockscreen).w	; is screen locked?
+		bne.w 	@Return				; if yes, branch
 
 		cmpi.w	#$1E5, (v_screenposx).w ; has the camera reached $1E5 on x-axis?
 		bcs.w	@Return	; if not, branch
@@ -889,24 +903,42 @@ DLE_Z7:
 		move.b	#1, (f_lockscreen).w ; lock screen
 		jsr		PaletteWhiteIn
 
-		move.w	#$300,(v_limitright2).w
-		move.b 	#1, (v_hordeintro).w
-		move.b  #$20, (v_spawntimer).w
-		bsr.w 	@Return
+		lea 	(v_player).w, a0
+		move.w	obX(a0), d0
+		add.w	#$60, d0
 
-		; - PASS 2--------------------------------------
-@Pass2:
+		Instance.new Mogeko, a1
+		move.w 	d0, obX(a1)
+		move.w 	#$1EC, obY(a1)
+
+		move.b	#0, obInertia(a0)
+
+		move.w	#$300,(v_limitright2).w
+		move.b 	#1,	(f_lockctrl).w
+		addq.b 	#2, (v_dle_routine).w
+		rts
+
+@Return:
+		rts
+; ===========================================================================
+
+DLE_Z7_Intro:
+		rts
+
+; ===========================================================================
+
+DLE_Z7_Horde:
 		sub.b 	#1, (v_spawntimer).w
 		
 		tst.b 	(v_spawntimer).w
-		beq.w 	@Return
+		bne.w 	@Return
+
+		move.b	(v_spawntimer).w, d0
 
 @ResetTimer:
 		move.b  #$9, (v_spawntimer).w
 		not.b 	(v_spawndirection).w
 		move.b 	(v_spawndirection).w, d0
-
-		RaiseError "hey bitch. are you interested in me because i made rbxlware lol"
 
 		move.w 	#LeftSpawnPos, d1
 		tst.b 	(v_spawndirection).w
@@ -914,12 +946,10 @@ DLE_Z7:
 		move.w 	#RightSpawnPos, d1
 
 @Spawn:
-		RaiseError "you were trying to make me embarrassed nigga,,,, Robloxware sucks big balls lol"
-
 		Instance.new Mogeko, a0
 		move.w 	d1, obX(a0)
-		move.w 	#$01EC, obY(a0)
+		move.w 	d1, obY(a0)
 		; ----------------------------------------------
 		
 @Return:
-		rts	
+		rts
