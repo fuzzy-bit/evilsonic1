@@ -128,7 +128,7 @@ BossMarble_ShipAppear:
 		cmpi.w	#v_CamXBase+$110+$20,obX(a0); has the ship reached boss music point?
 		bne.s	@0			; if not, branch
 
-		music mus_Final			; play boss music
+		music mus_boss			; play boss music
 
 @0:		cmpi.w	#v_CamXBase+$110,obX(a0); has the ship reached a laugh-point?
 		bne.s	@MoveShip		; if not, branch

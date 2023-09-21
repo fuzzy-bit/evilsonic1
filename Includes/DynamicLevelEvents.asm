@@ -879,8 +879,9 @@ DLE_Z7:
 @Index:
 		dc.w DLE_Z7_Init-@Index
 		dc.w DLE_Z7_Main-@Index
-		dc.w DLE_Z7_Intro-@Index
 		dc.w DLE_Z7_Horde-@Index
+		dc.w DLE_Z7_End-@Index
+
 ; ===========================================================================
 
 DLE_Z7_Init:
@@ -903,28 +904,13 @@ DLE_Z7_Main:
 		move.b	#1, (f_lockscreen).w ; lock screen
 		jsr		PaletteWhiteIn
 
-		lea 	(v_player).w, a0
-		move.w	obX(a0), d0
-		add.w	#$60, d0
-
-		Instance.new Mogeko, a1
-		move.w 	d0, obX(a1)
-		move.w 	#$1EC, obY(a1)
-
-		move.b	#0, obInertia(a0)
-
+		move.b 	#$50, (v_spawntimer).w
 		move.w	#$300,(v_limitright2).w
-		move.b 	#1,	(f_lockctrl).w
 		addq.b 	#2, (v_dle_routine).w
 		rts
 
 @Return:
 		rts
-; ===========================================================================
-
-DLE_Z7_Intro:
-		rts
-
 ; ===========================================================================
 
 DLE_Z7_Horde:
@@ -936,7 +922,7 @@ DLE_Z7_Horde:
 		move.b	(v_spawntimer).w, d0
 
 @ResetTimer:
-		move.b  #$9, (v_spawntimer).w
+		move.b  #$25, (v_spawntimer).w
 		not.b 	(v_spawndirection).w
 		move.b 	(v_spawndirection).w, d0
 
@@ -946,10 +932,13 @@ DLE_Z7_Horde:
 		move.w 	#RightSpawnPos, d1
 
 @Spawn:
-		Instance.new Mogeko, a0
-		move.w 	d1, obX(a0)
-		move.w 	d1, obY(a0)
-		; ----------------------------------------------
-		
+		Instance.new Mogeko, a1
+		move.w 	d1, obX(a1)
+		move.w 	#$01EC, obY(a1)
+
 @Return:
+		rts
+; ===========================================================================
+
+DLE_Z7_End:
 		rts
