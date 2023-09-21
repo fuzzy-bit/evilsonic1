@@ -112,7 +112,7 @@ Pow_ChkInvinc:
 			bls.s	Pow_NoMusic
 		endc
 
-		music	mus_Invincibility; play invincibility music
+		music	mus_Invincibility	; play invincibility music
 ; ===========================================================================
 
 Pow_NoMusic:
@@ -125,7 +125,7 @@ Pow_ChkRings:
 
 		move.b 	(v_difficulty).w, d1
 		cmpi.b 	#3, d1 ; is difficulty nightmare?
-		beq.s 	Pow_DenySound ; if not, branch
+		beq.s 	Pow_DenySound ; if yes, branch
 
 		addi.w	#10,(v_rings).w	; add 10 rings to the number of rings you have
 		ori.b	#1,(f_ringcount).w ; update the ring counter
@@ -149,12 +149,19 @@ Pow_ChkRings:
 
 Pow_ChkS:
 		cmpi.b	#7,d0		; does monitor contain 'S'?
-		; ADD SECRET LOGIC HERE
 		bne.s	Pow_ChkEnd
+
+		move.b 	(v_gamecomplete).w, d1
+		tst.b 	d1 				; is game completed?
+		beq.s 	Pow_DenySound 	; if not, branch
+		
+		move.b 	#7, (v_zone).w
+		move.b 	#1, (f_restart).w
+
 		nop	
 
 Pow_ChkEnd:
-		rts			; 'S' and goggles monitors do nothing
+		rts			; goggle monitors do nothing
 ; ===========================================================================
 
 Pow_Delete:	; Routine 4

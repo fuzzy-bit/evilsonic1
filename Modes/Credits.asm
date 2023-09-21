@@ -34,6 +34,10 @@ Credits:
 		jsr	PlaySound_Special	; stop music
 		jsr ClearScreen
 		jsr	ClearPLC		; clear pattern load cues
+
+		move.b 	#1, (v_gamecomplete).W
+		jsr SaveSRAM
+
 		jsr	PaletteFadeIn		; fade out pallete
 		move	#$2700,sr		; disable interrupts
 

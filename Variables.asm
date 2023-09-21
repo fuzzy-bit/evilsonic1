@@ -85,8 +85,9 @@ v_limitleft3:	equ $FFFFF732	; left level boundary, at the end of an act (2 bytes
 
 v_scrshiftx:	equ $FFFFF73A	; x-screen shift (new - last) * $100
 v_scrshifty:	equ $FFFFF73C	; y-screen shift (new - last) * $100
-
 v_lookshift:	equ $FFFFF73E	; screen shift when Sonic looks up/down (2 bytes)
+v_lookdelay		equ $FFFFF740	; delay to the above (1 byte)
+
 v_dle_routine:	equ $FFFFF742	; dynamic level event - routine counter
 f_nobgscroll:	equ $FFFFF744	; flag set to cancel background scrolling
 
@@ -282,8 +283,9 @@ v_demonum:		equ $FFFFFFF2	; demo level number (not the same as the level number)
 v_difficulty:	equ $FFFFFFF4	; difficulty
 v_secret:		equ $FFFFFFF5	; secret :)
 v_sramgameover:	equ $FFFFFFF6	; game over flag to reset SRAM 
-
+v_secretprog:	equ $FFFFFFF7	; secret progression
 v_megadrive:	equ $FFFFFFF8	; Megadrive machine type
+v_gamecomplete:	equ $FFFFFFF9	; game completed
 
 f_debugmode:	equ $FFFFFFFA	; debug mode flag (sometimes 2 bytes)
 v_init:		equ $FFFFFFFC	; 'init' text string (4 bytes)
