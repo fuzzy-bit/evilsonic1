@@ -180,7 +180,8 @@ DLE_GHZ3:
 		move.w	(v_screenposx).w,d0
 		move.w	d0,(v_limitleft2).w	; lock left side
 
-		command	mus_FadeOut	; fade out music
+		;command	mus_FadeOut	; fade out music
+		music $8C
 
 		move.b	#1,(f_lockscreen).w	; lock screen
 		addq.b	#2,(v_dle_routine).w
