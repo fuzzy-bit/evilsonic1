@@ -197,6 +197,9 @@ DLE_GHZ3:
 @WarpPeriod:	= $600
 @ScrollSpeed:	= 3
 
+		cmp.b	#6, v_player+obRoutine	; Sonic dying?
+		bhs.s	@Return			; if yes, branch
+
 		move.w	(v_limitleft2).w,d0
 		move.w	#$300,(v_scrshiftx).w	; keep camera scrolling ...
 		addq.w	#@ScrollSpeed,d0
@@ -406,6 +409,8 @@ DLE_MZ1:
 @WarpPeriod:	= $400
 @ScrollSpeed:	= 2
 
+		cmp.b	#6, v_player+obRoutine	; Sonic dying?
+		bhs.s	@Return			; if yes, branch
 		move.w	(v_limitleft2).w,d0
 		move.w	#$200,(v_scrshiftx).w	; keep camera scrolling ...
 		addq.w	#@ScrollSpeed,d0
