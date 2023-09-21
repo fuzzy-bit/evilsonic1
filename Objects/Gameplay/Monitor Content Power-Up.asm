@@ -47,7 +47,12 @@ Pow_ChkEggman:
 		move.b	obAnim(a0),d0
 		cmpi.b	#1,d0		; does monitor contain Eggman?
 		bne.s	Pow_ChkSonic
-		rts			; Eggman monitor does nothing
+		move.l	a0, -(sp)
+		move.l	a0, a1
+		lea	v_player, a0
+		jsr	React_ChkHurt
+		move.l	(sp)+, a0
+		rts
 ; ===========================================================================
 
 Pow_ChkSonic:
