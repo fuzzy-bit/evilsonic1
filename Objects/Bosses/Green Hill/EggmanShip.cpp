@@ -89,7 +89,7 @@ void ObjEggmanShip::script00_TestSeq() {
 				throwCooldown--;
 			}
 			if (!throwCooldown 
-				// && (screenX > 200) && (screenX < 200 + 75) && (screenY > 32) && (screenY < 32 + 45)
+				&& (screenX > 200) && (screenX < 200 + 75) && (screenY > 32) && (screenY < 32 + 45)
 			) {
 				throwObject(
 					randomNumber__cdecl() & 1 

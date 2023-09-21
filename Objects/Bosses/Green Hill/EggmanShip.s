@@ -170,52 +170,49 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	cmp.b #1,%d0	|, _1
 	jne .L24		|
 | EggmanShip.cpp:66: 			const auto screenX = position.x - camera->x;
-	move.w 8(%a2),%a0	| this_12(D)->D.1364.position.D.1213.x, prephitmp_64
+	move.w 8(%a2),%d0	| this_12(D)->D.1364.position.D.1213.x, prephitmp_64
 | EggmanShip.cpp:67: 			const auto screenY = position.y - camera->y;
-	move.w 12(%a2),%d1	| this_12(D)->D.1364.position.D.1218.y, prephitmp_62
+	move.w 12(%a2),%d2	| this_12(D)->D.1364.position.D.1218.y, prephitmp_63
 | EggmanShip.cpp:71: 				velocity.xf += 0x08/4;
-	move.w 16(%a2),%a1	| this_12(D)->D.1364.velocity.D.1225.xf, pretmp_9
-| EggmanShip.cpp:67: 			const auto screenY = position.y - camera->y;
-	sub.w -2300.w,%d1	| MEM[(struct Vector2_32F *)4294964992B].D.1218.y, screenY
-| EggmanShip.cpp:72: 				velocity.yf -= 0x01;
-	move.w 18(%a2),%d0	| this_12(D)->D.1364.velocity.D.1230.yf, pretmp_74
+	move.w 16(%a2),%a0	| this_12(D)->D.1364.velocity.D.1225.xf, prephitmp_62
 | EggmanShip.cpp:66: 			const auto screenX = position.x - camera->x;
-	sub.w -2304.w,%a0	| MEM[(struct Vector2_32F *)4294964992B].D.1213.x, screenX
+	sub.w -2304.w,%d0	| MEM[(struct Vector2_32F *)4294964992B].D.1213.x, screenX
+| EggmanShip.cpp:67: 			const auto screenY = position.y - camera->y;
+	sub.w -2300.w,%d2	| MEM[(struct Vector2_32F *)4294964992B].D.1218.y, screenY
+| EggmanShip.cpp:72: 				velocity.yf -= 0x01;
+	move.w 18(%a2),%d1	| this_12(D)->D.1364.velocity.D.1230.yf, pretmp_80
 | EggmanShip.cpp:70: 			if (screenX < 320/2 + 0x50) {
-	move.w #239,%d2	|,
-	cmp.w %a0,%d2	| screenX,
-	jlt .L28		|
-.L40:
+	cmp.w #239,%d0	|, screenX
+	jgt .L28		|
+.L46:
 | EggmanShip.cpp:71: 				velocity.xf += 0x08/4;
-	move.w %a1,%a0	| pretmp_9, _26
 	addq.w #2,%a0	|, _26
 | EggmanShip.cpp:72: 				velocity.yf -= 0x01;
-	subq.w #1,%d0	|, _28
+	subq.w #1,%d1	|, _28
 | EggmanShip.cpp:71: 				velocity.xf += 0x08/4;
 	move.w %a0,16(%a2)	| _26, this_12(D)->D.1364.velocity.D.1225.xf
 | EggmanShip.cpp:72: 				velocity.yf -= 0x01;
-	move.w %d0,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
+	move.w %d1,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
 | EggmanShip.cpp:80: 			if (screenY > 224/2 - 0x48 && velocity.yf > 0) {
-	cmp.w #40,%d1	|, screenY
+	cmp.w #40,%d2	|, screenY
 	jle .L30		|
-.L39:
+.L44:
 | EggmanShip.cpp:80: 			if (screenY > 224/2 - 0x48 && velocity.yf > 0) {
-	tst.w %d0	| _28
+	tst.w %d1	| _28
 	jle .L31		|
 | EggmanShip.cpp:81: 				velocity.yf -= 0x06;
-	subq.w #6,%d0	|, _28
-	move.w %d0,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
+	subq.w #6,%d1	|, _28
+	move.w %d1,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
 .L31:
 | EggmanShip.cpp:88: 			if (throwCooldown) {
-	move.b 43(%a2),%d0	| this_12(D)->throwCooldown, _37
+	move.b 43(%a2),%d1	| this_12(D)->throwCooldown, _22
 | EggmanShip.cpp:88: 			if (throwCooldown) {
-	jeq .L34		|
-.L32:
+	jeq .L36		|
 | EggmanShip.cpp:89: 				throwCooldown--;
-	subq.b #1,%d0	|, _38
-	move.b %d0,43(%a2)	| _38, this_12(D)->throwCooldown
+	subq.b #1,%d1	|, _38
+	move.b %d1,43(%a2)	| _38, this_12(D)->throwCooldown
 | EggmanShip.cpp:91: 			if (!throwCooldown 
-	jeq .L34		|
+	jeq .L36		|
 .L24:
 | EggmanShip.cpp:105: }
 	move.l (%sp)+,%d2	|,
@@ -223,47 +220,56 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	rts	
 .L28:
 | EggmanShip.cpp:75: 				velocity.xf -= 0x04/4;
-	move.w %a1,%a0	| pretmp_9, _26
 	subq.w #1,%a0	|, _26
 | EggmanShip.cpp:76: 				velocity.yf += 0x01;
-	addq.w #1,%d0	|, _28
+	addq.w #1,%d1	|, _28
 | EggmanShip.cpp:71: 				velocity.xf += 0x08/4;
 	move.w %a0,16(%a2)	| _26, this_12(D)->D.1364.velocity.D.1225.xf
 | EggmanShip.cpp:72: 				velocity.yf -= 0x01;
-	move.w %d0,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
+	move.w %d1,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
 | EggmanShip.cpp:80: 			if (screenY > 224/2 - 0x48 && velocity.yf > 0) {
-	cmp.w #40,%d1	|, screenY
-	jgt .L39		|
+	cmp.w #40,%d2	|, screenY
+	jgt .L44		|
 .L30:
 | EggmanShip.cpp:83: 			else if (screenY < 224/2 - 0x64 && velocity.yf < 0) {
-	cmp.w #11,%d1	|, screenY
+	cmp.w #11,%d2	|, screenY
 	jgt .L31		|
 | EggmanShip.cpp:83: 			else if (screenY < 224/2 - 0x64 && velocity.yf < 0) {
-	tst.w %d0	| _28
-	jge .L31		|
-| EggmanShip.cpp:84: 				velocity.yf += 0x08;
-	addq.w #8,%d0	|, _28
-	move.w %d0,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
+	tst.w %d1	| _28
+	jlt .L45		|
 | EggmanShip.cpp:88: 			if (throwCooldown) {
-	move.b 43(%a2),%d0	| this_12(D)->throwCooldown, _37
+	move.b 43(%a2),%d1	| this_12(D)->throwCooldown, _22
 | EggmanShip.cpp:88: 			if (throwCooldown) {
-	jne .L32		|
-.L34:
+	jeq .L24		|
+| EggmanShip.cpp:89: 				throwCooldown--;
+	subq.b #1,%d1	|, _38
+	move.b %d1,43(%a2)	| _38, this_12(D)->throwCooldown
+| EggmanShip.cpp:91: 			if (!throwCooldown 
+	jne .L24		|
+.L36:
+| EggmanShip.cpp:92: 				&& (screenX > 200) && (screenX < 200 + 75) && (screenY > 32) && (screenY < 32 + 45)
+	add.w #-201,%d0	|, tmp64
+	cmp.w #73,%d0	|, tmp64
+	jhi .L24		|
+| EggmanShip.cpp:92: 				&& (screenX > 200) && (screenX < 200 + 75) && (screenY > 32) && (screenY < 32 + 45)
+	add.w #-33,%d2	|, tmp65
+	cmp.w #43,%d2	|, tmp65
+	jhi .L24		|
 | EggmanShip.cpp:95: 					randomNumber__cdecl() & 1 
 	jsr randomNumber__cdecl		|
 | EggmanShip.cpp:94: 				throwObject(
-	btst #0,%d0	|, tmp65
-	jeq .L36		|
+	btst #0,%d0	|, tmp69
+	jeq .L39		|
 	lea BGHZ_CreateEggmanMonitor__cdecl,%a0	|, iftmp.2_43
-.L33:
+.L37:
 | EggmanShip.cpp:108: 	LevelObject * spikedBall = createObject(this);
 	move.l %a2,-(%sp)	| this,
 	jsr (%a0)		| iftmp.2_43
-	move.l %d0,%a0	| tmp66, spikedBall
+	move.l %d0,%a0	| tmp70, spikedBall
 | EggmanShip.cpp:109: 	if (spikedBall != nullptr) {
 	addq.l #4,%sp	|,
 	tst.l %d0	| spikedBall
-	jeq .L35		|
+	jeq .L38		|
 | EggmanShip.cpp:110: 		spikedBall->velocity = velocity;	// transfer velocity vector
 	move.l 16(%a2),16(%a0)	| this_12(D)->D.1364.velocity, spikedBall_44->velocity
 | EggmanShip.cpp:111: 		spikedBall->position = position;	// transfer position vector
@@ -271,7 +277,7 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	move.l 12(%a2),%d1	| this_12(D)->D.1364.position,
 	move.l %d0,8(%a0)	|, spikedBall_44->position
 	move.l %d1,12(%a0)	|, spikedBall_44->position
-.L35:
+.L38:
 | EggmanShip.cpp:99: 				throwCooldown = 90;
 	move.b #90,43(%a2)	|, this_12(D)->throwCooldown
 | EggmanShip.cpp:105: }
@@ -280,37 +286,50 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	rts	
 .L25:
 | EggmanShip.cpp:52: 			position.x = camera->x + 320/2 + 0x30;
-	move.w -2304.w,%a0	| MEM[(struct Vector2_32F *)4294964992B].D.1213.x, prephitmp_64
-	lea (208,%a0),%a0	|, prephitmp_64
+	move.w -2304.w,%d0	| MEM[(struct Vector2_32F *)4294964992B].D.1213.x, prephitmp_64
+	add.w #208,%d0	|, prephitmp_64
 | EggmanShip.cpp:52: 			position.x = camera->x + 320/2 + 0x30;
-	move.w %a0,8(%a2)	| prephitmp_64, this_12(D)->D.1364.position.D.1213.x
+	move.w %d0,8(%a2)	| prephitmp_64, this_12(D)->D.1364.position.D.1213.x
 | EggmanShip.cpp:53: 			position.y = camera->y + 224/2 - 0x50;
-	move.w -2300.w,%d1	| MEM[(struct Vector2_32F *)4294964992B].D.1218.y, prephitmp_62
-	add.w #32,%d1	|, prephitmp_62
+	move.w -2300.w,%d2	| MEM[(struct Vector2_32F *)4294964992B].D.1218.y, prephitmp_63
+	add.w #32,%d2	|, prephitmp_63
 | EggmanShip.cpp:53: 			position.y = camera->y + 224/2 - 0x50;
-	move.w %d1,12(%a2)	| prephitmp_62, this_12(D)->D.1364.position.D.1218.y
+	move.w %d2,12(%a2)	| prephitmp_63, this_12(D)->D.1364.position.D.1218.y
 | EggmanShip.cpp:56: 			status_bits |= 1;	// turn right
 	or.b #1,34(%a2)	|, this_12(D)->D.1364.status_bits
 | EggmanShip.cpp:57: 			health = 255;		// ###
 	st 33(%a2)		| this_12(D)->D.1364.health
 | EggmanShip.cpp:58: 			scriptRoutineId++;
 	move.b #1,41(%a2)	|, this_12(D)->scriptRoutineId
-	move.w #768,%a1	|, pretmp_9
-| EggmanShip.cpp:67: 			const auto screenY = position.y - camera->y;
-	sub.w -2300.w,%d1	| MEM[(struct Vector2_32F *)4294964992B].D.1218.y, screenY
-| EggmanShip.cpp:72: 				velocity.yf -= 0x01;
-	move.w 18(%a2),%d0	| this_12(D)->D.1364.velocity.D.1230.yf, pretmp_74
+	move.w #768,%a0	|, prephitmp_62
 | EggmanShip.cpp:66: 			const auto screenX = position.x - camera->x;
-	sub.w -2304.w,%a0	| MEM[(struct Vector2_32F *)4294964992B].D.1213.x, screenX
+	sub.w -2304.w,%d0	| MEM[(struct Vector2_32F *)4294964992B].D.1213.x, screenX
+| EggmanShip.cpp:67: 			const auto screenY = position.y - camera->y;
+	sub.w -2300.w,%d2	| MEM[(struct Vector2_32F *)4294964992B].D.1218.y, screenY
+| EggmanShip.cpp:72: 				velocity.yf -= 0x01;
+	move.w 18(%a2),%d1	| this_12(D)->D.1364.velocity.D.1230.yf, pretmp_80
 | EggmanShip.cpp:70: 			if (screenX < 320/2 + 0x50) {
-	move.w #239,%d2	|,
-	cmp.w %a0,%d2	| screenX,
-	jlt .L28		|
-	jra .L40		|
-.L36:
+	cmp.w #239,%d0	|, screenX
+	jgt .L28		|
+	jra .L46		|
+.L45:
+| EggmanShip.cpp:84: 				velocity.yf += 0x08;
+	addq.w #8,%d1	|, _28
+	move.w %d1,18(%a2)	| _28, this_12(D)->D.1364.velocity.D.1230.yf
+| EggmanShip.cpp:88: 			if (throwCooldown) {
+	move.b 43(%a2),%d1	| this_12(D)->throwCooldown, _22
+| EggmanShip.cpp:88: 			if (throwCooldown) {
+	jeq .L24		|
+| EggmanShip.cpp:89: 				throwCooldown--;
+	subq.b #1,%d1	|, _38
+	move.b %d1,43(%a2)	| _38, this_12(D)->throwCooldown
+| EggmanShip.cpp:91: 			if (!throwCooldown 
+	jne .L24		|
+	jra .L36		|
+.L39:
 | EggmanShip.cpp:94: 				throwObject(
 	lea BGHZ_CreateSpikedBall__cdecl,%a0	|, iftmp.2_43
-	jra .L33		|
+	jra .L37		|
 	.size	_ZN13ObjEggmanShip16script00_TestSeqEv, .-_ZN13ObjEggmanShip16script00_TestSeqEv
 	.align	2
 	.globl	_ZN13ObjEggmanShip11throwObjectEPFP11LevelObjectS1_E
@@ -326,7 +345,7 @@ _ZN13ObjEggmanShip11throwObjectEPFP11LevelObjectS1_E:
 | EggmanShip.cpp:109: 	if (spikedBall != nullptr) {
 	addq.l #4,%sp	|,
 	tst.l %d0	| spikedBall
-	jeq .L41		|
+	jeq .L47		|
 | EggmanShip.cpp:110: 		spikedBall->velocity = velocity;	// transfer velocity vector
 	move.l 16(%a2),16(%a0)	| this_4(D)->D.1364.velocity, spikedBall_7->velocity
 | EggmanShip.cpp:111: 		spikedBall->position = position;	// transfer position vector
@@ -334,7 +353,7 @@ _ZN13ObjEggmanShip11throwObjectEPFP11LevelObjectS1_E:
 	move.l 12(%a2),%d1	| this_4(D)->D.1364.position,
 	move.l %d0,8(%a0)	|, spikedBall_7->position
 	move.l %d1,12(%a0)	|, spikedBall_7->position
-.L41:
+.L47:
 | EggmanShip.cpp:113: }
 	move.l (%sp)+,%a2	|,
 	rts	
@@ -347,36 +366,36 @@ executeMasterScript_ObjEggmanShip:
 	move.l 8(%sp),%a2	| obj, obj
 | EggmanShip.cpp:14: 	switch (scriptId) {
 	tst.b 40(%a2)	| obj_2(D)->scriptId
-	jeq .L55		|
+	jeq .L61		|
 | EggmanShip.cpp:21: 		asm("illegal");
 #APP
 | 21 "EggmanShip.cpp" 1
 	illegal
 | 0 "" 2
 #NO_APP
-.L47:
+.L53:
 | EggmanShip.cpp:29: 	if (!collision_flag) {
 	tst.b 32(%a2)	| obj_2(D)->D.1364.collision_flag
-	jne .L48		|
+	jne .L54		|
 | EggmanShip.cpp:30: 		if (!flash_timer) {
 	move.b 42(%a2),%d0	| obj_2(D)->flash_timer, _16
 | EggmanShip.cpp:30: 		if (!flash_timer) {
-	jeq .L56		|
+	jeq .L62		|
 | EggmanShip.cpp:35: 		if (--flash_timer) {
 	subq.b #1,%d0	|, _18
 	move.b %d0,42(%a2)	| _18, obj_2(D)->flash_timer
 | EggmanShip.cpp:35: 		if (--flash_timer) {
-	jeq .L50		|
-.L57:
+	jeq .L56		|
+.L63:
 | EggmanShip.cpp:37: 			*bossBodyColor = *bossBodyColor ? 0x000 : 0xEEE;
 	move.w #3822,%d0	|, iftmp.1_20
 	tst.w -1246.w	| MEM[(uint16_t *)4294966050B]
-	jeq .L51		|
+	jeq .L57		|
 	clr.w %d0	| iftmp.1_20
-.L51:
+.L57:
 | EggmanShip.cpp:37: 			*bossBodyColor = *bossBodyColor ? 0x000 : 0xEEE;
 	move.w %d0,-1246.w	| iftmp.1_20, MEM[(uint16_t *)4294966050B]
-.L48:
+.L54:
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
 	move.w 16(%a2),%d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1225.xf,
 	ext.l %d0	| MEM[(struct LevelObject *)obj_2(D)].velocity.D.1225.xf
@@ -394,7 +413,7 @@ executeMasterScript_ObjEggmanShip:
 | EggmanShip.cpp:118: }
 	move.l (%sp)+,%a2	|,
 	rts	
-.L50:
+.L56:
 | EggmanShip.cpp:40: 			collision_flag = 0xF;	// restore collision
 	move.b #15,32(%a2)	|, obj_2(D)->D.1364.collision_flag
 | Engine.hpp:116: 		this->position.xf += ((int32_t)this->velocity.xf) << 8;
@@ -414,14 +433,14 @@ executeMasterScript_ObjEggmanShip:
 | EggmanShip.cpp:118: }
 	move.l (%sp)+,%a2	|,
 	rts	
-.L55:
+.L61:
 | EggmanShip.cpp:16: 		script00_TestSeq();
 	move.l %a2,-(%sp)	| obj,
 	jsr _ZN13ObjEggmanShip16script00_TestSeqEv		|
 | EggmanShip.cpp:17: 		break;
 	addq.l #4,%sp	|,
-	jra .L47		|
-.L56:
+	jra .L53		|
+.L62:
 | EggmanShip.cpp:31: 			flash_timer = 0x21;
 	move.b #33,42(%a2)	|, obj_2(D)->flash_timer
 | EggmanShip.cpp:32: 			playSound__cdecl(0xAC);	// play boss damage sound
@@ -434,7 +453,7 @@ executeMasterScript_ObjEggmanShip:
 	subq.b #1,%d0	|, _18
 	move.b %d0,42(%a2)	| _18, obj_2(D)->flash_timer
 | EggmanShip.cpp:35: 		if (--flash_timer) {
-	jeq .L50		|
-	jra .L57		|
+	jeq .L56		|
+	jra .L63		|
 	.size	executeMasterScript_ObjEggmanShip, .-executeMasterScript_ObjEggmanShip
 	.ident	"GCC: (GNU) 12.2.0"
