@@ -9,6 +9,8 @@ extern "C" uint32_t randomNumber__cdecl();
 
 extern "C" void animateSprite__cdecl(void * sprite, void * animation);
 
+extern "C" void * findFreeObj__cdecl();
+
 extern "C" void deleteObject__cdecl(void * sprite);
 
 extern "C" void displaySprite__cdecl(void * sprite);
