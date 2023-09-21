@@ -165,6 +165,12 @@ React_Monitor:
 ; ===========================================================================
 
 React_Enemy:
+		cmpi.b	#id_Mogeko, (a1)
+		bne.s 	@NotVile
+
+		subi.b  #1, (v_hordecount).w
+
+@NotVile:
 		tst.b	(v_invinc).w	; is Sonic invincible?
 		bne.s	@donthurtsonic	; if yes, branch
 		cmpi.b	#id_Spindash,obAnim(a0)	; is Sonic Spin Dashing?

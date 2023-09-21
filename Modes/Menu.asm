@@ -495,20 +495,22 @@ _ToRight = $01
 _ToBottom = $02
 
 MainMenu_MenuCommands:
-@L	dc.w	MainMenu_Full_Cmd-@L	; $00
-	dc.w	OptionsMenu_Cmd-@L		; $01
-	dc.w	DifficultySelect_Cmd-@L		; $02
-	dc.w	SRAMChoice_Cmd-@L		; $03
-	dc.w	LevelSelectMenu_Cmd-@L		; $04
-	dc.w	MainMenu_Locked_Cmd-@L		; $05
+@L	dc.w	MainMenu_Full_Cmd-@L				; $00
+	dc.w	OptionsMenu_Cmd-@L					; $01
+	dc.w	DifficultySelect_Cmd-@L				; $02
+	dc.w	SRAMChoice_Cmd-@L					; $03
+	dc.w	LevelSelectMenu_Cmd-@L				; $04
+	dc.w	MainMenu_Locked_Cmd-@L				; $05
+	dc.w	DifficultySelect_Locked_Cmd-@L		; $06
 
 MainMenu_MenuElements:
-@L	dc.w	MainMenu_Full-@L		; $00
-	dc.w	OptionsMenu-@L			; $01
-	dc.w	DifficultySelect-@L			; $02
-	dc.w	SRAMChoice-@L			; $03
-	dc.w	LevelSelectMenu-@L			; $04
-	dc.w	MainMenu_Locked-@L		; $05
+@L	dc.w	MainMenu_Full-@L					; $00
+	dc.w	OptionsMenu-@L						; $01
+	dc.w	DifficultySelect-@L					; $02
+	dc.w	SRAMChoice-@L						; $03
+	dc.w	LevelSelectMenu-@L					; $04
+	dc.w	MainMenu_Locked-@L					; $05
+	dc.w	DifficultySelect_Locked-@L			; $06
 ; ---------------------------------------------------------------
 
 MainMenu_Full:
@@ -680,7 +682,7 @@ MainMenu_Locked_Cmd:
 	dc.l	MainMenu_MenuHide2		; Loop handler
 	dc.l	Hwnd_MainMenu_Play		; Code handler
 
-	; CHALLENGES
+	; ???
 	dc.b	0,_ToRight				; In/Out anim
 	dc.l	MainMenu_MenuControlLoop		; Loop handler
 	dc.l	Hwnd_Universal_Locked	; Code handler
@@ -689,6 +691,49 @@ MainMenu_Locked_Cmd:
 	dc.b	_FromRight,_ToLeft		; In/Out anim
 	dc.l	MainMenu_MenuHide		; Loop handler
 	dc.l	Hwnd_MainMenu_Options		; Code handler
+
+; ---------------------------------------------------------------
+
+DifficultySelect_Locked:
+	dc.b	0							; Default Item
+	dc.b	6							; Size
+	dc.w	$000A, $A0					; Index/Frame, Y-pos
+	dc.w	$010B, $B0+$08*1			;
+	dc.w	$020C, $C0+$08*2			;
+	dc.w	$030D, $D0+$08*3			;
+	dc.w	$0407, $E0+$08*4			;
+	dc.w	$0506, $150					;
+
+DifficultySelect_Locked_Cmd:
+	; WEAK
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Weak		; Code handler
+
+	; NORMAL
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Normal		; Code handler
+
+	; HARD
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Hard		; Code handler
+
+	; NIGHTMARE
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Nightmare		; Code handler
+
+	; ???
+	dc.b	0,_ToRight				; In/Out anim
+	dc.l	MainMenu_MenuControlLoop		; Loop handler
+	dc.l	Hwnd_Universal_Locked	; Code handler
+
+	; BACK
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_DifficultySelect_Back		; Code handler
 
 ; ---------------------------------------------------------------
 ; Menu Handlers
@@ -713,7 +758,14 @@ Hwnd_Locked:
 
 ; ---------------------------------------------------------------
 Hwnd_Options_Difficulty:
-	move.b	#$02,Menu_ID
+	moveq	#6,d1
+	tst.b 	(v_secretprog).W
+	beq.s 	@Unlocked
+
+	moveq	#2,d1
+
+@Unlocked:
+	move.b	d1,Menu_ID
 	rts
 
 ; ---------------------------------------------------------------

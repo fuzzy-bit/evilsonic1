@@ -864,8 +864,8 @@ DLE_FZend2:
 DLE_Ending:
 		rts
 
-LeftSpawnPos: 	equ $0210
-RightSpawnPos:	equ $0420
+LeftSpawnPos: 	equ $01F0
+RightSpawnPos:	equ $0440
 
 ; ---------------------------------------------------------------------------
 ; Zone 7 dynamic level events
@@ -885,8 +885,9 @@ DLE_Z7:
 ; ===========================================================================
 
 DLE_Z7_Init:
+		move.b	#1, (v_dashdisabled).w	; disable spindash >:)
 		move.w	#$124,(v_limitbtm1).w 	; set lower y-boundary
-		move.b  #$9, (v_spawntimer).w 
+		move.b  #50, (v_hordecount).w 	; KILL THEM
 		addq.b 	#2, (v_dle_routine).w
 		rts
 ; ===========================================================================
@@ -914,15 +915,16 @@ DLE_Z7_Main:
 ; ===========================================================================
 
 DLE_Z7_Horde:
+		tst.b 	(v_hordecount).w
+		beq.w 	@GoodJob
+
 		sub.b 	#1, (v_spawntimer).w
 		
 		tst.b 	(v_spawntimer).w
 		bne.w 	@Return
 
-		move.b	(v_spawntimer).w, d0
-
 @ResetTimer:
-		move.b  #$25, (v_spawntimer).w
+		move.b  #$3A, (v_spawntimer).w
 		not.b 	(v_spawndirection).w
 		move.b 	(v_spawndirection).w, d0
 
@@ -938,7 +940,22 @@ DLE_Z7_Horde:
 
 @Return:
 		rts
+
+@GoodJob:
+		command	mus_stop
+		jsr 	PaletteFadeOut
+		addq.b 	#2, (v_dle_routine).w
+		rts
 ; ===========================================================================
 
 DLE_Z7_End:
+		move.b 	#id_Title, (v_gamemode).w
+
+		sfx		sfx_enterss
+		jsr 	PaletteWhiteOut
+		
+		move.b 	#1, (v_secretprog).w
+		move.b 	#0, (v_zone).w
+		jsr		SaveSRAM
+
 		rts

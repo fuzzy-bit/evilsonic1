@@ -15,7 +15,7 @@ Mogeko:
 ; ===========================================================================
 
 @Init:	; Routine 0
-		moveq  	#$FFFFFFA0,d0
+		moveq  	#$FFFFFFA0, d0
 		jsr    	PlaySample
 
 		move.l	#Map_Mogeko, obMap(a0)

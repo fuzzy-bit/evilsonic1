@@ -64,10 +64,10 @@ SampleTable:
 		dcSample	TYPE_PCM, Invalid, 		15768, 					; $9E	- oops
 		dcSample	TYPE_PCM, ChillToTheMax, 20454, 				; $9F	- Lightning_Splash - Chill To The Max
 		dcSample	TYPE_PCM, Mogege, 		7551, FLAGS_PRIORITY	; $A0	- Mogege~
-		dcSample	TYPE_PCM, Minnaaa, 		7551, 					; $A1	- Minnaaa!
-		dcSample	TYPE_PCM, Mogegegege, 	7551, 					; $A2	- Mogegegege
-		dcSample	TYPE_PCM, Strike, 		20454, 					; $A3	- Strike
-		dcSample	TYPE_PCM, Scream, 		20454, 					; $A4	- Scream
+		dcSample	TYPE_PCM, Minnaaa, 		7551, FLAGS_PRIORITY	; $A1	- Minnaaa!
+		dcSample	TYPE_PCM, Mogegegege, 	7551, FLAGS_PRIORITY	; $A2	- Mogegegege
+		dcSample	TYPE_PCM, Strike, 		20454, FLAGS_PRIORITY	; $A3	- Strike
+		dcSample	TYPE_PCM, Scream, 		20454, FLAGS_PRIORITY	; $A4	- Scream
 		dcSample	TYPE_PCM, Ground, 		20454, FLAGS_PRIORITY	; $A5   - Ground Wave
 SampleTable_End:
 

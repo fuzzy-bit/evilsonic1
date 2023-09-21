@@ -6,6 +6,9 @@
 
 ; loc_1AC3E:
 Sonic_SpinDash:
+	tst.b 	(v_dashdisabled).w
+	bne.w	return_1AC8C
+
 	tst.b	f_spindash(a0)
 	bne.s	Sonic_UpdateSpindash
 	cmpi.b #id_duck,obAnim(a0) 
