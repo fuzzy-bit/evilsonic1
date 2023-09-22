@@ -339,6 +339,7 @@ mus_secretsyz: equ 	$95
 mus_secretslz: equ	$96
 mus_secretsbz: equ	$97
 mus_secretfz: equ	$98
+mus_secretcredits: equ	$9C
 
 ; Control
 mus_fadeout: equ	$E0

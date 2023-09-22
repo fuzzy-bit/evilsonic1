@@ -24,7 +24,7 @@ Bri_MoveSonic:
 
 Bri_Bend:
 		move.b	$3E(a0),d0
-		bsr.w	CalcSine
+		jsr		CalcSine
 		move.w	d0,d4
 		lea	(Obj11_BendData2).l,a4
 		moveq	#0,d0

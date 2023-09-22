@@ -73,8 +73,6 @@ Credits:
 		; Play music
 		; moveq	#$FFFFFF00|_InfoScreen_BGM,d0
 		; jsr	PlaySound
-		moveq  	#$FFFFFF9F,d0
-		jsr    	PlaySample
 
 		; Enable DISPLAY
 		move.w	#$8174,VDP_Ctrl
@@ -83,13 +81,13 @@ Credits:
 															
 		lea	VDP_Ctrl,a6
 		lea	-4(a6),a5
-		cmpi.b	#0,($FFFFFFA0).w ; check if demo end flag is off
-		beq	Load_BetaInfoText      ; if yes, load Beta Info text
-		cmpi.b	#1,($FFFFFFA0).w ; check if demo end flag is on
-		beq	Load_DemoEndText       ; if yes, load Demo End text
+		
+		cmpi.b	#137,(v_betaolve).w ; check if beta olve syory
+		beq		Load_BetaOlveStory  ; if yes,   load Beta
 
-Load_BetaInfoText:
-		lea	InfoScreen_Data,a0
+		moveq  	#$FFFFFF9F,d0
+		jsr    	PlaySample
+		lea		EndCreditsText, a0
 
 InfoScreen_Con:
 		locVRAM	_VRAM_PlaneA, d7		; d7 = VRAM Req Base
@@ -172,7 +170,7 @@ InfoScreen_CalcStringPos:
 ; Info screen data array
 ; ----------------------------------------------------------------
 
-InfoScreen_Data:
+EndCreditsText:
 		dc.b	2,'        BRUTAL SONIC - CREDITS        ',0
 		dc.b	0
 		dc.b	0
@@ -226,16 +224,87 @@ InfoScreen_Data:
 		dc.b	-1	; End of screen
 		even
 
-InfoScreen_DemoEnd:
-		dc.b	1,'                                      ',0
-		dc.b	1,'      DEMO END TEXT GOES HERE =P      ',0
-		dc.b	1,'                                      ',0
-
+BetaOlveStory:
+		dc.b	2,'MY  SUPER   BNETA  OLVE STORY         ',0
+		dc.b	2,' BY FENGISH                           ',0
+		dc.b 	0
+		dc.b 	1,'ONCE APON A TIMESNEWROMAN,            ',0
+		dc.b	1,'I WAS A LITTLE BRAPPY WITH A DREAM    ',0
+		dc.b	1,'NOT TO BE CONFUSED WITH THE WHITE GUY)',0
+		dc.b 	0
+		dc.b	1,' I WANTED  TO OBTSAIN THE SONIS 1 TTS ',0
+		dc.b	1,'#PROTOTYPECORE CHARTRAGE. I DID NOT BE',0
+		dc.b	1,'LIEVE THE BADDY BAD LIES OF FUJI KAKA ',0
+		dc.b	1,'FROM LEGA; WHOM SAIDS "THIS BETA IS LO',0
+		dc.b	1,'ST MEDIAS, STOP  FUCKING ASKING ME ABO',0
+		dc.b	1,'UT IT". NOPERINOS.  I WANTED TO PROVE ',0
+		dc.b	1,'TO @EVERYONE, ESPECIALLY THAT UNKINOLY',0
+		dc.b	1,' BRAPPAMOID SHITHEAD ERIC (WHO IS VERY',0
+		dc.b	1,' #MEANIECORE,) THAT I COULD FIND MY LE',0
+		dc.b	1,'GASONIS BETAS, MUCH LIKE ONE CASUALLY ',0
+		dc.b	1,'FINDS THEM PIBBYS. I GOOGLESEARCHED FA',0
+		dc.b	1,'R AND WIDE ACROSS THE INTER-WEBS, BUT ',0
+		dc.b	1,'IT WAS ALL FAKER #HOAXCORE  #BULLSHIT.',0
+		dc.b	1,'I HATED SEEING THOSE #FALSIFICATIONC  ',0
+		dc.b	1,'ORE INFERIOR COPYS, FOR THEY WERE FULL',0
+		dc.b	1,' OF UNKINOLY SIN. I WILL DECLARE MY #@',0
+		dc.b	1,'REVENGEANCY ON ALL BNETASLOPPERS, THEY',0
+		dc.b	1,' ARE NO-THINGS BUT SERVANTS OF MODERN ',0
+		dc.b	1,'DECLINE ZEGACORP.  THEY UNDERSTANDS NO',0
+		dc.b	1,'T THE BRILLIANT VISION OF GREAT BROSHI',0
+		dc.b	1,'MA. THEY JUST CONSUMES PRODUCTIOS, AND',0
+		dc.b	1,' HOT CHIP.  THEY WILL ALL PAY FOR THEI',0
+		dc.b	1,'R TERRIBLE SINS, .  END OF RANT; I AM ',0
+		dc.b	1,'NOW BECOME #CALMEDCORE, DESTROYER OF Z',0
+		dc.b	1,'EGASLOP. I  EVEN SEARCHED I.R.L. (FOR ',0
+		dc.b	1,'THOSE, HEH, STUPID #NON-INTELLECTUALCO',0
+		dc.b	1,'RE ZOOMERS WHO ARE STUPID AND DUMB AND',0
+		dc.b	1,' KNOW NOTHINGS  ABOUT THIS DARIOWORLD,',0
+		dc.b	1,' IT MEANSES IN. REAL. LIFE!!!!!!!!!!!!',0
+		dc.b	1,'! SOMETHING  THEY WOULDNT KNOW CAUSE  ',0
+		dc.b	1,' THYER TOO BUSY PLAYSING MEDIOCRITY   ',0
+		dc.b	1,'. GRRRRRR.) FOR THE HOLYKINOS  OF LEGA',0
+		dc.b	1,'HISTORY. MY MOMENTUMS WERE OFFTHECHART',0
+		dc.b	1,'S THAT DAY; JUST LIKE LEGASONIS, I WAS',0
+		dc.b	1,'  MOMENTUMING DOWN VARIOUS INCLINES (S',0
+		dc.b	1,'LOPES, FOR THE DUMB ZOOMERS.) AND GAIN',0
+		dc.b	1,'ING SPEED! IT WAS TRULY KINOLICIOUS. B',0
+		dc.b	1,'UTT. WHEN  I REACHEDS STATE OF "JAPAN"',0
+		dc.b	1,', THE LEGABUILDING  WAS NOT THERE. INS',0
+		dc.b	1,'TEAD, IT WAS REPLACEDS WITH ZEGA. I BR',0
+		dc.b	1,'OKE INTO THE ZEGABULDING AND SEARCHED ',0
+		dc.b	1,'EVERYWHERE, BUT ZEGA HAD #IRREPERABLYC',0
+		dc.b	1,'ORE DESTROYSED ALL OF  LEGARCHIVES. NO',0
+		dc.b	1,'THING WAS LEFT. NOT A SINGLE TRACE OF ',0
+		dc.b	1,'LEGASONIS CONCEPTS, EVEN. I WAS LATER ',0
+		dc.b	1,'ARRESTED FOR BREAKING INTO THE BUILDIN',0
+		dc.b	1,'G.                                    ',0
+		dc.b	0
+		dc.b 	1,'LESSON OF THE DAY: ONCE AGAIN, THE    ',0
+		dc.b	1,'ZEGASLOP RUINS EVERYTHINGS. THEY TOOK ',0
+		dc.b	1,'LEGA AWAY FROM US. THEY TOOK OUR KINOS',0
+		dc.b	1,'. OUR MOMENTUMS. OUR * SONIS *. THAT I',0
+		dc.b	1,'MPOSTER (AMOIMA) ZEGASONIS IS NOT HIM.',0
+		dc.b	1,' DO NOT BELIEVER HIS LIES. WE MUST FIG',0
+		dc.b	1,'HT TO THE ENDOFCHAPTER TO RESTOR BALAN',0
+		dc.b	1,'(CE) ACROSS OUR (DARIO)WONDERWORLD. WE',0
+		dc.b	1,' MUST MAKE LEGA #PROUDCORE.           ',0
+		dc.b	0
+		dc.b	0
+		dc.b	1,'EMND OF STORY. I HOPE WHATEVER        ',0
+		dc.b	1,'LITTLE BRAPPYS ARE PLAYING            ',0
+		dc.b	1,'ENHJOYED MY. TALE                     ',0
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	1,'	KILL ME                              ',0
 		dc.b	-1	; End of screen
 		even
 
-Load_DemoEndText:
-		lea	InfoScreen_DemoEnd,a0
+Load_BetaOlveStory:
+		music mus_secretcredits
+		lea	BetaOlveStory,a0
 		jmp	InfoScreen_Con
 
 ; ---------------------------------------------------------------

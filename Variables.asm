@@ -244,6 +244,7 @@ v_spawntimer: 	equ $FFFFFEF5 	; horde spawn timer
 v_spawndirection: equ $FFFFFEF6 ; horde spawn direction
 v_dashdisabled: equ $FFFFFEF7 ; spindash disabled flag
 v_hordecount: 	equ $FFFFFEF8 ; mogeko kills left
+v_betaolve: 	equ $FFFFFEF9 ; beta olve story in credits
 
 v_screenposx_dup:	equ $FFFFFF10	; screen position x (duplicate) (2 bytes)
 v_screenposy_dup:	equ $FFFFFF14	; screen position y (duplicate) (2 bytes)

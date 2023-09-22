@@ -1,8 +1,28 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "255e4cc0-4848-4081-a5b0-6d27e5b90c23",
+    "node": "0768ca43-290b-47b4-9512-c109cdf2e3b4",
     "objects": [
+        {
+            "uuid": "0768ca43-290b-47b4-9512-c109cdf2e3b4",
+            "format": "Sonic 1.js",
+            "name": "Credits Font",
+            "palettes": [],
+            "art": {
+                "path": "Data\\Art\\Kosinski\\Credits Font.bin",
+                "compression": "Kosinski",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Data\\Art\\Kosinski\\Credits Font.bin",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
         {
             "uuid": "7bd3071a-8ccd-46a6-be2f-80d8f5c3ed6f",
             "format": "Sonic 1.js",

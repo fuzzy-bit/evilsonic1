@@ -151,6 +151,9 @@ Pow_ChkS:
 		cmpi.b	#7,d0		; does monitor contain 'S'?
 		bne.s	Pow_ChkEnd
 
+		tst.b 	(v_secret).w ; secret enabled?
+		bne.s 	Pow_Horrible ; oh no
+
 		move.b 	(v_gamecomplete).w, d1
 		tst.b 	d1 				; is game completed?
 		beq.s 	Pow_DenySound 	; if not, branch
@@ -168,3 +171,8 @@ Pow_Delete:	; Routine 4
 		subq.w	#1,obTimeFrame(a0)
 		bmi.w	DeleteObject	; delete after half a second
 		rts	
+
+Pow_Horrible:
+		move.b 	#137, (v_betaolve).w
+		move.b 	#$20, (v_gamemode).w
+		rts
