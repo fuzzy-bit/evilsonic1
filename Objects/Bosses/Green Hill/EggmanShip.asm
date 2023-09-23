@@ -156,12 +156,13 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	jsr	randomNumber__cdecl
 	btst	#0, d0
 	beq	@L39
-	lea	BGHZ_CreateEggmanMonitor__cdecl, a0
+	move.l	#execute_ObjGHZBossEggmanMonitor, d0
 @L37:
+	move.l	d0, -(sp)
 	move.l	a2, -(sp)
-	jsr	(a0)
+	jsr	createCppObject__cdecl
 	move.l	d0, a0
-	addq.l	#4, sp
+	addq.l	#8, sp
 	tst.l	d0
 	beq	@L38
 	move.l	16(a2), 16(a0)
@@ -201,16 +202,16 @@ _ZN13ObjEggmanShip16script00_TestSeqEv:
 	bne	@L24
 	bra	@L36
 @L39:
-	lea	BGHZ_CreateSpikedBall__cdecl, a0
+	move.l	#execute_ObjGHZBossSpikedBall, d0
 	bra	@L37
-_ZN13ObjEggmanShip11throwObjectEPFP11LevelObjectS1_E:
+_ZN13ObjEggmanShip11throwObjectEPFvR11LevelObjectE:
 	move.l	a2, -(sp)
 	move.l	8(sp), a2
+	move.l	12(sp), -(sp)
 	move.l	a2, -(sp)
-	move.l	16(sp), a0
-	jsr	(a0)
+	jsr	createCppObject__cdecl
 	move.l	d0, a0
-	addq.l	#4, sp
+	addq.l	#8, sp
 	tst.l	d0
 	beq	@L47
 	move.l	16(a2), 16(a0)

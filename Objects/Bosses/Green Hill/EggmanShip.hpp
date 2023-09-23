@@ -14,11 +14,9 @@ struct ObjEggmanShip : public LevelObject {
 	uint8_t flash_timer;		/* 0x2A */
 	uint8_t throwCooldown;
 
-	typedef LevelObject* (*objectGenerator)(LevelObject*);
-
 	void executeMasterScript();
 	void handleDamage();
-	void throwObject(objectGenerator);
+	void throwObject(objectExecuteCallback);
 	void script00_TestSeq();
 };
 

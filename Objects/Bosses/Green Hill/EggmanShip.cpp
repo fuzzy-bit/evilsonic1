@@ -4,6 +4,8 @@
 
 #include "S1Engine.hpp"
 #include "EggmanShip.hpp"
+#include "EggmanMonitor.hpp"
+#include "SpikedBall.hpp"
 
 extern "C" LevelObject * BGHZ_CreateSpikedBall__cdecl(LevelObject * parent);
 extern "C" LevelObject * BGHZ_CreateEggmanMonitor__cdecl(LevelObject * parent);
@@ -90,11 +92,14 @@ void ObjEggmanShip::script00_TestSeq() {
 			if (!throwCooldown 
 				&& (screenX > 200) && (screenX < 200 + 75) && (screenY > 32) && (screenY < 32 + 45)
 			) {
+				#pragma GCC diagnostic push
+				#pragma GCC diagnostic ignored "-Wcast-function-type"
 				throwObject(
 					randomNumber__cdecl() & 1 
-						? BGHZ_CreateEggmanMonitor__cdecl
-						: BGHZ_CreateSpikedBall__cdecl
+						? reinterpret_cast<objectExecuteCallback>(execute_ObjGHZBossEggmanMonitor)
+						: reinterpret_cast<objectExecuteCallback>(execute_ObjGHZBossSpikedBall)
 				);
+				#pragma GCC diagnostic pop
 				throwCooldown = 90;
 			}
 
@@ -103,11 +108,11 @@ void ObjEggmanShip::script00_TestSeq() {
 	}
 }
 
-void ObjEggmanShip::throwObject(objectGenerator createObject) {
-	LevelObject * spikedBall = createObject(this);
-	if (spikedBall != nullptr) {
-		spikedBall->velocity = velocity;	// transfer velocity vector
-		spikedBall->position = position;	// transfer position vector
+void ObjEggmanShip::throwObject(objectExecuteCallback executeCallback) {
+	LevelObject * thrownObject = createCppObject__cdecl(this, executeCallback);
+	if (thrownObject != nullptr) {
+		thrownObject->velocity = velocity;	// transfer velocity vector
+		thrownObject->position = position;	// transfer position vector
 	}
 }
 

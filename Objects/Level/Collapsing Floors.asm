@@ -75,7 +75,7 @@ CFlo_WalkOff:	; Routine $A
 		bsr.w	ExitPlatform
 		move.w	obX(a0),d2
 		bsr.w	MvSonicOnPtfm2
-		bra.w	RememberState
+		jmp	RememberState
 ; End of function CFlo_WalkOff
 
 ; ===========================================================================
