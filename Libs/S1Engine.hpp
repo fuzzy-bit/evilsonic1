@@ -130,6 +130,8 @@ extern "C" int16_t objFloorDist__cdecl(void * sprite);
 
 extern "C" uint32_t randomNumber__cdecl();
 
+extern "C" int16_t calcSine__cdecl(uint8_t angle);
+
 extern "C" void animateSprite__cdecl(void * sprite, void * animation);
 
 extern "C" void * findFreeObj__cdecl();

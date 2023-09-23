@@ -821,6 +821,7 @@ DLE_FZmain:
 		cmpi.w	#$2148,(v_screenposx).w
 		bcs.s	loc_72F4
 		addq.b	#2,(v_dle_routine).w
+		move.w	#$580,(v_limitbtm1).w
 		moveq	#plcid_FZBoss,d0
 		jsr 	AddPLC		; load FZ boss patterns
 
@@ -829,13 +830,17 @@ loc_72F4:
 ; ===========================================================================
 
 DLE_FZboss:
-		cmpi.w	#$2300,(v_screenposx).w
+		cmpi.w	#$23E0,(v_screenposx).w
 		bcs.s	loc_7312
-		bsr.w	FindFreeObj
-		bne.s	loc_7312
-		move.b	#id_BossFinal,(a1) ; load FZ boss object
 		addq.b	#2,(v_dle_routine).w
 		move.b	#1,(f_lockscreen).w ; lock screen
+
+		move.l	#execute_ObjPlasmaBoss, -(sp)
+		pea	v_lvlobjspace.w
+		jsr	createCppObject__cdecl
+		addq.w	#8, sp
+
+		move.w	#$23E0,(v_limitright2).w
 
 loc_7312:
 		bra.s	loc_72C2

@@ -11,6 +11,8 @@
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
+CalcSine__cdecl:
+		move.w	4(sp), d0
 
 CalcSine:
 		andi.w	#$FF,d0

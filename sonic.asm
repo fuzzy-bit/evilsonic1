@@ -649,7 +649,6 @@ Map_Plat_Unused:include	"Data\Mappings\Objects\Platforms (unused).asm"
 Map_Plat_GHZ:	include	"Data\Mappings\Objects\Platforms (GHZ).asm"
 Map_Plat_SYZ:	include	"Data\Mappings\Objects\Platforms (SYZ).asm"
 Map_Plat_SLZ:	include	"Data\Mappings\Objects\Platforms (SLZ).asm"
-		include	"Objects\Unused\19.asm"
 Map_GBall:	include	"Data\Mappings\Objects\GHZ Ball.asm"
 		include	"Objects\Level\Collapsing Ledge.asm"
 		include	"Objects\Level\Collapsing Floors.asm"
@@ -1967,6 +1966,7 @@ AddPoints:
 
 		include	"Includes\HUD_Update.asm"
 		include "Objects\Effects\SonicDeath.asm"
+		include	"Objects\CppObject.asm"
 		include	"Objects\DynamicObject.asm"
 
 ; ---------------------------------------------------------------------------
@@ -2028,6 +2028,9 @@ Art_Hud:	incbin	"Data\Art\Uncompressed\HUD Numbers.bin" ; 8x16 pixel numbers on 
 		even
 Art_LivesNums:	incbin	"Data\Art\Uncompressed\Lives Counter Numbers.bin" ; 8x8 pixel numbers on lives counter
 		even
+
+		include	"Objects\Bosses\Final\PlasmaBoss.asm"
+		include	"Objects\Bosses\Final\PlasmaBall.asm"
 
 		include	"Objects\DebugMode.asm"
 		include	"Includes\DebugList.asm"
