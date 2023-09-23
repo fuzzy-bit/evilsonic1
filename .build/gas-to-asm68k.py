@@ -8,7 +8,7 @@ output_file = sys.argv[2]
 def convertLabel(label: str) -> str:
     # Special treatment for constants (.LCx)
     if label.startswith('.LC'):
-        label = input_file.replace('.', '_') + '__' + label[1:]
+        label = input_file.replace('.', '_').replace(' ', '').replace('/', '') + '__' + label[1:]
 
     # Replace ".Lx" with "@Lx"
     if label.startswith('.'):
@@ -86,6 +86,15 @@ with open(input_file, 'r') as input_stream:
                 if directive == '.string' and args:
                     str_op = convertStringExpression(args)
                     output_stream.write(f'\tdc.b\t{str_op}, 0\n\teven\n')
+
+                elif directive == '.byte':
+                    output_stream.write(f'\tdc.b\t{args}\n')
+
+                elif directive == '.word':
+                    output_stream.write(f'\tdc.w\t{args}\n')
+
+                elif directive == '.long':
+                    output_stream.write(f'\tdc.l\t{args}\n')
 
                 else:
                     # Ignore directives, e.g. ".text", ".globl"
