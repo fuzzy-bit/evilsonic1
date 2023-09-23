@@ -2,9 +2,8 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "S1Bindings.hpp"
+#include "S1Engine.hpp"
 #include "EggmanShip.hpp"
-#include "Engine.hpp"
 
 extern "C" LevelObject * BGHZ_CreateSpikedBall__cdecl(LevelObject * parent);
 extern "C" LevelObject * BGHZ_CreateEggmanMonitor__cdecl(LevelObject * parent);

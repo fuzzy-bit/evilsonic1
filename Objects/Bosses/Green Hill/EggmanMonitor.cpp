@@ -3,9 +3,9 @@
 
 #include <cstdint>
 
+#include "S1Engine.hpp"
 #include "Debugger.hpp"
-#include "Engine.hpp"
-#include "S1Bindings.hpp"
+
 #include "EggmanMonitor.hpp"
 
 extern uint8_t Map_Monitor[];
