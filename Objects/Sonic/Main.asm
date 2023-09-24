@@ -217,10 +217,10 @@ loc_1380C:
 
 
 Sonic_HurtStop:
-		move.w	(v_limitbtm2).w,d0
-		addi.w	#$E0,d0
-		cmp.w	obY(a0),d0
-		bcs.w	KillSonic
+		; move.w	(v_limitbtm2).w,d0
+		; addi.w	#$E0,d0
+		; cmp.w	obY(a0),d0
+		; bcs.w	KillSonic
 		bsr.w	Sonic_Floor
 		btst	#1,obStatus(a0)
 		bne.s	locret_13860
