@@ -17,8 +17,24 @@ def convertLabel(label: str) -> str:
     return label
 
 
+def convertExpression(expr: str) -> str:
+    # Expression is likely "label1-label2"
+    if len(expr.split('-')) == 2:
+        label1, label2 = expr.split('-')
+        return f'{convertLabel(label1)}-{convertLabel(label2)}'
+
+    return expr
+
 def convertStringExpression(str_expr: str) -> str:
     pattern = r'\\(\d+)'
+
+    char_table = {
+        "\\t": 9,
+        "\\n": 10,
+        "\\r": 13,
+    }
+    for (key, value) in char_table.items():
+        str_expr = str_expr.replace(key, f'", ${value:x}, "');
 
     def replace_hex(match):
         octal_value = match.group(1)
@@ -29,6 +45,7 @@ def convertStringExpression(str_expr: str) -> str:
         str_expr_converted = str_expr_converted[:-len(', ""')]
     if str_expr_converted.startswith('"", '):
         str_expr_converted = str_expr_converted[len('"", '):]
+    str_expr_converted = str_expr_converted.replace(', "", ', ', ')
 
     return str_expr_converted
 
@@ -40,6 +57,10 @@ def convertOperand(operand: str) -> str:
     # Convert auto-labels
     if operand.startswith('.'):
         operand = convertLabel(operand)
+
+    # Convert jump tables (e.g. jmp %pc@(2,%d0:w))
+    if operand.startswith('pc@('):
+        operand = '*+2+' + operand.replace('pc@(', '').replace(':', '.').replace(',', '(pc,')
 
     return operand
 
@@ -79,6 +100,10 @@ with open(input_file, 'r') as input_stream:
 
             # If line is a directive
             if line.startswith(' ') or line.startswith('\t') and line.strip().startswith('.'):
+                line = line.strip()
+                if line.startswith('.word ') or line.startswith('.long '):
+                    line = line.replace(' ', '\t', 1)
+
                 tokens = line.strip().split('\t')
                 directive = tokens[0]
                 args = tokens[1] if len(tokens) > 1 else None
@@ -87,14 +112,18 @@ with open(input_file, 'r') as input_stream:
                     str_op = convertStringExpression(args)
                     output_stream.write(f'\tdc.b\t{str_op}, 0\n\teven\n')
 
-                elif directive == '.byte':
-                    output_stream.write(f'\tdc.b\t{args}\n')
+                if directive == '.ascii' and args:
+                    str_op = convertStringExpression(args)
+                    output_stream.write(f'\tdc.b\t{str_op}\n\teven\n')
 
-                elif directive == '.word':
-                    output_stream.write(f'\tdc.w\t{args}\n')
+                elif directive == '.byte' and args:
+                    output_stream.write(f'\tdc.b\t{convertExpression(args)}\n')
 
-                elif directive == '.long':
-                    output_stream.write(f'\tdc.l\t{args}\n')
+                elif directive == '.word' and args:
+                    output_stream.write(f'\tdc.w\t{convertExpression(args)}\n')
+
+                elif directive == '.long' and args:
+                    output_stream.write(f'\tdc.l\t{convertExpression(args)}\n')
 
                 else:
                     # Ignore directives, e.g. ".text", ".globl"
@@ -107,7 +136,10 @@ with open(input_file, 'r') as input_stream:
                 operands = []
 
                 if len(tokens) >= 2:
-                    operands = list(map(str.strip, tokens[1].split(',')))
+                    if tokens[1].startswith("%pc@("):
+                        operands = [tokens[1]]
+                    else:
+                        operands = list(map(str.strip, tokens[1].split(',')))
 
                 # Replace JEQ, JNE, ... with BEQ, BNE, ...
                 if opcode not in ('jmp', 'jsr') and opcode.startswith('j'):
