@@ -196,7 +196,7 @@ EndCreditsText:
 		dc.b	1,'AMPHOBIUS - MMX SIGMA FORTRESS 1      ',0
 		dc.b	1,'KCEXE - SAILOR MOON STREET TRACK      ',0
 		dc.b	1,'VLADIKCOMPER - MAGICAL HAT TRACK      ',0
-		dc.b	1,'LORDXERNOM - BOWSERS INS. STORY FINALE',0
+		dc.b	1,'JK FOX - STAR LIGHT TRACK             ',0
 		dc.b	1,'KCEXE - YUUYUU HAKUSHO - INTRODUCE    ',0
 		dc.b	1,'KCEXE - SURGING POWER PORT            ',0
 		dc.b	1,'KCEXE - DESTRUCTIVE POWER PORT        ',0
