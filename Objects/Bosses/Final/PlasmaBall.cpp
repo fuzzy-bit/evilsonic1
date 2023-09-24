@@ -68,6 +68,34 @@ void ObjPlasmaBall::execute() {
 		}
 		goto display2;
 
+	case ObjPlasmaBall::Subtype::particleMove:
+		speedToPos();
+		goto display2;
+
+	case ObjPlasmaBall::Subtype::fallingAttack:
+		// Make balls hostile >=C
+		if (velocity.yf == 0) {
+			velocity.yf = 0x180;
+			anim_id = 1;
+			collision_flag = 0x9A;
+			anim_id = 1;
+		}
+
+		speedToPos();
+
+		// Delete upon going past bottom boundary
+		{
+			const auto camera = getFGCamera();
+			const int16_t screenY = position.y - camera->y;
+
+			if (screenY > 224 + 0x18) {
+				deleteObject__cdecl(this);
+				return;
+			}
+		}
+
+		goto display;
+
 	display2:
 		// Delete when out of screen
 		if (!(render_bits & 0x80)) {

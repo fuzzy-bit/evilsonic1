@@ -108,9 +108,10 @@ ExBom_Main:	; Routine 0
 		move.b	#5,obTimeFrame(a0)
 		move.b	#0,obFrame(a0)
 		move.b	#10, (v_shaketimer).w	
-		jsr		RandomDirection
 		sfx	sfx_superexplosion	; play exploding bomb sound
-		rts
+		tst.l	obVelX(a0)
+		bne.s	ExBomb_Animate
+		jmp		RandomDirection
 
 ExBomb_Animate:
 		jsr 	SpeedToPos

@@ -924,16 +924,16 @@ loc_72B0:
 		move.b	#1,(f_lockscreen).w ; lock screen
 
 loc_72B6:
-		bra.s	loc_72C2
+		bra.s	LockLeft
 ; ===========================================================================
 
 DLE_SBZ2end:
 		cmpi.w	#$2050,(v_screenposx).w
-		bcs.s	loc_72C2
+		bcs.s	LockLeft
 		rts	
 ; ===========================================================================
 
-loc_72C2:
+LockLeft:
 		move.w	(v_screenposx).w,(v_limitleft2).w
 		rts	
 ; ===========================================================================
@@ -944,55 +944,54 @@ DLE_FZ:
 		move.w	off_72D8(pc,d0.w),d0
 		jmp	off_72D8(pc,d0.w)
 ; ===========================================================================
-off_72D8:	dc.w DLE_FZmain-off_72D8, DLE_FZboss-off_72D8
-		dc.w DLE_FZend-off_72D8, locret_7322-off_72D8
+off_72D8:	dc.w DLE_FZmain-off_72D8
+		dc.w DLE_FZboss-off_72D8
+		dc.w LockLeft-off_72D8
+		dc.w DLE_FZend-off_72D8
 		dc.w DLE_FZend2-off_72D8
 ; ===========================================================================
 
 DLE_FZmain:
-		cmpi.w	#$2148,(v_screenposx).w
-		bcs.s	loc_72F4
+		cmpi.w	#$2200,(v_screenposx).w
+		bcs	LockLeft
 		addq.b	#2,(v_dle_routine).w
 		move.w	#$580,(v_limitbtm1).w
 		moveq	#plcid_FZBoss,d0
 		jsr 	AddPLC		; load FZ boss patterns
-
-loc_72F4:
-		bra.s	loc_72C2
+		bra.s	LockLeft
 ; ===========================================================================
 
 DLE_FZboss:
 		cmpi.w	#$23E0,(v_screenposx).w
-		bcs.s	loc_7312
+		bcs	LockLeft
 		addq.b	#2,(v_dle_routine).w
 		move.b	#1,(f_lockscreen).w ; lock screen
+		move.w	#$23E0,(v_limitright2).w
 
 		move.l	#execute_ObjPlasmaBoss, -(sp)
 		pea	v_lvlobjspace.w
 		jsr	createCppObject__cdecl
 		addq.w	#8, sp
-
-		move.w	#$23E0,(v_limitright2).w
-
-loc_7312:
-		bra.s	loc_72C2
+		bra.s	LockLeft
 ; ===========================================================================
 
 DLE_FZend:
-		cmpi.w	#$2450,(v_screenposx).w
-		bcs.s	loc_7320
+		sf.b	(f_lockscreen).w			; unlock right boundary
 		addq.b	#2,(v_dle_routine).w
+		move.w	#0,(v_limittop2).w
+		move.w	#$2600+$130,(v_limitright2).w		; setup right boundary
 
-loc_7320:
-		bra.s	loc_72C2
+		moveq	#plcid_Signpost,d0
+		jsr	NewPLC					; load signpost	patterns
+		bra	LockLeft
 ; ===========================================================================
-
-locret_7322:
-		rts	
-; ===========================================================================
-
 DLE_FZend2:
-		bra.s	loc_72C2
+		cmp.w	#$2600+$130, (v_screenposx).w
+		blo.s	@End
+		move.w	#$4A0, (v_limitbtm1).w
+@End:
+		rts
+
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Ending sequence dynamic level events (empty)

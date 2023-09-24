@@ -3,30 +3,110 @@ _ZN13ObjPlasmaBall7executeEv:
 	move.l	a2, -(sp)
 	move.l	d2, -(sp)
 	move.l	12(sp), a2
+	cmp.b	#4, 36(a2)
+	bhi	@L1
+	moveq	#0, d0
 	move.b	36(a2), d0
-	cmp.b	#1, d0
-	beq	@L2
-	cmp.b	#2, d0
-	beq	@L3
-	tst.b	d0
-	beq	@L19
-	move.l	(sp)+, d2
-	move.l	(sp)+, a2
-	rts	
-@L19:
+	add.l	d0, d0
+	move.w	@L4(pc, d0.l), d0
+	jmp	*+2+2(pc,d0.w)
+@L4:
+	dc.w	@L8-@L4
+	dc.w	@L7-@L4
+	dc.w	@L6-@L4
+	dc.w	@L5-@L4
+	dc.w	@L3-@L4
+@L8:
 	move.b	#-124, 1(a2)
 	move.w	#8960, 2(a2)
 	move.l	#Map_Plasma, 4(a2)
 	clr.b	28(a2)
 	move.b	#3, 24(a2)
 	move.b	41(a2), 36(a2)
+@L1:
 	move.l	(sp)+, d2
 	move.l	(sp)+, a2
 	rts	
+@L5:
+	move.w	16(a2), d0
+@L23:
+	ext.l	d0
+	lsl.l	#8, d0
+	add.l	d0, 8(a2)
+	move.w	18(a2), d0
+	ext.l	d0
+	lsl.l	#8, d0
+	add.l	d0, 12(a2)
+@L14:
+	tst.b	1(a2)
+	bge	@L21
+@L11:
+	pea	Ani_Plasma
+	move.l	a2, -(sp)
+	jsr	animateSprite__cdecl
+	addq.l	#8, sp
+	move.l	a2, 12(sp)
+	move.l	(sp)+, d2
+	move.l	(sp)+, a2
+	jmp	displaySprite__cdecl
 @L3:
+	move.w	18(a2), d0
+	beq	@L19
+	ext.l	d0
+	lsl.l	#8, d0
+	move.w	16(a2), d1
+	ext.l	d1
+	lsl.l	#8, d1
+	add.l	d1, 8(a2)
+	add.l	12(a2), d0
+	move.l	d0, 12(a2)
+	swap	d0
+	ext.l	d0
+	sub.w	-2300.w, d0
+	cmp.w	#248, d0
+	ble	@L11
+@L21:
+	move.l	a2, 12(sp)
+	move.l	(sp)+, d2
+	move.l	(sp)+, a2
+	jmp	deleteObject__cdecl
+@L7:
+	move.l	8(a2), d1
+	move.l	42(a2), a0
+	move.l	8(a0), d0
+	sub.l	d1, d0
+	bmi	@L27
+	asr.l	#4, d0
+	add.l	d1, d0
+	move.l	d0, 8(a2)
+	move.l	12(a2), a1
+	move.l	12(a0), d1
+	sub.l	a1, d1
+	bmi	@L28
+@L10:
+	asr.l	#4, d1
+	add.l	a1, d1
+	move.l	d1, 12(a2)
+	swap	d0
+	ext.l	d0
+	sub.w	8(a0), d0
+	bmi	@L29
+@L12:
+	cmp.w	#2, d0
+	ble	@L21
+@L26:
+	pea	Ani_Plasma
+	move.l	a2, -(sp)
+	jsr	animateSprite__cdecl
+	addq.l	#8, sp
+	move.l	a2, 12(sp)
+	move.l	(sp)+, d2
+	move.l	(sp)+, a2
+	jmp	displaySprite__cdecl
+@L6:
 	move.w	50(a2), d0
 	cmp.w	#255, d0
-	bgt	@L9
+	bgt	@L13
 	move.w	46(a2), d2
 	move.w	48(a2), d1
 	sub.w	d2, d1
@@ -39,79 +119,19 @@ _ZN13ObjPlasmaBall7executeEv:
 	addq.w	#4, d0
 	move.w	d0, 50(a2)
 	cmp.w	#255, d0
-	ble	@L10
+	ble	@L14
 	move.w	52(a2), d0
-	beq	@L20
+	bne	@L15
+	moveq	#30, d0
+@L15:
 	move.w	d0, 52(a2)
 	move.b	#-102, 32(a2)
 	move.b	#1, 28(a2)
 	move.w	#256, 50(a2)
-@L10:
 	tst.b	1(a2)
-	bge	@L15
-@L7:
-	pea	Ani_Plasma
-	move.l	a2, -(sp)
-	jsr	animateSprite__cdecl
-	addq.l	#8, sp
-	move.l	a2, 12(sp)
-	move.l	(sp)+, d2
-	move.l	(sp)+, a2
-	jmp	displaySprite__cdecl
-@L2:
-	move.l	8(a2), d1
-	move.l	42(a2), a0
-	move.l	8(a0), d0
-	sub.l	d1, d0
-	bmi	@L21
-	asr.l	#4, d0
-	add.l	d1, d0
-	move.l	d0, 8(a2)
-	move.l	12(a2), a1
-	move.l	12(a0), d1
-	sub.l	a1, d1
-	bmi	@L22
-@L6:
-	asr.l	#4, d1
-	add.l	a1, d1
-	move.l	d1, 12(a2)
-	swap	d0
-	ext.l	d0
-	sub.w	8(a0), d0
-	bmi	@L23
-@L8:
-	cmp.w	#2, d0
-	bgt	@L7
-@L15:
-	move.l	a2, 12(sp)
-	move.l	(sp)+, d2
-	move.l	(sp)+, a2
-	jmp	deleteObject__cdecl
-@L9:
-	move.w	52(a2), d0
-	beq	@L12
-	subq.w	#1, d0
-	move.w	d0, 52(a2)
-	tst.b	1(a2)
-	blt	@L7
-	bra	@L15
-@L23:
-	neg.w	d0
-	cmp.w	#2, d0
-	bgt	@L7
-	bra	@L15
-@L22:
-	moveq	#15, d2
-	add.l	d2, d1
-	asr.l	#4, d1
-	add.l	a1, d1
-	move.l	d1, 12(a2)
-	swap	d0
-	ext.l	d0
-	sub.w	8(a0), d0
-	bpl	@L8
-	bra	@L23
-@L21:
+	blt	@L11
+	bra	@L21
+@L27:
 	moveq	#15, d2
 	add.l	d2, d0
 	asr.l	#4, d0
@@ -120,17 +140,49 @@ _ZN13ObjPlasmaBall7executeEv:
 	move.l	12(a2), a1
 	move.l	12(a0), d1
 	sub.l	a1, d1
-	bpl	@L6
-	bra	@L22
-@L12:
+	bpl	@L10
+@L28:
+	moveq	#15, d2
+	add.l	d2, d1
+	asr.l	#4, d1
+	add.l	a1, d1
+	move.l	d1, 12(a2)
+	swap	d0
+	ext.l	d0
+	sub.w	8(a0), d0
+	bpl	@L12
+@L29:
+	neg.w	d0
+	cmp.w	#2, d0
+	bgt	@L26
+	bra	@L21
+@L19:
+	move.w	#384, 18(a2)
+	move.b	#1, 28(a2)
+	move.b	#-102, 32(a2)
+	move.l	#98304, d0
+	move.w	16(a2), d1
+	ext.l	d1
+	lsl.l	#8, d1
+	add.l	d1, 8(a2)
+	add.l	12(a2), d0
+	move.l	d0, 12(a2)
+	swap	d0
+	ext.l	d0
+	sub.w	-2300.w, d0
+	cmp.w	#248, d0
+	ble	@L11
+	bra	@L21
+@L13:
+	move.w	52(a2), d0
+	bne	@L30
 	move.w	16(a2), d0
 	btst	#0, 34(a2)
-	beq	@L13
+	beq	@L17
 	cmp.w	#1023, d0
-	bgt	@L14
+	bgt	@L23
 	add.w	#12, d0
 	move.w	d0, 16(a2)
-@L14:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 8(a2)
@@ -138,13 +190,16 @@ _ZN13ObjPlasmaBall7executeEv:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-@L24:
+	bra	@L14
+@L30:
+	subq.w	#1, d0
+	move.w	d0, 52(a2)
 	tst.b	1(a2)
-	blt	@L7
-	bra	@L15
-@L13:
+	blt	@L11
+	bra	@L21
+@L17:
 	cmp.w	#-1023, d0
-	blt	@L14
+	blt	@L23
 	add.w	#-12, d0
 	move.w	d0, 16(a2)
 	ext.l	d0
@@ -154,43 +209,116 @@ _ZN13ObjPlasmaBall7executeEv:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-	bra	@L24
-@L20:
-	moveq	#30, d0
-	move.w	d0, 52(a2)
-	move.b	#-102, 32(a2)
-	move.b	#1, 28(a2)
-	move.w	#256, 50(a2)
-	bra	@L10
+	bra	@L14
 	even
 execute_ObjPlasmaBall:
 	move.l	a2, -(sp)
 	move.l	d2, -(sp)
 	move.l	12(sp), a2
+	cmp.b	#4, 36(a2)
+	bhi	@L31
+	moveq	#0, d0
 	move.b	36(a2), d0
-	cmp.b	#1, d0
-	beq	@L26
-	cmp.b	#2, d0
-	beq	@L27
-	tst.b	d0
-	beq	@L43
-	move.l	(sp)+, d2
-	move.l	(sp)+, a2
-	rts	
-@L43:
+	add.l	d0, d0
+	move.w	@L34(pc, d0.l), d0
+	jmp	*+2+2(pc,d0.w)
+@L34:
+	dc.w	@L38-@L34
+	dc.w	@L37-@L34
+	dc.w	@L36-@L34
+	dc.w	@L35-@L34
+	dc.w	@L33-@L34
+@L38:
 	move.b	#-124, 1(a2)
 	move.w	#8960, 2(a2)
 	move.l	#Map_Plasma, 4(a2)
 	clr.b	28(a2)
 	move.b	#3, 24(a2)
 	move.b	41(a2), 36(a2)
+@L31:
 	move.l	(sp)+, d2
 	move.l	(sp)+, a2
 	rts	
-@L27:
+@L35:
+	move.w	16(a2), d0
+@L53:
+	ext.l	d0
+	lsl.l	#8, d0
+	add.l	d0, 8(a2)
+	move.w	18(a2), d0
+	ext.l	d0
+	lsl.l	#8, d0
+	add.l	d0, 12(a2)
+@L44:
+	tst.b	1(a2)
+	bge	@L51
+@L41:
+	pea	Ani_Plasma
+	move.l	a2, -(sp)
+	jsr	animateSprite__cdecl
+	addq.l	#8, sp
+	move.l	a2, 12(sp)
+	move.l	(sp)+, d2
+	move.l	(sp)+, a2
+	jmp	displaySprite__cdecl
+@L33:
+	move.w	18(a2), d0
+	beq	@L49
+	ext.l	d0
+	lsl.l	#8, d0
+	move.w	16(a2), d1
+	ext.l	d1
+	lsl.l	#8, d1
+	add.l	d1, 8(a2)
+	add.l	12(a2), d0
+	move.l	d0, 12(a2)
+	swap	d0
+	ext.l	d0
+	sub.w	-2300.w, d0
+	cmp.w	#248, d0
+	ble	@L41
+@L51:
+	move.l	a2, 12(sp)
+	move.l	(sp)+, d2
+	move.l	(sp)+, a2
+	jmp	deleteObject__cdecl
+@L37:
+	move.l	8(a2), d1
+	move.l	42(a2), a0
+	move.l	8(a0), d0
+	sub.l	d1, d0
+	bmi	@L57
+	asr.l	#4, d0
+	add.l	d1, d0
+	move.l	d0, 8(a2)
+	move.l	12(a2), a1
+	move.l	12(a0), d1
+	sub.l	a1, d1
+	bmi	@L58
+@L40:
+	asr.l	#4, d1
+	add.l	a1, d1
+	move.l	d1, 12(a2)
+	swap	d0
+	ext.l	d0
+	sub.w	8(a0), d0
+	bmi	@L59
+@L42:
+	cmp.w	#2, d0
+	ble	@L51
+@L56:
+	pea	Ani_Plasma
+	move.l	a2, -(sp)
+	jsr	animateSprite__cdecl
+	addq.l	#8, sp
+	move.l	a2, 12(sp)
+	move.l	(sp)+, d2
+	move.l	(sp)+, a2
+	jmp	displaySprite__cdecl
+@L36:
 	move.w	50(a2), d0
 	cmp.w	#255, d0
-	bgt	@L33
+	bgt	@L43
 	move.w	46(a2), d2
 	move.w	48(a2), d1
 	sub.w	d2, d1
@@ -203,79 +331,19 @@ execute_ObjPlasmaBall:
 	addq.w	#4, d0
 	move.w	d0, 50(a2)
 	cmp.w	#255, d0
-	ble	@L34
+	ble	@L44
 	move.w	52(a2), d0
-	beq	@L44
+	bne	@L45
+	moveq	#30, d0
+@L45:
 	move.w	d0, 52(a2)
 	move.b	#-102, 32(a2)
 	move.b	#1, 28(a2)
 	move.w	#256, 50(a2)
-@L34:
 	tst.b	1(a2)
-	bge	@L39
-@L31:
-	pea	Ani_Plasma
-	move.l	a2, -(sp)
-	jsr	animateSprite__cdecl
-	addq.l	#8, sp
-	move.l	a2, 12(sp)
-	move.l	(sp)+, d2
-	move.l	(sp)+, a2
-	jmp	displaySprite__cdecl
-@L26:
-	move.l	8(a2), d1
-	move.l	42(a2), a0
-	move.l	8(a0), d0
-	sub.l	d1, d0
-	bmi	@L45
-	asr.l	#4, d0
-	add.l	d1, d0
-	move.l	d0, 8(a2)
-	move.l	12(a2), a1
-	move.l	12(a0), d1
-	sub.l	a1, d1
-	bmi	@L46
-@L30:
-	asr.l	#4, d1
-	add.l	a1, d1
-	move.l	d1, 12(a2)
-	swap	d0
-	ext.l	d0
-	sub.w	8(a0), d0
-	bmi	@L47
-@L32:
-	cmp.w	#2, d0
-	bgt	@L31
-@L39:
-	move.l	a2, 12(sp)
-	move.l	(sp)+, d2
-	move.l	(sp)+, a2
-	jmp	deleteObject__cdecl
-@L33:
-	move.w	52(a2), d0
-	beq	@L36
-	subq.w	#1, d0
-	move.w	d0, 52(a2)
-	tst.b	1(a2)
-	blt	@L31
-	bra	@L39
-@L47:
-	neg.w	d0
-	cmp.w	#2, d0
-	bgt	@L31
-	bra	@L39
-@L46:
-	moveq	#15, d2
-	add.l	d2, d1
-	asr.l	#4, d1
-	add.l	a1, d1
-	move.l	d1, 12(a2)
-	swap	d0
-	ext.l	d0
-	sub.w	8(a0), d0
-	bpl	@L32
-	bra	@L47
-@L45:
+	blt	@L41
+	bra	@L51
+@L57:
 	moveq	#15, d2
 	add.l	d2, d0
 	asr.l	#4, d0
@@ -284,17 +352,49 @@ execute_ObjPlasmaBall:
 	move.l	12(a2), a1
 	move.l	12(a0), d1
 	sub.l	a1, d1
-	bpl	@L30
-	bra	@L46
-@L36:
+	bpl	@L40
+@L58:
+	moveq	#15, d2
+	add.l	d2, d1
+	asr.l	#4, d1
+	add.l	a1, d1
+	move.l	d1, 12(a2)
+	swap	d0
+	ext.l	d0
+	sub.w	8(a0), d0
+	bpl	@L42
+@L59:
+	neg.w	d0
+	cmp.w	#2, d0
+	bgt	@L56
+	bra	@L51
+@L49:
+	move.w	#384, 18(a2)
+	move.b	#1, 28(a2)
+	move.b	#-102, 32(a2)
+	move.l	#98304, d0
+	move.w	16(a2), d1
+	ext.l	d1
+	lsl.l	#8, d1
+	add.l	d1, 8(a2)
+	add.l	12(a2), d0
+	move.l	d0, 12(a2)
+	swap	d0
+	ext.l	d0
+	sub.w	-2300.w, d0
+	cmp.w	#248, d0
+	ble	@L41
+	bra	@L51
+@L43:
+	move.w	52(a2), d0
+	bne	@L60
 	move.w	16(a2), d0
 	btst	#0, 34(a2)
-	beq	@L37
+	beq	@L47
 	cmp.w	#1023, d0
-	bgt	@L38
+	bgt	@L53
 	add.w	#12, d0
 	move.w	d0, 16(a2)
-@L38:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 8(a2)
@@ -302,13 +402,16 @@ execute_ObjPlasmaBall:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-@L48:
+	bra	@L44
+@L60:
+	subq.w	#1, d0
+	move.w	d0, 52(a2)
 	tst.b	1(a2)
-	blt	@L31
-	bra	@L39
-@L37:
+	blt	@L41
+	bra	@L51
+@L47:
 	cmp.w	#-1023, d0
-	blt	@L38
+	blt	@L53
 	add.w	#-12, d0
 	move.w	d0, 16(a2)
 	ext.l	d0
@@ -318,14 +421,7 @@ execute_ObjPlasmaBall:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-	bra	@L48
-@L44:
-	moveq	#30, d0
-	move.w	d0, 52(a2)
-	move.b	#-102, 32(a2)
-	move.b	#1, 28(a2)
-	move.w	#256, 50(a2)
-	bra	@L34
+	bra	@L44
 	even
 create_ObjPlasmaBall:
 	move.l	d2, -(sp)
@@ -335,10 +431,10 @@ create_ObjPlasmaBall:
 	jsr	createCppObject__cdecl
 	addq.l	#8, sp
 	tst.l	d0
-	beq	@L49
+	beq	@L61
 	move.l	d0, a0
 	move.l	d2, 42(a0)
 	move.w	12(sp), 40(a0)
-@L49:
+@L61:
 	move.l	(sp)+, d2
 	rts	

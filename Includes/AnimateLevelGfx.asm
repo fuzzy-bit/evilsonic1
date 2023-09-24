@@ -196,6 +196,11 @@ AniArt_MZ_Torch:
 ; ---------------------------------------------------------------------------
 
 AniArt_SBZ:
+		; Don't animate final zone
+		cmp.b	#2, v_act
+		bne.s	@cont
+		rts
+@cont:
 
 @size:		equ 12	; number of tiles per frame
 

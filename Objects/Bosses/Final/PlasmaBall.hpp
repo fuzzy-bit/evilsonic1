@@ -7,6 +7,8 @@ struct ObjPlasmaBall : public LevelObject {
 	enum Subtype {
 		attractedToParent = 1,
 		verticalAttack,
+		particleMove,
+		fallingAttack,
 	};
 
 	Subtype subtype;

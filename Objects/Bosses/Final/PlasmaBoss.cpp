@@ -102,12 +102,18 @@ void ObjPlasmaBoss::execute() {
 		action06_VerticalWallAttack();
 		goto display;
 
+	case ObjPlasmaBoss::Action::defeated:
+		action07_Defeated();
+		goto displayOnly;
+
 	display:
 		// Using charging animation?
 		if (anim_id == 1) {
 			playChargingSound(routine_id == ObjPlasmaBoss::Action::attractBalls ? 0x3 : 0x7);
 		}
 		handleDamage();
+
+	displayOnly:
 		animateSprite__cdecl(this, Ani_PLaunch);
 		if (!(flash_timer & 1)) {
 			displaySprite__cdecl(this);
@@ -159,8 +165,15 @@ void ObjPlasmaBoss::handleDamage() {
 				v_player.velocity.xf = 0x200;
 			}
 
-			flash_timer = 0x21;
 			playSound__cdecl(0xAC);	// play boss damage sound
+
+			// Are we defeated?
+			if (status_bits & 0x80) {
+				setAction(defeated);
+				return;
+			}
+
+			flash_timer = 0x21;
 		}
 
 		if (!--flash_timer) {
@@ -378,6 +391,75 @@ void ObjPlasmaBoss::action06_VerticalWallAttack() {
 			setNextActionFromScript();
 		}
 		break;
+	}
+}
+
+void ObjPlasmaBoss::action07_Defeated() {
+	switch (subroutine_id) {
+	case 0x00:
+		velocity = { .xf = 0, .yf = 0 };
+		timer = 180;
+		anim_id = 0;		// use normal animation
+		subroutine_id++;
+		// fallthrough
+
+	case 0x01:
+		// Explosion special effects
+		if ((v_framecount & 0x7) == 0) {
+			LevelObject * explosion = static_cast<LevelObject*>(findFreeObj__cdecl());
+			if (explosion) {
+				const uint8_t angle = randomNumber__cdecl();
+				const int16_t sin = calcSine__cdecl(angle);
+				const int16_t cos = calcSine__cdecl(angle+0x40);
+
+				explosion->id = 0x3F;
+				explosion->position = position;
+				explosion->velocity.xf = cos * 2;
+				explosion->velocity.yf = sin * 2;
+				// Debug::kwrite("xvel=\x89, yvel=\x89\xE0", explosion->velocity.xf, explosion->velocity.yf);
+			}
+		}
+		else if (((v_framecount+4) & 0x7) == 0) {
+			auto plasmaBall = create_ObjPlasmaBall(this, ObjPlasmaBall::particleMove);
+			if (plasmaBall) {
+				const uint8_t angle = randomNumber__cdecl();
+				const int16_t sin = calcSine__cdecl(angle);
+				const int16_t cos = calcSine__cdecl(angle+0x40);
+
+				plasmaBall->position = position;
+				plasmaBall->velocity.xf = cos * 4;			
+				plasmaBall->velocity.yf = sin * 4;		
+				Debug::kwrite("xvel=\x89, yvel=\x89\xE0", plasmaBall->velocity.xf, plasmaBall->velocity.yf);	
+			}
+		}
+
+		// Wait timer
+		if (timer) {
+			timer--;
+		}
+		// Start moving up
+		else {
+			if (velocity.yf > -0x180) {
+				velocity.yf -= 0x8;
+			}
+			speedToPos();
+			if (position.y <= cameraBase.y - 0x30) {
+				velocity.yf = 0;
+				LevelObject * eggmanShip = static_cast<LevelObject*>(findFreeObj__cdecl());
+				if (eggmanShip) {
+					eggmanShip->id = 0x85;
+				}
+				subroutine_id++;
+			}
+		}
+		break;
+
+	case 0x02:	// We're done here ...
+		// Too tired to handle deletion
+		position.x = 0;
+		position.y = 0;
+		break;
+
 	}
 }
 

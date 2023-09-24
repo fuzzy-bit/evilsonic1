@@ -2031,8 +2031,9 @@ Art_LivesNums:	incbin	"Data\Art\Uncompressed\Lives Counter Numbers.bin" ; 8x8 pi
 		include	"Objects\Bosses\Green Hill\EggmanMonitor.asm"	; WARNING! Auto-generated
 		include	"Objects\Bosses\Green Hill\SpikedBall.asm"	; WARNING! Auto-generated
 		
-		include	"Objects\Bosses\Final\PlasmaBoss.asm"
-		include	"Objects\Bosses\Final\PlasmaBall.asm"
+		include	"Objects\Bosses\Final\EggmanShipFZ.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Final\PlasmaBoss.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Final\PlasmaBall.asm"	; WARNING! Auto-generated
 
 		include	"Objects\DebugMode.asm"
 		include	"Includes\DebugList.asm"

@@ -15,11 +15,11 @@ struct ObjPlasmaBoss : public LevelObject {
 		changePosition,
 		enterLeft,
 		verticalWallAttack,
+		defeated,
 	};
 	enum ActionScriptFlag {
 		jumpTo = 0x80,
 		jumpIfHealthAbove,	// args: health, position
-		jumpWithProbability,
 	};
 
 	uint16_t timer;
@@ -31,12 +31,14 @@ struct ObjPlasmaBoss : public LevelObject {
 	void handleDamage();
 	void setAction(Action action);
 	void setNextActionFromScript();
+
 	void action01_EnterRight();
 	void action02_AttractBalls();
 	void action03_VerticalAttack();
 	void action04_ChangePosition();
 	void action05_EnterLeft();
 	void action06_VerticalWallAttack();
+	void action07_Defeated();
 
 	inline bool isInPinchMode();
 	inline void playChargingSound(uint16_t periodMask);
