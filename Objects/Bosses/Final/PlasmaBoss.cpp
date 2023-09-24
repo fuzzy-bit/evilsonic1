@@ -21,20 +21,46 @@ const Vector2_W ObjPlasmaBoss::cameraBase = {
 };
 
 const uint8_t ObjPlasmaBoss::actionScript[] = {
+	// Intro ---
 	ObjPlasmaBoss::Action::enterRight,		// 0
 	ObjPlasmaBoss::Action::attractBalls,	// 1
 
+	// Warm-up --
 	ObjPlasmaBoss::Action::verticalAttack,	// 2
+	ObjPlasmaBoss::Action::verticalAttack,	// 3
+	ObjPlasmaBoss::Action::verticalAttack,	// 4
+	ObjPlasmaBoss::ActionScriptFlag::jumpIfHealthAbove, 10, 2,	// 5,6,7
+
+	// Gettin' angry --
+	ObjPlasmaBoss::Action::verticalWallAttack,	// 8
+	ObjPlasmaBoss::Action::changePosition,		// 9
 	ObjPlasmaBoss::Action::verticalAttack,
 	ObjPlasmaBoss::Action::verticalAttack,
-
-	ObjPlasmaBoss::ActionScriptFlag::jumpIfHealthAbove, 10, 2,
-
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalWallAttack,
 	ObjPlasmaBoss::Action::changePosition,
 	ObjPlasmaBoss::Action::verticalAttack,
 	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::ActionScriptFlag::jumpIfHealthAbove, 8, 8,
+
+	// Full pinch mode
+	ObjPlasmaBoss::Action::verticalWallAttack,	// 8
+	ObjPlasmaBoss::Action::changePosition,		// 9
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalWallAttack,
 	ObjPlasmaBoss::Action::changePosition,
-	ObjPlasmaBoss::ActionScriptFlag::jumpTo, 2
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::Action::verticalAttack,
+	ObjPlasmaBoss::ActionScriptFlag::jumpTo, 8,
 };
 
 void ObjPlasmaBoss::execute() {
@@ -47,7 +73,8 @@ void ObjPlasmaBoss::execute() {
 		sprite_layer = 3;
 		anim_id = 1;
 		collision_flag = 0xB;
-		health = 16;
+		health = 14;
+		playSound__cdecl(0x8C);
 		setNextActionFromScript();
 		//fallthrough
 
@@ -71,7 +98,15 @@ void ObjPlasmaBoss::execute() {
 		action05_EnterLeft();
 		goto display;
 
+	case ObjPlasmaBoss::Action::verticalWallAttack:
+		action06_VerticalWallAttack();
+		goto display;
+
 	display:
+		// Using charging animation?
+		if (anim_id == 1) {
+			playChargingSound(routine_id == ObjPlasmaBoss::Action::attractBalls ? 0x3 : 0x7);
+		}
 		handleDamage();
 		animateSprite__cdecl(this, Ani_PLaunch);
 		if (!(flash_timer & 1)) {
@@ -147,7 +182,7 @@ void ObjPlasmaBoss::action01_EnterRight() {
 		//fallthrough
 	case 0x01:
 		{
-			const auto targetX = cameraBase.x + 320-0x20;
+			const auto targetX = cameraBase.x + 320-0x18;
 			speedToPos();
 			if (position.x <= targetX) {
 				position.x = targetX;
@@ -194,7 +229,7 @@ void ObjPlasmaBoss::action03_VerticalAttack() {
 		anim_id = 0;		// use normal animation
 		targetYPos = cameraBase.y + 0x60 + (randomNumber__cdecl() % 2) * 0x20;
 		velocity.yf = targetYPos > position.y ? 0x100 : -0x100;
-		timer = 60;
+		timer = !isInPinchMode() ? 60 : 30;
 		subroutine_id++;
 		// fallthrough
 
@@ -215,13 +250,19 @@ void ObjPlasmaBoss::action03_VerticalAttack() {
 			const bool isLeft = position.x - cameraBase.x < 160;
 			// Generate balls above
 			for (int16_t ballY = targetYPos - 0x18*2; ballY >= cameraBase.y; ballY -= 0x18) {
-				verticalAttack_MakeBall(ballY, isLeft);
+				auto plasmaBall = verticalAttack_MakeBall(ballY, isLeft);
+				if (plasmaBall) {
+					plasmaBall->timer = isInPinchMode() ? 8 : 30;
+				}
 			}
 			// Generate balls below
 			for (int16_t ballY = targetYPos + 0x18*2; ballY <= cameraBase.y + 0x40 + 4 * 0x20; ballY += 0x18) {
-				verticalAttack_MakeBall(ballY, isLeft);
+				auto plasmaBall = verticalAttack_MakeBall(ballY, isLeft);
+				if (plasmaBall) {
+					plasmaBall->timer = isInPinchMode() ? 8 : 30;
+				}
 			}
-			timer = 120;
+			timer = !isInPinchMode() ? 120 : 60;
 			subroutine_id++;
 		}
 		break;
@@ -234,7 +275,7 @@ void ObjPlasmaBoss::action03_VerticalAttack() {
 	}
 }
 
-inline void ObjPlasmaBoss::verticalAttack_MakeBall(int16_t targetY, bool isLeft) {
+inline ObjPlasmaBall * ObjPlasmaBoss::verticalAttack_MakeBall(int16_t targetY, bool isLeft) {
 	auto plasmaBall = create_ObjPlasmaBall(this, ObjPlasmaBall::Subtype::verticalAttack);
 	if (plasmaBall) {
 		plasmaBall->position = position;
@@ -244,6 +285,7 @@ inline void ObjPlasmaBoss::verticalAttack_MakeBall(int16_t targetY, bool isLeft)
 			plasmaBall->status_bits |= 1;
 		}
 	}
+	return plasmaBall;
 }
 
 void ObjPlasmaBoss::action04_ChangePosition() {	
@@ -276,7 +318,7 @@ void ObjPlasmaBoss::action05_EnterLeft() {
 		//fallthrough
 	case 0x01:
 		{
-			const auto targetX = cameraBase.x + 0x20;
+			const auto targetX = cameraBase.x + 0x18;
 			speedToPos();
 			if (position.x >= targetX) {
 				position.x = targetX;
@@ -285,6 +327,68 @@ void ObjPlasmaBoss::action05_EnterLeft() {
 			}
 		}
 	}
+}
+
+void ObjPlasmaBoss::action06_VerticalWallAttack() {
+	switch (subroutine_id) {
+	case 0x00:		// reach target position
+		{
+			const int16_t targetY = cameraBase.y + 0x20;
+			velocity.yf = targetY > position.y ? 0x100 : -0x100;
+			anim_id = 0;	// use normal animation
+			timer = 60;
+			subroutine_id++;
+		}
+		// fallthrough
+
+	case 0x01:	// aim 'n' shoot!
+		{
+			const int16_t targetY = cameraBase.y + 0x20;
+
+			// Move to target position
+			if (position.y != targetY) {
+				speedToPos();
+			}
+			// Stop moving and wait
+			else if (timer) {
+				timer--;
+				velocity.yf = 0;
+			}
+			// Generate balls
+			else {
+				const bool isLeft = position.x - cameraBase.x < 160;
+
+				anim_id = 1;	// use charging animation
+				timer = !isLeft ? 30 + 8 * 30 + 60 : 30 + 8 * 60;
+
+				for (int16_t ballIndex = 0; ballIndex < 7; ++ballIndex) {
+					const int16_t ballY = position.y + 0x18 + ballIndex * 0x18;
+					auto plasmaBall = verticalAttack_MakeBall(ballY, isLeft);
+					if (plasmaBall) {
+						plasmaBall->timer = 30 + ballIndex * (!isLeft ? 30 : 60);
+					}
+				}
+				subroutine_id++;
+			}
+		}
+		break;
+
+	case 0x02:		// wait for da balls!
+		if (!--timer) {
+			setNextActionFromScript();
+		}
+		break;
+	}
+}
+
+inline void ObjPlasmaBoss::playChargingSound(uint16_t periodMask) {
+	if ((v_framecount & periodMask) == 0) {
+		playSound__cdecl(0xB1);
+	}
+}
+
+inline bool ObjPlasmaBoss::isInPinchMode() {
+	return health <= 3;
 }
 
 void ObjPlasmaBoss::setAction(Action action) {

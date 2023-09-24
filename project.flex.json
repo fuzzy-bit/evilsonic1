@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "0768ca43-290b-47b4-9512-c109cdf2e3b4",
+    "node": "199bd861-0ecf-4749-8265-55bcb903dc55",
     "objects": [
         {
             "uuid": "0768ca43-290b-47b4-9512-c109cdf2e3b4",
@@ -342,7 +342,36 @@
         },
         {
             "name": "Bosses",
-            "children": [],
+            "children": [
+                {
+                    "name": "Final",
+                    "children": [
+                        {
+                            "format": "Sonic 3&K Player.js",
+                            "name": "object",
+                            "palettes": [],
+                            "art": {
+                                "path": "Data/Art/Nemesis/Boss - Final Zone.bin",
+                                "compression": "Nemesis",
+                                "offset": 0
+                            },
+                            "mappings": {
+                                "path": "Data/Mappings/Objects/Plasma Ball Launcher.asm",
+                                "label": "Map_PLaunch_internal"
+                            },
+                            "dplcs": {
+                                "enabled": false,
+                                "path": "",
+                                "label": ""
+                            },
+                            "uuid": "199bd861-0ecf-4749-8265-55bcb903dc55"
+                        }
+                    ],
+                    "isDirectory": true,
+                    "expanded": true,
+                    "uuid": "b6199bd8-610e-4f77-8942-6555bcb903dc"
+                }
+            ],
             "isDirectory": true,
             "expanded": true,
             "uuid": "9a26d755-8b4c-4ce7-96b1-badaab20a2e0"

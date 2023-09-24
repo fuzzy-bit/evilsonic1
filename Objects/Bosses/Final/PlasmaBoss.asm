@@ -3,14 +3,16 @@ _ZN13ObjPlasmaBoss10cameraBaseE:
 	dc.w	9184
 	dc.w	1408
 _ZN13ObjPlasmaBoss12actionScriptE:
-	dc.b	$1, $2, $3, $3, $3, $81, $a, $2, $4, $3, $3, $4, $80, $2
+	dc.b	$1, $2, $3, $3, $3, $81, $a, $2, $6, $4, $3, $3, $3, $6, $4, $3
+	dc.b	$3, $3, $81, $8, $8, $6, $4, $3, $3, $3, $3, $3, $3, $6, $4, $3
+	dc.b	$3, $3, $3, $3, $80, $8
 ObjectsBossesFinalPlasmaBoss_s__LC0:
 	dc.b	"Initializing...", $e0, 0
 	even
 _ZN13ObjPlasmaBoss7executeEv:
-	movem.l	d2/d3/a2, -(sp)
-	move.l	16(sp), a2
-	cmp.b	#5, 36(a2)
+	movem.l	d2/d3/d4/a2, -(sp)
+	move.l	20(sp), a2
+	cmp.b	#6, 36(a2)
 	bhi	@L1
 	moveq	#0, d0
 	move.b	36(a2), d0
@@ -18,6 +20,7 @@ _ZN13ObjPlasmaBoss7executeEv:
 	move.w	@L4(pc, d0.l), d0
 	jmp	*+2+2(pc,d0.w)
 @L4:
+	dc.w	@L10-@L4
 	dc.w	@L9-@L4
 	dc.w	@L8-@L4
 	dc.w	@L7-@L4
@@ -25,9 +28,9 @@ _ZN13ObjPlasmaBoss7executeEv:
 	dc.w	@L5-@L4
 	dc.w	@L3-@L4
 @L1:
-	movem.l	(sp)+, d2/d3/a2
+	movem.l	(sp)+, d2/d3/d4/a2
 	rts	
-@L9:
+@L10:
 	pea	ObjectsBossesFinalPlasmaBoss_s__LC0
 	jsr	kwrite_cdecl
 	move.b	#4, 1(a2)
@@ -35,94 +38,121 @@ _ZN13ObjPlasmaBoss7executeEv:
 	move.l	#Map_PLaunch, 4(a2)
 	move.b	#3, 24(a2)
 	move.b	#1, 28(a2)
-	move.w	#2832, 32(a2)
+	move.w	#2830, 32(a2)
+	move.w	#140, -(sp)
+	jsr	playSound__cdecl
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
-	addq.l	#8, sp
-@L8:
+	lea	(10, sp), sp
+@L9:
 	move.b	37(a2), d0
-	beq	@L10
+	beq	@L11
 	cmp.b	#1, d0
-	beq	@L32
-@L12:
+	beq	@L41
+@L13:
+	cmp.b	#1, 28(a2)
+	beq	@L42
+@L27:
 	tst.b	32(a2)
-	bne	@L24
+	bne	@L30
 	move.b	44(a2), d0
-	bne	@L25
+	bne	@L31
 	lea	v_player, a0
 	move.w	v_player+8, d1
 	move.w	8(a2), d0
 	cmp.w	d1, d0
-	ble	@L26
+	ble	@L32
 	cmp.w	#-511, 16(a0)
-	blt	@L27
+	blt	@L33
 	move.w	#-512, v_player+16
-@L27:
+@L33:
 	move.b	#33, 44(a2)
 	move.w	#172, -(sp)
 	jsr	playSound__cdecl
 	move.b	44(a2), d0
 	addq.l	#2, sp
-@L25:
+@L31:
 	subq.b	#1, d0
 	move.b	d0, 44(a2)
-	bne	@L24
+	bne	@L30
 	move.b	#11, 32(a2)
-@L24:
+@L30:
 	pea	Ani_PLaunch
 	move.l	a2, -(sp)
 	jsr	animateSprite__cdecl
 	addq.l	#8, sp
 	btst	#0, 44(a2)
 	bne	@L1
-	move.l	a2, 16(sp)
-	movem.l	(sp)+, d2/d3/a2
+	move.l	a2, 20(sp)
+	movem.l	(sp)+, d2/d3/d4/a2
 	jmp	displaySprite__cdecl
-@L7:
+@L42:
+	cmp.b	#2, 36(a2)
+	beq	@L37
+	moveq	#7, d0
+@L28:
+	and.w	v_framecount, d0
+	bne	@L27
+	move.w	#177, -(sp)
+	jsr	playSound__cdecl
+	addq.l	#2, sp
+	bra	@L27
+@L8:
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjPlasmaBoss21action02_AttractBallsEv
 	addq.l	#4, sp
-	bra	@L12
-@L6:
+	cmp.b	#1, 28(a2)
+	bne	@L27
+	bra	@L42
+@L7:
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjPlasmaBoss23action03_VerticalAttackEv
 	addq.l	#4, sp
-	bra	@L12
-@L5:
+	cmp.b	#1, 28(a2)
+	bne	@L27
+	bra	@L42
+@L6:
 	move.b	37(a2), d0
 	beq	@L15
 	cmp.b	#1, d0
-	bne	@L12
-	move.w	40(a2), d3
-	subq.w	#1, d3
+	bne	@L13
+	move.w	40(a2), d4
+	subq.w	#1, d4
+	move.b	28(a2), d2
 	move.w	16(a2), d1
 	ext.l	d1
 	lsl.l	#8, d1
 	add.l	8(a2), d1
 	move.l	d1, 8(a2)
-	move.w	18(a2), d2
-	ext.l	d2
-	lsl.l	#8, d2
-	add.l	d2, 12(a2)
-	move.w	d3, 40(a2)
-	bne	@L12
+	move.w	18(a2), d3
+	ext.l	d3
+	lsl.l	#8, d3
+	add.l	d3, 12(a2)
+	move.w	d4, 40(a2)
+	bne	@L25
 	swap	d1
 	ext.l	d1
 	cmp.w	#9344, d1
-	ble	@L20
+	ble	@L21
 	moveq	#5, d0
-@L20:
+@L21:
 	move.b	d0, 36(a2)
 	clr.b	37(a2)
-	bra	@L12
-@L3:
+@L25:
+	cmp.b	#1, d2
+	bne	@L27
+@L40:
+	moveq	#7, d0
+	bra	@L28
+@L5:
 	move.b	37(a2), d0
-	beq	@L21
+	beq	@L22
 	cmp.b	#1, d0
-	bne	@L12
+	bne	@L13
 	move.w	16(a2), d0
 	ext.l	d0
 	lsl.l	#8, d0
+@L23:
 	add.l	8(a2), d0
 	move.l	d0, 8(a2)
 	move.w	18(a2), d1
@@ -131,49 +161,58 @@ _ZN13ObjPlasmaBoss7executeEv:
 	add.l	d1, 12(a2)
 	swap	d0
 	ext.l	d0
-	cmp.w	#9215, d0
-	ble	@L12
-@L33:
-	move.w	#9216, 8(a2)
+	cmp.w	#9207, d0
+	bgt	@L24
+	move.b	28(a2), d2
+	cmp.b	#1, d2
+	beq	@L40
+	bra	@L27
+@L3:
+	move.l	a2, -(sp)
+	jsr	_ZN13ObjPlasmaBoss27action06_VerticalWallAttackEv
+	addq.l	#4, sp
+	cmp.b	#1, 28(a2)
+	bne	@L27
+	bra	@L42
+@L41:
+	move.w	16(a2), d0
+	ext.l	d0
+	lsl.l	#8, d0
+@L14:
+	add.l	8(a2), d0
+	move.l	d0, 8(a2)
+	move.w	18(a2), d1
+	ext.l	d1
+	lsl.l	#8, d1
+	add.l	d1, 12(a2)
+	swap	d0
+	ext.l	d0
+	cmp.w	#9480, d0
+	bgt	@L13
+	move.w	#9480, 8(a2)
 	clr.w	16(a2)
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
 	addq.l	#4, sp
-	bra	@L12
+	cmp.b	#1, 28(a2)
+	bne	@L27
+	bra	@L42
 @L32:
-	move.w	16(a2), d0
-	ext.l	d0
-	lsl.l	#8, d0
-@L13:
-	add.l	8(a2), d0
-	move.l	d0, 8(a2)
-	move.w	18(a2), d1
-	ext.l	d1
-	lsl.l	#8, d1
-	add.l	d1, 12(a2)
-	swap	d0
-	ext.l	d0
-	cmp.w	#9472, d0
-	bgt	@L12
-	move.w	#9472, 8(a2)
-	clr.w	16(a2)
-	move.l	a2, -(sp)
-	jsr	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
-	addq.l	#4, sp
-	bra	@L12
-@L26:
 	cmp.w	d1, d0
-	bge	@L27
+	bge	@L33
 	cmp.w	#511, 16(a0)
-	bgt	@L27
+	bgt	@L33
 	move.w	#512, v_player+16
 	move.b	#33, 44(a2)
 	move.w	#172, -(sp)
 	jsr	playSound__cdecl
 	move.b	44(a2), d0
 	addq.l	#2, sp
-	bra	@L25
-@L10:
+	bra	@L31
+@L37:
+	moveq	#3, d0
+	bra	@L28
+@L11:
 	clr.b	28(a2)
 	and.b	#-2, 1(a2)
 	and.b	#-2, 34(a2)
@@ -182,10 +221,20 @@ _ZN13ObjPlasmaBoss7executeEv:
 	move.w	#-192, 16(a2)
 	move.b	#1, 37(a2)
 	move.l	#-49152, d0
-	bra	@L13
+	bra	@L14
+@L22:
+	clr.b	28(a2)
+	or.b	#1, 1(a2)
+	or.b	#1, 34(a2)
+	move.w	#9152, 8(a2)
+	move.w	#1440, 12(a2)
+	move.w	#192, 16(a2)
+	move.b	#1, 37(a2)
+	move.l	#49152, d0
+	bra	@L23
 @L15:
 	cmp.w	#9344, 8(a2)
-	ble	@L29
+	ble	@L36
 	move.l	#98304, d0
 	move.w	#384, d1
 	move.w	d1, 16(a2)
@@ -197,28 +246,17 @@ _ZN13ObjPlasmaBoss7executeEv:
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
 	move.w	#59, 40(a2)
-	bra	@L12
-@L21:
-	clr.b	28(a2)
-	or.b	#1, 1(a2)
-	or.b	#1, 34(a2)
-	move.w	#9152, 8(a2)
-	move.w	#1440, 12(a2)
-	move.w	#192, 16(a2)
-	move.b	#1, 37(a2)
-	move.l	#49152, d0
-	add.l	8(a2), d0
-	move.l	d0, 8(a2)
-	move.w	18(a2), d1
-	ext.l	d1
-	lsl.l	#8, d1
-	add.l	d1, 12(a2)
-	swap	d0
-	ext.l	d0
-	cmp.w	#9215, d0
-	ble	@L12
-	bra	@L33
-@L29:
+	bra	@L27
+@L24:
+	move.w	#9208, 8(a2)
+	clr.w	16(a2)
+	move.l	a2, -(sp)
+	jsr	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
+	addq.l	#4, sp
+	cmp.b	#1, 28(a2)
+	bne	@L27
+	bra	@L42
+@L36:
 	move.l	#-98304, d0
 	move.w	#-384, d1
 	move.w	d1, 16(a2)
@@ -230,7 +268,7 @@ _ZN13ObjPlasmaBoss7executeEv:
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
 	move.w	#59, 40(a2)
-	bra	@L12
+	bra	@L27
 ObjectsBossesFinalPlasmaBoss_s__LC1:
 	dc.b	"Setting action from script: pos=", $80, ", action=", $80, $e0, 0
 ObjectsBossesFinalPlasmaBoss_s__LC2:
@@ -248,11 +286,11 @@ _ZN13ObjPlasmaBoss23setNextActionFromScriptEv:
 	moveq	#0, d2
 	move.b	d1, d2
 	move.b	(a0, d2.l), d2
-	bpl	@L35
+	bpl	@L44
 	move.l	a0, a1
-@L36:
+@L45:
 	cmp.b	#-128, d2
-	bne	@L47
+	bne	@L56
 	and.l	#255, d0
 	move.b	(a0, d0.l), d1
 	move.b	d1, d0
@@ -261,8 +299,8 @@ _ZN13ObjPlasmaBoss23setNextActionFromScriptEv:
 	moveq	#0, d2
 	move.b	d1, d2
 	move.b	(a0, d2.l), d2
-	bmi	@L36
-@L35:
+	bmi	@L45
+@L44:
 	clr.w	d1
 	move.b	d2, d1
 	move.w	d1, -(sp)
@@ -277,13 +315,13 @@ _ZN13ObjPlasmaBoss23setNextActionFromScriptEv:
 	move.l	(sp)+, d2
 	move.l	(sp)+, a2
 	rts	
-@L47:
+@L56:
 	cmp.b	#-127, d2
-	bne	@L48
+	bne	@L57
 	and.l	#255, d0
 	move.b	33(a2), d2
 	cmp.b	(a1, d0.l), d2
-	bls	@L41
+	bls	@L50
 	addq.b	#2, d1
 	and.l	#255, d1
 	move.b	(a0, d1.l), d1
@@ -293,9 +331,9 @@ _ZN13ObjPlasmaBoss23setNextActionFromScriptEv:
 	moveq	#0, d2
 	move.b	d1, d2
 	move.b	(a0, d2.l), d2
-	bmi	@L36
-	bra	@L35
-@L41:
+	bmi	@L45
+	bra	@L44
+@L50:
 	addq.b	#3, d1
 	move.b	d1, d0
 	addq.b	#1, d0
@@ -303,9 +341,9 @@ _ZN13ObjPlasmaBoss23setNextActionFromScriptEv:
 	moveq	#0, d2
 	move.b	d1, d2
 	move.b	(a0, d2.l), d2
-	bmi	@L36
-	bra	@L35
-@L48:
+	bmi	@L45
+	bra	@L44
+@L57:
 	pea	ObjectsBossesFinalPlasmaBoss_s__LC2
 	jsr	raiseError__cdecl
 	even
@@ -313,50 +351,50 @@ _ZN13ObjPlasmaBoss12handleDamageEv:
 	move.l	a2, -(sp)
 	move.l	8(sp), a2
 	tst.b	32(a2)
-	bne	@L49
+	bne	@L58
 	move.b	44(a2), d0
-	bne	@L52
+	bne	@L61
 	lea	v_player, a0
 	move.w	v_player+8, d1
 	move.w	8(a2), d0
 	cmp.w	d1, d0
-	ble	@L53
+	ble	@L62
 	cmp.w	#-511, 16(a0)
-	blt	@L54
+	blt	@L63
 	move.w	#-512, v_player+16
-@L54:
+@L63:
 	move.b	#33, 44(a2)
 	move.w	#172, -(sp)
 	jsr	playSound__cdecl
 	move.b	44(a2), d0
 	addq.l	#2, sp
-@L52:
+@L61:
 	subq.b	#1, d0
 	move.b	d0, 44(a2)
-	bne	@L49
+	bne	@L58
 	move.b	#11, 32(a2)
-@L49:
+@L58:
 	move.l	(sp)+, a2
 	rts	
-@L53:
+@L62:
 	cmp.w	d1, d0
-	bge	@L54
+	bge	@L63
 	cmp.w	#511, 16(a0)
-	bgt	@L54
+	bgt	@L63
 	move.w	#512, v_player+16
 	move.b	#33, 44(a2)
 	move.w	#172, -(sp)
 	jsr	playSound__cdecl
 	move.b	44(a2), d0
 	addq.l	#2, sp
-	bra	@L52
+	bra	@L61
 	even
 _ZN13ObjPlasmaBoss19action01_EnterRightEv:
 	move.l	4(sp), a0
 	move.b	37(a0), d0
-	beq	@L59
+	beq	@L68
 	cmp.b	#1, d0
-	bne	@L58
+	bne	@L67
 	move.w	16(a0), d0
 	ext.l	d0
 	lsl.l	#8, d0
@@ -368,16 +406,16 @@ _ZN13ObjPlasmaBoss19action01_EnterRightEv:
 	add.l	d1, 12(a0)
 	swap	d0
 	ext.l	d0
-	cmp.w	#9472, d0
-	ble	@L64
-@L58:
+	cmp.w	#9480, d0
+	ble	@L73
+@L67:
 	rts	
-@L64:
-	move.w	#9472, 8(a0)
+@L73:
+	move.w	#9480, 8(a0)
 	clr.w	16(a0)
 	move.l	a0, 4(sp)
 	bra	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
-@L59:
+@L68:
 	clr.b	28(a0)
 	and.b	#-2, 1(a0)
 	and.b	#-2, 34(a0)
@@ -394,46 +432,46 @@ _ZN13ObjPlasmaBoss19action01_EnterRightEv:
 	add.l	d1, 12(a0)
 	swap	d0
 	ext.l	d0
-	cmp.w	#9472, d0
-	bgt	@L58
-	bra	@L64
+	cmp.w	#9480, d0
+	bgt	@L67
+	bra	@L73
 	even
 _ZN13ObjPlasmaBoss21action02_AttractBallsEv:
 	movem.l	d2/d3/a2/a3/a4, -(sp)
 	move.l	24(sp), a2
 	move.b	37(a2), d0
-	beq	@L66
+	beq	@L75
 	cmp.b	#1, d0
-	bne	@L65
+	bne	@L74
 	move.w	40(a2), d0
 	cmp.w	#90, d0
-	bhi	@L76
-@L71:
+	bhi	@L85
+@L80:
 	subq.w	#1, d0
 	move.w	d0, 40(a2)
-	bne	@L65
+	bne	@L74
 	move.l	a2, 24(sp)
 	movem.l	(sp)+, d2/d3/a2/a3/a4
 	bra	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
-@L66:
+@L75:
 	move.b	#1, 28(a2)
 	move.w	#180, 40(a2)
 	move.b	#1, 37(a2)
 	move.w	v_framecount, d0
 	and.w	#3, d0
-	beq	@L69
+	beq	@L78
 	move.w	#179, 40(a2)
-@L65:
+@L74:
 	movem.l	(sp)+, d2/d3/a2/a3/a4
 	rts	
-@L69:
+@L78:
 	move.w	#1, -(sp)
 	move.l	a2, -(sp)
 	jsr	create_ObjPlasmaBall
 	move.l	d0, a3
 	addq.l	#6, sp
 	tst.l	d0
-	beq	@L77
+	beq	@L86
 	jsr	randomNumber__cdecl
 	move.l	d0, d3
 	and.w	#255, d0
@@ -465,47 +503,55 @@ _ZN13ObjPlasmaBoss21action02_AttractBallsEv:
 	move.l	d1, 12(a3)
 	move.w	40(a2), d0
 	addq.l	#4, sp
-	bra	@L71
-@L77:
+	bra	@L80
+@L86:
 	move.w	40(a2), d0
-	bra	@L71
-@L76:
+	bra	@L80
+@L85:
 	move.w	v_framecount, d1
 	and.w	#3, d1
-	beq	@L69
+	beq	@L78
 	subq.w	#1, d0
 	move.w	d0, 40(a2)
 	movem.l	(sp)+, d2/d3/a2/a3/a4
 	rts	
 	even
 _ZN13ObjPlasmaBoss23action03_VerticalAttackEv:
-	movem.l	d2/d3/a2/a3, -(sp)
-	move.l	20(sp), a2
+	movem.l	d2/d3/d4/d5/a2/a3, -(sp)
+	move.l	28(sp), a2
 	move.b	37(a2), d0
 	cmp.b	#1, d0
-	beq	@L79
+	beq	@L88
 	cmp.b	#2, d0
-	beq	@L80
+	beq	@L89
 	tst.b	d0
-	beq	@L116
-@L78:
-	movem.l	(sp)+, d2/d3/a2/a3
+	beq	@L137
+@L87:
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
 	rts	
-@L116:
+@L137:
 	clr.b	28(a2)
 	jsr	randomNumber__cdecl
-	move.w	d0, d2
-	and.w	#1, d2
-	lsl.w	#5, d2
-	add.w	#1504, d2
-	move.w	d2, 42(a2)
-	move.w	12(a2), d0
-	cmp.w	d2, d0
-	bge	@L84
-	move.w	#256, 18(a2)
-	move.w	#60, 40(a2)
+	and.w	#1, d0
+	lsl.w	#5, d0
+	add.w	#1504, d0
+	move.w	d0, 42(a2)
+	move.w	12(a2), d2
+	move.w	#-256, d1
+	cmp.w	d0, d2
+	bge	@L93
+	move.w	#256, d1
+@L93:
+	move.w	d1, 18(a2)
+	cmp.b	#3, 33(a2)
+	bls	@L120
+	moveq	#60, d1
+	move.w	d1, 40(a2)
 	addq.b	#1, 37(a2)
-@L85:
+@L92:
+	cmp.w	d2, d0
+	beq	@L95
+@L138:
 	move.w	16(a2), d0
 	ext.l	d0
 	lsl.l	#8, d0
@@ -514,132 +560,150 @@ _ZN13ObjPlasmaBoss23action03_VerticalAttackEv:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-	movem.l	(sp)+, d2/d3/a2/a3
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
 	rts	
-@L80:
+@L89:
 	move.w	40(a2), d0
 	subq.w	#1, d0
 	move.w	d0, 40(a2)
-	bne	@L78
-	move.l	a2, 20(sp)
-	movem.l	(sp)+, d2/d3/a2/a3
+	bne	@L87
+	move.l	a2, 28(sp)
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
 	bra	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
-@L79:
-	move.w	12(a2), d0
-	move.w	42(a2), d2
+@L88:
+	move.w	12(a2), d2
+	move.w	42(a2), d0
 	cmp.w	d2, d0
-	bne	@L85
-@L86:
+	bne	@L138
+@L95:
 	move.w	40(a2), d0
-	beq	@L87
+	beq	@L96
 	subq.w	#1, d0
 	move.w	d0, 40(a2)
 	clr.w	18(a2)
-	movem.l	(sp)+, d2/d3/a2/a3
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
 	rts	
-@L84:
-	move.w	#-256, 18(a2)
-	move.w	#60, 40(a2)
+@L120:
+	moveq	#30, d1
+	move.w	d1, 40(a2)
 	addq.b	#1, 37(a2)
-	cmp.w	d2, d0
-	beq	@L86
-	bra	@L85
-@L87:
+	bra	@L92
+@L96:
 	move.b	#1, 28(a2)
 	move.w	8(a2), d0
 	move.w	d2, d3
 	add.w	#-48, d3
 	cmp.w	#1407, d3
-	ble	@L117
+	ble	@L139
 	lea	create_ObjPlasmaBall, a3
 	cmp.w	#9343, d0
-	ble	@L91
-@L93:
+	ble	@L140
+	moveq	#8, d4
+	moveq	#30, d2
+@L103:
 	move.w	#2, -(sp)
 	move.l	a2, -(sp)
 	jsr	(a3)
 	move.l	d0, a0
 	addq.l	#6, sp
 	tst.l	d0
-	beq	@L92
+	beq	@L101
 	move.l	8(a2), d0
 	move.l	12(a2), d1
 	move.l	d0, 8(a0)
 	move.l	d1, 12(a0)
 	move.w	12(a2), 46(a0)
 	move.w	d3, 48(a0)
-@L92:
-	add.w	#-24, d3
-	cmp.w	#1407, d3
-	bgt	@L93
-	move.w	42(a2), d2
-	add.w	#48, d2
-	cmp.w	#1600, d2
-	bgt	@L102
-	move.l	a2, d3
-@L90:
-	lea	create_ObjPlasmaBall, a3
-@L98:
-	move.w	#2, -(sp)
-	move.l	d3, -(sp)
-	jsr	(a3)
-	move.l	d0, a0
-	addq.l	#6, sp
-	tst.l	d0
-	beq	@L97
-	move.l	8(a2), d0
-	move.l	12(a2), d1
-	move.l	d0, 8(a0)
-	move.l	d1, 12(a0)
-	move.w	12(a2), 46(a0)
-	move.w	d2, 48(a0)
-@L97:
-	add.w	#24, d2
-	cmp.w	#1600, d2
-	ble	@L98
-@L102:
-	move.w	#120, 40(a2)
-	addq.b	#1, 37(a2)
-@L119:
-	movem.l	(sp)+, d2/d3/a2/a3
-	rts	
-@L95:
-	add.w	#-24, d3
-	cmp.w	#1407, d3
-	ble	@L118
-@L91:
-	move.w	#2, -(sp)
-	move.l	a2, -(sp)
-	jsr	(a3)
-	move.l	d0, a0
-	addq.l	#6, sp
-	tst.l	d0
-	beq	@L95
-	move.l	8(a2), d0
-	move.l	12(a2), d1
-	move.l	d0, 8(a0)
-	move.l	d1, 12(a0)
-	move.w	12(a2), 46(a0)
-	move.w	d3, 48(a0)
-	or.b	#1, 34(a0)
-	add.w	#-24, d3
-	cmp.w	#1407, d3
-	bgt	@L91
-@L118:
-	move.w	42(a2), d2
-	add.w	#48, d2
-	cmp.w	#1600, d2
-	bgt	@L102
-	move.l	a2, d3
-	lea	create_ObjPlasmaBall, a3
+	cmp.b	#3, 33(a2)
+	bls	@L121
+	move.w	d2, d0
+	move.w	d0, 52(a0)
 @L101:
+	add.w	#-24, d3
+	cmp.w	#1407, d3
+	bgt	@L103
+	move.w	42(a2), d2
+	add.w	#48, d2
+	cmp.w	#1600, d2
+	bgt	@L116
+	move.l	a2, d3
+@L99:
+	lea	create_ObjPlasmaBall, a3
+	moveq	#8, d5
+	moveq	#30, d4
+@L111:
 	move.w	#2, -(sp)
 	move.l	d3, -(sp)
 	jsr	(a3)
 	move.l	d0, a0
 	addq.l	#6, sp
 	tst.l	d0
-	beq	@L100
+	beq	@L109
+	move.l	8(a2), d0
+	move.l	12(a2), d1
+	move.l	d0, 8(a0)
+	move.l	d1, 12(a0)
+	move.w	12(a2), 46(a0)
+	move.w	d2, 48(a0)
+	cmp.b	#3, 33(a2)
+	bls	@L124
+	move.w	d4, d0
+	move.w	d0, 52(a0)
+@L109:
+	add.w	#24, d2
+	cmp.w	#1600, d2
+	ble	@L111
+@L116:
+	cmp.b	#3, 33(a2)
+	bls	@L123
+	moveq	#120, d0
+	move.w	d0, 40(a2)
+	addq.b	#1, 37(a2)
+@L141:
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
+	rts	
+@L140:
+	moveq	#30, d4
+	moveq	#8, d2
+@L100:
+	move.w	#2, -(sp)
+	move.l	a2, -(sp)
+	jsr	(a3)
+	move.l	d0, a0
+	addq.l	#6, sp
+	tst.l	d0
+	beq	@L105
+	move.l	8(a2), d0
+	move.l	12(a2), d1
+	move.l	d0, 8(a0)
+	move.l	d1, 12(a0)
+	move.w	12(a2), 46(a0)
+	move.w	d3, 48(a0)
+	or.b	#1, 34(a0)
+	cmp.b	#3, 33(a2)
+	bhi	@L122
+	move.w	d2, d0
+	move.w	d0, 52(a0)
+@L105:
+	add.w	#-24, d3
+	cmp.w	#1407, d3
+	bgt	@L100
+	move.w	42(a2), d2
+	add.w	#48, d2
+	cmp.w	#1600, d2
+	bgt	@L116
+	move.l	a2, d3
+	lea	create_ObjPlasmaBall, a3
+	moveq	#30, d5
+	moveq	#8, d4
+@L115:
+	move.w	#2, -(sp)
+	move.l	d3, -(sp)
+	jsr	(a3)
+	move.l	d0, a0
+	addq.l	#6, sp
+	tst.l	d0
+	beq	@L113
 	move.l	8(a2), d0
 	move.l	12(a2), d1
 	move.l	d0, 8(a0)
@@ -647,29 +711,54 @@ _ZN13ObjPlasmaBoss23action03_VerticalAttackEv:
 	move.w	12(a2), 46(a0)
 	move.w	d2, 48(a0)
 	or.b	#1, 34(a0)
-@L100:
+	cmp.b	#3, 33(a2)
+	bhi	@L125
+	move.w	d4, d0
+	move.w	d0, 52(a0)
+@L113:
 	add.w	#24, d2
 	cmp.w	#1600, d2
-	ble	@L101
-	move.w	#120, 40(a2)
+	ble	@L115
+	bra	@L116
+@L125:
+	move.w	d5, d0
+	move.w	d0, 52(a0)
+	bra	@L113
+@L124:
+	move.w	d5, d0
+	move.w	d0, 52(a0)
+	bra	@L109
+@L121:
+	move.w	d4, d0
+	move.w	d0, 52(a0)
+	bra	@L101
+@L122:
+	move.w	d4, d0
+	move.w	d0, 52(a0)
+	bra	@L105
+@L123:
+	moveq	#60, d0
+	move.w	d0, 40(a2)
 	addq.b	#1, 37(a2)
-	bra	@L119
-@L117:
+	bra	@L141
+@L139:
 	add.w	#48, d2
 	move.l	a2, d3
 	cmp.w	#9343, d0
-	bgt	@L90
+	bgt	@L99
 	lea	create_ObjPlasmaBall, a3
-	bra	@L101
+	moveq	#30, d5
+	moveq	#8, d4
+	bra	@L115
 	even
 _ZN13ObjPlasmaBoss23action04_ChangePositionEv:
 	move.l	d3, -(sp)
 	move.l	d2, -(sp)
 	move.l	12(sp), a0
 	move.b	37(a0), d0
-	beq	@L121
+	beq	@L143
 	cmp.b	#1, d0
-	bne	@L120
+	bne	@L142
 	move.w	40(a0), d3
 	subq.w	#1, d3
 	move.w	16(a0), d1
@@ -682,22 +771,22 @@ _ZN13ObjPlasmaBoss23action04_ChangePositionEv:
 	lsl.l	#8, d2
 	add.l	d2, 12(a0)
 	move.w	d3, 40(a0)
-	bne	@L120
+	bne	@L142
 	swap	d1
 	ext.l	d1
 	cmp.w	#9344, d1
-	ble	@L125
+	ble	@L147
 	moveq	#5, d0
-@L125:
+@L147:
 	move.b	d0, 36(a0)
 	clr.b	37(a0)
-@L120:
+@L142:
 	move.l	(sp)+, d2
 	move.l	(sp)+, d3
 	rts	
-@L121:
+@L143:
 	cmp.w	#9344, 8(a0)
-	ble	@L126
+	ble	@L148
 	move.l	#98304, d0
 	move.w	#384, d1
 	move.w	d1, 16(a0)
@@ -709,11 +798,11 @@ _ZN13ObjPlasmaBoss23action04_ChangePositionEv:
 	lsl.l	#8, d0
 	add.l	d0, 12(a0)
 	move.w	#59, 40(a0)
-@L129:
+@L151:
 	move.l	(sp)+, d2
 	move.l	(sp)+, d3
 	rts	
-@L126:
+@L148:
 	move.l	#-98304, d0
 	move.w	#-384, d1
 	move.w	d1, 16(a0)
@@ -725,14 +814,14 @@ _ZN13ObjPlasmaBoss23action04_ChangePositionEv:
 	lsl.l	#8, d0
 	add.l	d0, 12(a0)
 	move.w	#59, 40(a0)
-	bra	@L129
+	bra	@L151
 	even
 _ZN13ObjPlasmaBoss18action05_EnterLeftEv:
 	move.l	4(sp), a0
 	move.b	37(a0), d0
-	beq	@L131
+	beq	@L153
 	cmp.b	#1, d0
-	bne	@L130
+	bne	@L152
 	move.w	16(a0), d0
 	ext.l	d0
 	lsl.l	#8, d0
@@ -744,16 +833,16 @@ _ZN13ObjPlasmaBoss18action05_EnterLeftEv:
 	add.l	d1, 12(a0)
 	swap	d0
 	ext.l	d0
-	cmp.w	#9215, d0
-	bgt	@L136
-@L130:
+	cmp.w	#9207, d0
+	bgt	@L158
+@L152:
 	rts	
-@L136:
-	move.w	#9216, 8(a0)
+@L158:
+	move.w	#9208, 8(a0)
 	clr.w	16(a0)
 	move.l	a0, 4(sp)
 	bra	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
-@L131:
+@L153:
 	clr.b	28(a0)
 	or.b	#1, 1(a0)
 	or.b	#1, 34(a0)
@@ -770,9 +859,157 @@ _ZN13ObjPlasmaBoss18action05_EnterLeftEv:
 	add.l	d1, 12(a0)
 	swap	d0
 	ext.l	d0
-	cmp.w	#9215, d0
-	ble	@L130
-	bra	@L136
+	cmp.w	#9207, d0
+	ble	@L152
+	bra	@L158
+	even
+_ZN13ObjPlasmaBoss27action06_VerticalWallAttackEv:
+	movem.l	d2/d3/d4/d5/a2/a3, -(sp)
+	move.l	28(sp), a2
+	move.b	37(a2), d0
+	cmp.b	#1, d0
+	beq	@L160
+	cmp.b	#2, d0
+	beq	@L161
+	tst.b	d0
+	beq	@L181
+@L159:
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
+	rts	
+@L181:
+	move.w	12(a2), d0
+	cmp.w	#1439, d0
+	ble	@L182
+	move.w	#-256, 18(a2)
+	clr.b	28(a2)
+	move.w	#60, 40(a2)
+	move.b	#1, 37(a2)
+	cmp.w	#1440, d0
+	bne	@L178
+	moveq	#59, d2
+	move.w	d2, 40(a2)
+	clr.w	18(a2)
+@L185:
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
+	rts	
+@L161:
+	move.w	40(a2), d0
+	subq.w	#1, d0
+	move.w	d0, 40(a2)
+	bne	@L159
+	move.l	a2, 28(sp)
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
+	bra	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
+@L160:
+	move.w	12(a2), d3
+	cmp.w	#1440, d3
+	beq	@L166
+	move.w	18(a2), d1
+	ext.l	d1
+	lsl.l	#8, d1
+	move.w	16(a2), d0
+	ext.l	d0
+	lsl.l	#8, d0
+	add.l	d0, 8(a2)
+	add.l	d1, 12(a2)
+@L183:
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
+	rts	
+@L182:
+	move.w	#256, 18(a2)
+	clr.b	28(a2)
+	move.w	#60, 40(a2)
+	move.b	#1, 37(a2)
+	moveq	#1, d1
+	swap	d1
+	move.w	16(a2), d0
+	ext.l	d0
+	lsl.l	#8, d0
+	add.l	d0, 8(a2)
+	add.l	d1, 12(a2)
+	bra	@L183
+@L166:
+	move.w	40(a2), d2
+	bne	@L184
+	move.b	#1, 28(a2)
+	cmp.w	#9343, 8(a2)
+	bgt	@L168
+	move.w	#510, 40(a2)
+	moveq	#60, d5
+	moveq	#30, d4
+	lea	create_ObjPlasmaBall, a3
+@L171:
+	move.w	#2, -(sp)
+	move.l	a2, -(sp)
+	jsr	(a3)
+	move.l	d0, a0
+	addq.l	#6, sp
+	tst.l	d0
+	beq	@L177
+	move.l	8(a2), d0
+	move.l	12(a2), d1
+	move.l	d0, 8(a0)
+	move.l	d1, 12(a0)
+	move.w	12(a2), 46(a0)
+	add.w	#24, d3
+	add.w	d2, d3
+	move.w	d3, 48(a0)
+	or.b	#1, 34(a0)
+	move.w	d4, 52(a0)
+@L177:
+	add.w	#24, d2
+	add.w	d5, d4
+	cmp.w	#168, d2
+	beq	@L175
+	move.w	12(a2), d3
+	bra	@L171
+@L168:
+	move.w	#330, 40(a2)
+	moveq	#30, d5
+	moveq	#30, d4
+	lea	create_ObjPlasmaBall, a3
+@L176:
+	move.w	#2, -(sp)
+	move.l	a2, -(sp)
+	jsr	(a3)
+	move.l	d0, a0
+	addq.l	#6, sp
+	tst.l	d0
+	beq	@L174
+	move.l	8(a2), d0
+	move.l	12(a2), d1
+	move.l	d0, 8(a0)
+	move.l	d1, 12(a0)
+	move.w	12(a2), 46(a0)
+	add.w	#24, d3
+	add.w	d2, d3
+	move.w	d3, 48(a0)
+	move.w	d4, 52(a0)
+@L174:
+	add.w	#24, d2
+	add.w	d5, d4
+	cmp.w	#168, d2
+	beq	@L175
+	move.w	12(a2), d3
+	bra	@L176
+@L175:
+	addq.b	#1, 37(a2)
+	movem.l	(sp)+, d2/d3/d4/d5/a2/a3
+	rts	
+@L178:
+	moveq	#-1, d1
+	not.w	d1
+	move.w	16(a2), d0
+	ext.l	d0
+	lsl.l	#8, d0
+	add.l	d0, 8(a2)
+	add.l	d1, 12(a2)
+	bra	@L183
+@L184:
+	subq.w	#1, d2
+	move.w	d2, 40(a2)
+	clr.w	18(a2)
+	bra	@L185
 	even
 _ZN13ObjPlasmaBoss9setActionENS_6ActionE:
 	move.l	4(sp), a0
@@ -781,26 +1018,27 @@ _ZN13ObjPlasmaBoss9setActionENS_6ActionE:
 	rts	
 	even
 execute_ObjPlasmaBoss:
-	movem.l	d2/d3/a2, -(sp)
-	move.l	16(sp), a2
-	cmp.b	#5, 36(a2)
-	bhi	@L139
+	movem.l	d2/d3/d4/a2, -(sp)
+	move.l	20(sp), a2
+	cmp.b	#6, 36(a2)
+	bhi	@L188
 	moveq	#0, d0
 	move.b	36(a2), d0
 	add.l	d0, d0
-	move.w	@L142(pc, d0.l), d0
+	move.w	@L191(pc, d0.l), d0
 	jmp	*+2+2(pc,d0.w)
-@L142:
-	dc.w	@L147-@L142
-	dc.w	@L146-@L142
-	dc.w	@L145-@L142
-	dc.w	@L144-@L142
-	dc.w	@L143-@L142
-	dc.w	@L141-@L142
-@L139:
-	movem.l	(sp)+, d2/d3/a2
+@L191:
+	dc.w	@L197-@L191
+	dc.w	@L196-@L191
+	dc.w	@L195-@L191
+	dc.w	@L194-@L191
+	dc.w	@L193-@L191
+	dc.w	@L192-@L191
+	dc.w	@L190-@L191
+@L188:
+	movem.l	(sp)+, d2/d3/d4/a2
 	rts	
-@L147:
+@L197:
 	pea	ObjectsBossesFinalPlasmaBoss_s__LC0
 	jsr	kwrite_cdecl
 	move.b	#4, 1(a2)
@@ -808,94 +1046,121 @@ execute_ObjPlasmaBoss:
 	move.l	#Map_PLaunch, 4(a2)
 	move.b	#3, 24(a2)
 	move.b	#1, 28(a2)
-	move.w	#2832, 32(a2)
+	move.w	#2830, 32(a2)
+	move.w	#140, -(sp)
+	jsr	playSound__cdecl
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
-	addq.l	#8, sp
-@L146:
+	lea	(10, sp), sp
+@L196:
 	move.b	37(a2), d0
-	beq	@L148
+	beq	@L198
 	cmp.b	#1, d0
-	beq	@L170
-@L150:
+	beq	@L228
+@L200:
+	cmp.b	#1, 28(a2)
+	beq	@L229
+@L214:
 	tst.b	32(a2)
-	bne	@L162
+	bne	@L217
 	move.b	44(a2), d0
-	bne	@L163
+	bne	@L218
 	lea	v_player, a0
 	move.w	v_player+8, d1
 	move.w	8(a2), d0
 	cmp.w	d1, d0
-	ble	@L164
+	ble	@L219
 	cmp.w	#-511, 16(a0)
-	blt	@L165
+	blt	@L220
 	move.w	#-512, v_player+16
-@L165:
+@L220:
 	move.b	#33, 44(a2)
 	move.w	#172, -(sp)
 	jsr	playSound__cdecl
 	move.b	44(a2), d0
 	addq.l	#2, sp
-@L163:
+@L218:
 	subq.b	#1, d0
 	move.b	d0, 44(a2)
-	bne	@L162
+	bne	@L217
 	move.b	#11, 32(a2)
-@L162:
+@L217:
 	pea	Ani_PLaunch
 	move.l	a2, -(sp)
 	jsr	animateSprite__cdecl
 	addq.l	#8, sp
 	btst	#0, 44(a2)
-	bne	@L139
-	move.l	a2, 16(sp)
-	movem.l	(sp)+, d2/d3/a2
+	bne	@L188
+	move.l	a2, 20(sp)
+	movem.l	(sp)+, d2/d3/d4/a2
 	jmp	displaySprite__cdecl
-@L145:
+@L229:
+	cmp.b	#2, 36(a2)
+	beq	@L224
+	moveq	#7, d0
+@L215:
+	and.w	v_framecount, d0
+	bne	@L214
+	move.w	#177, -(sp)
+	jsr	playSound__cdecl
+	addq.l	#2, sp
+	bra	@L214
+@L195:
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjPlasmaBoss21action02_AttractBallsEv
 	addq.l	#4, sp
-	bra	@L150
-@L144:
+	cmp.b	#1, 28(a2)
+	bne	@L214
+	bra	@L229
+@L194:
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjPlasmaBoss23action03_VerticalAttackEv
 	addq.l	#4, sp
-	bra	@L150
-@L143:
+	cmp.b	#1, 28(a2)
+	bne	@L214
+	bra	@L229
+@L193:
 	move.b	37(a2), d0
-	beq	@L153
+	beq	@L202
 	cmp.b	#1, d0
-	bne	@L150
-	move.w	40(a2), d3
-	subq.w	#1, d3
+	bne	@L200
+	move.w	40(a2), d4
+	subq.w	#1, d4
+	move.b	28(a2), d2
 	move.w	16(a2), d1
 	ext.l	d1
 	lsl.l	#8, d1
 	add.l	8(a2), d1
 	move.l	d1, 8(a2)
-	move.w	18(a2), d2
-	ext.l	d2
-	lsl.l	#8, d2
-	add.l	d2, 12(a2)
-	move.w	d3, 40(a2)
-	bne	@L150
+	move.w	18(a2), d3
+	ext.l	d3
+	lsl.l	#8, d3
+	add.l	d3, 12(a2)
+	move.w	d4, 40(a2)
+	bne	@L212
 	swap	d1
 	ext.l	d1
 	cmp.w	#9344, d1
-	ble	@L158
+	ble	@L208
 	moveq	#5, d0
-@L158:
+@L208:
 	move.b	d0, 36(a2)
 	clr.b	37(a2)
-	bra	@L150
-@L141:
+@L212:
+	cmp.b	#1, d2
+	bne	@L214
+@L227:
+	moveq	#7, d0
+	bra	@L215
+@L192:
 	move.b	37(a2), d0
-	beq	@L159
+	beq	@L209
 	cmp.b	#1, d0
-	bne	@L150
+	bne	@L200
 	move.w	16(a2), d0
 	ext.l	d0
 	lsl.l	#8, d0
+@L210:
 	add.l	8(a2), d0
 	move.l	d0, 8(a2)
 	move.w	18(a2), d1
@@ -904,20 +1169,24 @@ execute_ObjPlasmaBoss:
 	add.l	d1, 12(a2)
 	swap	d0
 	ext.l	d0
-	cmp.w	#9215, d0
-	ble	@L150
-@L171:
-	move.w	#9216, 8(a2)
-	clr.w	16(a2)
+	cmp.w	#9207, d0
+	bgt	@L211
+	move.b	28(a2), d2
+	cmp.b	#1, d2
+	beq	@L227
+	bra	@L214
+@L190:
 	move.l	a2, -(sp)
-	jsr	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
+	jsr	_ZN13ObjPlasmaBoss27action06_VerticalWallAttackEv
 	addq.l	#4, sp
-	bra	@L150
-@L170:
+	cmp.b	#1, 28(a2)
+	bne	@L214
+	bra	@L229
+@L228:
 	move.w	16(a2), d0
 	ext.l	d0
 	lsl.l	#8, d0
-@L151:
+@L201:
 	add.l	8(a2), d0
 	move.l	d0, 8(a2)
 	move.w	18(a2), d1
@@ -926,27 +1195,32 @@ execute_ObjPlasmaBoss:
 	add.l	d1, 12(a2)
 	swap	d0
 	ext.l	d0
-	cmp.w	#9472, d0
-	bgt	@L150
-	move.w	#9472, 8(a2)
+	cmp.w	#9480, d0
+	bgt	@L200
+	move.w	#9480, 8(a2)
 	clr.w	16(a2)
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
 	addq.l	#4, sp
-	bra	@L150
-@L164:
+	cmp.b	#1, 28(a2)
+	bne	@L214
+	bra	@L229
+@L219:
 	cmp.w	d1, d0
-	bge	@L165
+	bge	@L220
 	cmp.w	#511, 16(a0)
-	bgt	@L165
+	bgt	@L220
 	move.w	#512, v_player+16
 	move.b	#33, 44(a2)
 	move.w	#172, -(sp)
 	jsr	playSound__cdecl
 	move.b	44(a2), d0
 	addq.l	#2, sp
-	bra	@L163
-@L148:
+	bra	@L218
+@L224:
+	moveq	#3, d0
+	bra	@L215
+@L198:
 	clr.b	28(a2)
 	and.b	#-2, 1(a2)
 	and.b	#-2, 34(a2)
@@ -955,10 +1229,20 @@ execute_ObjPlasmaBoss:
 	move.w	#-192, 16(a2)
 	move.b	#1, 37(a2)
 	move.l	#-49152, d0
-	bra	@L151
-@L153:
+	bra	@L201
+@L209:
+	clr.b	28(a2)
+	or.b	#1, 1(a2)
+	or.b	#1, 34(a2)
+	move.w	#9152, 8(a2)
+	move.w	#1440, 12(a2)
+	move.w	#192, 16(a2)
+	move.b	#1, 37(a2)
+	move.l	#49152, d0
+	bra	@L210
+@L202:
 	cmp.w	#9344, 8(a2)
-	ble	@L167
+	ble	@L223
 	move.l	#98304, d0
 	move.w	#384, d1
 	move.w	d1, 16(a2)
@@ -970,28 +1254,17 @@ execute_ObjPlasmaBoss:
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
 	move.w	#59, 40(a2)
-	bra	@L150
-@L159:
-	clr.b	28(a2)
-	or.b	#1, 1(a2)
-	or.b	#1, 34(a2)
-	move.w	#9152, 8(a2)
-	move.w	#1440, 12(a2)
-	move.w	#192, 16(a2)
-	move.b	#1, 37(a2)
-	move.l	#49152, d0
-	add.l	8(a2), d0
-	move.l	d0, 8(a2)
-	move.w	18(a2), d1
-	ext.l	d1
-	lsl.l	#8, d1
-	add.l	d1, 12(a2)
-	swap	d0
-	ext.l	d0
-	cmp.w	#9215, d0
-	ble	@L150
-	bra	@L171
-@L167:
+	bra	@L214
+@L211:
+	move.w	#9208, 8(a2)
+	clr.w	16(a2)
+	move.l	a2, -(sp)
+	jsr	_ZN13ObjPlasmaBoss23setNextActionFromScriptEv
+	addq.l	#4, sp
+	cmp.b	#1, 28(a2)
+	bne	@L214
+	bra	@L229
+@L223:
 	move.l	#-98304, d0
 	move.w	#-384, d1
 	move.w	d1, 16(a2)
@@ -1003,4 +1276,4 @@ execute_ObjPlasmaBoss:
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
 	move.w	#59, 40(a2)
-	bra	@L150
+	bra	@L214

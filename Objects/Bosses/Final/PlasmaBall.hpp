@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include "S1Engine.hpp"
 
 struct ObjPlasmaBall : public LevelObject {

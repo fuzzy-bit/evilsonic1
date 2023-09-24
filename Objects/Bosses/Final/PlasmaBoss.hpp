@@ -1,5 +1,8 @@
 
+#pragma once
+
 #include "S1Engine.hpp"
+#include "PlasmaBall.hpp"
 
 struct ObjPlasmaBoss : public LevelObject {
 	static const Vector2_W cameraBase;
@@ -11,6 +14,7 @@ struct ObjPlasmaBoss : public LevelObject {
 		verticalAttack,
 		changePosition,
 		enterLeft,
+		verticalWallAttack,
 	};
 	enum ActionScriptFlag {
 		jumpTo = 0x80,
@@ -32,8 +36,11 @@ struct ObjPlasmaBoss : public LevelObject {
 	void action03_VerticalAttack();
 	void action04_ChangePosition();
 	void action05_EnterLeft();
+	void action06_VerticalWallAttack();
 
-	inline void verticalAttack_MakeBall(int16_t targetY, bool isLeft);
+	inline bool isInPinchMode();
+	inline void playChargingSound(uint16_t periodMask);
+	inline ObjPlasmaBall * verticalAttack_MakeBall(int16_t targetY, bool isLeft);
 };
 
 extern "C" void execute_ObjPlasmaBoss(ObjPlasmaBoss & obj);
