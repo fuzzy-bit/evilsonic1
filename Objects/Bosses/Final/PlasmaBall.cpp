@@ -36,12 +36,11 @@ void ObjPlasmaBall::execute() {
 		// Move towards target
 		if (interpolation < 0x100) {
 			position.yf = (((int32_t)startPos) << 16) + (((int32_t)(targetPos - startPos) * interpolation) << 8);
-			Debug::kwrite("Updating position: \x83\xE0", position.yf);
 			interpolation += 0x4;
 
 			// Make balls hostile =C
 			if (interpolation >= 0x100) {
-				timer = 30;
+				timer = timer ? timer : 30;
 				collision_flag = 0x9A;
 				anim_id = 1;
 				interpolation = 0x100;
@@ -53,8 +52,17 @@ void ObjPlasmaBall::execute() {
 		}
 		// Shoot
 		else {
-			if (velocity.xf > -0x400) {
-				velocity.xf -= 0xC;
+			// Moving left
+			if (status_bits & 1) {
+				if (velocity.xf < 0x400) {
+					velocity.xf += 0xC;
+				}
+			}
+			// Moving right
+			else {
+				if (velocity.xf > -0x400) {
+					velocity.xf -= 0xC;
+				}
 			}
 			speedToPos();
 		}
