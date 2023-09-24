@@ -21,6 +21,7 @@ Sonic_Index:	dc.w Sonic_Main-Sonic_Index
 		dc.w Sonic_Hurt-Sonic_Index
 		dc.w Sonic_Death-Sonic_Index
 		dc.w Sonic_ResetLevel-Sonic_Index
+		dc.w Sonic_ResetLevel-Sonic_Index	; fixes crash caused by `SonicDeath` object
 ; ===========================================================================
 
 Sonic_Main:	; Routine 0

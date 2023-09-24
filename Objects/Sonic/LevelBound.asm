@@ -45,6 +45,7 @@ Sonic_LevelBound:
 		rts	
 
 @JmpTo_KillSonic:
+		lea	v_player, a2		; Sonic kills himself
 		jmp		KillSonic
 
 ; ===========================================================================
