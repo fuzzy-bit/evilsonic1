@@ -29,6 +29,7 @@ def convertStringExpression(str_expr: str) -> str:
     pattern = r'\\(\d+)'
 
     char_table = {
+        "\\b": 8,
         "\\t": 9,
         "\\n": 10,
         "\\r": 13,
@@ -108,13 +109,16 @@ with open(input_file, 'r') as input_stream:
                 directive = tokens[0]
                 args = tokens[1] if len(tokens) > 1 else None
 
+                if directive == '.align' and args == '2':
+                    output_stream.write(f'\teven\n')
+
                 if directive == '.string' and args:
                     str_op = convertStringExpression(args)
-                    output_stream.write(f'\tdc.b\t{str_op}, 0\n\teven\n')
+                    output_stream.write(f'\tdc.b\t{str_op}, 0\n')
 
                 if directive == '.ascii' and args:
                     str_op = convertStringExpression(args)
-                    output_stream.write(f'\tdc.b\t{str_op}\n\teven\n')
+                    output_stream.write(f'\tdc.b\t{str_op}\n')
 
                 elif directive == '.byte' and args:
                     output_stream.write(f'\tdc.b\t{convertExpression(args)}\n')
