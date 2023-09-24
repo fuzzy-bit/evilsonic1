@@ -8,6 +8,7 @@
 
 extern uint16_t v_framecount;
 extern uint8_t v_dle_routine;
+extern uint8_t v_shaketimer;
 
 const Vector2_W ObjEggmanShipFZ::cameraBase = {
 	.x = 0x23E0,
@@ -195,6 +196,16 @@ void ObjEggmanShipFZ::generateProjectiles() {
 			plasmaBall->position.x = cameraBase.x + 0x10 + (randomNumber__cdecl() & 7) * 0x27;
 			plasmaBall->position.y = cameraBase.y - 0x18;
 		}
+
+		LevelObject * explosion = static_cast<LevelObject*>(findFreeObj__cdecl());
+		if (explosion && plasmaBall) {
+			explosion->id = 0x3F;
+			explosion->position.x = plasmaBall->position.x;
+			explosion->position.y = plasmaBall->position.y + 0x18;
+		}
+	}
+	else if ((v_framecount & 0x1F) == 0) {
+		v_shaketimer = 8;
 	}
 }
 
