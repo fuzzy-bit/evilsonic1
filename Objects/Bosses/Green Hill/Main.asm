@@ -75,24 +75,23 @@ BGHZ_FaceMain:	; Routine 4
 		moveq	#0,d0
 		moveq	#1,d1
 		movea.l	$34(a0),a1
-		move.b	ob2ndRout(a1),d0
-		subq.b	#4,d0
-		bne.s	loc_17A3E
-		cmpi.w	#$2A00,$30(a1)
-		bne.s	loc_17A46
-		moveq	#4,d1
-
-loc_17A3E:
-		subq.b	#6,d0
-		bmi.s	loc_17A46
-		moveq	#$A,d1
+		cmp.b	#2, $28(a1)		; is script defated?
+		blo.s	loc_17A46		; if not, branch
+		cmp.b	#2, $29(a1)		; is subscript run away?
+		beq.s	@PanicFace
+		moveq	#$A,d1			; defeated face
 		bra.s	loc_17A5A
+
+@PanicFace:
+		moveq	#6,d1			; panicing face
+		bra.s	loc_17A5A
+
 ; ===========================================================================
 
 loc_17A46:
 		tst.b	obColType(a1)
 		bne.s	loc_17A50
-		moveq	#5,d1
+		moveq	#5,d1			; hurt face
 		bra.s	loc_17A5A
 ; ===========================================================================
 
@@ -102,7 +101,7 @@ loc_17A50:
 		cmpi.b	#4,(v_player+obRoutine).w
 		bcs.s	loc_17A5A
 	@ForceLaugh:
-		moveq	#4,d1
+		moveq	#4,d1			; laughing face
 
 loc_17A5A:
 		move.b	d1,obAnim(a0)

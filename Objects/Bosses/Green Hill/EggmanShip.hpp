@@ -14,12 +14,14 @@ struct ObjEggmanShip : public LevelObject {
 	uint8_t flash_timer;		/* 0x2A */
 	uint8_t throwCooldown;
 	bool forceLaugh;			/* 0x2C */
+	int8_t throwDelay;
 
 	void executeMasterScript();
 	void handleDamage();
 	void throwObject(objectExecuteCallback);
 	void script00_Intro();
-	void script01_TestSeq();
+	void script01_ThrowSequence();
+	void script02_Defeated();
 };
 
 /* Use C-style exports to avoid name mangling */

@@ -222,7 +222,7 @@ DLE_GHZ1:
 @End:
 		sf.b	(f_lockscreen).w				; unlock right boundary
 		addq.b	#2,(v_dle_routine).w
-		move.w	#$2900+$180,(v_limitright2).w		; setup right boundary
+		move.w	#$2C80+$E0,(v_limitright2).w		; setup right boundary
 		move.w	(v_screenposx).w,(v_limitleft2).w		; limit left boundary
 
 		moveq	#plcid_Signpost,d0

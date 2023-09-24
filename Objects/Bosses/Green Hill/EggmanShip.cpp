@@ -7,6 +7,7 @@
 #include "EggmanMonitor.hpp"
 #include "SpikedBall.hpp"
 
+extern uint16_t v_framecount;
 extern uint8_t v_dle_routine;
 
 /* Entry point for Eggman ship's master script */
@@ -17,11 +18,17 @@ void ObjEggmanShip::executeMasterScript() {
 		goto handleDamageAndMovement;
 
 	case 0x01:
-		script01_TestSeq();
+		script01_ThrowSequence();
 		goto handleDamageAndMovement;
+
+	case 0x02:
+		script02_Defeated();
+		goto handleMovement;
 
 	handleDamageAndMovement:
 		handleDamage();
+
+	handleMovement:
 		speedToPos();
 		break;
 
@@ -35,8 +42,14 @@ void ObjEggmanShip::executeMasterScript() {
 void ObjEggmanShip::handleDamage() {
 	if (!collision_flag) {
 		if (!flash_timer) {
-			flash_timer = 0x21;
 			playSound__cdecl(0xAC);	// play boss damage sound
+			// Is defeated flag set?
+			if (status_bits & 0x80) {
+				scriptId = 2;
+				scriptRoutineId = 0;
+				return;
+			}
+			flash_timer = 0x21;
 		}
 
 		if (--flash_timer) {
@@ -109,6 +122,7 @@ void ObjEggmanShip::script00_Intro() {
 			const auto screenX = position.x - camera->x;
 			if (screenX > 320 - 0x40) {
 				v_dle_routine += 2;	// start scrolling shit...
+				playSound__cdecl(0x8C);
 				throwCooldown = 60;
 				scriptRoutineId++;
 			}
@@ -140,7 +154,7 @@ void ObjEggmanShip::script00_Intro() {
 
 			// Reach target X
 			if (position.x > targetX) {
-				velocity.xf = (velocity.xf > 0x200) ? velocity.xf - 0x0C : velocity.xf;
+				velocity.xf = (velocity.xf > 0x240) ? velocity.xf - 0x0C : velocity.xf;
 			}
 			else if (position.x < targetX) {
 				velocity.xf = (velocity.xf < 0x500) ? velocity.xf + 0x0C : velocity.xf;
@@ -158,7 +172,7 @@ void ObjEggmanShip::script00_Intro() {
 	}
 }
 
-void ObjEggmanShip::script01_TestSeq() {
+void ObjEggmanShip::script01_ThrowSequence() {
 	switch (scriptRoutineId) {
 	case 0x00:
 		{
@@ -198,25 +212,104 @@ void ObjEggmanShip::script01_TestSeq() {
 				velocity.yf += 0x08;
 			}
 
+			// Don't throw shit during first few hits
+			if (health > 8) {
+				return;
+			}
+
 			// Throw shit if within range
 			if (throwCooldown) {
 				throwCooldown--;
+				if (throwCooldown == 90) {
+					#pragma GCC diagnostic push
+					#pragma GCC diagnostic ignored "-Wcast-function-type"
+					throwObject(
+						randomNumber__cdecl() & 1 
+							? reinterpret_cast<objectExecuteCallback>(execute_ObjGHZBossEggmanMonitor)
+							: reinterpret_cast<objectExecuteCallback>(execute_ObjGHZBossSpikedBall)
+					);
+					#pragma GCC diagnostic pop
+				}
+				else if (throwCooldown == 60) {
+					forceLaugh = false;
+				}
 			}
 			if (!throwCooldown 
 				&& (screenX > 200) && (screenX < 200 + 75) && (screenY > 32) && (screenY < 32 + 45)
 			) {
-				#pragma GCC diagnostic push
-				#pragma GCC diagnostic ignored "-Wcast-function-type"
-				throwObject(
-					randomNumber__cdecl() & 1 
-						? reinterpret_cast<objectExecuteCallback>(execute_ObjGHZBossEggmanMonitor)
-						: reinterpret_cast<objectExecuteCallback>(execute_ObjGHZBossSpikedBall)
-				);
-				#pragma GCC diagnostic pop
-				throwCooldown = 90;
+				// About to throw an object
+				throwCooldown = 120;
+				forceLaugh = true;
 			}
 
 			break;
+		}
+	}
+}
+
+void ObjEggmanShip::script02_Defeated() {
+	switch (scriptRoutineId) {
+	case 0x00:
+		throwCooldown = 180;
+		forceLaugh = false;	// no time for laughin'
+		scriptRoutineId++;
+		// fallthrough
+
+	case 0x01:
+		{
+
+			const auto camera = getFGCamera();
+			const auto targetX = camera->x + 320/2;
+			const auto targetY = camera->y + 224/2 - 0x50;
+
+			if (position.x > targetX) {
+				velocity.xf = velocity.xf > 0x100 ? velocity.xf -= 0x0E : velocity.xf;
+			}
+			else {
+				velocity.xf = velocity.xf < 0x400 ? velocity.xf += 0x0E : velocity.xf;
+			}
+
+			if (position.y > targetY) {
+				velocity.yf = velocity.yf > -0x100 ? velocity.yf -= 0x04 : velocity.yf;
+			}
+			else {
+				velocity.yf = velocity.yf < 0x100 ? velocity.yf += 0x04 : velocity.yf;
+			}
+
+			// Boss defeated sequence
+			if ((v_framecount & 3) == 0) {
+				LevelObject * explosion = static_cast<LevelObject*>(findFreeObj__cdecl());
+				if (explosion) {
+					explosion->id = 0x3F;
+					explosion->position = position;
+					explosion->position.x += ((randomNumber__cdecl() & 0xFF) >> 2) - 0x20;
+					explosion->position.y += ((randomNumber__cdecl() & 0xFF) >> 3);
+				}
+			}
+		}
+		// Prepare to fly away
+		if (!throwCooldown--) {
+			throwCooldown = 120;
+			velocity.xf = 0x100;
+			velocity.yf = 0x300;
+
+			scriptRoutineId++;
+		}
+		break;
+
+	case 0x02:		// Flying away
+		velocity.xf += 0x20;
+		velocity.yf -= 0x12;
+
+		// We're done here
+		if (!throwCooldown--) {
+			// Too tired to handle boss deletion right now, so we'll just hide it
+			position.x = 0;
+			position.y = 0;
+
+			playSound__cdecl(0x81);
+			v_dle_routine += 2;
+			scriptRoutineId++;
 		}
 	}
 }
