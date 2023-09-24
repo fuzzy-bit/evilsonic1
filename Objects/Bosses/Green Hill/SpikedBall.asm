@@ -1,3 +1,4 @@
+	even
 _ZN20ObjGHZBossSpikedBall7executeEv:
 	move.l	a2, -(sp)
 	move.l	d2, -(sp)
@@ -74,6 +75,7 @@ _ZN20ObjGHZBossSpikedBall7executeEv:
 	cmp.w	#-8, d0
 	bge	@L8
 	bra	@L14
+	even
 execute_ObjGHZBossSpikedBall:
 	move.l	a2, -(sp)
 	move.l	d2, -(sp)

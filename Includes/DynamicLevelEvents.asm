@@ -76,6 +76,24 @@ DLE_GHZx:	dc.w DLE_GHZ1-DLE_GHZx
 ; ===========================================================================
 
 DLE_GHZ1:
+
+@CamXVel:	equ	v_bg3screenposy		; use unused variable
+
+		moveq	#0,d0
+		move.b	(v_dle_routine).w,d0
+		move.w	@Routines(pc,d0.w),d0
+		jmp	@Routines(pc,d0.w)
+; ===========================================================================
+@Routines:
+		dc.w	@Level-@Routines
+		dc.w	@Nullsub-@Routines
+		dc.w	@StartScrolling-@Routines
+		dc.w	@Autoscroll-@Routines
+		dc.w	@End-@Routines
+		dc.w	@Nullsub-@Routines
+
+; ===========================================================================
+@Level:
 		; - DEFAULT ------------------------------------
 		move.w	#$300,(v_limitbtm1).w ; set lower y-boundary
 		; - PASS 1--------------------------------------
@@ -92,10 +110,124 @@ DLE_GHZ1:
 		bcs.s	@Return	; if not, branch
 		
 		move.w	#$400,(v_limitbtm1).w ; set lower y-boundary
-		; ----------------------------------------------
 
+		cmpi.w	#$2500-$200, (v_screenposx).w
+		blo.s	@Return
+		move.w	#$2500-$200, (v_limitleft2).w
+		addq.b	#2, (v_dle_routine).w
+
+		move.l	#execute_ObjFakeSignpost, -(sp)
+		pea	v_lvlobjspace.w
+		jsr	CreateCppObject__cdecl
+		move.l	d0, a1
+		move.w	#$2500+320/2, obX(a1)
+		move.w	#$400+224-$40, obY(a1)
+		addq.w	#8, sp
+
+		moveq	#0, d0
+		move.l	d0, @CamXVel
+		moveq	#plcid_Signpost,d0
+		jsr	NewPLC		; load signpost	patterns
+		moveq	#plcid_Boss,d0
+		jmp	AddPLC		; load boss patterns
+
+; ===========================================================================
+@Nullsub:
 @Return:
-		rts	
+		rts
+
+; ===========================================================================
+@StartScrolling:
+
+@ScrollSpeed:	= 3
+
+		cmp.b	#6, v_player+obRoutine	; Sonic dying?
+		bhs.s	@Return			; if yes, branch
+
+		; Start moving camera increasingly fast
+		move.l	@CamXVel,d0
+		add.l	d0, (v_screenposx).w
+		move.l	d0,d1
+		asr.l	#8,d1
+		swap	d0
+		subq.w	#@ScrollSpeed,d0
+		beq.s	@ScrollingOk
+		addi.l	#$800, @CamXVel
+		move.w	d1, (v_scrshiftx).w
+
+@Scrolling_UpdateBoundaries:
+		move.w	(v_screenposx).w, d0
+		move.w	d0,(v_limitleft2).w		; update camera boundaries
+		move.w	d0,(v_limitright2).w		;
+		move.w	d0,(v_screenposx_final).w	; ''
+		rts
+
+; ---------------------------------------------------------------------------
+@ScrollingOk:
+		addq.b	#2, (v_dle_routine).w
+		bra.s	@Scrolling_UpdateBoundaries
+; ===========================================================================
+
+@Autoscroll:
+
+@WarpPeriod:	= $600
+
+		cmp.b	#6, v_player+obRoutine	; Sonic dying?
+		bhs.s	@Return			; if yes, branch
+
+		move.w	(v_limitleft2).w,d0
+		move.w	#$300,(v_scrshiftx).w	; keep camera scrolling ...
+		addq.w	#@ScrollSpeed,d0
+		cmpi.w	#$2500+@WarpPeriod,d0	; has camera went past warp border?
+		bcs.s	@NoWarp			; if not, branch
+
+		move.w	#@WarpPeriod,d1
+		sub.w	d1,d0			; warp Camera
+
+		lea	(v_objspace).w, a3
+		moveq	#$7F,d6
+		
+	@WarpLoop:
+		tst.b	(a3)			; is this slot occupied?
+		beq.s	@WarpNext		; if not, branch
+		moveq	#%1100, d2		; does object use playfield coordinates?
+		and.b	obRender(a3), d2	; ''
+		subq.w	#1<<2, d2		; ''
+		bne.s	@WarpNext		; if not, branch
+
+		sub.w	d1, obX(a3)		; warp object
+
+	@WarpNext:
+		lea	$40(a3),a3
+		dbf	d6,@WarpLoop
+
+	@NoWarp:
+		move.w	d0,(v_limitleft2).w		; update camera boundaries
+		move.w	d0,(v_limitright2).w		;
+		move.w	d0,(v_screenposx).w		; update camera position            
+		move.w	d0,(v_screenposx_final).w	; ''
+
+		; Prevent Sonic from getting stuck on the left boundary
+		lea	(v_player).w,a0
+		sub.w	obX(a0), d0
+		cmp.w	#-$11, d0		; is Sonic touching the left boundary?
+		blt	@Return			; if nope, branch
+		add.w	#$11, d0		; d0 = CameraX - SonicX + $11
+		add.w	d0, obX(a0)		; SonicX = CameraX + $11
+		move.w	#@ScrollSpeed<<8, obVelX(a0)
+		move.w	#@ScrollSpeed<<8, obInertia(a0)
+		rts
+; ===========================================================================
+
+@End:
+		sf.b	(f_lockscreen).w				; unlock right boundary
+		addq.b	#2,(v_dle_routine).w
+		move.w	#$2900+$180,(v_limitright2).w		; setup right boundary
+		move.w	(v_screenposx).w,(v_limitleft2).w		; limit left boundary
+
+		moveq	#plcid_Signpost,d0
+		jmp	NewPLC					; load signpost	patterns
+
 ; ===========================================================================
 
 DLE_GHZ2:

@@ -1,3 +1,4 @@
+	even
 _ZN13ObjPlasmaBall7executeEv:
 	move.l	a2, -(sp)
 	move.l	d2, -(sp)
@@ -161,6 +162,7 @@ _ZN13ObjPlasmaBall7executeEv:
 	move.b	#1, 28(a2)
 	move.w	#256, 50(a2)
 	bra	@L10
+	even
 execute_ObjPlasmaBall:
 	move.l	a2, -(sp)
 	move.l	d2, -(sp)
@@ -324,6 +326,7 @@ execute_ObjPlasmaBall:
 	move.b	#1, 28(a2)
 	move.w	#256, 50(a2)
 	bra	@L34
+	even
 create_ObjPlasmaBall:
 	move.l	d2, -(sp)
 	move.l	8(sp), d2

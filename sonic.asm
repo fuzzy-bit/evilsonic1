@@ -1771,11 +1771,6 @@ BossMove2:
 
 ; ===========================================================================
 
-		include	"Objects\Bosses\Green Hill\Main.asm"
-		include	"Objects\Bosses\Green Hill\EggmanShip.asm"	; WARNING! Auto-generated
-		include	"Objects\Bosses\Green Hill\EggmanMonitor.asm"	; WARNING! Auto-generated
-		include	"Objects\Bosses\Green Hill\SpikedBall.asm"	; WARNING! Auto-generated
-		
 		include	"Data\Animations\Eggman.asm"
 Map_Eggman:	include	"Data\Mappings\Objects\Eggman.asm"
 Map_BossItems:	include	"Data\Mappings\Objects\Boss Items.asm"
@@ -2029,6 +2024,12 @@ Art_Hud:	incbin	"Data\Art\Uncompressed\HUD Numbers.bin" ; 8x16 pixel numbers on 
 Art_LivesNums:	incbin	"Data\Art\Uncompressed\Lives Counter Numbers.bin" ; 8x8 pixel numbers on lives counter
 		even
 
+		include	"Objects\Bosses\Green Hill\Main.asm"
+		include	"Objects\Bosses\Green Hill\FakeSignpost.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Green Hill\EggmanShip.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Green Hill\EggmanMonitor.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Green Hill\SpikedBall.asm"	; WARNING! Auto-generated
+		
 		include	"Objects\Bosses\Final\PlasmaBoss.asm"
 		include	"Objects\Bosses\Final\PlasmaBall.asm"
 

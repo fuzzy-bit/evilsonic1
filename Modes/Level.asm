@@ -465,6 +465,8 @@ SignpostArtLoad:
 		bne.w	@exit		; if yes, branch
 		cmpi.b	#2,(v_act).w	; is act number 02 (act 3)?
 		beq.s	@exit		; if yes, branch
+		cmpi.w	#(id_GHZ<<8)+0,(v_zone).w	; is it GZ1?
+		beq.s	@exit
 		cmpi.w	#(id_MZ<<8)+0,(v_zone).w	; is it MZ1?
 		beq.s	@exit
 		cmpi.w	#(id_SLZ<<8)+0,(v_zone).w	; is it SLZ1?

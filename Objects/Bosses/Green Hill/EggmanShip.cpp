@@ -7,14 +7,22 @@
 #include "EggmanMonitor.hpp"
 #include "SpikedBall.hpp"
 
-extern "C" LevelObject * BGHZ_CreateSpikedBall__cdecl(LevelObject * parent);
-extern "C" LevelObject * BGHZ_CreateEggmanMonitor__cdecl(LevelObject * parent);
+extern uint8_t v_dle_routine;
 
 /* Entry point for Eggman ship's master script */
 void ObjEggmanShip::executeMasterScript() {
 	switch (scriptId) {
 	case 0x00:
-		script00_TestSeq();
+		script00_Intro();
+		goto handleDamageAndMovement;
+
+	case 0x01:
+		script01_TestSeq();
+		goto handleDamageAndMovement;
+
+	handleDamageAndMovement:
+		handleDamage();
+		speedToPos();
 		break;
 
 	default:
@@ -22,8 +30,6 @@ void ObjEggmanShip::executeMasterScript() {
 		asm("illegal");
 	}
 
-	handleDamage();
-	speedToPos();
 };
 
 void ObjEggmanShip::handleDamage() {
@@ -43,7 +49,116 @@ void ObjEggmanShip::handleDamage() {
 	}
 }
 
-void ObjEggmanShip::script00_TestSeq() {
+void ObjEggmanShip::script00_Intro() {
+	const auto camera = getFGCamera();
+
+	switch (scriptRoutineId) {
+	case 0x00:
+		{
+			// Initial position
+			position.x = camera->x + 320/2;
+			position.y = camera->y + -0x40;
+			velocity.yf = 0x200;
+			forceLaugh = true;		// we're laughin'
+
+			status_bits |= 1;		// turn right
+			health = 10;			// we're healthy
+			throwCooldown = 30;
+
+			scriptRoutineId++;
+		}
+		// fallthrough
+
+	case 0x01:	// Moving down and preparing take off ...
+		{
+			// Slowdown trajectory
+			const auto screenY = position.y - camera->y;
+
+			if (screenY > 0x10) {
+				// Start slowing down
+				if (velocity.yf > 0) {
+					velocity.yf -= 0x0C;
+				}
+				// Reached stop point
+				else {
+					velocity.yf = 0x00;
+
+					// Take off now ...
+					if (!throwCooldown--) {
+						forceLaugh = false;	// we're srs now >=C
+						velocity.xf = -0x200;
+						velocity.yf = 0x180;
+						scriptRoutineId++;
+					}
+				}
+			}
+		}
+		break;
+
+	case 0x02:	// Fly away now! Fly away!
+		{
+			// Take off trajectory
+			if (velocity.xf < 0x400) {
+				velocity.xf += 0x18;
+			}
+			if (velocity.yf > -0x200) {
+				velocity.yf -= 0x08;
+			}
+
+			// Start scrolling shit ...
+			const auto screenX = position.x - camera->x;
+			if (screenX > 320 - 0x40) {
+				v_dle_routine += 2;	// start scrolling shit...
+				throwCooldown = 60;
+				scriptRoutineId++;
+			}
+		}
+		break;
+
+	case 0x03:	// Reaching entry point for script01 ...
+		{
+			// Wait
+			if (throwCooldown) {
+				throwCooldown--;
+				return;
+			}
+
+			const auto camera = getFGCamera();
+			const auto targetX = camera->x + 320/2 + 0x30;
+			const auto targetY = camera->y + 224/2 - 0x50;
+
+			// Reach target Y
+			if (position.y > targetY) {
+				velocity.yf = (velocity.yf > -0x200) ? velocity.yf - 0x04 : velocity.yf;
+			}
+			else if (position.y < targetY) {
+				velocity.yf = (velocity.yf < 0x200) ? velocity.yf + 0x04 : velocity.yf;
+			}
+			else {
+				velocity.yf = 0;
+			}
+
+			// Reach target X
+			if (position.x > targetX) {
+				velocity.xf = (velocity.xf > 0x200) ? velocity.xf - 0x0C : velocity.xf;
+			}
+			else if (position.x < targetX) {
+				velocity.xf = (velocity.xf < 0x500) ? velocity.xf + 0x0C : velocity.xf;
+			}
+			else {
+				velocity.xf = 0x300;
+			}
+
+			if (position.y == targetY && position.x == targetX && velocity.xf == 0x300 && velocity.yf == 0) {
+				scriptId = 1;
+				scriptRoutineId = 0;
+			}
+		}
+		break;
+	}
+}
+
+void ObjEggmanShip::script01_TestSeq() {
 	switch (scriptRoutineId) {
 	case 0x00:
 		{
@@ -54,8 +169,6 @@ void ObjEggmanShip::script00_TestSeq() {
 			position.y = camera->y + 224/2 - 0x50;
 			velocity.xf = 0x300;
 
-			status_bits |= 1;	// turn right
-			health = 255;		// ###
 			scriptRoutineId++;
 		}
 		// fallthrough

@@ -1,3 +1,4 @@
+	even
 _ZN23ObjGHZBossEggmanMonitor7executeEv:
 	move.l	a2, -(sp)
 	move.l	d2, -(sp)
@@ -142,6 +143,7 @@ _ZN23ObjGHZBossEggmanMonitor7executeEv:
 	ext.l	d0
 	lsl.l	#8, d0
 	bra	@L22
+	even
 execute_ObjGHZBossEggmanMonitor:
 	move.l	a2, -(sp)
 	move.l	d2, -(sp)

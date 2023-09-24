@@ -8,6 +8,8 @@
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
+AddPLC__cdecl:
+		move.w	4(sp), d0
 ; LoadPLC:
 AddPLC:
 		movem.l	a1-a2,-(sp)

@@ -97,8 +97,11 @@ loc_17A46:
 ; ===========================================================================
 
 loc_17A50:
+		tst.b	$2C(a1)
+		bne.s	@ForceLaugh
 		cmpi.b	#4,(v_player+obRoutine).w
 		bcs.s	loc_17A5A
+	@ForceLaugh:
 		moveq	#4,d1
 
 loc_17A5A:
@@ -153,57 +156,3 @@ BGHZ_Display:
 		andi.b	#$FC,obRender(a0)
 		or.b	d0,obRender(a0)
 		jmp		(DisplaySprite).l
-
-; ===========================================================================
-; ---------------------------------------------------------------------------
-; A convenience call to create spiked ball object
-; ---------------------------------------------------------------------------
-
-BGHZ_CreateSpikedBall__cdecl:
-		move.l	4(sp), a0
-		jsr		FindNextFreeObj			; a1 = object
-		bne.s	@NullPtr
-		move.b	#id_ObjDynamic, (a1)
-		move.l	#@ObjectLauncher, obCodePtr(a1)
-		move.l	a1, d0
-		rts
-
-@NullPtr:
-		moveq	#0, d0
-		rts
-
-; ===========================================================================
-@ObjectLauncher:
-		move.l	a0, -(sp)
-		move.l	a0, -(sp)
-		jsr		execute_ObjGHZBossSpikedBall
-		addq.w	#4, sp
-		move.l	(sp)+, a0
-		rts
-
-; ===========================================================================
-; ---------------------------------------------------------------------------
-; A convenience call to create eggman monitor object
-; ---------------------------------------------------------------------------
-
-BGHZ_CreateEggmanMonitor__cdecl:
-		move.l	4(sp), a0
-		jsr		FindNextFreeObj			; a1 = object
-		bne.s	@NullPtr
-		move.b	#id_ObjDynamic, (a1)
-		move.l	#@ObjectLauncher, obCodePtr(a1)
-		move.l	a1, d0
-		rts
-
-@NullPtr:
-		moveq	#0, d0
-		rts
-
-; ===========================================================================
-@ObjectLauncher:
-		move.l	a0, -(sp)
-		move.l	a0, -(sp)
-		jsr		execute_ObjGHZBossEggmanMonitor
-		addq.w	#4, sp
-		move.l	(sp)+, a0
-		rts

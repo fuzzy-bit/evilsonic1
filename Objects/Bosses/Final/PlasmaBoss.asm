@@ -1,9 +1,9 @@
+	even
 _ZN13ObjPlasmaBoss10cameraBaseE:
 	dc.w	9184
 	dc.w	1408
 _ZN13ObjPlasmaBoss12actionScriptE:
 	dc.b	$1, $2, $3, $3, $3, $81, $a, $2, $4, $3, $3, $4, $80, $2
-	even
 ObjectsBossesFinalPlasmaBoss_s__LC0:
 	dc.b	"Initializing...", $e0, 0
 	even
@@ -233,7 +233,6 @@ _ZN13ObjPlasmaBoss7executeEv:
 	bra	@L12
 ObjectsBossesFinalPlasmaBoss_s__LC1:
 	dc.b	"Setting action from script: pos=", $80, ", action=", $80, $e0, 0
-	even
 ObjectsBossesFinalPlasmaBoss_s__LC2:
 	dc.b	"Unknown action script flag", 0
 	even
@@ -309,6 +308,7 @@ _ZN13ObjPlasmaBoss23setNextActionFromScriptEv:
 @L48:
 	pea	ObjectsBossesFinalPlasmaBoss_s__LC2
 	jsr	raiseError__cdecl
+	even
 _ZN13ObjPlasmaBoss12handleDamageEv:
 	move.l	a2, -(sp)
 	move.l	8(sp), a2
@@ -350,6 +350,7 @@ _ZN13ObjPlasmaBoss12handleDamageEv:
 	move.b	44(a2), d0
 	addq.l	#2, sp
 	bra	@L52
+	even
 _ZN13ObjPlasmaBoss19action01_EnterRightEv:
 	move.l	4(sp), a0
 	move.b	37(a0), d0
@@ -396,6 +397,7 @@ _ZN13ObjPlasmaBoss19action01_EnterRightEv:
 	cmp.w	#9472, d0
 	bgt	@L58
 	bra	@L64
+	even
 _ZN13ObjPlasmaBoss21action02_AttractBallsEv:
 	movem.l	d2/d3/a2/a3/a4, -(sp)
 	move.l	24(sp), a2
@@ -475,6 +477,7 @@ _ZN13ObjPlasmaBoss21action02_AttractBallsEv:
 	move.w	d0, 40(a2)
 	movem.l	(sp)+, d2/d3/a2/a3/a4
 	rts	
+	even
 _ZN13ObjPlasmaBoss23action03_VerticalAttackEv:
 	movem.l	d2/d3/a2/a3, -(sp)
 	move.l	20(sp), a2
@@ -658,6 +661,7 @@ _ZN13ObjPlasmaBoss23action03_VerticalAttackEv:
 	bgt	@L90
 	lea	create_ObjPlasmaBall, a3
 	bra	@L101
+	even
 _ZN13ObjPlasmaBoss23action04_ChangePositionEv:
 	move.l	d3, -(sp)
 	move.l	d2, -(sp)
@@ -722,6 +726,7 @@ _ZN13ObjPlasmaBoss23action04_ChangePositionEv:
 	add.l	d0, 12(a0)
 	move.w	#59, 40(a0)
 	bra	@L129
+	even
 _ZN13ObjPlasmaBoss18action05_EnterLeftEv:
 	move.l	4(sp), a0
 	move.b	37(a0), d0
@@ -768,11 +773,13 @@ _ZN13ObjPlasmaBoss18action05_EnterLeftEv:
 	cmp.w	#9215, d0
 	ble	@L130
 	bra	@L136
+	even
 _ZN13ObjPlasmaBoss9setActionENS_6ActionE:
 	move.l	4(sp), a0
 	move.b	9(sp), 36(a0)
 	clr.b	37(a0)
 	rts	
+	even
 execute_ObjPlasmaBoss:
 	movem.l	d2/d3/a2, -(sp)
 	move.l	16(sp), a2
