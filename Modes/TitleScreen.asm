@@ -212,6 +212,7 @@ Tit_ChkRegion:
 		lea	(LevSelCode_J).l,a0 ; load J code
 
 Tit_EnterCheat:
+		if Cheats=1
 		move.w	(v_title_dcount).w,d0
 		adda.w	d0,a0
 		move.b	(v_jpadpress1).w,d0 ; get button press
@@ -249,6 +250,7 @@ Tit_CountC:
 		andi.b	#btnC,d0	; is C button pressed?
 		beq.s	loc_3230	; if not, branch
 		addq.w	#1,(v_title_ccount).w ; increment C counter
+		endc
 
 loc_3230:
 		tst.w	(v_demolength).w
@@ -335,6 +337,7 @@ TitleScreen_GoToMenu:
 ; Level	Select
 ; ---------------------------------------------------------------------------
 LevelSelect:
+		if Cheats=1
 		move.b	#4,(v_vbla_routine).w
 		bsr.w	WaitForVBla
 		bsr.w	LevSelControls
@@ -390,6 +393,11 @@ LevSel_Level_SS:
 LevSel_Level:
 		andi.w	#$3FFF,d0
 		move.w	d0,(v_zone).w	; set level number
+		else
+		jsr		ResetSRAM
+		RaiseError "STOP CHEATING LOL                     GET FUCKED"
+		rts
+		endc
 
 PlayLevel:
 		move.b	#id_Level,(v_gamemode).w ; set screen mode to $0C (level)

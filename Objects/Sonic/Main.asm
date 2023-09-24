@@ -5,9 +5,11 @@
 ; ---------------------------------------------------------------------------
 
 SonicPlayer:
+		if Cheats=1
 		tst.w	(v_debuguse).w	; is debug mode	being used?
 		beq.s	Sonic_Normal	; if not, branch
 		jmp	(DebugMode).l
+		endc
 ; ===========================================================================
 
 Sonic_Normal:

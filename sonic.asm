@@ -26,6 +26,7 @@ Revision:	equ 1
 ; Custom engine flags
 Respawn: 	equ 0
 SpeedCap: 	equ 0
+Cheats: 	equ 1
 
 ZoneCount:	equ 7	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
 
