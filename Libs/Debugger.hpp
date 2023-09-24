@@ -17,11 +17,11 @@ namespace Debug {
 		}
 
 	#else
-		inline void raiseError(const char * _) {
+		inline void raiseError(const char *) {
 			;
 		}
 
-		inline void kwrite(const char * _) {
+		template<typename... Args> inline void kwrite(const char *, Args...) {
 			;
 		}
 	#endif

@@ -1,6 +1,4 @@
 
-#define _DEBUG_
-
 #include "FakeSignpost.hpp"
 #include "Debugger.hpp"
 #include "S1Engine.hpp"

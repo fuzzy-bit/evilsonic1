@@ -2,8 +2,6 @@
 #include "S1Engine.hpp"
 #include <cstdint>
 
-#define _DEBUG_
-
 #include "Debugger.hpp"
 #include "Utils.hpp"
 #include "PlasmaBoss.hpp"

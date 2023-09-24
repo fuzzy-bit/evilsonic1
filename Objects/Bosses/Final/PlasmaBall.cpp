@@ -1,7 +1,4 @@
 
-#define _DEBUG_
-
-#include "Debugger.hpp"
 #include "PlasmaBall.hpp"
 #include "S1Engine.hpp"
 #include "Utils.hpp"

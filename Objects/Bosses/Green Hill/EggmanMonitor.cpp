@@ -1,6 +1,4 @@
 
-#define _DEBUG_
-
 #include <cstdint>
 
 #include "S1Engine.hpp"
