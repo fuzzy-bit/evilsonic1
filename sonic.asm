@@ -2065,6 +2065,7 @@ Map_Sonic:	include	"Data\Mappings\Objects\Sonic.asm"
 ; Uncompressed graphics	- Sonic
 ; ---------------------------------------------------------------------------
 
+		align $20000
 Art_Sonic:	incbin	"Data\Art\Uncompressed\Sonic.bin"	; Sonic
 		even
 
