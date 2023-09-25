@@ -5,6 +5,8 @@
 
 VBlank:
 		movem.l	d0-a6,-(sp)
+		jsr	RandomNumber		; dummy call to improve RNG
+		jsr	RandomNumber		; ''
 		tst.b	(v_vbla_routine).w
 		beq.w	VBla_00
 		move.w	(vdp_control_port).l,d0
