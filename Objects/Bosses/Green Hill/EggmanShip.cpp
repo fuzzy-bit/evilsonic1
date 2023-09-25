@@ -8,6 +8,7 @@
 #include "SpikedBall.hpp"
 
 extern uint16_t v_framecount;
+extern uint8_t f_timecount;
 extern uint8_t v_dle_routine;
 
 /* Entry point for Eggman ship's master script */
@@ -122,6 +123,7 @@ void ObjEggmanShip::script00_Intro() {
 			const auto screenX = position.x - camera->x;
 			if (screenX > 320 - 0x40) {
 				v_dle_routine += 2;	// start scrolling shit...
+				f_timecount = 1;	// start timer...
 				playSound__cdecl(0x8C);
 				throwCooldown = 60;
 				scriptRoutineId++;

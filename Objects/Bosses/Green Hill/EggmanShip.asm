@@ -199,6 +199,7 @@ _ZN13ObjEggmanShip14script00_IntroEv:
 	cmp.w	#256, d0
 	ble	@L32
 	addq.b	#2, v_dle_routine
+	move.b	#1, f_timecount
 	move.w	#140, -(sp)
 	jsr	playSound__cdecl
 	move.b	#60, 43(a2)
