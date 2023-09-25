@@ -153,7 +153,7 @@ Got_NextLevel:	; Routine $A
 		move.w	d0,(v_zone).w			; set level number
 		tst.w	d0
 		bne.s	Got_ChkSS
-		move.b	#id_Sega,(v_gamemode).w
+		move.b	#id_Credits, (v_gamemode).w
 		bra.s	Got_Display2
 ; ===========================================================================
 

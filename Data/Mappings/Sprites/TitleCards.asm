@@ -113,12 +113,17 @@ M_Card_Oval:	dc.w $0			; Oval
 		; dc.b 4,	$C, 0, $29, $FF, $EC
 		; dc.b $C, 8, 0, $29, $FF, $EC
 		; even
-M_Card_FZ:	dc.w 5			; FINAL
-		dc.b $F8, 5, 0,	$14, $FF, $DC
-		dc.b $F8, 1, 0,	$20, $FF, $EC
-		dc.b $F8, 5, 0,	$2E, $FF, $F4
-		dc.b $F8, 5, 0,	0, $00, 4
-		dc.b $F8, 5, 0,	$26, $00, $14
+M_Card_FZ:	dc.w 9		; THE FINALE
+		dc.b	$F8, 5, 0, $79, $FF, $AF
+		dc.b	$F8, 5, 0, $49, $FF, $BF
+		dc.b	$F8, 5, 0, $3D, $FF, $CF
+
+		dc.b	$F8, 5, 0, $41, $FF, $EF
+		dc.b	$F8, 5, 0, $4D, $0, $4
+		dc.b	$F8, 5, 0, $61, $0, $10
+		dc.b	$F8, 5, 0, $2D, $0, $20
+		dc.b	$F8, 5, 0, $59, $0, $30
+		dc.b	$F8, 5, 0, $3D, $0, $40
 		even
 
 Map_Over:	include	"Data\Mappings\Objects\Game Over.asm"
