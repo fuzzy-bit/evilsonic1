@@ -128,6 +128,13 @@ InfoScreen_DrawString:
 		bra	InfoScreen_DrawText
 
 InfoScreen_Quit:
+		cmpi.b	#137, (v_betaolve).w
+		beq		@Sega
+
+		move.b 	#id_Endscreen, GameMode
+		rts
+
+@Sega:
 		move.b 	#0, GameMode
 		rts
 

@@ -26,7 +26,7 @@ Revision:	equ 1
 ; Custom engine flags
 Respawn: 	equ 0
 SpeedCap: 	equ 0
-Cheats: 	equ 1
+Cheats: 	equ 0
 
 ZoneCount:	equ 7	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
 
@@ -241,8 +241,12 @@ GameModeArray:
 		ptr_GM_Cont:	bra.w	Continue	; Continue Screen ($18)
 		ptr_GM_Ending:	bra.w	Ending	; End of game sequence ($1C)
 		ptr_GM_Credits:	bra.w	Credits	; Credits ($20)
+		ptr_GM_Endscreen:	bra.w	@Endscreen	; Endscreen ($24)
 		rts
-		
+
+@Endscreen:
+		jmp		Endscreen
+
 ; ===========================================================================
 
 CheckSumError:
@@ -2839,6 +2843,8 @@ TitleBGArt: 	incbin "Data/Art/Nemesis/Title Screen Background.bin"
 TitleBGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
 TitleFGArt: 	incbin "Data/Art/Nemesis/Title Screen Foreground.bin"
 TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen.bin"
+
+		include "Modes\Endscreen.asm"
 
 ; ---------------------------------------------------------------------------
 ; Error Handler

@@ -69,6 +69,7 @@ SampleTable:
 		dcSample	TYPE_PCM, Strike, 		20454, FLAGS_PRIORITY	; $A3	- Strike
 		dcSample	TYPE_PCM, Scream, 		20454, FLAGS_PRIORITY	; $A4	- Scream
 		dcSample	TYPE_PCM, Ground, 		20454, FLAGS_PRIORITY	; $A5   - Ground Wave
+		dcSample	TYPE_PCM, ThankYou, 	22050, FLAGS_PRIORITY	; $A6   - Thank you <3
 SampleTable_End:
 
 ; ---------------------------------------------------------------
@@ -112,4 +113,5 @@ SampleTable_End:
 		IncludeDAC		Strike, wav
 		IncludeDAC		Scream, wav
 		IncludeDAC		Ground, raw
+		IncludeDAC		ThankYou, wav
 		even
