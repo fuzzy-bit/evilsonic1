@@ -221,8 +221,8 @@ void ObjPlasmaBoss::action02_AttractBalls() {
 				const int16_t sin = calcSine__cdecl(angle);
 				const int16_t cos = calcSine__cdecl(angle + 0x40);
 
-				plasmaBall->position.xf = position.xf + cos * (int32_t)0x18000;    //screenX < 320/2 ? camera->x + 0x20 : camera->x + 320 - 0x20;
-				plasmaBall->position.yf = position.yf + sin * (int32_t)0x18000;    //screenX < 320/2 ? camera->x + 0x20 : camera->x + 320 - 0x20;
+				plasmaBall->position.xf = position.xf + cos * (int32_t)0x18000;
+				plasmaBall->position.yf = position.yf + sin * (int32_t)0x18000;
 			}
 		}
 
@@ -427,7 +427,7 @@ void ObjPlasmaBoss::action07_Defeated() {
 				plasmaBall->position = position;
 				plasmaBall->velocity.xf = cos * 4;			
 				plasmaBall->velocity.yf = sin * 4;		
-				Debug::kwrite("xvel=\x89, yvel=\x89\xE0", plasmaBall->velocity.xf, plasmaBall->velocity.yf);	
+				// Debug::kwrite("xvel=\x89, yvel=\x89\xE0", plasmaBall->velocity.xf, plasmaBall->velocity.yf);	
 			}
 		}
 
