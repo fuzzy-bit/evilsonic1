@@ -13,7 +13,7 @@ rom:	section	org(0),obj(0)
 	include	"Libs/debugger.lib"
 	include	"Libs/veps.lib"
 
-	include "ErrorHandler/debugger.asm"
+	include "Engine/ErrorHandler/debugger.asm"
 
 SRAMEnabled:	equ 1	; change to 1 to enable SRAM
 
@@ -2835,6 +2835,5 @@ TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen.bin"
 ; ---------------------------------------------------------------------------
 ; Error Handler
 ; ---------------------------------------------------------------------------
-		include	"ErrorHandler/Extras.asm"
-		include	"ErrorHandler/ErrorHandler.asm"
+		include	"Engine/ErrorHandler/ErrorHandler.asm"
 EndOfRom:	END
