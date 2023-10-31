@@ -326,7 +326,7 @@ HurtSonic:
 ; ===========================================================================
 
 @norings:
-		tst.w	(f_debugmode).w	; is debug mode	cheat on?
+		tst.b	(f_debugmode).w	; is debug mode	cheat on?
 		bne.w	@hasshield	; if yes, branch
 
 ; ---------------------------------------------------------------------------

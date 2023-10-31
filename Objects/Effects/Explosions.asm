@@ -101,7 +101,7 @@ ExBom_Main:	; Routine 0
 		addq.b	#2,obRoutine(a0)
 		move.l	#Map_ExplodeBomb,obMap(a0)
 		move.w	#$5A0,obGfx(a0)
-		; move.b	#4,obRender(a0)
+		move.b	#4,obRender(a0)
 		move.b	#1,obPriority(a0)
 		move.b	#0,obColType(a0)
 		move.b	#$C,obActWid(a0)
@@ -109,8 +109,8 @@ ExBom_Main:	; Routine 0
 		move.b	#0,obFrame(a0)
 		sfx	sfx_superexplosion	; play exploding bomb sound
 
-		tst.b 	obRender(a0)
-		bpl.s	@NoShake
+		bsr.w	ChkObjectVisible
+		bne.s	@NoShake
 		move.b	#10, (v_shaketimer).w	
 
 @NoShake:

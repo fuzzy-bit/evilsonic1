@@ -502,6 +502,7 @@ MainMenu_MenuCommands:
 	dc.w	LevelSelectMenu_Cmd-@L				; $04
 	dc.w	MainMenu_Locked_Cmd-@L				; $05
 	dc.w	DifficultySelect_Locked_Cmd-@L		; $06
+	dc.w	ShakeChoice_Cmd-@L					; $07
 
 MainMenu_MenuElements:
 @L	dc.w	MainMenu_Full-@L					; $00
@@ -511,6 +512,7 @@ MainMenu_MenuElements:
 	dc.w	LevelSelectMenu-@L					; $04
 	dc.w	MainMenu_Locked-@L					; $05
 	dc.w	DifficultySelect_Locked-@L			; $06
+	dc.w	ShakeChoice-@L						; $03
 ; ---------------------------------------------------------------
 
 MainMenu_Full:
@@ -526,7 +528,7 @@ MainMenu_Full_Cmd:
 	dc.l	MainMenu_MenuHide2		; Loop handler
 	dc.l	Hwnd_MainMenu_Play		; Code handler
 
-	; CHALLENGES
+	; CLEAR SRAM
 	dc.b	_FromRight,_ToLeft			; In/Out anim
 	dc.l	MainMenu_MenuHide		; Loop handler
 	dc.l	Hwnd_MainMenu_LevelSelect	; Code handler
@@ -539,10 +541,11 @@ MainMenu_Full_Cmd:
 ; ---------------------------------------------------------------
 OptionsMenu:
 	dc.b	0				; Default Item
-	dc.b	3				; Size
+	dc.b	4				; Size
 	dc.w	$0003, $D0			; Index/Frame, Y-pos
 	dc.w	$0104, $F0			;
-	dc.w	$0206, $D0+$18*3+$10		;
+	dc.w	$0213, $110			;
+	dc.w	$0306, $D0+$18*4+$10		;
 	
 OptionsMenu_Cmd:
 	; DIFFICULTY
@@ -554,6 +557,11 @@ OptionsMenu_Cmd:
 	dc.b	_FromRight,_ToLeft		; In/Out anim
 	dc.l	MainMenu_MenuHide		; Loop handler
 	dc.l	Hwnd_Options_ClearSRAM		; Code handler
+
+	; SHAKE
+	dc.b	_FromRight,_ToLeft		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_Options_Shake		; Code handler
 
 	; BACK
 	dc.b	_FromLeft,_ToRight		; In/Out anim
@@ -734,6 +742,23 @@ DifficultySelect_Locked_Cmd:
 	dc.b	_FromLeft,_ToRight		; In/Out anim
 	dc.l	MainMenu_MenuHide		; Loop handler
 	dc.l	Hwnd_DifficultySelect_Back		; Code handler
+; ---------------------------------------------------------------
+ShakeChoice:
+	dc.b	0				; Default Item
+	dc.b	2				; Size
+	dc.w	$0008, $100			; Index/Frame, Y-pos
+	dc.w	$0109, $118			;
+
+ShakeChoice_Cmd:
+	; YES
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_ShakeChoice_Yes	; Code handler
+
+	; NO
+	dc.b	_FromLeft,_ToRight		; In/Out anim
+	dc.l	MainMenu_MenuHide		; Loop handler
+	dc.l	Hwnd_ShakeChoice_No		; MainMenu_MenuHide2 Code handler
 
 ; ---------------------------------------------------------------
 ; Menu Handlers
@@ -791,6 +816,36 @@ Hwnd_SRAMChoice_Yes:
 Hwnd_SRAMChoice_No:
 	move.b	#$01, Menu_ID
 	rts
+
+; ---------------------------------------------------------------
+Hwnd_Options_Shake:
+	lea	v_player+$80, a0			; get Shake object
+	move.l	#MenuItem_Hide_MarkGone, obCodePtr(a0) ; delete it...
+
+	jsr	FindNextFreeObj
+	move.b	#id_ObjDynamic, (a1)
+	move.l	#Obj_SRAMChoice_Title, obCodePtr(a1)
+	move.w	obX(a0), obX(a1)
+	move.w	obScreenY(a0), obScreenY(a1)
+	move.b	obFrame(a0), obFrame(a1)
+
+	move.b	#$07, Menu_ID			; change menus
+	rts
+
+Hwnd_ShakeChoice_Yes:
+	move.b	#0, (v_shake).w
+	jsr 	SaveSRAM
+
+	move.b	#$01, Menu_ID
+	rts
+	
+Hwnd_ShakeChoice_No:
+	move.b	#1, (v_shake).w
+	jsr 	SaveSRAM
+
+	move.b	#$01, Menu_ID
+	rts
+
 
 ; ---------------------------------------------------------------
 Hwnd_Options_SoundTest:

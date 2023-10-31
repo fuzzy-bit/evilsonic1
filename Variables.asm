@@ -289,5 +289,7 @@ v_secretprog:	equ $FFFFFFF7	; secret progression
 v_megadrive:	equ $FFFFFFF8	; Megadrive machine type
 v_gamecomplete:	equ $FFFFFFF9	; game completed
 
-f_debugmode:	equ $FFFFFFFA	; debug mode flag (sometimes 2 bytes)
+f_debugmode:	equ $FFFFFFFA	; debug mode flag
+v_shake:        equ $FFFFFFFB	; shake disabled option
+
 v_init:		equ $FFFFFFFC	; 'init' text string (4 bytes)

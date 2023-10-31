@@ -32,6 +32,9 @@ DeformLayers:
 		move.w	(v_screenposx).w, (v_screenposx_final).w
 		move.w	(v_screenposy).w, (v_screenposy_final).w
 
+		tst.b 	(v_shake).w			; shake flag because people won't stop fucking complaining 
+		bne.s 	@ShakeDone
+
 		tst.b	(v_shaketimer).w
 		beq.s	@ShakeDone
 		subq.b	#1,(v_shaketimer).w

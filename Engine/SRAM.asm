@@ -71,7 +71,8 @@ LoadSRAM:
 		move.b 	SecretProgression(a0), (v_secretprog).w
 		move.b 	SecretEnabled(a0), (v_secret).w
 		move.b 	GameCompleted(a0), (v_gamecomplete).w
-
+		move.b 	ShakeDisabled(a0), (v_shake).W
+		
 		DisableSRAM
 		startZ80
 		move.w	(sp)+, sr
@@ -93,6 +94,7 @@ SaveSRAM:
 		move.b 	(v_secretprog).w, SecretProgression(a0)
 		move.b 	(v_secret).w, SecretEnabled(a0)
 		move.b 	(v_gamecomplete).w, GameCompleted(a0)
+		move.b 	(v_shake).w, ShakeDisabled(a0)
 
 		DisableSRAM
 		startZ80
