@@ -1805,13 +1805,10 @@ loc_1982C:
 Map_SEgg:	include	"Data\Mappings\Objects\Eggman - Scrap Brain 2.asm"
 		include	"Objects\Bosses\SBZ Eggman's Crumbling Floor.asm"
 Map_FFloor:	include	"Data\Mappings\Objects\SBZ Eggman's Crumbling Floor.asm"
-		include	"Objects\Bosses\Final\Main.asm"
 		include	"Data\Animations\FZ Eggman in Ship.asm"
 Map_FZDamaged:	include	"Data\Mappings\Objects\FZ Damaged Eggmobile.asm"
 Map_FZLegs:	include	"Data\Mappings\Objects\FZ Eggmobile Legs.asm"
-		include	"Objects\Bosses\Final\FZ Eggman's Cylinders.asm"
 Map_EggCyl:	include	"Data\Mappings\Objects\FZ Eggman's Cylinders.asm"
-		include	"Objects\Bosses\Final\FZ Plasma Ball Launcher.asm"
 		include	"Data\Animations\Plasma Ball Launcher.asm"
 Map_PLaunch:	include	"Data\Mappings\Objects\Plasma Ball Launcher.asm"
 		include	"Data\Animations\Plasma Balls.asm"
@@ -1966,7 +1963,6 @@ AddPoints:
 
 		include	"Includes\HUD_Update.asm"
 		include "Objects\Effects\SonicDeath.asm"
-		include	"Objects\CppObject.asm"
 		include	"Objects\DynamicObject.asm"
 
 ; ---------------------------------------------------------------------------
@@ -2028,16 +2024,6 @@ Art_Hud:	incbin	"Data\Art\Uncompressed\HUD Numbers.bin" ; 8x16 pixel numbers on 
 		even
 Art_LivesNums:	incbin	"Data\Art\Uncompressed\Lives Counter Numbers.bin" ; 8x8 pixel numbers on lives counter
 		even
-
-		include	"Objects\Bosses\Green Hill\Main.asm"
-		include	"Objects\Bosses\Green Hill\FakeSignpost.asm"	; WARNING! Auto-generated
-		include	"Objects\Bosses\Green Hill\EggmanShip.asm"	; WARNING! Auto-generated
-		include	"Objects\Bosses\Green Hill\EggmanMonitor.asm"	; WARNING! Auto-generated
-		include	"Objects\Bosses\Green Hill\SpikedBall.asm"	; WARNING! Auto-generated
-		
-		include	"Objects\Bosses\Final\EggmanShipFZ.asm"	; WARNING! Auto-generated
-		include	"Objects\Bosses\Final\PlasmaBoss.asm"	; WARNING! Auto-generated
-		include	"Objects\Bosses\Final\PlasmaBall.asm"	; WARNING! Auto-generated
 
 		include	"Objects\DebugMode.asm"
 		include	"Includes\DebugList.asm"

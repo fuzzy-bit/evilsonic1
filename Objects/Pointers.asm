@@ -7,7 +7,7 @@ ptr_MKBlood:			dc.l MKBlood
 ptr_SegaLetter:			dc.l SegaLetter
 ptr_Mogeko:				dc.l Mogeko
 ptr_SonicDeath:			dc.l SonicDeath
-ptr_ObjDynamic:				dc.l DynamicObject
+ptr_ObjDynamic:			dc.l DynamicObject
 ptr_Splash:				dc.l Splash		; $08
 ptr_SonicSpecial:		dc.l SonicSpecial
 ptr_DrownCount:			dc.l DrownCount
@@ -25,7 +25,7 @@ ptr_SwingingPlatform:	dc.l SwingingPlatform
 ptr_Harpoon:			dc.l Harpoon
 ptr_Helix:				dc.l Helix
 ptr_BasicPlatform:		dc.l BasicPlatform	; $18
-ptr_CppObject:				dc.l CppObject
+ptr_Obj19:				dc.l DeleteObject	; REMOVED C++ OBJECT
 ptr_CollapseLedge:		dc.l CollapseLedge
 ptr_WaterSurface:		dc.l WaterSurface
 ptr_Scenery:			dc.l Scenery
@@ -61,7 +61,7 @@ ptr_GameOverCard:		dc.l GameOverCard
 ptr_GotThroughCard:		dc.l GotThroughCard
 ptr_PurpleRock:			dc.l PurpleRock
 ptr_SmashWall:			dc.l SmashWall
-ptr_BossGreenHill:		dc.l BossGreenHill
+ptr_BossGreenHill:		dc.l DeleteObject	; REMOVED C++ OBJECT
 ptr_Prison:				dc.l Prison
 ptr_ExplosionBomb:		dc.l ExplosionBomb
 ptr_MotoBug:			dc.l MotoBug		; $40
@@ -72,7 +72,7 @@ ptr_EdgeWalls:			dc.l EdgeWalls
 ptr_SideStomp:			dc.l SideStomp
 ptr_MarbleBrick:		dc.l MarbleBrick
 ptr_Bumper:				dc.l Bumper
-ptr_Unused:			dc.l DeleteObject		; $48
+ptr_Unused:				dc.l DeleteObject		; $48
 ptr_WaterSound:			dc.l WaterSound
 ptr_VanishSonic:		dc.l VanishSonic
 ptr_GiantRing:			dc.l GiantRing
@@ -132,9 +132,9 @@ ptr_ContScrItem:		dc.l ContScrItem	; $80
 ptr_ContSonic:			dc.l ContSonic
 ptr_ScrapEggman:		dc.l ScrapEggman
 ptr_FalseFloor:			dc.l FalseFloor
-ptr_EggmanCylinder:		dc.l EggmanCylinder
-ptr_BossFinal:			dc.l BossFinal
-ptr_BossPlasma:			dc.l BossPlasma
+ptr_EggmanCylinder:		dc.l DeleteObject	; UNUSED
+ptr_BossFinal:			dc.l DeleteObject	; REMOVED C++ OBJECT
+ptr_BossPlasma:			dc.l DeleteObject	; REMOVED C++ OBJECT
 ptr_EndSonic:			dc.l EndSonic
 ptr_EndChaos:			dc.l EndChaos		; $88
 ptr_EndSTH:				dc.l EndSTH
@@ -171,7 +171,7 @@ id_SwingingPlatform:	equ ((ptr_SwingingPlatform-Obj_Index)/4)+1
 id_Harpoon:				equ ((ptr_Harpoon-Obj_Index)/4)+1
 id_Helix:				equ ((ptr_Helix-Obj_Index)/4)+1
 id_BasicPlatform:		equ ((ptr_BasicPlatform-Obj_Index)/4)+1		; $18
-id_CppObject:				equ ((ptr_CppObject-Obj_Index)/4)+1
+id_Obj19:				equ ((ptr_Obj19-Obj_Index)/4)+1
 id_CollapseLedge:		equ ((ptr_CollapseLedge-Obj_Index)/4)+1
 id_WaterSurface:		equ ((ptr_WaterSurface-Obj_Index)/4)+1
 id_Scenery:				equ ((ptr_Scenery-Obj_Index)/4)+1

@@ -222,7 +222,7 @@ BossSpringYard:
 		rts
 
 ; ===========================================================================
-@AttackIndex:	
+@AttackIndex:
 		dc.w @RunPattern1-@AttackIndex
 		dc.w @RunPattern1-@AttackIndex
 

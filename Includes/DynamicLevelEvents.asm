@@ -116,14 +116,6 @@ DLE_GHZ1:
 		move.w	#$2500-$200, (v_limitleft2).w
 		addq.b	#2, (v_dle_routine).w
 
-		move.l	#execute_ObjFakeSignpost, -(sp)
-		pea	v_lvlobjspace.w
-		jsr	CreateCppObject__cdecl
-		move.l	d0, a1
-		move.w	#$2500+320/2, obX(a1)
-		move.w	#$400+224-$40, obY(a1)
-		addq.w	#8, sp
-
 		moveq	#0, d0
 		move.l	d0, @CamXVel
 		moveq	#plcid_Signpost,d0
@@ -968,10 +960,6 @@ DLE_FZboss:
 		move.b	#1,(f_lockscreen).w ; lock screen
 		move.w	#$23E0,(v_limitright2).w
 
-		move.l	#execute_ObjPlasmaBoss, -(sp)
-		pea	v_lvlobjspace.w
-		jsr	createCppObject__cdecl
-		addq.w	#8, sp
 		bra.s	LockLeft
 ; ===========================================================================
 

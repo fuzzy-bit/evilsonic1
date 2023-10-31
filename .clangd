@@ -1,2 +1,0 @@
-CompileFlags:
-	Add: [-Wall, -Wextra, -I../../../Libs, -I../../Libs, -I../../Libs, -std=c++20, -pedantic-errors]

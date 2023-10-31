@@ -62,19 +62,6 @@ FindNextFreeObj:
 ; End of function FindNextFreeObj
 
 ; ---------------------------------------------------------------------------
-; Subroutine to find and setup a C++-based object
-; ---------------------------------------------------------------------------
-
-CreateCppObject__cdecl:
-		movea.l	4(sp), a0
-		bsr	FindNextFreeObj
-		bne.s	@ReturnNull
-		move.b	#id_CppObject, (a1)
-		move.l	8(sp), obCodePtr(a1)
-		move.l	a1, d0
-		rts	
-
-; ---------------------------------------------------------------------------
 @ReturnNull:
 		moveq	#0, d0
 		rts
