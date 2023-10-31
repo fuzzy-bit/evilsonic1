@@ -84,7 +84,7 @@ LevelSizeArray:
 ; Ending start location array
 ; ---------------------------------------------------------------------------
 EndingStLocArray:
-		include	"Includes\Start Location Array - Ending.asm"
+		include	"Data\Levels\StartPositions\Credits.asm"
 
 ; ===========================================================================
 
@@ -158,7 +158,7 @@ SetScreen:
 ; ---------------------------------------------------------------------------
 ; Sonic start location array
 ; ---------------------------------------------------------------------------
-StartLocArray:	include	"Includes\Start Location Array - Levels.asm"
+StartLocArray:	include	"Data\Levels\StartPositions\Levels.asm"
 
 ; ---------------------------------------------------------------------------
 ; Which	256x256	tiles contain loops or roll-tunnels

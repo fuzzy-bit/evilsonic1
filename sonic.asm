@@ -6,9 +6,9 @@
 
 rom:	section	org(0),obj(0)
 
-	include	"Constants.asm"
-	include	"Variables.asm"
-	include	"Macros.asm"
+	include	"Engine/Assembler/Constants.asm"
+	include	"Engine/Assembler/Variables.asm"
+	include	"Engine/Assembler/Macros.asm"
 
 	include	"Libs/debugger.lib"
 	include	"Libs/veps.lib"
@@ -274,8 +274,8 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 ; ---------------------------------------------------------------------------
 ; Interrupts
 ; ---------------------------------------------------------------------------
-		include "Engine/VBlank.asm"
-		include "Engine/HBlank.asm"
+		include "Engine/Interrupts/VBlank.asm"
+		include "Engine/Interrupts/HBlank.asm"
 
 ; ---------------------------------------------------------------------------
 ; SRAM
@@ -292,12 +292,12 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 ; ---------------------------------------------------------------------------
 ; Rendering
 ; ---------------------------------------------------------------------------
-		include	"Engine\Rendering\VDPSetup.asm"
-		include	"Engine\Rendering\ClearScreen.asm"
-		include	"Engine\Rendering\TilemapToVRAM.asm"
-		include	"Engine\Rendering\Fading.asm"
-		include	"Engine\Rendering\Palette.asm"
-		include	"Engine\Rendering\VDPDrawBuffer.asm"
+		include	"Engine\Graphics\VDPSetup.asm"
+		include	"Engine\Graphics\ClearScreen.asm"
+		include	"Engine\Graphics\TilemapToVRAM.asm"
+		include	"Engine\Graphics\Fading.asm"
+		include	"Engine\Graphics\Palette.asm"
+		include	"Engine\Graphics\VDPDrawBuffer.asm"
 
 ; ---------------------------------------------------------------------------
 ; Compression
@@ -307,10 +307,7 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 		include	"Engine\Compression\Kosinski.asm"
 		include	"Engine\Compression\Comper.asm"
 
-		include	"Engine\PLC\PatternLoadCues.asm"
-
-		include	"Includes\PaletteCycle.asm"
-		include	"Includes\PauseGame.asm"
+		include	"Engine\Graphics\PatternLoadCues.asm"
 
 
 
@@ -327,7 +324,7 @@ Pal_SLZCyc:	incbin	"Data\Palette\Cycle - SLZ.bin"
 Pal_SYZCyc1:	incbin	"Data\Palette\Cycle - SYZ1.bin"
 Pal_SYZCyc2:	incbin	"Data\Palette\Cycle - SYZ2.bin"
 
-		include	"Includes\SBZ Palette Scripts.asm"
+		include	"Engine\Graphics\SBZ Palette Scripts.asm"
 
 Pal_SBZCyc1:	incbin	"Data\Palette\Cycle - SBZ 1.bin"
 Pal_SBZCyc2:	incbin	"Data\Palette\Cycle - SBZ 2.bin"
@@ -348,7 +345,7 @@ Pal_Sega2:	incbin	"Data\Palette\Sega2.bin"
 
 ; ===========================================================================
 
-		include	"Includes\Palette Pointers.asm"
+		include	"Engine\Graphics\Palette Pointers.asm"
 
 ; ---------------------------------------------------------------------------
 ; Palette data
@@ -413,6 +410,8 @@ WaitForVBla:
 ; ---------------------------------------------------------------------------
 ; Level System
 ; ---------------------------------------------------------------------------
+		include	"Engine\Level\LevelSizeLoad & BgScrollSpeed.asm"
+		include	"Engine\Level\DeformLayers.asm"
 		include	"Engine\Level\LoadTilesAsYouMove.asm"
 		include	"Engine\Level\LoadBGScrollBlocks.asm"
 		include	"Engine\Level\DrawBlocks.asm"
@@ -422,12 +421,14 @@ WaitForVBla:
 		include	"Engine\Level\DrawChunks.asm"
 		include	"Engine\Level\LevelDataLoad.asm"
 		include	"Engine\Level\LevelLayoutLoad.asm"
-
-		include	"Includes\DynamicLevelEvents.asm"
+		include	"Engine\Level\PaletteCycle.asm"
+		include	"Engine\Level\PauseGame.asm"
+		include	"Engine\Level\DynamicLevelEvents.asm"
 		include	"Engine\Level\Randomizers.asm"
 
 		include	"Objects\Level\Bridge (part 1).asm"
 
+		
 ; ---------------------------------------------------------------------------
 ; Platform subroutine
 ; ---------------------------------------------------------------------------
@@ -1823,9 +1824,6 @@ Map_Pri:	include	"Data\Mappings\Objects\Prison Capsule.asm"
 
 		include	"Engine\ObjectSystem\UpdateDPLC.asm"
 
-SS_MapIndex:
-		include	"Includes\Special Stage Mappings & VRAM Pointers.asm"
-
 Map_SS_R:	include	"Data\Mappings\Objects\SS R Block.asm"
 Map_SS_Glass:	include	"Data\Mappings\Objects\SS Glass Block.asm"
 Map_SS_Up:	include	"Data\Mappings\Objects\SS UP Block.asm"
@@ -1834,7 +1832,7 @@ Map_SS_Down:	include	"Data\Mappings\Objects\SS DOWN Block.asm"
 
 		include	"Objects\Unused\10.asm"
 
-		include	"Includes\AnimateLevelGfx.asm"
+		include	"Engine\Level\AnimateLevelGfx.asm"
 
 		include	"Objects\Screen-Space\HUD.asm"
 Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
@@ -1961,7 +1959,7 @@ AddPoints:
 		rts
 ; End of function AddPoints
 
-		include	"Includes\HUD_Update.asm"
+		include	"Engine\Level\HUD.asm"
 		include "Objects\Effects\SonicDeath.asm"
 		include	"Objects\DynamicObject.asm"
 
@@ -2018,17 +2016,15 @@ loc_1C962:
 
 ; ===========================================================================
 
-		include	"Includes\HUD (part 2).asm"
-
 Art_Hud:	incbin	"Data\Art\Uncompressed\HUD Numbers.bin" ; 8x16 pixel numbers on HUD
 		even
 Art_LivesNums:	incbin	"Data\Art\Uncompressed\Lives Counter Numbers.bin" ; 8x8 pixel numbers on lives counter
 		even
 
 		include	"Objects\DebugMode.asm"
-		include	"Includes\DebugList.asm"
-		include	"Includes\LevelHeaders.asm"
-		include	"Includes\Pattern Load Cues.asm"
+		include	"Engine\Level\DebugList.asm"
+		include	"Engine\Level\LevelHeaders.asm"
+		include	"Engine\Graphics\Pattern Load Cues.asm"
 
 		if Revision=0
 Nem_SegaLogo:	incbin	"Data\Art\Nemesis\Sega Logo.bin"	; large Sega logo

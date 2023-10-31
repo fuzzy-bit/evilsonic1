@@ -367,8 +367,8 @@ loc_3BC8:
 		rts
 ; ===========================================================================
 
-		include	"Includes\LZWaterFeatures.asm"
-		include	"Includes\MoveSonicInDemo.asm"
+		include	"Engine\Level\LZWaterFeatures.asm"
+		include	"Engine\Level\MoveSonicInDemo.asm"
 
 ; ---------------------------------------------------------------------------
 ; Collision index pointer loading subroutine
@@ -399,7 +399,7 @@ ColPointers:	dc.l Col_GHZ
 		zonewarning ColPointers,4	; did i already mention why i don't like this macro
 		dc.l Col_Zone7
 
-		include	"Includes\Oscillatory Routines.asm"
+		include	"Engine\Math\Oscillatory Routines.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	change synchronised animation variables (rings, giant rings)
