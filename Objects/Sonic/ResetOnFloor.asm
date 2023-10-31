@@ -28,4 +28,5 @@ loc_137E4:
 		move.b	#0,$3C(a0)
 		move.w	#0,(v_itembonus).w
 		rts	
+
 ; End of function Sonic_ResetOnFloor

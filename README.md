@@ -1,28 +1,72 @@
-# S1 Engine Test
-Known issues:
-- Music can be weird, experimental sound driver
-- Sound test is broken
-- Songs are in a weird order
-- Music fades out when it's supposed to stop, and vice versa
-- Not all title cards are replaced
-- Roller graphics are incorrect, displays Caterkiller art when rolling.
+# BrutalSonic
+A violent Sonic 1 hack.
 
-Respawn Issues:
-- Sprite priority is not reset on respawn
-- Camera or tiles act up on respawn
-- Level events get triggered again after death
-- Drowning softlocks the game, doesn't restart level music
-- Speed shoes' music modifier applies only after the effect wears off
-- Ring counter doesn't get updated after death
-- Objects sometimes do not re-appear upon respawning until you move the camera away
-- Dying with invincibility does not reset the music, only the state
+"It was made so something like THIS could happen."
 
-Clear object RAM and whatnot on respawn, and find a way to undo level events.
+## Things that should be implemented before release
+- ~~Refactored Sonic 1 engine~~
+- ~~Red screen flash on death~~
+- Tint water palette red when Sonic dies in water (Without drowning)
+- ~~S3K sprite format~~
+- ~~S3K art~~
+- ~~Dynamic death sprites~~
+    - ~~Detect what direction Sonic was crushed from, or randomize (depending on how much time is left to finish the hack)~~
+    - Sonic gets cut in half with saws
+    - ~~Art~~
+- ~~Blood stain object~~
+    - ~~Stain sprites + mappings~~
+- ~~Blood particles~~
+- Difficulty levels
+    - ~~Easy (Regular S1 behavior without spike bug)~~
+    - ~~Normal (Default - spike bug + bouncing projectiles)~~
+    - Hard (Bouncing projectiles, spike bug, no rings in bosses)
+    - Nightmare (Hard + no rings)
+- Menu
+    - Difficulty Select
+    - ??? (Level Select, unlocked by beating the game)
+    - Reset SRAM
+    - Play
+- Saving options and data with SRAM
+- ~~Projectiles~~
+    - ~~Crabmeat~~
+    - ~~Buzzbomber~~
+- New bosses
+    - Green Hill
+    - Marble
+    - Spring Yard
+    - ~~Star Light~~
+- ~~No boss in labyrinth~~
+- ~~DMA Queue~~
+- Custom levels
+- Mogeko easter egg level
+    - ~~The Mogeko enemy itself~~
+    - Activated in a hidden crevace within Marble Zone, just enough for Sonic to roll into, not accidentally. One pixel tile difference.
+    - Endurance mode, ~5 minute timer
+    - ~~When killing a Mogeko, flash screen~~
+    - ~~If Sonic dies to a Mogeko, play the crunching sound from the original game (usually used when Yonaka is being hurt)~~
+    - Unlocks "Fan Mode" when beaten (see: experimental/fan-disasm)
+    - Going to the hidden spot with "Fan Mode" enabled, it will bring you to another easter egg...
+- Splash screens
+    - Warning (Appears once, or if SRAM is not present)
+    - ~~New SEGA screen~~
 
-# Credits
-- Code: Fuzzy, Vladikcomper, Varion, Rivet, VladislavSavvateev
-- Music: Jet, Vladikcomper
-- MegaPCM + VEPS Sound Driver: Vladikcomper
-- 32X Assistance: Varion
+## Credits
+- Code: Fuzzy, Vladikcomper, Giovanni, Selbi
+- Music: Jet, KCEXE, Vladikcomper, FoxConED, ArcaniaCQ, Oerg866, dust hill resident, Lightning_Splash, Amphobius
+- VEPS Sound Driver + MegaPCM: Vladikcomper
+- Graphics: Fuzzy, Selbi, TheBlad768, funamusea
 - Levels: Fuzzy
 - Original Game: SEGA, Sonic Team
+
+## Special Thanks
+- TheBlad768
+- Rivet
+- Varion Icaria
+- MarkeyJester
+- Cinossu
+- KatKuriN
+- Fengish
+
+---
+
+Dedicated to Cyan Helkaraxe

@@ -137,17 +137,17 @@ Pri_Explosion:	; Routine 6, 8, $A
 		move.w	#$9A,d5
 		moveq	#-$1C,d4
 
-	@loop:
-		jsr	(FindFreeObj).l
-		bne.s	@fail
-		move.b	#id_Animals,0(a1) ; load animal object
-		move.w	obX(a0),obX(a1)
-		move.w	obY(a0),obY(a1)
-		add.w	d4,obX(a1)
-		addq.w	#7,d4
-		move.w	d5,$36(a1)
-		subq.w	#8,d5
-		dbf	d6,@loop	; repeat 7 more	times
+	; @loop:
+	; 	jsr	(FindFreeObj).l
+	; 	bne.s	@fail
+	; 	move.b	#id_Animals,0(a1) ; load animal object
+	; 	move.w	obX(a0),obX(a1)
+	; 	move.w	obY(a0),obY(a1)
+	; 	add.w	d4,obX(a1)
+	; 	addq.w	#7,d4
+	; 	move.w	d5,$36(a1)
+	; 	subq.w	#8,d5
+	; 	dbf	d6,@loop	; repeat 7 more	times
 
 	@fail:
 		rts	
@@ -158,20 +158,21 @@ Pri_Animals:	; Routine $C
 		and.b	(v_vbla_byte).w,d0
 		bne.s	@noanimal
 		jsr	(FindFreeObj).l
-		bne.s	@noanimal
-		move.b	#id_Animals,0(a1) ; load animal object
-		move.w	obX(a0),obX(a1)
-		move.w	obY(a0),obY(a1)
-		jsr	(RandomNumber).l
-		andi.w	#$1F,d0
-		subq.w	#6,d0
-		tst.w	d1
-		bpl.s	@ispositive
-		neg.w	d0
+	; 	bne.s	@noanimal
 
-	@ispositive:
-		add.w	d0,obX(a1)
-		move.w	#$C,$36(a1)
+	; 	move.b	#id_Animals,0(a1) ; load animal object
+	; 	move.w	obX(a0),obX(a1)
+	; 	move.w	obY(a0),obY(a1)
+	; 	jsr	(RandomNumber).l
+	; 	andi.w	#$1F,d0
+	; 	subq.w	#6,d0
+	; 	tst.w	d1
+	; 	bpl.s	@ispositive
+	; 	neg.w	d0
+
+	; @ispositive:
+	; 	add.w	d0,obX(a1)
+	; 	move.w	#$C,$36(a1)
 
 	@noanimal:
 		subq.w	#1,obTimeFrame(a0)
@@ -184,16 +185,16 @@ Pri_Animals:	; Routine $C
 ; ===========================================================================
 
 Pri_EndAct:	; Routine $E
-		moveq	#$3E,d0
-		moveq	#id_Animals,d1
-		moveq	#$40,d2
-		lea	(v_objspace+$40).w,a1 ; load object RAM
+		; moveq	#$3E,d0
+		; moveq	#id_Animals,d1
+		; moveq	#$40,d2
+		; lea	(v_objspace+$40).w,a1 ; load object RAM
 
 	@findanimal:
-		cmp.b	(a1),d1		; is object $28	(animal) loaded?
-		beq.s	@found		; if yes, branch
-		adda.w	d2,a1		; next object RAM
-		dbf	d0,@findanimal	; repeat $3E times
+		; cmp.b	(a1),d1		; is object $28	(animal) loaded?
+		; beq.s	@found		; if yes, branch
+		; adda.w	d2,a1		; next object RAM
+		; dbf	d0,@findanimal	; repeat $3E times
 
 		jsr	(GotThroughAct).l
 		jmp	(DeleteObject).l

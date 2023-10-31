@@ -340,12 +340,13 @@ loc_16C50:
 loc_16C64:
 		cmpi.b	#$C,obRoutine(a1)
 		beq.s	loc_16C90
-		cmpi.b	#id_ExplosionItem,0(a1)
+		cmpi.b	#id_ExplosionBomb,0(a1)
 		beq.s	loc_16C7C
 		cmpi.b	#$A,obRoutine(a1)
 		bne.s	loc_16C82
 
 loc_16C7C:
+		clr.b	obColType(a1)	; immediately remove all touch response values when destroying the head to avoid taking damage
 		move.b	#$A,obRoutine(a0)
 
 loc_16C82:

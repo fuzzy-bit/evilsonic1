@@ -13,7 +13,7 @@ namespace S1ObjectDefinitions.GHZ
 		public override void Init(ObjectData data)
 		{
 			byte[] artfile = ObjectHelper.OpenArtFile("../Data/Art/Nemesis/GHZ Bridge.bin", CompressionType.Nemesis);
-			img = ObjectHelper.MapASMToBmp(artfile, "../Data/Mappings/Objects/Bridge.asm", 0, 2);
+			img = ObjectHelper.MapASMToBmp(artfile, "../Data/Mappings/Objects/Bridge.asm", 0, 2, false, EngineVersion.S3K);
 		}
 
 		public override ReadOnlyCollection<byte> Subtypes

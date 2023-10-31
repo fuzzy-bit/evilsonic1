@@ -3,6 +3,7 @@
 ; ---------------------------------------------------------------------------
 
 DebugMode:
+		if Cheats=1
 		moveq	#0,d0
 		move.b	(v_debuguse).w,d0
 		move.w	Debug_Index(pc,d0.w),d1
@@ -215,3 +216,4 @@ Debug_ShowItem:
 		move.b	5(a2,d0.w),obFrame(a0) ; load frame number for item
 		rts	
 ; End of function Debug_ShowItem
+		endc

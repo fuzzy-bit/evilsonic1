@@ -11,15 +11,16 @@ v_ngfx_buffer:	equ $FFFFAA00	; Nemesis graphics decompression buffer ($200 bytes
 v_spritequeue:	equ $FFFFAC00	; sprite display queue, in order of priority ($400 bytes)
 v_16x16:		equ $FFFFB000	; 16x16 tile mappings
 
-v_sgfx_buffer:	equ $FFFFC800	; buffered Sonic graphics ($17 cells) ($2E0 bytes)
+v_draw_buffer_ram:	equ $FFFFC800	; VDP Draw Buffer RAM ($2E0 bytes)
+v_draw_buffer_ram_end:	equ v_draw_buffer_ram+$2E0
 v_tracksonic:	equ $FFFFCB00	; position tracking data for Sonic ($100 bytes)
 v_hscrolltablebuffer:	equ $FFFFCC00 ; scrolling table data (actually $380 bytes, but $400 is reserved for it)
 v_objspace:	equ $FFFFD000	; object variable space ($40 bytes per object) ($2000 bytes)
 v_player:	equ v_objspace	; object variable space for Sonic ($40 bytes)
+v_player_particles:	equ	v_objspace+$1C0	; object variable space for the dust ($40 bytes)
 v_lvlobjspace:	equ $FFFFD800	; level object variable space ($1800 bytes)
 
-SoundDriverRAM:		equ $FFFFF000 ; start of RAM for the sound driver data
-SoundQueue:			equ $FFFFF00A
+VEPS_RAM:	equ $FFFFF000	; start of RAM for the sound driver data
 
 v_gamemode:	equ $FFFFF600	; game mode (00=Sega; 04=Title; 08=Demo; 0C=Level; 10=SS; 14=Cont; 18=End; 1C=Credit; +8C=PreLevel)
 v_jpadhold2:	equ $FFFFF602	; joypad input - held, duplicate
@@ -84,8 +85,9 @@ v_limitleft3:	equ $FFFFF732	; left level boundary, at the end of an act (2 bytes
 
 v_scrshiftx:	equ $FFFFF73A	; x-screen shift (new - last) * $100
 v_scrshifty:	equ $FFFFF73C	; y-screen shift (new - last) * $100
-
 v_lookshift:	equ $FFFFF73E	; screen shift when Sonic looks up/down (2 bytes)
+v_lookdelay		equ $FFFFF740	; delay to the above (1 byte)
+
 v_dle_routine:	equ $FFFFF742	; dynamic level event - routine counter
 f_nobgscroll:	equ $FFFFF744	; flag set to cancel background scrolling
 
@@ -107,8 +109,9 @@ v_sonspeedmax:	equ $FFFFF760	; Sonic's maximum speed (2 bytes)
 v_sonspeedacc:	equ $FFFFF762	; Sonic's acceleration (2 bytes)
 v_sonspeeddec:	equ $FFFFF764	; Sonic's deceleration (2 bytes)
 v_sonframenum:	equ $FFFFF766	; frame to display for Sonic
-f_sonframechg:	equ $FFFFF767	; flag set to update Sonic's sprite frame
 v_anglebuffer:	equ $FFFFF768	; angle of collision block that Sonic or object is standing on
+v_countdown:    equ $FFFFF769
+v_levelselpal:    equ $FFFFF7F2
 
 v_opl_routine:	equ $FFFFF76C	; ObjPosLoad - routine counter
 v_opl_screen:	equ $FFFFF76E	; ObjPosLoad - screen variable
@@ -162,7 +165,7 @@ v_sonicend:	equ $FFFFF7D7	; routine counter for Sonic in the ending sequence
 v_lz_deform:	equ	$FFFFF7D8	; LZ deformtaion offset, in units of $80 (2 bytes)
 f_switch:	equ $FFFFF7E0	; flags set when Sonic stands on a switch ($10 bytes)
 v_scroll_block_1_size:	equ $FFFFF7F0	; (2 bytes)
-v_scroll_block_2_size:	equ $FFFFF7F2	; unused (2 bytes)
+v_scroll_block_2_size:	equ $FFFFF7F2	; (2 bytes)
 v_scroll_block_3_size:	equ $FFFFF7F4	; unused (2 bytes)
 v_scroll_block_4_size:	equ $FFFFF7F6	; unused (2 bytes)
 
@@ -236,6 +239,12 @@ v_ani3_frame:	equ $FFFFFEC7	; synchronised sprite animation 3 - current frame
 v_ani3_buf:	equ $FFFFFEC8	; synchronised sprite animation 3 - info buffer (2 bytes)
 v_limittopdb:	equ $FFFFFEF0	; level upper boundary, buffered for debug mode (2 bytes)
 v_limitbtmdb:	equ $FFFFFEF2	; level bottom boundary, buffered for debug mode (2 bytes)
+v_flashtimer: 	equ $FFFFFEF4 	; screen flash timer
+v_spawntimer: 	equ $FFFFFEF5 	; horde spawn timer
+v_spawndirection: equ $FFFFFEF6 ; horde spawn direction
+v_dashdisabled: equ $FFFFFEF7 ; spindash disabled flag
+v_hordecount: 	equ $FFFFFEF8 ; mogeko kills left
+v_betaolve: 	equ $FFFFFEF9 ; beta olve story in credits
 
 v_screenposx_dup:	equ $FFFFFF10	; screen position x (duplicate) (2 bytes)
 v_screenposy_dup:	equ $FFFFFF14	; screen position y (duplicate) (2 bytes)
@@ -250,6 +259,11 @@ v_bg1_scroll_flags_dup:	equ $FFFFFF32
 v_bg2_scroll_flags_dup:	equ $FFFFFF34
 v_bg3_scroll_flags_dup:	equ $FFFFFF36
 
+v_screenposx_final:	equ $FFFFFF60	; final camera x-pos (with shaking, if applicable) 
+v_shaketimer:		equ $FFFFFF62
+v_screenposy_final:	equ $FFFFFF64	; final camera y-pos (with shaking, if applicable) WARNING! Don't move, it should be 4 bytes away from `v_screenposx_final`
+v_screenposybackup: 	equ $FFFFFF66
+
 v_levseldelay:	equ $FFFFFF80	; level select - time until change when up/down is held (2 bytes)
 v_levselitem:	equ $FFFFFF82	; level select - item selected (2 bytes)
 v_levselsound:	equ $FFFFFF84	; level select - sound selected (2 bytes)
@@ -261,16 +275,19 @@ f_debugcheat:	equ $FFFFFFE2	; debug mode cheat flag
 f_creditscheat:	equ $FFFFFFE3	; hidden credits & press start cheat flag
 v_title_dcount:	equ $FFFFFFE4	; number of times the d-pad is pressed on title screen (2 bytes)
 v_title_ccount:	equ $FFFFFFE6	; number of times C is pressed on title screen (2 bytes)
+v_creditsnum:	equ $FFFFFFE8	; credits index number (2 bytes)
 
 v_csum_addr:	equ $FFFFFFEC	; the checksum address we're checking (4 bytes)
 v_csum_value:	equ $FFFFFFF0	; the accumulated value of checksum check (2 bytes)
 v_csum_start:	equ $FFFFFFF4	; set if start button was pressed during checksum check
-f_demo:		equ $FFFFFFF0	; demo mode flag (0 = no; 1 = yes; $8001 = ending) (2 bytes)
-v_demonum:	equ $FFFFFFF2	; demo level number (not the same as the level number) (2 bytes)
-v_creditsnum:	equ $FFFFFFF4	; credits index number (2 bytes)
-
-ConsoleRegion:	equ $FFFFFFF8	; Megadrive machine type (AMPS)
+f_demo:			equ $FFFFFFF0	; demo mode flag (0 = no; 1 = yes; $8001 = ending) (2 bytes)
+v_demonum:		equ $FFFFFFF2	; demo level number (not the same as the level number) (2 bytes)
+v_difficulty:	equ $FFFFFFF4	; difficulty
+v_secret:		equ $FFFFFFF5	; secret :)
+v_sramgameover:	equ $FFFFFFF6	; game over flag to reset SRAM 
+v_secretprog:	equ $FFFFFFF7	; secret progression
 v_megadrive:	equ $FFFFFFF8	; Megadrive machine type
+v_gamecomplete:	equ $FFFFFFF9	; game completed
 
 f_debugmode:	equ $FFFFFFFA	; debug mode flag (sometimes 2 bytes)
 v_init:		equ $FFFFFFFC	; 'init' text string (4 bytes)

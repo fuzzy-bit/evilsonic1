@@ -71,7 +71,6 @@ End_LoadData:
 		bsr.w	KosDec
 		moveq	#palid_Sonic,d0
 		bsr.w	PalLoad1	; load Sonic's palette
-		music	mus_Ending	; play ending sequence music
 		btst	#bitA,(v_jpadhold1).w ; is button A pressed?
 		beq.s	End_LoadSonic	; if not, branch
 		move.b	#1,(f_debugmode).w ; enable debug mode
@@ -131,7 +130,6 @@ End_MainLoop:
 		beq.s	End_ChkEmerald	; if yes, branch
 
 		move.b	#id_Credits,(v_gamemode).w ; goto credits
-		music	mus_Credits	; play credits music
 		move.w	#0,(v_creditsnum).w ; set credits index number to 0
 		rts
 ; ===========================================================================
@@ -208,7 +206,7 @@ End_MoveSon2:
 		move.w	d0,(v_jpadhold2).w ; stop Sonic moving
 		move.w	d0,(v_player+obInertia).w
 		move.b	#$81,(f_lockmulti).w ; lock controls & position
-		move.b	#3,(v_player+obFrame).w
+		move.b	#$B2,(v_player+obFrame).w
 		move.w	#(id_Wait<<8)+id_Wait,(v_player+obAnim).w ; use "standing" animation
 		move.b	#3,(v_player+obTimeFrame).w
 		rts

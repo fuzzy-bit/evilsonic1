@@ -26,7 +26,7 @@ Jun_Main:	; Routine 0
 ; ===========================================================================
 
 	@repeat:
-		bsr.w	FindFreeObj
+		jsr		FindFreeObj
 		bne.s	@fail
 		move.b	#id_Junction,0(a1)
 		addq.b	#4,obRoutine(a1) ; goto Jun_Display next

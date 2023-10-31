@@ -20,7 +20,11 @@ ptr_PLC_SYZ:		dc.w PLC_SYZ-ArtLoadCues
 ptr_PLC_SYZ2:		dc.w PLC_SYZ2-ArtLoadCues
 ptr_PLC_SBZ:		dc.w PLC_SBZ-ArtLoadCues
 ptr_PLC_SBZ2:		dc.w PLC_SBZ2-ArtLoadCues
+ptr_PLC_Padding:	dc.w PLC_GHZ-ArtLoadCues ; need padding for ending
+ptr_PLC_Padding2: 	dc.w PLC_GHZ2-ArtLoadCues
 			zonewarning PLC_Levels,4
+ptr_PLC_Zone7:		dc.w PLC_Zone7-ArtLoadCues
+ptr_PLC_Zone7_2:	dc.w PLC_Zone7_2-ArtLoadCues
 ptr_PLC_TitleCard:	dc.w PLC_TitleCard-ArtLoadCues
 ptr_PLC_Boss:		dc.w PLC_Boss-ArtLoadCues
 ptr_PLC_Signpost:	dc.w PLC_Signpost-ArtLoadCues
@@ -33,7 +37,9 @@ ptr_PLC_MZAnimals:	dc.w PLC_MZAnimals-ArtLoadCues
 ptr_PLC_SLZAnimals:	dc.w PLC_SLZAnimals-ArtLoadCues
 ptr_PLC_SYZAnimals:	dc.w PLC_SYZAnimals-ArtLoadCues
 ptr_PLC_SBZAnimals:	dc.w PLC_SBZAnimals-ArtLoadCues
+ptr_PLC_Padding3:	dc.w PLC_GHZAnimals-ArtLoadCues
 			zonewarning PLC_Animals,2
+ptr_PLC_Zone7Animals:	dc.w PLC_MZAnimals-ArtLoadCues
 ptr_PLC_SSResult:	dc.w PLC_SSResult-ArtLoadCues
 ptr_PLC_Ending:		dc.w PLC_Ending-ArtLoadCues
 ptr_PLC_TryAgain:	dc.w PLC_TryAgain-ArtLoadCues
@@ -49,11 +55,12 @@ plcm:	macro gfx,vram
 ; Pattern load cues - standard block 1
 ; ---------------------------------------------------------------------------
 PLC_Main:	dc.w ((PLC_Mainend-PLC_Main-2)/6)-1
-		plcm	Nem_Lamp, $F400		; lamppost
+		plcm	Nem_Lamp, $D800		; lamppost
 		plcm	Nem_Hud, $D940		; HUD
 		plcm	Nem_Lives, $FA80	; lives	counter
 		plcm	Nem_Ring, $F640 	; rings
-		plcm	Nem_Points, $F2E0	; points from enemy
+		; nah, don't need
+		; plcm	Nem_Points, $F2E0	; points from enemy
 	PLC_Mainend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - standard block 2
@@ -175,6 +182,7 @@ PLC_SLZ2:	dc.w ((PLC_SLZ2end-PLC_SLZ2-2)/6)-1
 		plcm	Nem_Fan, $7400		; fan
 		plcm	Nem_Pylon, $7980	; foreground pylon
 		plcm	Nem_SlzSwing, $7B80	; swinging platform
+		plcm	Nem_Buzz, $8900		; GIO: buzzbomber
 		plcm	Nem_SlzCannon, $9B00	; fireball launcher
 		plcm	Nem_SlzSpike, $9E00	; spikeball
 	PLC_SLZ2end:
@@ -234,7 +242,7 @@ PLC_SBZ2:	dc.w ((PLC_SBZ2end-PLC_SBZ2-2)/6)-1
 ; Pattern load cues - title card
 ; ---------------------------------------------------------------------------
 PLC_TitleCard:	dc.w ((PLC_TitleCardend-PLC_TitleCard-2)/6)-1
-		plcm	Nem_TitleCard, $AD60
+		plcm	Nem_TitleCard, $AFC0
 	PLC_TitleCardend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - act 3 boss
@@ -294,54 +302,42 @@ PLC_SpecialStage:	dc.w ((PLC_SpeStageend-PLC_SpecialStage-2)/6)-1
 ; Pattern load cues - GHZ animals
 ; ---------------------------------------------------------------------------
 PLC_GHZAnimals:	dc.w ((PLC_GHZAnimalsend-PLC_GHZAnimals-2)/6)-1
-		plcm	Nem_Rabbit, $B000	; rabbit
-		plcm	Nem_Flicky, $B240	; flicky
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_GHZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - LZ animals
 ; ---------------------------------------------------------------------------
 PLC_LZAnimals:	dc.w ((PLC_LZAnimalsend-PLC_LZAnimals-2)/6)-1
-		plcm	Nem_BlackBird, $B000	; blackbird
-		plcm	Nem_Seal, $B240		; seal
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_LZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - MZ animals
 ; ---------------------------------------------------------------------------
 PLC_MZAnimals:	dc.w ((PLC_MZAnimalsend-PLC_MZAnimals-2)/6)-1
-		plcm	Nem_Squirrel, $B000	; squirrel
-		plcm	Nem_Seal, $B240		; seal
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_MZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - SLZ animals
 ; ---------------------------------------------------------------------------
 PLC_SLZAnimals:	dc.w ((PLC_SLZAnimalsend-PLC_SLZAnimals-2)/6)-1
-		plcm	Nem_Pig, $B000		; pig
-		plcm	Nem_Flicky, $B240	; flicky
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_SLZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - SYZ animals
 ; ---------------------------------------------------------------------------
 PLC_SYZAnimals:	dc.w ((PLC_SYZAnimalsend-PLC_SYZAnimals-2)/6)-1
-		plcm	Nem_Pig, $B000		; pig
-		plcm	Nem_Chicken, $B240	; chicken
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+			plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_SYZAnimalsend:
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - SBZ animals
 ; ---------------------------------------------------------------------------
 PLC_SBZAnimals:	dc.w ((PLC_SBZAnimalsend-PLC_SBZAnimals-2)/6)-1
-		plcm	Nem_Rabbit, $B000		; rabbit
-		plcm	Nem_Chicken, $B240	; chicken
-				plcm	Nem_Stars, $AB80	; invincibility	stars
+		plcm	Nem_Stars, $AB80	; invincibility	stars
 
 	PLC_SBZAnimalsend:
 ; ---------------------------------------------------------------------------
@@ -403,6 +399,16 @@ PLC_FZBoss:	dc.w ((PLC_FZBossend-PLC_FZBoss-2)/6)-1
 		even
 
 ; ---------------------------------------------------------------------------
+; Pattern load cues - Zone 7
+; ---------------------------------------------------------------------------
+PLC_Zone7:		dc.w ((PLC_Zone7_2-PLC_Zone7-2)/6)-1
+		plcm	Nem_Zone7,0			; Zone 7 main patterns
+		plcm	Nem_Mogeko, $6000	; mogegegege
+		
+PLC_Zone7_2:	dc.w ((PLC_Zone7_2end-PLC_Zone7_2-2)/6)-1
+	PLC_Zone7_2end:
+
+; ---------------------------------------------------------------------------
 ; Pattern load cue IDs
 ; ---------------------------------------------------------------------------
 plcid_Main:		equ (ptr_PLC_Main-ArtLoadCues)/2	; 0
@@ -437,3 +443,5 @@ plcid_Ending:		equ (ptr_PLC_Ending-ArtLoadCues)/2	; $1C
 plcid_TryAgain:		equ (ptr_PLC_TryAgain-ArtLoadCues)/2	; $1D
 plcid_EggmanSBZ2:	equ (ptr_PLC_EggmanSBZ2-ArtLoadCues)/2	; $1E
 plcid_FZBoss:		equ (ptr_PLC_FZBoss-ArtLoadCues)/2	; $1F
+plcid_Zone7:	equ (ptr_PLC_Zone7-ArtLoadCues)/2		; $20
+plcid_Zone7_2:  equ (ptr_PLC_Zone7_2-ArtLoadCues)/2		; $21

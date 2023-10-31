@@ -22,6 +22,7 @@ ptr_Pal_MZ:		palp	Pal_MZ,v_pal_dry+$20,$30		; 6 - MZ
 ptr_Pal_SLZ:		palp	Pal_SLZ,v_pal_dry+$20,$30		; 7 - SLZ
 ptr_Pal_SYZ:		palp	Pal_SYZ,v_pal_dry+$20,$30		; 8 - SYZ
 ptr_Pal_SBZ1:		palp	Pal_SBZ1,v_pal_dry+$20,$30		; 9 - SBZ1
+ptr_Pal_Zone7:		palp	Pal_Zone7,v_pal_dry+$20,$30		; 9 - Zone 7
 			zonewarning Pal_Levels,8
 ptr_Pal_Special:	palp	Pal_Special,v_pal_dry,$40		; $A (10) - special stage
 ptr_Pal_LZWater:	palp	Pal_LZWater,v_pal_dry,$40		; $B (11) - LZ underwater
@@ -56,3 +57,4 @@ palid_SBZ3SonWat:	equ (ptr_Pal_SBZ3SonWat-PalPointers)/8
 palid_SSResult:		equ (ptr_Pal_SSResult-PalPointers)/8
 palid_Continue:		equ (ptr_Pal_Continue-PalPointers)/8
 palid_Ending:		equ (ptr_Pal_Ending-PalPointers)/8
+palid_Zone7:		equ (ptr_Pal_Zone7-PalPointers)/8

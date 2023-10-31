@@ -23,8 +23,9 @@ AnimateLevelGfx:
 AniArt_Index:	dc.w AniArt_GHZ-AniArt_Index, AniArt_none-AniArt_Index
 		dc.w AniArt_MZ-AniArt_Index, AniArt_none-AniArt_Index
 		dc.w AniArt_none-AniArt_Index, AniArt_SBZ-AniArt_Index
-		zonewarning AniArt_Index,2
 		dc.w AniArt_Ending-AniArt_Index
+		zonewarning AniArt_Index,2		
+		dc.w AniArt_none-AniArt_Index
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Animated pattern routine - Green Hill
@@ -195,6 +196,11 @@ AniArt_MZ_Torch:
 ; ---------------------------------------------------------------------------
 
 AniArt_SBZ:
+		; Don't animate final zone
+		cmp.b	#2, v_act
+		bne.s	@cont
+		rts
+@cont:
 
 @size:		equ 12	; number of tiles per frame
 

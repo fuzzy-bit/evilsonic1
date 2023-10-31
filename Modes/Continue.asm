@@ -20,7 +20,7 @@ Continue:
 		move.l	d0,(a1)+
 		dbf	d1,Cont_ClrObjRam ; clear object RAM
 
-		locVRAM	$AD60
+		locVRAM	$AFC0
 		lea	(Nem_TitleCard).l,a0 ; load title card patterns
 		bsr.w	NemDec
 		locVRAM	$A000
@@ -33,7 +33,6 @@ Continue:
 		jsr	(ContScrCounter).l	; run countdown	(start from 10)
 		moveq	#palid_Continue,d0
 		bsr.w	PalLoad1	; load continue	screen palette
-		music	mus_Continue	; play continue	music
 		move.w	#659,(v_demolength).w ; set time delay to 11 seconds
 		clr.l	(v_screenposx).w
 		move.l	#$1000000,(v_screenposy).w

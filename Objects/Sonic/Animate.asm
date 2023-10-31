@@ -32,7 +32,10 @@ Sonic_Animate:
 		moveq	#0,d1
 		move.b	obAniFrame(a0),d1 ; load current frame number
 		move.b	1(a1,d1.w),d0	; read sprite number from script
-		bmi.s	@end_FF		; if animation is complete, branch
+		; bmi.s	@end_FF		; if animation is complete, branch
+
+		cmpi.b 	#$FD, d0
+		bhs.s 	@end_FF
 
 	@next:
 		move.b	d0,obFrame(a0)	; load sprite number
@@ -105,9 +108,7 @@ Sonic_Animate:
 		bcc.s	@running	; if yes, branch
 
 		lea	(SonAni_Walk).l,a1 ; use walking animation
-		move.b	d0,d1
-		lsr.b	#1,d1
-		add.b	d1,d0
+		add.b	d0,d0
 
 	@running:
 		add.b	d0,d0

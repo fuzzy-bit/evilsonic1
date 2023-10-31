@@ -55,8 +55,9 @@ loc_6DC4:
 DLE_Index:	dc.w DLE_GHZ-DLE_Index, DLE_LZ-DLE_Index
 		dc.w DLE_MZ-DLE_Index, DLE_SLZ-DLE_Index
 		dc.w DLE_SYZ-DLE_Index, DLE_SBZ-DLE_Index
-		zonewarning DLE_Index,2
 		dc.w DLE_Ending-DLE_Index
+		zonewarning DLE_Index,2	
+		dc.w DLE_Z7-DLE_Index
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Green	Hill Zone dynamic level events
@@ -75,13 +76,158 @@ DLE_GHZx:	dc.w DLE_GHZ1-DLE_GHZx
 ; ===========================================================================
 
 DLE_GHZ1:
+
+@CamXVel:	equ	v_bg3screenposy		; use unused variable
+
+		moveq	#0,d0
+		move.b	(v_dle_routine).w,d0
+		move.w	@Routines(pc,d0.w),d0
+		jmp	@Routines(pc,d0.w)
+; ===========================================================================
+@Routines:
+		dc.w	@Level-@Routines
+		dc.w	@Nullsub-@Routines
+		dc.w	@StartScrolling-@Routines
+		dc.w	@Autoscroll-@Routines
+		dc.w	@End-@Routines
+		dc.w	@Nullsub-@Routines
+
+; ===========================================================================
+@Level:
+		; - DEFAULT ------------------------------------
 		move.w	#$300,(v_limitbtm1).w ; set lower y-boundary
-		cmpi.w	#$1780,(v_screenposx).w ; has the camera reached $1780 on x-axis?
-		bcs.s	locret_6E08	; if not, branch
+		; - PASS 1--------------------------------------
+		cmpi.w	#$0840,(v_screenposx).w ; has the camera reached $0840 on x-axis?
+		bcs.s	@Pass2	; if not, branch
+
+		move.w	#$400,(v_limitbtm1).w ; set lower y-boundary
+		; - PASS 2 -------------------------------------
+@Pass2:
+		cmpi.w	#$0630,(v_screenposx).w ; has the camera reached $0630 on x-axis?
+		bcs.s	@Return	; if not, branch
+
+		cmpi.w	#$0350,(v_screenposy).w ; has the camera reached $0350 on y-axis?
+		bcs.s	@Return	; if not, branch
+		
 		move.w	#$400,(v_limitbtm1).w ; set lower y-boundary
 
-locret_6E08:
-		rts	
+		cmpi.w	#$2500-$200, (v_screenposx).w
+		blo.s	@Return
+		move.w	#$2500-$200, (v_limitleft2).w
+		addq.b	#2, (v_dle_routine).w
+
+		move.l	#execute_ObjFakeSignpost, -(sp)
+		pea	v_lvlobjspace.w
+		jsr	CreateCppObject__cdecl
+		move.l	d0, a1
+		move.w	#$2500+320/2, obX(a1)
+		move.w	#$400+224-$40, obY(a1)
+		addq.w	#8, sp
+
+		moveq	#0, d0
+		move.l	d0, @CamXVel
+		moveq	#plcid_Signpost,d0
+		jsr	NewPLC		; load signpost	patterns
+		moveq	#plcid_Boss,d0
+		jmp	AddPLC		; load boss patterns
+
+; ===========================================================================
+@Nullsub:
+@Return:
+		rts
+
+; ===========================================================================
+@StartScrolling:
+
+@ScrollSpeed:	= 3
+
+		cmp.b	#6, v_player+obRoutine	; Sonic dying?
+		bhs.s	@Return			; if yes, branch
+
+		; Start moving camera increasingly fast
+		move.l	@CamXVel,d0
+		add.l	d0, (v_screenposx).w
+		move.l	d0,d1
+		asr.l	#8,d1
+		swap	d0
+		subq.w	#@ScrollSpeed,d0
+		beq.s	@ScrollingOk
+		addi.l	#$800, @CamXVel
+		move.w	d1, (v_scrshiftx).w
+
+@Scrolling_UpdateBoundaries:
+		move.w	(v_screenposx).w, d0
+		move.w	d0,(v_limitleft2).w		; update camera boundaries
+		move.w	d0,(v_limitright2).w		;
+		move.w	d0,(v_screenposx_final).w	; ''
+		rts
+
+; ---------------------------------------------------------------------------
+@ScrollingOk:
+		addq.b	#2, (v_dle_routine).w
+		bra.s	@Scrolling_UpdateBoundaries
+; ===========================================================================
+
+@Autoscroll:
+
+@WarpPeriod:	= $600
+
+		cmp.b	#6, v_player+obRoutine	; Sonic dying?
+		bhs.s	@Return			; if yes, branch
+
+		move.w	(v_limitleft2).w,d0
+		move.w	#$300,(v_scrshiftx).w	; keep camera scrolling ...
+		addq.w	#@ScrollSpeed,d0
+		cmpi.w	#$2500+@WarpPeriod,d0	; has camera went past warp border?
+		bcs.s	@NoWarp			; if not, branch
+
+		move.w	#@WarpPeriod,d1
+		sub.w	d1,d0			; warp Camera
+
+		lea	(v_objspace).w, a3
+		moveq	#$7F,d6
+		
+	@WarpLoop:
+		tst.b	(a3)			; is this slot occupied?
+		beq.s	@WarpNext		; if not, branch
+		moveq	#%1100, d2		; does object use playfield coordinates?
+		and.b	obRender(a3), d2	; ''
+		subq.w	#1<<2, d2		; ''
+		bne.s	@WarpNext		; if not, branch
+
+		sub.w	d1, obX(a3)		; warp object
+
+	@WarpNext:
+		lea	$40(a3),a3
+		dbf	d6,@WarpLoop
+
+	@NoWarp:
+		move.w	d0,(v_limitleft2).w		; update camera boundaries
+		move.w	d0,(v_limitright2).w		;
+		move.w	d0,(v_screenposx).w		; update camera position            
+		move.w	d0,(v_screenposx_final).w	; ''
+
+		; Prevent Sonic from getting stuck on the left boundary
+		lea	(v_player).w,a0
+		sub.w	obX(a0), d0
+		cmp.w	#-$11, d0		; is Sonic touching the left boundary?
+		blt	@Return			; if nope, branch
+		add.w	#$11, d0		; d0 = CameraX - SonicX + $11
+		add.w	d0, obX(a0)		; SonicX = CameraX + $11
+		move.w	#@ScrollSpeed<<8, obVelX(a0)
+		move.w	#@ScrollSpeed<<8, obInertia(a0)
+		rts
+; ===========================================================================
+
+@End:
+		sf.b	(f_lockscreen).w				; unlock right boundary
+		addq.b	#2,(v_dle_routine).w
+		move.w	#$2C80+$E0,(v_limitright2).w		; setup right boundary
+		move.w	(v_screenposx).w,(v_limitleft2).w		; limit left boundary
+
+		moveq	#plcid_Signpost,d0
+		jmp	NewPLC					; load signpost	patterns
+
 ; ===========================================================================
 
 DLE_GHZ2:
@@ -103,72 +249,143 @@ locret_6E3A:
 DLE_GHZ3:
 		moveq	#0,d0
 		move.b	(v_dle_routine).w,d0
-		move.w	off_6E4A(pc,d0.w),d0
-		jmp	off_6E4A(pc,d0.w)
+		move.w	@Routines(pc,d0.w),d0
+		jmp	@Routines(pc,d0.w)
 ; ===========================================================================
-off_6E4A:	dc.w DLE_GHZ3main-off_6E4A
-		dc.w DLE_GHZ3boss-off_6E4A
-		dc.w DLE_GHZ3end-off_6E4A
+@Routines:	dc.w @Level_Part1-@Routines
+		dc.w @Level_Part2-@Routines
+		dc.w @Nullsub-@Routines
+		dc.w @Autoscroll-@Routines
+		dc.w @End-@Routines
+		dc.w @Nullsub-@Routines
 ; ===========================================================================
 
-DLE_GHZ3main:
+@Level_Part1:
 		move.w	#$300,(v_limitbtm1).w
 		cmpi.w	#$380,(v_screenposx).w
-		bcs.s	locret_6E96
+		bcs.s	@Nullsub
 		move.w	#$310,(v_limitbtm1).w
 		cmpi.w	#$960,(v_screenposx).w
-		bcs.s	locret_6E96
+		bcs.s	@Nullsub
 		cmpi.w	#$280,(v_screenposy).w
-		bcs.s	loc_6E98
+		bcs.s	@1
 		move.w	#$400,(v_limitbtm1).w
 		cmpi.w	#$1380,(v_screenposx).w
-		bcc.s	loc_6E8E
+		bcc.s	@0
 		move.w	#$4C0,(v_limitbtm1).w
 		move.w	#$4C0,(v_limitbtm2).w
 
-loc_6E8E:
+@0:
 		cmpi.w	#$1700,(v_screenposx).w
-		bcc.s	loc_6E98
+		bcc.s	@1
 
-locret_6E96:
+@Nullsub:
 		rts	
 ; ===========================================================================
 
-loc_6E98:
+@1:
 		move.w	#$300,(v_limitbtm1).w
 		addq.b	#2,(v_dle_routine).w
 		rts	
 ; ===========================================================================
 
-DLE_GHZ3boss:
+@Level_Part2:
 		cmpi.w	#$960,(v_screenposx).w
-		bcc.s	loc_6EB0
+		bcc.s	@2
 		subq.b	#2,(v_dle_routine).w
 
-loc_6EB0:
-		cmpi.w	#$2960,(v_screenposx).w
-		bcs.s	locret_6EE8
+@2:
+		cmpi.w	#$2500,(v_screenposx).w
+		bcs.s	@Nullsub
 		bsr.w	FindFreeObj
-		bne.s	loc_6ED0
-		move.b	#id_BossGreenHill,0(a1) ; load GHZ boss	object
-		move.w	#$2A60,obX(a1)
-		move.w	#$280,obY(a1)
+		bne.s	@StartBoss
+		move.b	#id_BossGreenHill, (a1) ; load GHZ boss	object
 
-loc_6ED0:
-		music	mus_Boss	; play boss music
-		move.b	#1,(f_lockscreen).w ; lock screen
+		move.b 	(v_difficulty).w, d0
+		cmpi.b 	#2, d0 ; is difficulty hard+?
+		blt.s 	@StartBoss ; if not, branch
+
+		move.w	#0,(v_rings).w
+		move.b	#$80,(f_ringcount).w ; update ring counter
+
+@StartBoss:
+		move.w	(v_screenposx).w,d0
+		move.w	d0,(v_limitleft2).w	; lock left side
+
+		;command	mus_FadeOut	; fade out music
+		music $8C
+
+		move.b	#1,(f_lockscreen).w	; lock screen
 		addq.b	#2,(v_dle_routine).w
+		addq.b	#2,(v_dle_routine).w ; ############3
 		moveq	#plcid_Boss,d0
-		bra.w	AddPLC		; load boss patterns
-; ===========================================================================
+		jmp	AddPLC			; load boss patterns
+		; ----------------------------------------------
 
-locret_6EE8:
+@Return:
 		rts	
 ; ===========================================================================
 
-DLE_GHZ3end:
-		move.w	(v_screenposx).w,(v_limitleft2).w
-		rts	
+@Autoscroll:
+@WarpPeriod:	= $600
+@ScrollSpeed:	= 3
+
+		cmp.b	#6, v_player+obRoutine	; Sonic dying?
+		bhs.s	@Return			; if yes, branch
+
+		move.w	(v_limitleft2).w,d0
+		move.w	#$300,(v_scrshiftx).w	; keep camera scrolling ...
+		addq.w	#@ScrollSpeed,d0
+		cmpi.w	#$2500+@WarpPeriod,d0	; has camera went past warp border?
+		bcs.s	@NoWarp			; if not, branch
+
+		move.w	#@WarpPeriod,d1
+		sub.w	d1,d0			; warp Camera
+
+		lea	(v_objspace).w, a3
+		moveq	#$7F,d6
+		
+	@WarpLoop:
+		tst.b	(a3)			; is this slot occupied?
+		beq.s	@WarpNext		; if not, branch
+		moveq	#%1100, d2		; does object use playfield coordinates?
+		and.b	obRender(a3), d2	; ''
+		subq.w	#1<<2, d2		; ''
+		bne.s	@WarpNext		; if not, branch
+
+		sub.w	d1, obX(a3)		; warp object
+
+	@WarpNext:
+		lea	$40(a3),a3
+		dbf	d6,@WarpLoop
+
+	@NoWarp:
+		move.w	d0,(v_limitleft2).w		; update camera boundaries
+		move.w	d0,(v_limitright2).w		;
+		move.w	d0,(v_screenposx).w		; update camera position            
+		move.w	d0,(v_screenposx_final).w	; ''
+
+		; Prevent Sonic from getting stuck on the left boundary
+		lea	(v_player).w,a0
+		sub.w	obX(a0), d0
+		cmp.w	#-$11, d0		; is Sonic touching the left boundary?
+		blt.s	@Return			; if nope, branch
+		add.w	#$11, d0		; d0 = CameraX - SonicX + $11
+		add.w	d0, obX(a0)		; SonicX = CameraX + $11
+		move.w	#@ScrollSpeed<<8, obVelX(a0)
+		move.w	#@ScrollSpeed<<8, obInertia(a0)
+		rts
+; ===========================================================================
+
+@End:
+		sf.b	(f_lockscreen).w				; unlock right boundary
+		addq.b	#2,(v_dle_routine).w
+		move.w	#$2900+$180,(v_limitright2).w		; setup right boundary
+		move.w	(v_screenposx).w,(v_limitleft2).w		; limit left boundary
+
+		moveq	#plcid_Signpost,d0
+		jmp	NewPLC					; load signpost	patterns
+
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Labyrinth Zone dynamic level events
@@ -216,7 +433,7 @@ loc_6F4A:
 		move.b	#1,(f_lockscreen).w ; lock screen
 		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
-		bra.w	AddPLC		; load boss patterns
+		jmp		AddPLC		; load boss patterns
 ; ===========================================================================
 
 locret_6F62:
@@ -259,105 +476,127 @@ DLE_MZx:	dc.w DLE_MZ1-DLE_MZx
 DLE_MZ1:
 		moveq	#0,d0
 		move.b	(v_dle_routine).w,d0
-		move.w	off_6FB2(pc,d0.w),d0
-		jmp	off_6FB2(pc,d0.w)
+		move.w	@Routines(pc,d0.w),d0
+		jmp	@Routines(pc,d0.w)
 ; ===========================================================================
-off_6FB2:	dc.w loc_6FBA-off_6FB2
-		dc.w loc_6FEA-off_6FB2
-		dc.w loc_702E-off_6FB2
-		dc.w loc_7050-off_6FB2
+@Routines:	dc.w @Level-@Routines
+		dc.w @Nullsub-@Routines
+		dc.w @Autoscroll-@Routines
+		dc.w @End-@Routines
+		dc.w @Nullsub-@Routines
 ; ===========================================================================
 
-loc_6FBA:
-		move.w	#$1D0,(v_limitbtm1).w
-		cmpi.w	#$700,(v_screenposx).w
-		bcs.s	locret_6FE8
-		move.w	#$220,(v_limitbtm1).w
-		cmpi.w	#$D00,(v_screenposx).w
-		bcs.s	locret_6FE8
-		move.w	#$340,(v_limitbtm1).w
-		cmpi.w	#$340,(v_screenposy).w
-		bcs.s	locret_6FE8
+@Level:
+		; - DEFAULT ------------------------------------
+		move.w	#$12C,(v_limitbtm1).w ; set lower y-boundary
+		; - PASS 1--------------------------------------
+		cmpi.w	#$154,(v_screenposy).w ; has the camera reached $0154 on y-axis?
+		bcc.s	@Pass2	; if yes, branch
+
+		cmpi.w	#$41A,(v_screenposx).w ; has the camera reached $044A on x-axis?
+		bcs.s	@Return	; if not, branch
+		; - PASS 2 -------------------------------------
+@Pass2:
+		move.w	#$560,(v_limitbtm1).w ; set lower y-boundary
+		; - PASS 3--------------------------------------
+		cmpi.w	#$1500,(v_screenposx).w ; has the camera reached $1500 on x-axis?
+		bcs.s	@Return ; if not, branch
+		move.w	#$200,(v_limitbtm1).w	; lock bottom
+
+		cmpi.w	#$1800,(v_screenposx).w ; has the camera reached $1800 on x-axis?
+		bcs.s	@Return ; if not, branch
+
+		jsr	FindFreeObj
+		bne.s	@StartBoss
+		move.b	#id_BossMarble, (a1)	; load MZ boss object
+		move.w	#$19F0+$80, obX(a1)
+		move.w	#$23C-$20, obY(a1)
+
+		move.b 	(v_difficulty).w, d0
+		cmpi.b 	#2, d0 ; is difficulty hard+?
+		blt.s 	@StartBoss ; if not, branch
+
+		move.w	#0,(v_rings).w
+		move.b	#$80,(f_ringcount).w ; update ring counter
+
+@StartBoss:
+		move.w	(v_screenposx).w,d0
+		move.w	d0,(v_limitleft2).w	; lock left side
+		move.w	#$200,(v_limittop2).w	; lock the top
+
+		command	mus_FadeOut	; fade out music
+
+		move.b	#1,(f_lockscreen).w	; lock screen
 		addq.b	#2,(v_dle_routine).w
+		moveq	#plcid_Boss,d0
+		jmp	AddPLC			; load boss patterns
+		; ----------------------------------------------
 
-locret_6FE8:
+@Nullsub:
+@Return:
 		rts	
+
 ; ===========================================================================
 
-loc_6FEA:
-		cmpi.w	#$340,(v_screenposy).w
-		bcc.s	loc_6FF8
-		subq.b	#2,(v_dle_routine).w
-		rts	
+@Autoscroll:
+@WarpPeriod:	= $400
+@ScrollSpeed:	= 2
+
+		cmp.b	#6, v_player+obRoutine	; Sonic dying?
+		bhs.s	@Return			; if yes, branch
+		move.w	(v_limitleft2).w,d0
+		move.w	#$200,(v_scrshiftx).w	; keep camera scrolling ...
+		addq.w	#@ScrollSpeed,d0
+		cmpi.w	#$1900+@WarpPeriod,d0	; has camera went past warp border?
+		bcs.s	@NoWarp			; if not, branch
+
+		move.w	#@WarpPeriod,d1
+		sub.w	d1,d0			; warp Camera
+
+		lea	(v_objspace).w, a3
+		moveq	#$7F,d6
+		
+	@WarpLoop:
+		tst.b	(a3)			; is this slot occupied?
+		beq.s	@WarpNext		; if not, branch
+		moveq	#%1100, d2		; does object use playfield coordinates?
+		and.b	obRender(a3), d2	; ''
+		subq.w	#1<<2, d2		; ''
+		bne.s	@WarpNext		; if not, branch
+
+		sub.w	d1, obX(a3)		; warp object
+
+	@WarpNext:
+		lea	$40(a3),a3
+		dbf	d6,@WarpLoop
+
+	@NoWarp:
+		move.w	d0,(v_limitleft2).w		; update camera boundaries
+		move.w	d0,(v_limitright2).w		;
+		move.w	d0,(v_screenposx).w		; update camera position            
+		move.w	d0,(v_screenposx_final).w	; ''
+
+		; Prevent Sonic from getting stuck on the left boundary
+		lea	(v_player).w,a0
+		sub.w	obX(a0), d0
+		cmp.w	#-$11, d0		; is Sonic touching the left boundary?
+		blt.s	@Return			; if nope, branch
+		add.w	#$11, d0		; d0 = CameraX - SonicX + $11
+		add.w	d0, obX(a0)		; SonicX = CameraX + $11
+		move.w	#@ScrollSpeed<<8, obVelX(a0)
+		move.w	#@ScrollSpeed<<8, obInertia(a0)
+		rts
 ; ===========================================================================
 
-loc_6FF8:
-		move.w	#0,(v_limittop2).w
-		cmpi.w	#$E00,(v_screenposx).w
-		bcc.s	locret_702C
-		move.w	#$340,(v_limittop2).w
-		move.w	#$340,(v_limitbtm1).w
-		cmpi.w	#$A90,(v_screenposx).w
-		bcc.s	locret_702C
-		move.w	#$500,(v_limitbtm1).w
-		cmpi.w	#$370,(v_screenposy).w
-		bcs.s	locret_702C
+@End:
+		sf.b	(f_lockscreen).w				; unlock right boundary
 		addq.b	#2,(v_dle_routine).w
+		move.w	#$1D00+$180,(v_limitright2).w		; setup right boundary
+		move.w	(v_screenposx).w,(v_limitleft2).w		; limit left boundary
 
-locret_702C:
-		rts	
-; ===========================================================================
+		moveq	#plcid_Signpost,d0
+		jmp	NewPLC					; load signpost	patterns
 
-loc_702E:
-		cmpi.w	#$370,(v_screenposy).w
-		bcc.s	loc_703C
-		subq.b	#2,(v_dle_routine).w
-		rts	
-; ===========================================================================
-
-loc_703C:
-		cmpi.w	#$500,(v_screenposy).w
-		bcs.s	locret_704E
-		if Revision=0
-		else
-			cmpi.w	#$B80,(v_screenposx).w
-			bcs.s	locret_704E
-		endc
-		move.w	#$500,(v_limittop2).w
-		addq.b	#2,(v_dle_routine).w
-
-locret_704E:
-		rts	
-; ===========================================================================
-
-loc_7050:
-		if Revision=0
-		else
-			cmpi.w	#$B80,(v_screenposx).w
-			bcc.s	locj_76B8
-			cmpi.w	#$340,(v_limittop2).w
-			beq.s	locret_7072
-			subq.w	#2,(v_limittop2).w
-			rts
-	locj_76B8:
-			cmpi.w	#$500,(v_limittop2).w
-			beq.s	locj_76CE
-			cmpi.w	#$500,(v_screenposy).w
-			bcs.s	locret_7072
-			move.w	#$500,(v_limittop2).w
-	locj_76CE:
-		endc
-
-		cmpi.w	#$E70,(v_screenposx).w
-		bcs.s	locret_7072
-		move.w	#0,(v_limittop2).w
-		move.w	#$500,(v_limitbtm1).w
-		cmpi.w	#$1430,(v_screenposx).w
-		bcs.s	locret_7072
-		move.w	#$210,(v_limitbtm1).w
-
-locret_7072:
-		rts	
 ; ===========================================================================
 
 DLE_MZ2:
@@ -371,43 +610,8 @@ locret_7088:
 ; ===========================================================================
 
 DLE_MZ3:
-		moveq	#0,d0
-		move.b	(v_dle_routine).w,d0
-		move.w	off_7098(pc,d0.w),d0
-		jmp	off_7098(pc,d0.w)
-; ===========================================================================
-off_7098:	dc.w DLE_MZ3boss-off_7098
-		dc.w DLE_MZ3end-off_7098
-; ===========================================================================
+		rts
 
-DLE_MZ3boss:
-		move.w	#$720,(v_limitbtm1).w
-		cmpi.w	#$1560,(v_screenposx).w
-		bcs.s	locret_70E8
-		move.w	#$210,(v_limitbtm1).w
-		cmpi.w	#$17F0,(v_screenposx).w
-		bcs.s	locret_70E8
-		bsr.w	FindFreeObj
-		bne.s	loc_70D0
-		move.b	#id_BossMarble,0(a1) ; load MZ boss object
-		move.w	#$19F0,obX(a1)
-		move.w	#$22C,obY(a1)
-
-loc_70D0:
-		music	mus_Boss	; play boss music
-		move.b	#1,(f_lockscreen).w ; lock screen
-		addq.b	#2,(v_dle_routine).w
-		moveq	#plcid_Boss,d0
-		bra.w	AddPLC		; load boss patterns
-; ===========================================================================
-
-locret_70E8:
-		rts	
-; ===========================================================================
-
-DLE_MZ3end:
-		move.w	(v_screenposx).w,(v_limitleft2).w
-		rts	
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Star Light Zone dynamic level events
@@ -420,12 +624,59 @@ DLE_SLZ:
 		move.w	DLE_SLZx(pc,d0.w),d0
 		jmp	DLE_SLZx(pc,d0.w)
 ; ===========================================================================
-DLE_SLZx:	dc.w DLE_SLZ12-DLE_SLZx
-		dc.w DLE_SLZ12-DLE_SLZx
+DLE_SLZx:	dc.w DLE_SLZ1-DLE_SLZx
+		dc.w DLE_SLZ2-DLE_SLZx
 		dc.w DLE_SLZ3-DLE_SLZx
 ; ===========================================================================
+DLE_SLZ1:
+		moveq	#0,d0
+		move.b	(v_dle_routine).w,d0
+		move.w	DLE_SLZ1Table(pc,d0.w),d0
+		jmp		DLE_SLZ1Table(pc,d0.w)
+; ===========================================================================
+DLE_SLZ1Table:	
+		dc.w DLE_SLZ1Main-DLE_SLZ1Table
+		dc.w DLE_SLZ1Boss-DLE_SLZ1Table
+		dc.w DLE_SLZ1End-DLE_SLZ1Table
+; ===========================================================================
+DLE_SLZ1Main:
+		move.w	#$520,(v_limitbtm1).w
+		cmpi.w	#$1800,(v_screenposx).w
+		bcs.w	locret_7130
+		move.w	#$120,(v_limitbtm1).w
+		cmpi.w	#$1D00,(v_screenposx).w
+		bcs.w	locret_7130		
+		move.w	#$220,(v_limitbtm1).w
+		cmpi.w	#$2500,(v_screenposx).w
+		bcs.w	locret_7130		
+		move.w	#$620,(v_limitbtm1).w
+		move.w	#$620,(v_limitbtm2).w
+		cmpi.w	#$3100,(v_screenposx).w
+		bcs.s	locret_7130	
+		addq.b	#2,(v_dle_routine).w
+		rts
 
-DLE_SLZ12:
+DLE_SLZ1Boss:
+		bsr.w	FindFreeObj
+		bne.s	@Start
+		move.b	#id_BossStarLight,(a1) ; load SLZ boss object
+		move.w	#$32C0,obX(a1)
+		move.w	#$455,obY(a1)
+		
+@Start:
+		music	mus_Boss	; play boss music
+		move.w	#$420,(v_limitbtm1).w
+		move.b	#1,(f_lockscreen).w ; lock screen
+		addq.b	#2,(v_dle_routine).w
+		moveq	#plcid_Boss,d0
+		jmp	AddPLC		; load boss patterns
+
+DLE_SLZ1End:
+		move.w	(v_screenposx).w,(v_limitleft2).w
+		rts	
+; ===========================================================================
+
+DLE_SLZ2:
 		rts	
 ; ===========================================================================
 
@@ -456,13 +707,14 @@ DLE_SLZ3boss:
 		bsr.w	FindFreeObj
 		bne.s	loc_7144
 		move.b	#id_BossStarLight,(a1) ; load SLZ boss object
-
+		move.w	#$2170,obX(a1)
+		move.w	#$255,obY(a1)
 loc_7144:
 		music	mus_Boss	; play boss music
 		move.b	#1,(f_lockscreen).w ; lock screen
 		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_Boss,d0
-		bra.w	AddPLC		; load boss patterns
+		jmp	AddPLC		; load boss patterns
 ; ===========================================================================
 
 locret_715C:
@@ -491,6 +743,50 @@ DLE_SYZx:	dc.w DLE_SYZ1-DLE_SYZx
 ; ===========================================================================
 
 DLE_SYZ1:
+		moveq	#0,d0
+		move.b	(v_dle_routine).w,d0
+		move.w	DLE_SYZ1_Table(pc,d0.w),d0
+		jmp	DLE_SYZ1_Table(pc,d0.w)
+; ===========================================================================
+DLE_SYZ1_Table:	dc.w DLE_SYZ1main-DLE_SYZ1_Table
+		dc.w DLE_SYZ1boss-DLE_SYZ1_Table
+		dc.w DLE_SYZ1end-DLE_SYZ1_Table
+; ===========================================================================
+
+DLE_SYZ1main:
+		cmpi.w	#$3600,(v_screenposx).w
+		bcs.s	@return
+		;bsr.w	FindFreeObj
+		;bne.s	locret_71CE
+		;move.b	#id_BossBlock,(a1) ; load blocks that boss picks up
+		addq.b	#2,(v_dle_routine).w
+
+@return:
+		rts	
+; ===========================================================================
+
+DLE_SYZ1boss:
+		move.w	#$AC,(v_limitbtm1).w
+		bsr.w	FindFreeObj
+		bne.s	@loc_71EC
+		move.b	#id_BossSpringYard,(a1) ; load SYZ boss	object
+		move.w	#$37C0,obX(a1)
+		move.w	#$C5,obY(a1)
+
+@loc_71EC:
+		addq.b	#2,(v_dle_routine).w	; => "DLE_SYZ3end"
+		music	mus_Boss	; play boss music
+		move.b	#1,(f_lockscreen).w ; lock screen
+		moveq	#plcid_Boss,d0
+		jmp		AddPLC		; load boss patterns
+; ===========================================================================
+
+@locret_7200:
+		rts	
+; ===========================================================================
+
+DLE_SYZ1end:
+		move.w	(v_screenposx).w,(v_limitleft2).w
 		rts	
 ; ===========================================================================
 
@@ -537,13 +833,15 @@ DLE_SYZ3boss:
 		bsr.w	FindFreeObj
 		bne.s	loc_71EC
 		move.b	#id_BossSpringYard,(a1) ; load SYZ boss	object
-		addq.b	#2,(v_dle_routine).w
+		move.w	#$2E60,obX(a1)
+		move.w	#$4F0,obY(a1)
 
 loc_71EC:
+		addq.b	#2,(v_dle_routine).w	; => "DLE_SYZ3end"
 		music	mus_Boss	; play boss music
 		move.b	#1,(f_lockscreen).w ; lock screen
 		moveq	#plcid_Boss,d0
-		bra.w	AddPLC		; load boss patterns
+		jmp		AddPLC		; load boss patterns
 ; ===========================================================================
 
 locret_7200:
@@ -571,15 +869,6 @@ DLE_SBZx:	dc.w DLE_SBZ1-DLE_SBZx
 ; ===========================================================================
 
 DLE_SBZ1:
-		move.w	#$720,(v_limitbtm1).w
-		cmpi.w	#$1880,(v_screenposx).w
-		bcs.s	locret_7242
-		move.w	#$620,(v_limitbtm1).w
-		cmpi.w	#$2000,(v_screenposx).w
-		bcs.s	locret_7242
-		move.w	#$2A0,(v_limitbtm1).w
-
-locret_7242:
 		rts	
 ; ===========================================================================
 
@@ -616,7 +905,7 @@ DLE_SBZ2boss:
 		move.b	#id_FalseFloor,(a1) ; load collapsing block object
 		addq.b	#2,(v_dle_routine).w
 		moveq	#plcid_EggmanSBZ2,d0
-		bra.w	AddPLC		; load SBZ2 Eggman patterns
+		jmp		AddPLC		; load SBZ2 Eggman patterns
 ; ===========================================================================
 
 locret_7298:
@@ -635,16 +924,16 @@ loc_72B0:
 		move.b	#1,(f_lockscreen).w ; lock screen
 
 loc_72B6:
-		bra.s	loc_72C2
+		bra.s	LockLeft
 ; ===========================================================================
 
 DLE_SBZ2end:
 		cmpi.w	#$2050,(v_screenposx).w
-		bcs.s	loc_72C2
+		bcs.s	LockLeft
 		rts	
 ; ===========================================================================
 
-loc_72C2:
+LockLeft:
 		move.w	(v_screenposx).w,(v_limitleft2).w
 		rts	
 ; ===========================================================================
@@ -655,54 +944,154 @@ DLE_FZ:
 		move.w	off_72D8(pc,d0.w),d0
 		jmp	off_72D8(pc,d0.w)
 ; ===========================================================================
-off_72D8:	dc.w DLE_FZmain-off_72D8, DLE_FZboss-off_72D8
-		dc.w DLE_FZend-off_72D8, locret_7322-off_72D8
+off_72D8:	dc.w DLE_FZmain-off_72D8
+		dc.w DLE_FZboss-off_72D8
+		dc.w LockLeft-off_72D8
+		dc.w DLE_FZend-off_72D8
 		dc.w DLE_FZend2-off_72D8
 ; ===========================================================================
 
 DLE_FZmain:
-		cmpi.w	#$2148,(v_screenposx).w
-		bcs.s	loc_72F4
+		cmpi.w	#$2200,(v_screenposx).w
+		bcs	LockLeft
 		addq.b	#2,(v_dle_routine).w
+		move.w	#$580,(v_limitbtm1).w
 		moveq	#plcid_FZBoss,d0
-		bsr.w	AddPLC		; load FZ boss patterns
-
-loc_72F4:
-		bra.s	loc_72C2
+		jsr 	AddPLC		; load FZ boss patterns
+		bra.s	LockLeft
 ; ===========================================================================
 
 DLE_FZboss:
-		cmpi.w	#$2300,(v_screenposx).w
-		bcs.s	loc_7312
-		bsr.w	FindFreeObj
-		bne.s	loc_7312
-		move.b	#id_BossFinal,(a1) ; load FZ boss object
+		cmpi.w	#$23E0,(v_screenposx).w
+		bcs	LockLeft
 		addq.b	#2,(v_dle_routine).w
 		move.b	#1,(f_lockscreen).w ; lock screen
+		move.w	#$23E0,(v_limitright2).w
 
-loc_7312:
-		bra.s	loc_72C2
+		move.l	#execute_ObjPlasmaBoss, -(sp)
+		pea	v_lvlobjspace.w
+		jsr	createCppObject__cdecl
+		addq.w	#8, sp
+		bra.s	LockLeft
 ; ===========================================================================
 
 DLE_FZend:
-		cmpi.w	#$2450,(v_screenposx).w
-		bcs.s	loc_7320
+		sf.b	(f_lockscreen).w			; unlock right boundary
 		addq.b	#2,(v_dle_routine).w
+		move.w	#0,(v_limittop2).w
+		move.w	#$2600+$130,(v_limitright2).w		; setup right boundary
 
-loc_7320:
-		bra.s	loc_72C2
+		moveq	#plcid_Signpost,d0
+		jsr	NewPLC					; load signpost	patterns
+		bra	LockLeft
 ; ===========================================================================
-
-locret_7322:
-		rts	
-; ===========================================================================
-
 DLE_FZend2:
-		bra.s	loc_72C2
+		cmp.w	#$2600+$130, (v_screenposx).w
+		blo.s	@End
+		move.w	#$4A0, (v_limitbtm1).w
+@End:
+		rts
+
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Ending sequence dynamic level events (empty)
 ; ---------------------------------------------------------------------------
 
 DLE_Ending:
-		rts	
+		rts
+
+LeftSpawnPos: 	equ $01F0
+RightSpawnPos:	equ $0440
+
+; ---------------------------------------------------------------------------
+; Zone 7 dynamic level events
+; ---------------------------------------------------------------------------
+DLE_Z7:
+		moveq	#0, d0
+		move.b	(v_dle_routine).w, d0
+		move.w	@Index(pc,d0.w), d0
+		jmp		@Index(pc,d0.w)
+
+@Index:
+		dc.w DLE_Z7_Init-@Index
+		dc.w DLE_Z7_Main-@Index
+		dc.w DLE_Z7_Horde-@Index
+		dc.w DLE_Z7_End-@Index
+
+; ===========================================================================
+
+DLE_Z7_Init:
+		move.b	#1, (v_dashdisabled).w	; disable spindash >:)
+		move.w	#$124,(v_limitbtm1).w 	; set lower y-boundary
+		move.b  #50, (v_hordecount).w 	; KILL THEM
+		addq.b 	#2, (v_dle_routine).w
+		rts
+; ===========================================================================
+
+DLE_Z7_Main:
+		tst.b 	(f_lockscreen).w	; is screen locked?
+		bne.w 	@Return				; if yes, branch
+
+		cmpi.w	#$1E5, (v_screenposx).w ; has the camera reached $1E5 on x-axis?
+		bcs.w	@Return	; if not, branch
+		
+		sfx		sfx_BigRing
+		music	mus_zone7
+
+		move.b	#1, (f_lockscreen).w ; lock screen
+		jsr		PaletteWhiteIn
+
+		move.b 	#$50, (v_spawntimer).w
+		move.w	#$300,(v_limitright2).w
+		addq.b 	#2, (v_dle_routine).w
+		rts
+
+@Return:
+		rts
+; ===========================================================================
+
+DLE_Z7_Horde:
+		tst.b 	(v_hordecount).w
+		beq.w 	@GoodJob
+
+		sub.b 	#1, (v_spawntimer).w
+		
+		tst.b 	(v_spawntimer).w
+		bne.w 	@Return
+
+@ResetTimer:
+		move.b  #$3A, (v_spawntimer).w
+		not.b 	(v_spawndirection).w
+		move.b 	(v_spawndirection).w, d0
+
+		move.w 	#LeftSpawnPos, d1
+		tst.b 	(v_spawndirection).w
+		beq.s 	@Spawn
+		move.w 	#RightSpawnPos, d1
+
+@Spawn:
+		Instance.new Mogeko, a1
+		move.w 	d1, obX(a1)
+		move.w 	#$01EC, obY(a1)
+
+@Return:
+		rts
+
+@GoodJob:
+		command	mus_stop
+		jsr 	PaletteFadeOut
+		addq.b 	#2, (v_dle_routine).w
+		rts
+; ===========================================================================
+
+DLE_Z7_End:
+		move.b 	#id_Title, (v_gamemode).w
+
+		sfx		sfx_enterss
+		jsr 	PaletteWhiteOut
+		
+		move.b 	#1, (v_secretprog).w
+		move.b 	#0, (v_zone).w
+		jsr		SaveSRAM
+
+		rts

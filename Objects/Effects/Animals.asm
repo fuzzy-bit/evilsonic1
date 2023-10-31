@@ -76,7 +76,7 @@ Anml_Ending:	; Routine 0
 
 Anml_FromEnemy:
 		addq.b	#2,obRoutine(a0)
-		bsr.w	RandomNumber
+		jsr		RandomNumber
 		andi.w	#1,d0
 		moveq	#0,d1
 		move.b	(v_zone).w,d1
@@ -107,14 +107,14 @@ loc_90C0:
 		move.w	#-$400,obVelY(a0)
 		tst.b	(v_bossstatus).w
 		bne.s	loc_911C
-		bsr.w	FindFreeObj
+		; bsr.w	FindFreeObj
 		bne.s	Anml_Display
-		move.b	#id_Points,0(a1) ; load points object
-		move.w	obX(a0),obX(a1)
-		move.w	obY(a0),obY(a1)
+		; move.b	#id_Points,0(a1) ; load points object
+		; move.w	obX(a0),obX(a1)
+		; move.w	obY(a0),obY(a1)
 		move.w	$3E(a0),d0
 		lsr.w	#1,d0
-		move.b	d0,obFrame(a1)
+		; move.b	d0,obFrame(a1)
 
 Anml_Display:
 		bra.w	DisplaySprite

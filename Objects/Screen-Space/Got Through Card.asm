@@ -29,6 +29,9 @@ Got_ChkPLC:	; Routine 0
 ; ===========================================================================
 
 Got_Main:
+		moveq  	#$FFFFFF9D,d0
+        jsr    	PlaySample
+		
 		movea.l	a0,a1
 		lea	(Got_Config).l,a2
 		moveq	#6,d1
@@ -146,11 +149,11 @@ Got_NextLevel:	; Routine $A
 		andi.w	#3,d1
 		add.w	d1,d1
 		add.w	d1,d0
-		move.w	LevelOrder(pc,d0.w),d0 ; load level from level order array
-		move.w	d0,(v_zone).w	; set level number
+		move.w	LevelOrder(pc,d0.w),d0  ; load level from level order array
+		move.w	d0,(v_zone).w			; set level number
 		tst.w	d0
 		bne.s	Got_ChkSS
-		move.b	#id_Sega,(v_gamemode).w
+		move.b	#id_Credits, (v_gamemode).w
 		bra.s	Got_Display2
 ; ===========================================================================
 
@@ -170,45 +173,60 @@ Got_Display2:
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Level	order array
+; "Invalid" means it's not meant to be used by this ROM hack
 ; ---------------------------------------------------------------------------
 LevelOrder:
 		; Green Hill Zone
-		dc.b id_GHZ, 1	; Act 1
-		dc.b id_GHZ, 2	; Act 2
-		dc.b id_MZ, 0	; Act 3
-		dc.b 0, 0
+		dc.b id_MZ, 0	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
-		; Labyrinth Zone
-		dc.b id_LZ, 1	; Act 1
-		dc.b id_LZ, 2	; Act 2
-		dc.b id_SLZ, 0	; Act 3
-		dc.b id_SBZ, 2	; Scrap Brain Zone Act 3
+		; Labyrinth Zone (Invalid)
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
 		; Marble Zone
-		dc.b id_MZ, 1	; Act 1
-		dc.b id_MZ, 2	; Act 2
-		dc.b id_SYZ, 0	; Act 3
-		dc.b 0, 0
+		dc.b id_SYZ, 0	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
 		; Star Light Zone
-		dc.b id_SLZ, 1	; Act 1
-		dc.b id_SLZ, 2	; Act 2
-		dc.b id_SBZ, 0	; Act 3
-		dc.b 0, 0
+		dc.b id_SBZ, 0	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
 		; Spring Yard Zone
-		dc.b id_SYZ, 1	; Act 1
-		dc.b id_SYZ, 2	; Act 2
-		dc.b id_LZ, 0	; Act 3
-		dc.b 0, 0
+		dc.b id_SLZ, 0	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
 
 		; Scrap Brain Zone
-		dc.b id_SBZ, 1	; Act 1
-		dc.b id_LZ, 3	; Act 2
-		dc.b 0, 0	; Final Zone
+		dc.b id_SBZ, 2	; Act 1
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		dc.b 0, 0		; Invalid
+		even
+		
+		; Ending (padding)
+		dc.b 0, 0
+		dc.b 0, 0
+		dc.b 0, 0
 		dc.b 0, 0
 		even
 		zonewarning LevelOrder,8
+		
+		; Zone 7
+		dc.b 0, 0
+		dc.b 0, 0
+		dc.b 0, 0
+		dc.b 0, 0
+		even
 ; ===========================================================================
 
 Got_Move2:	; Routine $E

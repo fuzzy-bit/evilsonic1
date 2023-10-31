@@ -20,6 +20,11 @@ Sonic_JumpDirection:
 		neg.w	d1
 		cmp.w	d1,d0
 		bgt.s	loc_13278
+		if SpeedCap=0
+		add.w	d5,d0
+		cmp.w	d1,d0
+		ble.s	loc_13278
+		endc
 		move.w	d1,d0
 
 loc_13278:
@@ -29,6 +34,11 @@ loc_13278:
 		add.w	d5,d0
 		cmp.w	d6,d0
 		blt.s	Obj01_JumpMove
+		if SpeedCap=0
+		sub.w	d5,d0
+		cmp.w	d6,d0
+		bge.s	Obj01_JumpMove
+		endc
 		move.w	d6,d0
 
 Obj01_JumpMove:

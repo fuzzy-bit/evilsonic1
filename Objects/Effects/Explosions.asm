@@ -53,12 +53,12 @@ ExItem_Index:	dc.w ExItem_Animal-ExItem_Index
 
 ExItem_Animal:	; Routine 0
 		addq.b	#2,obRoutine(a0)
-		bsr.w	FindFreeObj
-		bne.s	ExItem_Main
-		move.b	#id_Animals,0(a1) ; load animal object
-		move.w	obX(a0),obX(a1)
-		move.w	obY(a0),obY(a1)
-		move.w	$3E(a0),$3E(a1)
+		; bsr.w	FindFreeObj
+		; bne.s	ExItem_Main
+		; move.b	#id_Animals,0(a1) ; load animal object
+		; move.w	obX(a0),obX(a1)
+		; move.w	obY(a0),obY(a1)
+		; move.w	$3E(a0),$3E(a1)
 
 ExItem_Main:	; Routine 2
 		addq.b	#2,obRoutine(a0)
@@ -94,7 +94,7 @@ ExplosionBomb:
 		jmp	ExBom_Index(pc,d1.w)
 ; ===========================================================================
 ExBom_Index:	dc.w ExBom_Main-ExBom_Index
-		dc.w ExItem_Animate-ExBom_Index
+		dc.w ExBomb_Animate-ExBom_Index
 ; ===========================================================================
 
 ExBom_Main:	; Routine 0
@@ -105,7 +105,22 @@ ExBom_Main:	; Routine 0
 		move.b	#1,obPriority(a0)
 		move.b	#0,obColType(a0)
 		move.b	#$C,obActWid(a0)
-		move.b	#7,obTimeFrame(a0)
+		move.b	#5,obTimeFrame(a0)
 		move.b	#0,obFrame(a0)
-		sfx	sfx_Explode	; play exploding bomb sound
-		rts
+		move.b	#10, (v_shaketimer).w	
+		sfx	sfx_superexplosion	; play exploding bomb sound
+		tst.l	obVelX(a0)
+		bne.s	ExBomb_Animate
+		jmp		RandomDirection
+
+ExBomb_Animate:
+		jsr 	SpeedToPos
+		subq.b	#1,obTimeFrame(a0) ; subtract 1 from frame duration
+		bpl.s	@display
+		move.b	#5,obTimeFrame(a0) ; set frame duration to 7 frames
+		addq.b	#1,obFrame(a0)	; next frame
+		cmpi.b	#5,obFrame(a0)	; is the final frame (05) displayed?
+		beq.w	DeleteObject	; if yes, branch
+
+@display:
+		bra.w	DisplaySprite

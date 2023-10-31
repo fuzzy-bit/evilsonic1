@@ -14,7 +14,7 @@ Level:
 		tst.w	(f_demo).w	; is an ending sequence demo running?
 		bmi.s	Level_ClrRam	; if yes, branch
 		disable_ints
-		locVRAM	$AD60
+		locVRAM	$AFC0
 		lea	(Nem_TitleCard).l,a0 ; load title card patterns
 		bsr.w	NemDec
 		enable_ints
@@ -113,7 +113,6 @@ Level_LoadPal:
 		move.b	($FFFFFE53).w,(f_wtr_state).w
 
 Level_GetBgm:
-		command	mus_Stop	; fade reset music
 		tst.w	(f_demo).w
 		bmi.s	Level_SkipTtlCard
 		moveq	#0,d0
@@ -128,10 +127,19 @@ Level_GetBgm:
 		moveq	#6,d0		; use 6th music (FZ)
 
 	Level_PlayBgm:
-		lea	(MusicList).l,a1 ; load	music playlist
+		lea		(MusicList).l,a1 ; load	music playlist
+		tst.b 	(v_secret).w
+		beq.s 	@SecretNotEnabled
+		
+		lea		(SecretMusicList).l, a1 ; load	secret music playlist
+	@SecretNotEnabled:
 		move.b	(a1,d0.w),d0
 		jsr		PlaySound
 		move.b	#id_TitleCard,(v_objspace+$80).w ; load title card object
+
+		move.w	(v_vdp_buffer1).w, d0
+		ori.b	#$40, d0				; enable display
+		move.w	d0, (vdp_control_port).l
 
 Level_TtlCardLoop:
 		move.b	#$C,(v_vbla_routine).w
@@ -162,8 +170,10 @@ Level_TtlCardLoop:
 		move.b	#id_HUD,(v_objspace+$40).w ; load HUD object
 
 Level_ChkDebug:
-		tst.b	(f_debugcheat).w ; has debug cheat been entered?
-		beq.s	Level_ChkWater	; if not, branch
+		if def(__DEBUG__)=0
+			tst.b	(f_debugcheat).w ; has debug cheat been entered?
+			beq.s	Level_ChkWater	; if not, branch
+		endc
 		btst	#bitA,(v_jpadhold1).w ; is A button held?
 		beq.s	Level_ChkWater	; if not, branch
 		move.b	#1,(f_debugmode).w ; enable debug mode
@@ -262,11 +272,12 @@ Level_ClrCardArt:
 		jsr	(AddPLC).l	; load explosion gfx
 		moveq	#0,d0
 		move.b	(v_zone).w,d0
-		addi.w	#plcid_GHZAnimals,d0
+		; addi.w	#plcid_GHZAnimals,d0
 		jsr	(AddPLC).l	; load animal gfx (level no. + $15)
 
 Level_StartGame:
 		bclr	#7,(v_gamemode).w ; subtract $80 from mode to end pre-level stuff
+		jsr 	SaveSRAM
 
 ; ---------------------------------------------------------------------------
 ; Main level loop (when	all title card and loading sequences are finished)
@@ -384,8 +395,9 @@ ColPointers:	dc.l Col_GHZ
 		dc.l Col_SLZ
 		dc.l Col_SYZ
 		dc.l Col_SBZ
-		zonewarning ColPointers,4
-;		dc.l Col_GHZ ; Pointer for Ending is missing by default.
+		dc.l Col_GHZ ; GIO: had to restore this pointer because i need it for padding		
+		zonewarning ColPointers,4	; did i already mention why i don't like this macro
+		dc.l Col_Zone7
 
 		include	"Includes\Oscillatory Routines.asm"
 
@@ -453,6 +465,14 @@ SignpostArtLoad:
 		bne.w	@exit		; if yes, branch
 		cmpi.b	#2,(v_act).w	; is act number 02 (act 3)?
 		beq.s	@exit		; if yes, branch
+		cmpi.w	#(id_GHZ<<8)+0,(v_zone).w	; is it GZ1?
+		beq.s	@exit
+		cmpi.w	#(id_MZ<<8)+0,(v_zone).w	; is it MZ1?
+		beq.s	@exit
+		cmpi.w	#(id_SLZ<<8)+0,(v_zone).w	; is it SLZ1?
+		beq.s	@exit
+		cmpi.w	#(id_SYZ<<8)+0,(v_zone).w	; is it SLZ1?
+		beq.s	@exit		
 
 		move.w	(v_screenposx).w,d0
 		move.w	(v_limitright2).w,d1
@@ -471,7 +491,35 @@ SignpostArtLoad:
 		rts
 ; End of function SignpostArtLoad 
 
+; ---------------------------------------------------------------------------
+; Music	playlist
+; ---------------------------------------------------------------------------
+MusicList:
+		dc.b mus_GHZ	; GHZ
+		dc.b mus_LZ	; LZ
+		dc.b mus_MZ	; MZ
+		dc.b mus_SLZ	; SLZ
+		dc.b mus_SYZ	; SYZ
+		dc.b mus_SBZ	; SBZ
+		dc.b mus_FZ	; Ending		
+		zonewarning MusicList,1	; Note: It's another one of those oddly placed macros.
+		dc.b mus_zone7pre
+		even
+
+SecretMusicList:
+		dc.b mus_SecretGHZ	; GHZ
+		dc.b mus_SecretLZ	; LZ
+		dc.b mus_SecretMZ	; MZ
+		dc.b mus_SecretSLZ	; SLZ
+		dc.b mus_SecretSYZ	; SYZ
+		dc.b mus_SecretSBZ	; SBZ
+		dc.b mus_SecretFZ	; Ending		
+		zonewarning SecretMusicList,1	; Note: It's another one of those oddly placed macros.
+		dc.b mus_zone7pre
+		even
+
 ; ===========================================================================
+
 
 Demo_GHZ:	incbin	"Data\Demos\Intro - GHZ.bin"
 Demo_MZ:	incbin	"Data\Demos\Intro - MZ.bin"

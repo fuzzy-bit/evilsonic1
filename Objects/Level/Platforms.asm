@@ -32,7 +32,7 @@ Plat_Main:	; Routine 0
 		move.l	#Map_Plat_SLZ,obMap(a0) ; SLZ specific code
 		move.b	#$20,obActWid(a0)
 		move.w	#$4000,obGfx(a0)
-		move.b	#3,obSubtype(a0)
+;		move.b	#3,obSubtype(a0)	; who the fuck at Sonic Team decided this was a good idea?
 
 	@notSLZ:
 		move.b	#4,obRender(a0)
@@ -63,7 +63,12 @@ Plat_Solid:	; Routine 2
 
 Plat_Action:	; Routine 8
 		bsr.w	Plat_Move
-		bsr.w	Plat_Nudge
+		pea		(Plat_Action_Common).l		
+		cmp.b	#id_SLZ,(v_zone).w ; GIO: platforms won't nudge in SLZ. wanted some more variety.
+		bne.s	Plat_Nudge
+		moveq	#0,d0
+		bra.w	Plat_NoNudge
+	Plat_Action_Common:
 		bsr.w	DisplaySprite
 		bra.w	Plat_ChkDel
 ; ===========================================================================
@@ -79,7 +84,12 @@ Plat_Action2:	; Routine 4
 		bsr.w	ExitPlatform
 		move.w	obX(a0),-(sp)
 		bsr.w	Plat_Move
-		bsr.w	Plat_Nudge
+		pea		(Plat_Action2_Common).l
+		cmp.b	#id_SLZ,(v_zone).w ; GIO: platforms won't nudge in SLZ. wanted some more variety.
+		bne.s	Plat_Nudge
+		moveq	#0,d0
+		bra.w	Plat_NoNudge
+	Plat_Action2_Common:		
 		move.w	(sp)+,d2
 		bsr.w	MvSonicOnPtfm2
 		bsr.w	DisplaySprite
@@ -96,10 +106,11 @@ Plat_Action2:	; Routine 4
 
 Plat_Nudge:
 		move.b	$38(a0),d0
-		bsr.w	CalcSine
+		jsr		CalcSine
 		move.w	#$400,d1
 		muls.w	d1,d0
-		swap	d0
+		swap	d0	
+	Plat_NoNudge:	
 		add.w	$2C(a0),d0
 		move.w	d0,obY(a0)
 		rts	
@@ -244,8 +255,8 @@ Plat_Move:
 ; ===========================================================================
 
 @type07:
-		tst.w	$3A(a0)		; is time delay	set?
-		bne.s	@type07_wait	; if yes, branch
+	;	tst.w	$3A(a0)		; is time delay	set?
+	;	bne.s	@type07_wait	; if yes, branch
 		lea	(f_switch).w,a2	; load switch statuses
 		moveq	#0,d0
 		move.b	obSubtype(a0),d0 ; move object type ($x7) to d0
@@ -253,22 +264,23 @@ Plat_Move:
 		tst.b	(a2,d0.w)	; has switch no. d0 been pressed?
 		beq.s	@type07_nomove	; if not, branch
 		move.w	#60,$3A(a0)	; set time delay to 1 second
+		addq.b	#1,obSubtype(a0) ; change to type 08
+
 
 	@type07_nomove:
 		rts	
 
-	@type07_wait:
-		subq.w	#1,$3A(a0)	; subtract 1 from time delay
-		bne.s	@type07_nomove	; if time is > 0, branch
-		addq.b	#1,obSubtype(a0) ; change to type 08
-		rts	
+	; @type07_wait:
+		; subq.w	#1,$3A(a0)	; subtract 1 from time delay
+		; bne.s	@type07_nomove	; if time is > 0, branch
+		; rts	
 ; ===========================================================================
 
 @type08:
 		subq.w	#2,$2C(a0)	; move platform	up
 		move.w	$34(a0),d0
-		subi.w	#$200,d0
-		cmp.w	$2C(a0),d0	; has platform moved $200 pixels?
+		subi.w	#$40,d0
+		cmp.w	$2C(a0),d0	; has platform moved $40 pixels?
 		bne.s	@type08_nostop	; if not, branch
 		clr.b	obSubtype(a0)	; change to type 00 (stop moving)
 

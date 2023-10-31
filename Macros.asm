@@ -1,14 +1,9 @@
 ; ---------------------------------------------------------------------------
 ; Align and pad
-; input: length to align to, value to use as padding (default is 0)
 ; ---------------------------------------------------------------------------
 
-align:		macro position, value
-		if (narg=1)
-		dcb.b (\position-(offset(*)%\position))%\position,0
-		else
-		dcb.b (\position-(offset(*)%\position))%\position,\value
-		endc
+align:		macro
+		cnop 0,\1
 		endm
 
 ; ---------------------------------------------------------------------------
@@ -16,13 +11,21 @@ align:		macro position, value
 ; input: 16-bit VRAM address, control port (default is ($C00004).l)
 ; ---------------------------------------------------------------------------
 
-locVRAM:	macro loc,controlport
-		if (narg=1)
-		move.l	#($40000000+((loc&$3FFF)<<16)+((loc&$C000)>>14)),(vdp_control_port).l
-		else
-		move.l	#($40000000+((loc&$3FFF)<<16)+((loc&$C000)>>14)),controlport
-		endc
-		endm
+locVRAM:	macro	offset,operand
+	if (narg=1)
+		move.l	#($40000000+(((\offset)&$3FFF)<<16)+(((\offset)&$C000)>>14)),VDP_Ctrl
+	else
+		move.l	#($40000000+(((\offset)&$3FFF)<<16)+(((\offset)&$C000)>>14)),\operand
+	endc
+	endm
+
+; ---------------------------------------------------------------------------
+; VRAM request const
+; ---------------------------------------------------------------------------
+
+dcvram	macro	offset
+	dc.l	($40000000+(((\offset)&$3FFF)<<16)+(((\offset)&$C000)>>14))
+	endm
 
 ; ---------------------------------------------------------------------------
 ; DMA copy data from 68K (ROM/RAM) to the VRAM
@@ -236,25 +239,25 @@ out_of_range:	macro exit,pos
 		endm
 
 ; ---------------------------------------------------------------------------
-; AMPS macros
+; VEPS macros
 ; ---------------------------------------------------------------------------
 
 ; Macro for playing a command
 command		macro id
 	move.b #id, d0
-	jsr		PlaySound
+	jsr		VEPS_PlaySound
     endm
 
 ; Macro for playing music
 music		macro id
 	move.b 	#id, d0
-	jsr		PlaySound
+	jsr		VEPS_PlaySound
     endm
 
 ; Macro for playing sound effect
 sfx		macro id
 	move.b 	#id, d0
-	jsr		PlaySound
+	jsr		VEPS_PlaySound
     endm
 
 ; ---------------------------------------------------------------------------
@@ -262,13 +265,13 @@ sfx		macro id
 ; (remember to enable SRAM in the header first!)
 ; ---------------------------------------------------------------------------
 
-gotoSRAM:	macro
-		move.b  #1,($A130F1).l
-		endm
+EnableSRAM:		macro
+	move.b  #1,($A130F1).l
+	endm
 
-gotoROM:	macro
-		move.b  #0,($A130F1).l
-		endm
+DisableSRAM:	macro
+	move.b  #0,($A130F1).l
+	endm
 
 ; ---------------------------------------------------------------------------
 ; compare the size of an index with ZoneCount constant
@@ -310,3 +313,60 @@ Sprite:	macro X, Y, Size, StartTile
 		move.w    \X, vdp_data_port        ;X position
 	endif
 	endm
+
+; ---------------------------------------------------------------------------
+; Macro to clear RAM for gamemode init
+; - fuzzy
+; ---------------------------------------------------------------------------
+ClearRAM: macro
+		lea		v_objspace, a0
+		moveq	#0, d1
+		move.l	#$7FF, d1
+	@ClearObjects:
+		move.l	d0, (a0)+
+		dbf		d1, @ClearObjects
+
+		lea		($FFFFF628).w, a1
+		moveq	#0, d0
+		move.w	#$15, d1
+	@ClearVariables:
+		move.l	d0, (a1)+
+		dbf		d1, @ClearVariables
+
+		lea		(v_screenposx).w, a1
+		moveq	#0, d0
+		move.w	#$3F, d1
+	@ClearVariables2:
+		move.l	d0, (a1)+
+		dbf		d1, @ClearVariables2
+
+		lea	(v_oscillate+2).w, a1
+		moveq	#0, d0
+		move.w	#$47, d1
+	@ClearVariables3:
+		move.l	d0, (a1)+
+		dbf		d1, @ClearVariables3
+	endm
+
+; ---------------------------------------------------------------------------
+; Optimized st/sf
+; - fuzzy
+; ---------------------------------------------------------------------------
+sto: 	macro destination
+		move.b 	#$FF, \destination
+		endm
+		
+sfo: 	macro destination
+		moveq 	#0, \destination
+		endm
+
+; ---------------------------------------------------------------------------
+; Absoulte value
+; - fuzzy
+; ---------------------------------------------------------------------------
+abs: macro source
+		tst.\0 \source
+		bpl.s  @positive\@
+		neg.\0 \source
+		@positive\@:
+		endm

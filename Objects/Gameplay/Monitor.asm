@@ -83,6 +83,8 @@ Mon_Solid:	; Routine 2
 		bmi.s	loc_A20A
 		cmpi.b	#id_Roll,obAnim(a1) ; is Sonic rolling?
 		beq.s	loc_A25C	; if yes, branch
+		cmpi.b	#id_Spindash,obAnim(a1)	; is Sonic Spin dashing?
+		beq.s	loc_A25C	; if yes, branch
 
 loc_A20A:
 		tst.w	d1
@@ -151,8 +153,7 @@ Mon_BreakOpen:	; Routine 4
 Mon_Explode:
 		bsr.w	FindFreeObj
 		bne.s	@fail
-		move.b	#id_ExplosionItem,0(a1) ; load explosion object
-		addq.b	#2,obRoutine(a1) ; don't create an animal
+		move.b	#id_ExplosionBomb,0(a1) ; load explosion object
 		move.w	obX(a0),obX(a1)
 		move.w	obY(a0),obY(a1)
 

@@ -1,5 +1,6 @@
-Vectors:	dc.l v_systemstack&$FFFFFF	; Initial stack pointer value
-		dc.l EntryPoint			; Start of program
+Vectors: 
+		dc.l 0				; Initial stack pointer value (DONTFIX: avoids crash in BuildSprite due to NULL pointer dereference)
+		dc.l EntryPoint 		; Start of program
 		dc.l BusError			; Bus error
 		dc.l AddressError		; Address error (4)
 		dc.l IllegalInstr		; Illegal instruction
@@ -54,7 +55,6 @@ Vectors:	dc.l v_systemstack&$FFFFFF	; Initial stack pointer value
 		dc.l ErrorTrap			; Unused (reserved)
 		dc.l ErrorTrap			; Unused (reserved)
 		dc.l ErrorTrap			; Unused (reserved)
-	if Revision<>2
 		dc.l ErrorTrap			; Unused (reserved)
 		dc.l ErrorTrap			; Unused (reserved)
 		dc.l ErrorTrap			; Unused (reserved)
@@ -63,42 +63,28 @@ Vectors:	dc.l v_systemstack&$FFFFFF	; Initial stack pointer value
 		dc.l ErrorTrap			; Unused (reserved)
 		dc.l ErrorTrap			; Unused (reserved)
 		dc.l ErrorTrap			; Unused (reserved)
-	else
-loc_E0:
-		; Relocated code from Spik_Hurt. REVXB was a nasty hex-edit.
-		move.l	obY(a0),d3
-		move.w	obVelY(a0),d0
-		ext.l	d0
-		asl.l	#8,d0
-		jmp	(loc_D5A2).l
 
-		dc.w ErrorTrap&$FFFF
-		dc.l ErrorTrap
-		dc.l ErrorTrap
-		dc.l ErrorTrap
-	endif
-MEGADRIVE:	dc.b "SEGA MEGA DRIVE " ; Hardware system ID (Console name)
-Date:		dc.b "(C)FUZZY 2023   " ; Copyright holder and release date (generally year)
-Title_Local:	dc.b "S1 ENGINE TEST                                  " ; Domestic name
-Title_Int:	dc.b "S1 ENGINE TEST                                  " ; International name
-Serial:		if Revision=0
-		dc.b "GM 00001009-00"   ; Serial/version number (Rev 0)
-		else
-			dc.b "GM 00004049-01" ; Serial/version number (Rev non-0)
-		endc
-Checksum:	dc.w $0
-		dc.b "J               " ; I/O support
+MEGADRIVE:		dc.b "SEGA MEGA DRIVE " ; Hardware system ID (Console name)
+Date:			dc.b "(C)FUZZY 2023   " ; Copyright holder and release date (generally year)
+Title_Local:	dc.b "BRUTALSONIC                                     " ; Domestic name
+Title_Int:		dc.b "BRUTALSONIC                                     " ; International name
+Serial:			dc.b "MY BALLS ITCH " ; Serial/version number (Rev non-0)
+Checksum:		dc.w $0
+				dc.b "J               " ; I/O support
 RomStartLoc:	dc.l StartOfRom		; Start address of ROM
-RomEndLoc:	dc.l EndOfRom-1		; End address of ROM
+RomEndLoc:		dc.l EndOfRom-1		; End address of ROM
 RamStartLoc:	dc.l $FF0000		; Start address of RAM
-RamEndLoc:	dc.l $FFFFFF		; End address of RAM
-SRAMSupport:	if EnableSRAM=1
-		dc.b $52, $41, $A0+(BackupSRAM<<6)+(AddressSRAM<<3), $20
+RamEndLoc:		dc.l $FFFFFF		; End address of RAM
+SRAMSupport:	if SRAMEnabled=1
+	    dc.b    "RA", $F8, $20
 		else
 		dc.l $20202020
 		endc
-		dc.l $20202020		; SRAM start ($200001)
-		dc.l $20202020		; SRAM end ($20xxxx)
-Notes:		dc.b "                                                    " ; Notes (unused, anything can be put in this space, but it has to be 52 bytes.)
+		dc.l $200001		; SRAM start ($200001)
+		dc.l $2003FF		; SRAM end ($20xxxx)
+Notes:		dc.b "    https://youtube.com/watch?v=JUtqriLVF5Q         " ; Notes (unused, anything can be put in this space, but it has to be 52 bytes.)
 Region:		dc.b "JUE             " ; Region (Country code)
 EndOfHeader:
+
+SymbolData_Ptr:
+		dc.l 0			; symbol table pointer (injected by ConvSym after build)

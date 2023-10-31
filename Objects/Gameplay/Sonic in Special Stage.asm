@@ -6,7 +6,9 @@ SonicSpecial:
 		tst.w	(v_debuguse).w	; is debug mode	being used?
 		beq.s	Obj09_Normal	; if not, branch
 		bsr.w	SS_FixCamera
+		if Cheats=1
 		jmp		DebugMode
+		endc
 ; ===========================================================================
 
 Obj09_Normal:
@@ -472,9 +474,9 @@ Obj09_GetCont:
 		cmpi.w	#50,(v_rings).w	; check if you have 50 rings
 		bcs.s	Obj09_NoCont
 		bset	#0,(v_lifecount).w
-		bne.s	Obj09_NoCont
-		addq.b	#1,(v_continues).w ; add 1 to number of continues
-		sfx	sfx_Continue	; play extra continue sound
+		; bne.s	Obj09_NoCont
+		; addq.b	#1,(v_continues).w ; add 1 to number of continues
+		; sfx	sfx_Continue	; play extra continue sound
 
 Obj09_NoCont:
 		moveq	#0,d4
@@ -518,7 +520,6 @@ Obj09_GetEmer:
 		addq.b	#1,(v_emeralds).w ; add 1 to number of emeralds
 
 Obj09_NoEmer:
-		music	mus_Emerald	; play emerald music
 		moveq	#0,d4
 		rts	
 ; ===========================================================================

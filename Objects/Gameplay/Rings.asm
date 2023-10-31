@@ -42,6 +42,10 @@ Ring_PosData:	dc.b $10, 0		; horizontal tight
 ; ===========================================================================
 
 Ring_Main:	; Routine 0
+		move.b 	(v_difficulty).w, d0
+		cmpi.b 	#3, d0 ; is difficulty nightmare?
+		beq.w 	Ring_Delete ; if not, branch
+
 		lea	(v_objstate).w,a2
 		moveq	#0,d0
 		move.b	obRespawnNo(a0),d0
@@ -139,7 +143,7 @@ Ring_Delete:	; Routine 8
 CollectRing:
 		addq.w	#1,(v_rings).w	; add 1 to rings
 		ori.b	#1,(f_ringcount).w ; update the rings counter
-		moveq	#sfx_RingRight,d0; play ring sound
+		move.b	#sfx_RingRight,d0; play ring sound
 		cmpi.w	#100,(v_rings).w ; do you have < 100 rings?
 		bcs.s	@playsnd	; if yes, branch
 		bset	#1,(v_lifecount).w ; update lives counter
@@ -152,7 +156,7 @@ CollectRing:
 	@got100:
 		addq.b	#1,(v_lives).w	; add 1 to the number of lives you have
 		addq.b	#1,(f_lifecount).w ; update the lives counter
-		moveq	#sfx_register,d0; play extra life music
+		move.b	#sfx_register,d0; play extra life music
 
 	@playsnd:
 		jmp		PlaySound

@@ -59,7 +59,7 @@ loc_119E:
 		clr.b	($FFFFF64F).w
 		movem.l	d0-a6,-(sp)
 		bsr.w	Demo_Time
-		jsr	UpdateMusic
+		jsr	VEPS_Update
 		movem.l	(sp)+,d0-a6
 		rte
 ; End of function HBlank

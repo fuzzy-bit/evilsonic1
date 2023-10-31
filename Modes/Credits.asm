@@ -1,110 +1,362 @@
-; ---------------------------------------------------------------------------
-; Credits ending sequence
-; ---------------------------------------------------------------------------
+
+; ===============================================================
+; Info Screen
+; ===============================================================
+
+_InfoScreen_BGM = $9C
+_MoveSpeed = $30
+
+; TODO: Rename all of the stuff in Variables to these
+; ---------------------------------------------------------------
+; Memory variables
+; ---------------------------------------------------------------
+
+VDP_Data	equ	$C00000
+VDP_Ctrl	equ	$C00004
+
+KosOutput	equ	$FF0000
+HScrollBuff	equ	$FFFFCC00	; $380	Hscroll Buffer
+ObjectsRAM	equ	$FFFFD000	; $1000	Objects RAM
+PalActive	equ	$FFFFFB00	; $80	Active palette buffer
+PalTarget	equ	$FFFFFB80	; $80	Target palette
+PLCBuffer	equ	$FFFFF680	; $60	PLC buffer
+
+GameMode	equ	$FFFFF600	; b
+Joypad	equ	$FFFFF604
+VScroll	equ	$FFFFF616	; l	VScroll (A/B)     
+PalFadePos	equ	$FFFFF626	; b
+PalFadeLen	equ	$FFFFF627	; b
+VBlankSub	equ	$FFFFF62A	; b
+WaterState	equ	$FFFFF64E	; b
 
 Credits:
-		bsr.w	ClearPLC
-		bsr.w	PaletteFadeOut
-		lea	(vdp_control_port).l,a6
-		move.w	#$8004,(a6)		; 8-colour mode
-		move.w	#$8200+(vram_fg>>10),(a6) ; set foreground nametable address
-		move.w	#$8400+(vram_bg>>13),(a6) ; set background nametable address
-		move.w	#$9001,(a6)		; 64-cell hscroll size
-		move.w	#$9200,(a6)		; window vertical position
-		move.w	#$8B03,(a6)		; line scroll mode
-		move.w	#$8720,(a6)		; set background colour (line 3; colour 0)
-		clr.b	(f_wtr_state).w
-		bsr.w	ClearScreen
+		moveq	#$FFFFFFE4,d0
+		jsr	PlaySound_Special	; stop music
+		jsr ClearScreen
+		jsr	ClearPLC		; clear pattern load cues
 
-		lea	(v_objspace).w,a1
+		move.b 	#0, (v_zone).w
+		move.b 	#1, (v_gamecomplete).w
+		jsr SaveSRAM
+
+		jsr	PaletteFadeIn		; fade out pallete
+		move	#$2700,sr		; disable interrupts
+
+		; Setup VDP registers
+		lea	VDP_Ctrl,a6
+		move.w	#$8004,(a6)		; Disable HInt
+		move.w	#$8134,(a6)		; Disable DISPLAY
+		move.w	#$8200+(_VRAM_PlaneA/$400),(a6)
+		move.w	#$8400+(_VRAM_PlaneB/$2000),(a6)
+		move.w	#$8700,(a6)     	; Backdrop color
+		move.w	#$8B00,(a6)		; HScroll mode = 'full'
+		
+		; Clear stuff
 		moveq	#0,d0
-		move.w	#$7FF,d1
-	Cred_ClrObjRam:
-		move.l	d0,(a1)+
-		dbf	d1,Cred_ClrObjRam ; clear object RAM
+		move.b	d0,WaterState
+		move.l	d0,VScroll
+		jsr	ClearScreen
 
-		locVRAM	$B400
-		lea	(Nem_CreditText).l,a0 ;	load credits alphabet patterns
-		bsr.w	NemDec
+		; Load font
+		lea	Art_CreditsFont,a0
+		lea	KosOutput,a1
+		jsr	KosDec
+		writeVRAM	KosOutput,$20*$74,_VRAM_Font	; Menu font
+		
+		; Load palette
+		lea	PalActive,a0
+		move.w	#$000,2(a0)
+		move.w	#$EEE,$E(a0)
+		move.w	#$000,$22(a0)
+		move.w	#$0EE,$2E(a0)
 
-		lea	(v_pal_dry_dup).w,a1
-		moveq	#0,d0
-		move.w	#$1F,d1
-	Cred_ClrPal:
-		move.l	d0,(a1)+
-		dbf	d1,Cred_ClrPal ; fill palette with black
+		; Play music
+		; moveq	#$FFFFFF00|_InfoScreen_BGM,d0
+		; jsr	PlaySound
 
-		moveq	#palid_Sonic,d0
-		bsr.w	PalLoad1	; load Sonic's palette
-		move.b	#id_CreditsText,(v_objspace+$80).w ; load credits object
-		jsr	(ExecuteObjects).l
-		jsr	(BuildSprites).l
-		bsr.w	EndingDemoLoad
-		moveq	#0,d0
-		move.b	(v_zone).w,d0
-		lsl.w	#4,d0
-		lea	(LevelHeaders).l,a2
-		lea	(a2,d0.w),a2
-		moveq	#0,d0
-		move.b	(a2),d0
-		beq.s	Cred_SkipObjGfx
-		bsr.w	AddPLC		; load object graphics
+		; Enable DISPLAY
+		move.w	#$8174,VDP_Ctrl
 
-	Cred_SkipObjGfx:
-		moveq	#plcid_Main2,d0
-		bsr.w	AddPLC		; load standard	level graphics
-		move.w	#120,(v_demolength).w ; display a credit for 2 seconds
-		bsr.w	PaletteFadeIn
+	; ===============================================================
+															
+		lea	VDP_Ctrl,a6
+		lea	-4(a6),a5
+		
+		cmpi.b	#137,(v_betaolve).w ; check if beta olve syory
+		beq		Load_BetaOlveStory  ; if yes,   load Beta
 
-Cred_WaitLoop:
-		move.b	#4,(v_vbla_routine).w
-		bsr.w	WaitForVBla
-		bsr.w	RunPLC
-		tst.w	(v_demolength).w ; have 2 seconds elapsed?
-		bne.s	Cred_WaitLoop	; if not, branch
-		tst.l	(v_plc_buffer).w ; have level gfx finished decompressing?
-		bne.s	Cred_WaitLoop	; if not, branch
-		cmpi.w	#9,(v_creditsnum).w ; have the credits finished?
-		beq.w	TryAgainEnd	; if yes, branch
+		moveq  	#$FFFFFF9F,d0
+		jsr    	PlaySample
+		lea		EndCreditsText, a0
+
+InfoScreen_Con:
+		locVRAM	_VRAM_PlaneA, d7		; d7 = VRAM Req Base
+		moveq	#28,d6			; d6 = Row number
+		moveq	#15,d5			; d5 = Row counter
+		move.b	#$24,GameMode
+		bra.s	InfoScreen_DrawString
+
+InfoScreen_Loop:
+		move.b	#2,VBlankSub
+		jsr		WaitForVBla
+		
+		tst.w	d5			; Strings over?
+		beq.s	InfoScreen_Quit
+
+		; Scroll screen
+		move.l	VScroll,d0
+		move.l	d0,d1
+		swap	d1			; d1 = Old pos
+		addi.l	#_MoveSpeed<<8,d0
+		move.l	d0,VScroll
+		swap	d0			; d0 = New pos
+		eor.w	d1,d0
+		andi.w	#$10,d0
+		beq.s	InfoScreen_Loop		; if row didn't change, branch
+
+; Draw new string
+InfoScreen_DrawString:
+		bsr.s	InfoScreen_CalcStringPos	; d0 = VRAM addr
+		pea	InfoScreen_Loop
+		move.b	(a0)+,d1
+		beq.s	InfoScreen_ClearString
+		bmi.s	InfoScreen_ClearString_End
+		moveq	#0,d3				; d3 = pattern
+		subq.b	#1,d1
+		beq	InfoScreen_DrawText
+		move.w	#_pal1,d3
+		bra	InfoScreen_DrawText
+
+InfoScreen_Quit:
+		cmpi.b	#137, (v_betaolve).w
+		beq		@Sega
+
+		move.b 	#id_Endscreen, GameMode
 		rts
 
-; ---------------------------------------------------------------------------
-; Ending sequence demo loading subroutine
-; ---------------------------------------------------------------------------
-
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
-
-
-EndingDemoLoad:
-		move.w	(v_creditsnum).w,d0
-		andi.w	#$F,d0
-		add.w	d0,d0
-		move.w	EndDemo_Levels(pc,d0.w),d0 ; load level	array
-		move.w	d0,(v_zone).w	; set level from level array
-		addq.w	#1,(v_creditsnum).w
-		cmpi.w	#9,(v_creditsnum).w ; have credits finished?
-		bhs.s	EndDemo_Exit	; if yes, branch
-		move.w	#$8001,(f_demo).w ; set demo+ending mode
-		move.b	#id_Demo,(v_gamemode).w ; set game mode to 8 (demo)
-		move.b	#3,(v_lives).w	; set lives to 3
-		moveq	#0,d0
-		move.w	d0,(v_rings).w	; clear rings
-		move.l	d0,(v_time).w	; clear time
-		move.l	d0,(v_score).w	; clear score
-		move.b	d0,(v_lastlamp).w ; clear lamppost counter
-		cmpi.w	#4,(v_creditsnum).w ; is SLZ demo running?
-		bne.s	EndDemo_Exit	; if not, branch
-		lea	(EndDemo_LampVar).l,a1 ; load lamppost variables
-		lea	(v_lastlamp).w,a2
-		move.w	#8,d0
-
-	EndDemo_LampLoad:
-		move.l	(a1)+,(a2)+
-		dbf	d0,EndDemo_LampLoad
-
-EndDemo_Exit:
+@Sega:
+		move.b 	#0, GameMode
 		rts
-; End of function EndingDemoLoad
+
+
+; ===============================================================
+
+InfoScreen_ClearString_End:
+		subq.w	#1,a0
+		subq.w	#1,d5
+
+InfoScreen_ClearString:
+		moveq	#0,d2		; d2 = fill pattern
+		moveq	#1,d3		; d3 = number of rows
+																	
+@0		move.l	d0,(a6)
+		moveq	#38/2-1,d1	; d1 = number of chars in row / 2
+
+@1		move.l	d2,(a5)
+		dbf	d1,@1
+		
+		addi.l	#$80<<16,d0
+		dbf	d3,@0
+		rts
+
+; ===============================================================
+
+InfoScreen_CalcStringPos:
+		move.l	d6,d0		; d0 = Row
+		addq.b	#2,d6
+		andi.b	#$1F,d6
+		lsl.w	#7,d0		; d0 = Row * $80
+		addq.w	#2,d0		; +1 tile
+		swap	d0
+		add.l	d7,d0		; d0 = VRAM offset
+		rts
+
+
+; ===============================================================
+; ---------------------------------------------------------------
+; Info screen data array
+; ----------------------------------------------------------------
+
+EndCreditsText:
+		dc.b	2,'        BRUTAL SONIC - CREDITS        ',0
+		dc.b	0
+		dc.b	0
+		dc.b	2,'             PROJECT LEAD             ',0
+		dc.b	1,'             FUZZY                    ',0
+		dc.b	0
+		dc.b	2,'                 CODE                 ',0
+		dc.b	1,'             FUZZY                    ',0
+		dc.b	1,'             VLADIKCOMPER             ',0
+		dc.b	1,'             GIOVANNI                 ',0
+		dc.b	0
+		dc.b	2,'     VEPS SOUND DRIVER, MEGAPCM 2     ',0
+		dc.b	1,'             VLADIKCOMPER             ',0
+		dc.b	0
+		dc.b	2,'               GRAPHICS               ',0
+		dc.b	1,'             FUZZY                    ',0
+		dc.b	1,'             KCEXE                    ',0
+		dc.b	1,'             THEBLAD768               ',0
+		dc.b	1,'             MIDWAY                   ',0
+		dc.b	1,'             FUNAMUSEA                ',0
+		dc.b	0
+		dc.b	2,'             MUSIC, PORTS             ',0
+		dc.b	1,'AMPHOBIUS - MMX SIGMA FORTRESS 1      ',0
+		dc.b	1,'KCEXE - SAILOR MOON STREET TRACK      ',0
+		dc.b	1,'VLADIKCOMPER - MAGICAL HAT TRACK      ',0
+		dc.b	1,'JK FOX - STAR LIGHT TRACK             ',0
+		dc.b	1,'KCEXE - YUUYUU HAKUSHO - INTRODUCE    ',0
+		dc.b	1,'KCEXE - SURGING POWER PORT            ',0
+		dc.b	1,'KCEXE - DESTRUCTIVE POWER PORT        ',0
+		dc.b	1,'VLADIKCOMPER - THUNDER FORCE IV BOSS  ',0
+		dc.b	1,'FOXCONED - SLAYER - RAINING BLOOD PORT',0
+		dc.b	1,'DUSTHILLRESIDENT, OERG866 - MONSQUAZ  ',0
+		dc.b	1,'LIGHTNING SPLASH - CHILL TO THE MAX   ',0
+		dc.b	0
+		dc.b	2,'             LEVEL DESIGN             ',0
+		dc.b	1,'             FUZZY                    ',0
+		dc.b	1,'             GIOVANNI                 ',0
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	1,'THIS IS MY FIRST FINISHED HACK, I HOPE',0
+		dc.b	1,'YOU HAD AS MUCH FUN AS I DID MAKING IT',0
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	2,'        LEVEL SELECT UNLOCKED!        ',0
+		dc.b	1,'   THANK YOU FOR PLAYING,  IT MEANS   ',0
+		dc.b	1,'            A LOT TO ME. <3           ',0
+		dc.b	0
+
+		dc.b	-1	; End of screen
+		even
+
+BetaOlveStory:
+		dc.b	2,'MY  SUPER   BNETA  OLVE STORY         ',0
+		dc.b	2,' BY FENGISH                           ',0
+		dc.b 	0
+		dc.b 	1,'ONCE APON A TIMESNEWROMAN,            ',0
+		dc.b	1,'I WAS A LITTLE BRAPPY WITH A DREAM    ',0
+		dc.b	1,'NOT TO BE CONFUSED WITH THE WHITE GUY)',0
+		dc.b 	0
+		dc.b	1,' I WANTED  TO OBTSAIN THE SONIS 1 TTS ',0
+		dc.b	1,'#PROTOTYPECORE CHARTRAGE. I DID NOT BE',0
+		dc.b	1,'LIEVE THE BADDY BAD LIES OF FUJI KAKA ',0
+		dc.b	1,'FROM LEGA; WHOM SAIDS "THIS BETA IS LO',0
+		dc.b	1,'ST MEDIAS, STOP  FUCKING ASKING ME ABO',0
+		dc.b	1,'UT IT". NOPERINOS.  I WANTED TO PROVE ',0
+		dc.b	1,'TO @EVERYONE, ESPECIALLY THAT UNKINOLY',0
+		dc.b	1,' BRAPPAMOID SHITHEAD ERIC (WHO IS VERY',0
+		dc.b	1,' #MEANIECORE,) THAT I COULD FIND MY LE',0
+		dc.b	1,'GASONIS BETAS, MUCH LIKE ONE CASUALLY ',0
+		dc.b	1,'FINDS THEM PIBBYS. I GOOGLESEARCHED FA',0
+		dc.b	1,'R AND WIDE ACROSS THE INTER-WEBS, BUT ',0
+		dc.b	1,'IT WAS ALL FAKER #HOAXCORE  #BULLSHIT.',0
+		dc.b	1,'I HATED SEEING THOSE #FALSIFICATIONC  ',0
+		dc.b	1,'ORE INFERIOR COPYS, FOR THEY WERE FULL',0
+		dc.b	1,' OF UNKINOLY SIN. I WILL DECLARE MY #@',0
+		dc.b	1,'REVENGEANCY ON ALL BNETASLOPPERS, THEY',0
+		dc.b	1,' ARE NO-THINGS BUT SERVANTS OF MODERN ',0
+		dc.b	1,'DECLINE ZEGACORP.  THEY UNDERSTANDS NO',0
+		dc.b	1,'T THE BRILLIANT VISION OF GREAT BROSHI',0
+		dc.b	1,'MA. THEY JUST CONSUMES PRODUCTIOS, AND',0
+		dc.b	1,' HOT CHIP.  THEY WILL ALL PAY FOR THEI',0
+		dc.b	1,'R TERRIBLE SINS, .  END OF RANT; I AM ',0
+		dc.b	1,'NOW BECOME #CALMEDCORE, DESTROYER OF Z',0
+		dc.b	1,'EGASLOP. I  EVEN SEARCHED I.R.L. (FOR ',0
+		dc.b	1,'THOSE, HEH, STUPID #NON-INTELLECTUALCO',0
+		dc.b	1,'RE ZOOMERS WHO ARE STUPID AND DUMB AND',0
+		dc.b	1,' KNOW NOTHINGS  ABOUT THIS DARIOWORLD,',0
+		dc.b	1,' IT MEANSES IN. REAL. LIFE!!!!!!!!!!!!',0
+		dc.b	1,'! SOMETHING  THEY WOULDNT KNOW CAUSE  ',0
+		dc.b	1,' THYER TOO BUSY PLAYSING MEDIOCRITY   ',0
+		dc.b	1,'. GRRRRRR.) FOR THE HOLYKINOS  OF LEGA',0
+		dc.b	1,'HISTORY. MY MOMENTUMS WERE OFFTHECHART',0
+		dc.b	1,'S THAT DAY; JUST LIKE LEGASONIS, I WAS',0
+		dc.b	1,'  MOMENTUMING DOWN VARIOUS INCLINES (S',0
+		dc.b	1,'LOPES, FOR THE DUMB ZOOMERS.) AND GAIN',0
+		dc.b	1,'ING SPEED! IT WAS TRULY KINOLICIOUS. B',0
+		dc.b	1,'UTT. WHEN  I REACHEDS STATE OF "JAPAN"',0
+		dc.b	1,', THE LEGABUILDING  WAS NOT THERE. INS',0
+		dc.b	1,'TEAD, IT WAS REPLACEDS WITH ZEGA. I BR',0
+		dc.b	1,'OKE INTO THE ZEGABULDING AND SEARCHED ',0
+		dc.b	1,'EVERYWHERE, BUT ZEGA HAD #IRREPERABLYC',0
+		dc.b	1,'ORE DESTROYSED ALL OF  LEGARCHIVES. NO',0
+		dc.b	1,'THING WAS LEFT. NOT A SINGLE TRACE OF ',0
+		dc.b	1,'LEGASONIS CONCEPTS, EVEN. I WAS LATER ',0
+		dc.b	1,'ARRESTED FOR BREAKING INTO THE BUILDIN',0
+		dc.b	1,'G.                                    ',0
+		dc.b	0
+		dc.b 	1,'LESSON OF THE DAY: ONCE AGAIN, THE    ',0
+		dc.b	1,'ZEGASLOP RUINS EVERYTHINGS. THEY TOOK ',0
+		dc.b	1,'LEGA AWAY FROM US. THEY TOOK OUR KINOS',0
+		dc.b	1,'. OUR MOMENTUMS. OUR * SONIS *. THAT I',0
+		dc.b	1,'MPOSTER (AMOIMA) ZEGASONIS IS NOT HIM.',0
+		dc.b	1,' DO NOT BELIEVER HIS LIES. WE MUST FIG',0
+		dc.b	1,'HT TO THE ENDOFCHAPTER TO RESTOR BALAN',0
+		dc.b	1,'(CE) ACROSS OUR (DARIO)WONDERWORLD. WE',0
+		dc.b	1,' MUST MAKE LEGA #PROUDCORE.           ',0
+		dc.b	0
+		dc.b	0
+		dc.b	1,'EMND OF STORY. I HOPE WHATEVER        ',0
+		dc.b	1,'LITTLE BRAPPYS ARE PLAYING            ',0
+		dc.b	1,'ENHJOYED MY. TALE                     ',0
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	1,'	KILL ME                              ',0
+		dc.b	-1	; End of screen
+		even
+
+Load_BetaOlveStory:
+		music mus_secretcredits
+		lea	BetaOlveStory,a0
+		jmp	InfoScreen_Con
+
+; ---------------------------------------------------------------
+; Subroutine to draw text on screen
+; ---------------------------------------------------------------
+; INPUT:
+;	d0 = VRAM addr
+;	d3 = Pattern base
+;	a0 = Text
+; ---------------------------------------------------------------
+
+InfoScreen_DrawText:
+		lea	VDP_Ctrl,a6
+		lea	-4(a6),a5
+		moveq	#1,d1		; d1 = tile switcher
+		swap	d1
+
+@0		lea	(a0),a1		; a1 = copy of text
+		move.l	d0,(a6)
+
+@1		moveq	#0,d2
+		move.b	(a1)+,d2	; d2 = char
+		beq.s	@3
+		cmpi.b	#' ',d2		; is char space?
+		bls.s	@2
+		add.w	d2,d2
+		add.w	d3,d2
+		add.w	d1,d2
+		move.w	d2,(a5)		; display char
+		bra.s	@1
+
+@2		moveq	#0,d2
+		move.w	d2,(a5)		; display space
+		bra.s	@1
+
+@3	 	addi.l	#$80<<16,d0	; next row
+		swap	d1
+		tst.w	d1
+		bne.s	@0
+		lea	(a1),a0		; skip char array (useful ^_^)
+		rts
+
+Art_CreditsFont:
+	incbin	'Data\Art\Kosinski\Credits Font.bin'
+	even
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -218,10 +470,5 @@ Demo_EndSBZ2:	incbin	"Data\Demos\Ending - SBZ2.bin"
 Demo_EndGHZ2:	incbin	"Data\Demos\Ending - GHZ2.bin"
 		even
 
-		if Revision=0
 		include	"Includes\LevelSizeLoad & BgScrollSpeed.asm"
 		include	"Includes\DeformLayers.asm"
-		else
-		include	"Includes\LevelSizeLoad & BgScrollSpeed (JP1).asm"
-		include	"Includes\DeformLayers (JP1).asm"
-		endc

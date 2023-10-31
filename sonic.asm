@@ -1,34 +1,35 @@
 ;  =========================================================================
-; |           Sonic the Hedgehog Disassembly for Sega Mega Drive            |
+; |                         Fuzzy's Sonic 1 Engine                         |
 ;  =========================================================================
-;
-; Disassembly created by Hivebrain
-; thanks to drx, Stealth and Esrael L.G. Neto
 
 ; ===========================================================================
 
-Main		SECTION org(0)
+rom:	section	org(0),obj(0)
 
 	include	"Constants.asm"
 	include	"Variables.asm"
 	include	"Macros.asm"
 
+	include	"Libs/debugger.lib"
+	include	"Libs/veps.lib"
+
 	include "ErrorHandler/debugger.asm"
 
-
-EnableSRAM:	equ 0	; change to 1 to enable SRAM
-BackupSRAM:	equ 1
-AddressSRAM:	equ 3	; 0 = odd+even; 2 = even only; 3 = odd only
+SRAMEnabled:	equ 1	; change to 1 to enable SRAM
 
 ; Change to 0 to build the original version of the game, dubbed REV00
 ; Change to 1 to build the later vesion, dubbed REV01, which includes various bugfixes and enhancements
 ; Change to 2 to build the version from Sonic Mega Collection, dubbed REVXB, which fixes the infamous "spike bug"
+; REVISION CONSTANT IS DEPRECATED AND MAY NOT WORK AS INTENDED
 Revision:	equ 1
+
+; Custom engine flags
 Respawn: 	equ 0
+SpeedCap: 	equ 0
+Cheats: 	equ 0
 
-ZoneCount:	equ 6	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
+ZoneCount:	equ 7	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
 
-		opt w-
 ; ===========================================================================
 
 StartOfRom:
@@ -36,6 +37,11 @@ StartOfRom:
 
 BizhawkCompatibility:
 		dc.w 0
+
+HiddenMessage:
+		;align 24
+		dc.b "RIVET DID 7-11  "
+		even
 
 ; ===========================================================================
 ; Crash/Freeze the 68000. Unlike Sonic 2, Sonic 1 uses the 68000 for playing music, so it stops too
@@ -52,7 +58,7 @@ EntryPoint:
 		tst.w	(z80_expansion_control).l ; test port C control register
 
 PortA_Ok:
-		bne.s	SkipSetup ; Skip the VDP and Z80 setup code if port A, B or C is ok...?
+		bne.w	SkipSetup ; Skip the VDP and Z80 setup code if port A, B or C is ok...?
 		lea	SetupValues(pc),a5	; Load setup values array address.
 		movem.w	(a5)+,d5-d7
 		movem.l	(a5)+,a0-a4
@@ -83,7 +89,7 @@ WaitForZ80:
 		btst	d0,(a1)		; has the Z80 stopped?
 		bne.s	WaitForZ80	; if not, branch
 
-                moveq   #$25,d2
+				moveq   #$25,d2
 Z80InitLoop:
 		move.b	(a5)+,(a0)+
 		dbf	d2,Z80InitLoop
@@ -115,10 +121,9 @@ PSGInitLoop:
 		dbf	d5,PSGInitLoop	; repeat for other channels
 		move.w	d0,(a2)
 		movem.l	(a6),d0-a6	; clear all registers
-		disable_ints
 
 SkipSetup:
-		bra.s	GameProgram	; begin game
+		bra.w	GameProgram	; begin game
 
 ; ===========================================================================
 SetupValues:	dc.w $8000		; VDP register start number
@@ -155,10 +160,10 @@ SetupValues:	dc.w $8000		; VDP register start number
 		dc.b $80		; VDP $97 - DMA fill VRAM
 		dc.l $40000080		; VRAM address 0
 
-                dc.b $AF, 1, $D9, $1F, $11, $27, 0, $21, $26, 0, $F9, $77 ; Z80 instructions
-                dc.b $ED, $B0, $DD, $E1, $FD, $E1, $ED, $47, $ED, $4F
-                dc.b $D1, $E1, $F1, 8, $D9, $C1, $D1, $E1, $F1, $F9, $F3
-                dc.b $ED, $56, $36, $E9, $E9
+				dc.b $AF, 1, $D9, $1F, $11, $27, 0, $21, $26, 0, $F9, $77 ; Z80 instructions
+				dc.b $ED, $B0, $DD, $E1, $FD, $E1, $ED, $47, $ED, $4F
+				dc.b $D1, $E1, $F1, 8, $D9, $C1, $D1, $E1, $F1, $F9, $F3
+				dc.b $ED, $56, $36, $E9, $E9
 
 		dc.w $8104		; VDP display mode
 		dc.w $8F02		; VDP increment
@@ -169,6 +174,8 @@ SetupValues:	dc.w $8000		; VDP register start number
 ; ===========================================================================
 
 GameProgram:
+		lea		v_systemstack, sp
+
 		tst.w	(vdp_control_port).l
 		btst	#6,($A1000D).l
 		beq.s	@check
@@ -199,8 +206,17 @@ GameInit:
 		dbf	d6,@clearRAM	; clear RAM ($0000-$FDFF)
 
 		bsr.w	VDPSetup
-		jsr	SoundDriverLoad
+		
+		; Initialize sound subsystem
+		jsr	VEPS_Init
+		lea	SampleTable, a0
+		move.w	#(SampleTable_End-SampleTable)/$C-1, d0
+		jsr	VEPS_LoadSampleTable
+
+		jsr		InitSRAM
+
 		bsr.w	JoypadInit
+		jsr	VDPDraw_Init
 		move.b	#id_Sega,(v_gamemode).w ; set Game Mode to Sega Screen
 
 MainGameLoop:
@@ -208,7 +224,7 @@ MainGameLoop:
 		andi.w	#$7C,d0	; limit Game Mode value to $1C max (change to a maximum of 7C to add more game modes)
 		jsr	GameModeArray(pc,d0.w) ; jump to apt location in ROM
 		bra.s	MainGameLoop	; loop indefinitely
-
+		dc.b	"HEY GUYS IM ARIF TODAY IM GOING TO KILL MYSELF"
 		
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -225,8 +241,12 @@ GameModeArray:
 		ptr_GM_Cont:	bra.w	Continue	; Continue Screen ($18)
 		ptr_GM_Ending:	bra.w	Ending	; End of game sequence ($1C)
 		ptr_GM_Credits:	bra.w	Credits	; Credits ($20)
-		ptr_GM_Tails:	jmp		TailsEasterEgg	; LOL DRAMA ($24)
+		ptr_GM_Endscreen:	bra.w	@Endscreen	; Endscreen ($24)
 		rts
+
+@Endscreen:
+		jmp		Endscreen
+
 ; ===========================================================================
 
 CheckSumError:
@@ -237,6 +257,9 @@ CheckSumError:
 	@fillred:
 		move.w	#cRed,(vdp_data_port).l ; fill palette with red
 		dbf	d7,@fillred	; repeat $3F more times
+		
+		moveq  	#$FFFFFFA6,d0
+		jsr    	PlaySample
 
 	@endlessloop:
 		bra.s	@endlessloop
@@ -253,6 +276,11 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 ; ---------------------------------------------------------------------------
 		include "Engine/VBlank.asm"
 		include "Engine/HBlank.asm"
+
+; ---------------------------------------------------------------------------
+; SRAM
+; ---------------------------------------------------------------------------
+		include "Engine/SRAM.asm"
 		
 ; ---------------------------------------------------------------------------
 ; Input
@@ -269,6 +297,7 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 		include	"Engine\Rendering\TilemapToVRAM.asm"
 		include	"Engine\Rendering\Fading.asm"
 		include	"Engine\Rendering\Palette.asm"
+		include	"Engine\Rendering\VDPDrawBuffer.asm"
 
 ; ---------------------------------------------------------------------------
 ; Compression
@@ -324,7 +353,7 @@ Pal_Sega2:	incbin	"Data\Palette\Sega2.bin"
 ; ---------------------------------------------------------------------------
 ; Palette data
 ; ---------------------------------------------------------------------------
-Pal_SegaBG:	incbin	"Data\Palette\Sega Background.bin"
+Pal_SegaBG:	incbin	"Data\Palette\Sega.bin"
 Pal_Title:	incbin	"Data\Palette\Title Screen.bin"
 Pal_LevelSel:	incbin	"Data\Palette\Level Select.bin"
 Pal_Sonic:	incbin	"Data\Palette\Sonic.bin"
@@ -344,6 +373,7 @@ Pal_SBZ3SonWat:	incbin	"Data\Palette\Sonic - SBZ3 Underwater.bin"
 Pal_SSResult:	incbin	"Data\Palette\Special Stage Results.bin"
 Pal_Continue:	incbin	"Data\Palette\Special Stage Continue Bonus.bin"
 Pal_Ending:	incbin	"Data\Palette\Ending.bin"
+Pal_Zone7:	incbin	"Data\Palette\Zone 7.bin"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	wait for VBlank routines to complete
@@ -361,14 +391,13 @@ WaitForVBla:
 		rts
 ; End of function WaitForVBla
 
-
 ; ---------------------------------------------------------------------------
 ; Math
 ; ---------------------------------------------------------------------------
-		include	"Includes\Math\RandomNumber.asm"
-		include	"Includes\Math\CalcSine.asm"
-		include	"Includes\Math\CalcAngle.asm"
-		
+		include	"Engine\Math\RandomNumber.asm"
+		include	"Engine\Math\CalcSine.asm"
+		include	"Engine\Math\CalcAngle.asm"
+
 ; ---------------------------------------------------------------------------
 ; Modes
 ; ---------------------------------------------------------------------------
@@ -395,6 +424,7 @@ WaitForVBla:
 		include	"Engine\Level\LevelLayoutLoad.asm"
 
 		include	"Includes\DynamicLevelEvents.asm"
+		include	"Engine\Level\Randomizers.asm"
 
 		include	"Objects\Level\Bridge (part 1).asm"
 
@@ -624,7 +654,6 @@ Map_Plat_Unused:include	"Data\Mappings\Objects\Platforms (unused).asm"
 Map_Plat_GHZ:	include	"Data\Mappings\Objects\Platforms (GHZ).asm"
 Map_Plat_SYZ:	include	"Data\Mappings\Objects\Platforms (SYZ).asm"
 Map_Plat_SLZ:	include	"Data\Mappings\Objects\Platforms (SLZ).asm"
-		include	"Objects\Unused\19.asm"
 Map_GBall:	include	"Data\Mappings\Objects\GHZ Ball.asm"
 		include	"Objects\Level\Collapsing Ledge.asm"
 		include	"Objects\Level\Collapsing Floors.asm"
@@ -645,7 +674,7 @@ loc_8486:
 		add.w	d0,d0
 		movea.l	obMap(a0),a3
 		adda.w	(a3,d0.w),a3
-		addq.w	#1,a3
+		addq.w	#2,a3
 		bset	#5,obRender(a0)
 		move.b	0(a0),d4
 		move.b	obRender(a0),d5
@@ -656,7 +685,7 @@ loc_8486:
 loc_84AA:
 		bsr.w	FindFreeObj
 		bne.s	loc_84F2
-		addq.w	#5,a3
+		addq.w	#6,a3
 
 loc_84B2:
 		move.b	#6,obRoutine(a1)
@@ -877,6 +906,7 @@ Map_MisDissolve:include	"Data\Mappings\Objects\Buzz Bomber Missile Dissolve.asm"
 		include	"Data\Mappings\Objects\Explosions.asm"
 
 		include	"Objects\Effects\Animals.asm"
+		include	"Objects\Effects\MK Blood.asm"
 		include	"Objects\Gameplay\Points.asm"
 Map_Animal1:	include	"Data\Mappings\Objects\Animals 1.asm"
 Map_Animal2:	include	"Data\Mappings\Objects\Animals 2.asm"
@@ -965,7 +995,7 @@ Map_Spike:	include	"Data\Mappings\Objects\Spikes.asm"
 Map_PRock:	include	"Data\Mappings\Objects\Purple Rock.asm"
 		include	"Objects\Level\Smashable Wall.asm"
 
-		include	"Objects\sub SmashObject.asm"
+		include	"Engine\ObjectSystem\SmashObject.asm"
 
 ; ===========================================================================
 ; Smashed block	fragment speeds
@@ -999,7 +1029,7 @@ Map_Smash:	include	"Data\Mappings\Objects\Smashable Walls.asm"
 		include	"Engine\ObjectSystem\ExecuteObjects.asm"
 		
 Obj_Index:
-		include	"Engine\ObjectSystem\Pointers.asm"
+		include	"Objects\Pointers.asm"
 		
 		include	"Engine\ObjectSystem\ObjectFall.asm"
 		include	"Engine\ObjectSystem\SpeedToPos.asm"
@@ -1065,11 +1095,15 @@ Map_LWall:	include	"Data\Mappings\Objects\Wall of Lava.asm"
 Map_Moto:	include	"Data\Mappings\Objects\Moto Bug.asm"
 		include	"Objects\Unused\4F.asm"
 
+		include "Data/Mappings/Objects/Mogeko.asm"
+		include "Data/Animations/Mogeko.asm"
+		include "Objects/Badniks/Mogeko.asm"
+
 		include	"Objects\Badniks\Yadrin.asm"
 		include	"Data\Animations\Yadrin.asm"
 Map_Yad:	include	"Data\Mappings\Objects\Yadrin.asm"
 
-		include	"Objects\sub SolidObject.asm"
+		include	"Engine\ObjectSystem\SolidObject.asm"
 
 		include	"Objects\Level\Smashable Green Block.asm"
 Map_Smab:	include	"Data\Mappings\Objects\Smashable Green Block.asm"
@@ -1138,6 +1172,7 @@ Map_Bub:	include	"Data\Mappings\Objects\Bubbles.asm"
 		include	"Objects\Level\Waterfalls.asm"
 		include	"Data\Animations\Waterfalls.asm"
 Map_WFall	include	"Data\Mappings\Objects\Waterfalls.asm"
+		include	"Objects\Effects\S2 Sonic Particles.asm"
 		include "Objects\Sonic\Main.asm"
 		include	"Objects\Gameplay\Drowning Countdown.asm"
 
@@ -1152,21 +1187,21 @@ Map_WFall	include	"Data\Mappings\Objects\Waterfalls.asm"
 ResumeMusic:
 		cmpi.w	#12,(v_air).w	; more than 12 seconds of air left?
 		bhi.s	@over12		; if yes, branch
-		moveq	#mus_LZ,d0	; play LZ music
+		move.b	#mus_LZ,d0	; play LZ music
 		cmpi.w	#(id_LZ<<8)+3,(v_zone).w ; check if level is 0103 (SBZ3)
 		bne.s	@notsbz
-		moveq	#mus_SBZ,d0	; play SBZ music
+		move.b	#mus_SBZ,d0	; play SBZ music
 
 	@notsbz:
 		if Revision=0
 		else
 			tst.b	(v_invinc).w ; is Sonic invincible?
 			beq.s	@notinvinc ; if not, branch
-			moveq	#mus_Invincibility,d0
+			move.b	#mus_Invincibility,d0
 	@notinvinc:
 			tst.b	(f_lockscreen).w ; is Sonic at a boss?
 			beq.s	@playselected ; if not, branch
-			moveq	#mus_Boss,d0
+			move.b	#mus_Boss,d0
 	@playselected:
 		endc
 
@@ -1353,7 +1388,7 @@ loc_14E0A:
 locret_14E16:
 		rts
 
-		include	"Objects\sub ObjFloorDist.asm"
+		include	"Engine\ObjectSystem\ObjFloorDist.asm"
 
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
@@ -1700,6 +1735,8 @@ locret_178A2:
 		rts
 ; End of function BossDefeated
 
+		dc.b 	"MY BUNNI WEIGHS 2 KILOS "
+
 ; ---------------------------------------------------------------------------
 ; Subroutine to	move a boss
 ; ---------------------------------------------------------------------------
@@ -1723,28 +1760,41 @@ BossMove:
 		rts
 ; End of function BossMove
 
+; ---------------------------------------------------------------------------
+; Subroutine to	move a boss (optimized)
+; ---------------------------------------------------------------------------
+
+BossMove2:
+		; use Blast processing(tm) to calculate position
+		movem.w	obVelX(a0), d0-d1
+		asl.l	#8, d0
+		add.l	d0, obX(a0)
+		asl.l	#8, d1
+		add.l	d1, $38(a0)
+		rts
+; End of function BossMove
+
 ; ===========================================================================
 
-		include	"Objects\Bosses\Green Hill\Main.asm"
-		include	"Objects\Bosses\Green Hill\Eggman's Swinging Ball.asm"
-		
 		include	"Data\Animations\Eggman.asm"
 Map_Eggman:	include	"Data\Mappings\Objects\Eggman.asm"
 Map_BossItems:	include	"Data\Mappings\Objects\Boss Items.asm"
+		
+		include	"Data\Mappings\Sprites\Menu Items.asm"
 
 		include	"Objects\Bosses\Labyrinth\Main.asm"
 		
-		include	"Objects\Bosses\Marble\Main.asm"
-		include	"Objects\Bosses\Marble\Missile.asm"
+		include	"Objects\Bosses\Star Light\Main.asm"
+		include	"Objects\Bosses\Star Light\Missile.asm"
 
 	Obj7A_Delete:
 		jmp	(DeleteObject).l
 
-		include	"Objects\Bosses\Star Light\Main.asm"
-		include	"Objects\Bosses\Star Light\SLZ Boss Spikeball.asm"
+		include	"Objects\Bosses\Marble\Main.asm"
+		include	"Objects\Bosses\Marble\LavaBall.asm"
 Map_BSBall:	include	"Data\Mappings\Objects\SLZ Boss Spikeball.asm"
 		include	"Objects\Bosses\Spring Yard\Main.asm"
-		include	"Objects\Bosses\Spring Yard\SYZ Boss Blocks.asm"
+		include	"Objects\Bosses\Spring Yard\SYZ Boss Bumper.asm"
 Map_BossBlock:	include	"Data\Mappings\Objects\SYZ Boss Blocks.asm"
 
 loc_1982C:
@@ -1771,7 +1821,10 @@ Map_Plasma:	include	"Data\Mappings\Objects\Plasma Balls.asm"
 		include	"Data\Animations\Prison Capsule.asm"
 Map_Pri:	include	"Data\Mappings\Objects\Prison Capsule.asm"
 
-		include	"Objects\sub ReactToItem.asm"
+		include	"Engine\ObjectSystem\ReactToItem.asm"
+		include	"Engine\ObjectSystem\RandomDirection.asm"
+
+		include	"Engine\ObjectSystem\UpdateDPLC.asm"
 
 SS_MapIndex:
 		include	"Includes\Special Stage Mappings & VRAM Pointers.asm"
@@ -1788,6 +1841,76 @@ Map_SS_Down:	include	"Data\Mappings\Objects\SS DOWN Block.asm"
 
 		include	"Objects\Screen-Space\HUD.asm"
 Map_HUD:	include	"Data\Mappings\Objects\HUD.asm"
+
+		include	"Objects\Effects\Splatter.asm"
+		include	"Objects\Screen-Space\Sega Logo Letters.asm"
+
+; ---------------------------------------------------------------------------
+; Special game over
+; ---------------------------------------------------------------------------
+BasicallyYoureFucked:
+		music 	mus_stop
+		jsr 	ClearScreen
+		move.w  #$24, (v_demolength).w
+
+		move.l 	#$FFFFFFA3, d0
+		jsr 	PlaySample
+
+@WaitSample1:
+		move.b	#$4, (v_vbla_routine).w
+		jsr		WaitForVBla
+
+		tst.w 	(v_demolength).w
+		beq.s 	@Sample2
+
+		bra.s 	@WaitSample1
+
+@Sample2:
+		move.l 	#$FFFFFFA4, d0
+		jsr 	PlaySample
+
+		move.l  #$68000000, ($FFC00004).l
+		lea     @Art, a0
+		jsr     NemDec 		; preload art
+
+		move.w  #$40, (v_demolength).w
+
+@WaitSample2:
+		move.b	#$4, (v_vbla_routine).w
+		jsr		WaitForVBla
+
+		tst.w 	(v_demolength).w
+		bne.s 	@WaitSample2
+
+		lea    	($FF0000), a1 ; load background here
+		lea    	@Mappings, a0
+		move.w 	#320, d0
+		jsr    	EniDec.w
+
+		lea     ($FF0000), a1
+		move.l  #$60000003, d0
+		moveq   #39, d1
+		moveq   #30, d2
+		jsr	   	TilemapToVRAM 	; mappings -> vram
+
+		lea 	@Palette, a0
+		lea 	($FFFFFB80), a1
+		move.w  #$9, d0
+ 
+@PaletteLoop:
+		move.l  (a0)+, (a1)+
+		dbf 	d0, @PaletteLoop
+		jsr 	PaletteFadeIn
+
+@Die:
+		bra.s 	@Die
+
+@Mappings: incbin "Data/Mappings/TileMaps/Special Game Over.bin"
+	even
+@Art: incbin "Data/Art/Nemesis/Special Game Over.bin"
+	even
+@Palette: incbin "Data/Palette/Special Game Over.bin"
+	even
 
 ; ---------------------------------------------------------------------------
 ; Add points subroutine
@@ -1842,6 +1965,9 @@ AddPoints:
 ; End of function AddPoints
 
 		include	"Includes\HUD_Update.asm"
+		include "Objects\Effects\SonicDeath.asm"
+		include	"Objects\CppObject.asm"
+		include	"Objects\DynamicObject.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	load countdown numbers on the continue screen
@@ -1903,6 +2029,16 @@ Art_Hud:	incbin	"Data\Art\Uncompressed\HUD Numbers.bin" ; 8x16 pixel numbers on 
 Art_LivesNums:	incbin	"Data\Art\Uncompressed\Lives Counter Numbers.bin" ; 8x8 pixel numbers on lives counter
 		even
 
+		include	"Objects\Bosses\Green Hill\Main.asm"
+		include	"Objects\Bosses\Green Hill\FakeSignpost.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Green Hill\EggmanShip.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Green Hill\EggmanMonitor.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Green Hill\SpikedBall.asm"	; WARNING! Auto-generated
+		
+		include	"Objects\Bosses\Final\EggmanShipFZ.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Final\PlasmaBoss.asm"	; WARNING! Auto-generated
+		include	"Objects\Bosses\Final\PlasmaBall.asm"	; WARNING! Auto-generated
+
 		include	"Objects\DebugMode.asm"
 		include	"Includes\DebugList.asm"
 		include	"Includes\LevelHeaders.asm"
@@ -1919,10 +2055,6 @@ Eni_SegaLogo:	incbin	"Data\Mappings\TileMaps\Sega Logo.bin" ; large Sega logo (m
 	Eni_SegaLogo:	incbin	"Data\Mappings\TileMaps\Sega Logo (JP1).bin" ; large Sega logo (mappings)
 			even
 		endc
-Eni_Title:	incbin	"Data\Mappings\TileMaps\Title Screen.bin" ; title screen foreground (mappings)
-		even
-Nem_TitleFg:	incbin	"Data\Art\Nemesis\Title Screen Foreground.bin"
-		even
 Nem_TitleSonic:	incbin	"Data\Art\Nemesis\Title Screen Sonic.bin"
 		even
 Nem_TitleTM:	incbin	"Data\Art\Nemesis\Title Screen TM.bin"
@@ -1933,12 +2065,20 @@ Nem_JapNames:	incbin	"Data\Art\Nemesis\Hidden Japanese Credits.bin"
 		even
 
 Map_Sonic:	include	"Data\Mappings\Objects\Sonic.asm"
-SonicDynPLC:	include	"Data\Mappings\Objects\Sonic - Dynamic Gfx Script.asm"
+		include	"Data\DPLCs\Sonic.asm"
 
 ; ---------------------------------------------------------------------------
 ; Uncompressed graphics	- Sonic
 ; ---------------------------------------------------------------------------
+
+		align $20000
 Art_Sonic:	incbin	"Data\Art\Uncompressed\Sonic.bin"	; Sonic
+		even
+
+; ---------------------------------------------------------------------------
+; Uncompressed graphics	- Sonic 2's dust/splash particles
+; ---------------------------------------------------------------------------
+Art_Dust:	incbin	"Data\Art\Uncompressed\S2 Sonic Particles.bin"	; Sonic
 		even
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - various
@@ -2155,6 +2295,13 @@ Nem_SbzDoor2:	incbin	"Data\Art\Nemesis\SBZ Large Horizontal Door.bin"
 		even
 Nem_Girder:	incbin	"Data\Art\Nemesis\SBZ Crushing Girder.bin"
 		even
+
+; ---------------------------------------------------------------------------
+; Compressed graphics - mogege
+; ---------------------------------------------------------------------------
+Nem_Mogeko: 	incbin "Data\Art\Nemesis\Mogeko.bin"
+		even
+		
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - enemies
 ; ---------------------------------------------------------------------------
@@ -2221,6 +2368,10 @@ Nem_BigFlash:	incbin	"Data\Art\Nemesis\Giant Ring Flash.bin"
 		even
 Nem_Bonus:	incbin	"Data\Art\Nemesis\Hidden Bonuses.bin" ; hidden bonuses at end of a level
 		even
+Kos_MenuFont:	incbin	"Data\Art\Kosinski\Menu Font.bin"	; SWA menu font
+		even
+Kos_MenuBG:	incbin	"Data\Art\Kosinski\Menu Background.bin"	; manu background
+		even
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - continue screen
 ; ---------------------------------------------------------------------------
@@ -2256,11 +2407,11 @@ Nem_GHZ_2nd:	incbin	"Data\Art\Nemesis\8x8 - GHZ2.bin"	; GHZ secondary patterns
 		even
 Blk256_GHZ:	incbin	"Data\Mappings\Levels\256\GHZ.bin"
 		even
-Blk16_LZ:	incbin	"Data\Mappings\Levels\16\LZ.bin"
+Blk16_LZ:	
 		even
-Nem_LZ:		incbin	"Data\Art\Nemesis\8x8 - LZ.bin"	; LZ primary patterns
+Nem_LZ:		
 		even
-Blk256_LZ:	incbin	"Data\Mappings\Levels\256\LZ.bin"
+Blk256_LZ:	
 		even
 Blk16_MZ:	incbin	"Data\Mappings\Levels\16\MZ.bin"
 		even
@@ -2294,6 +2445,14 @@ Blk256_SBZ:	if Revision=0
 		incbin	"Data\Mappings\Levels\256\SBZ (JP1).bin"
 		endc
 		even
+Nem_Zone7:		incbin	"Data\Art\Nemesis\8x8 - Zone 7.bin"	; Zone 7 primary patterns
+		even	
+Blk256_Zone7:
+				incbin	"Data\Mappings\Levels\256\Zone 7.bin"	
+		even
+Blk16_Zone7:
+				incbin	"Data\Mappings\Levels\16\Zone 7.bin"	
+		even		
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - bosses and ending sequence
 ; ---------------------------------------------------------------------------
@@ -2317,10 +2476,7 @@ Nem_EndSonic:	incbin	"Data\Art\Nemesis\Ending - Sonic.bin"
 		even
 Nem_TryAgain:	incbin	"Data\Art\Nemesis\Ending - Try Again.bin"
 		even
-Nem_EndEggman:	if Revision=0
-		incbin	"Data\Art\Nemesis\Unused - Eggman Ending.bin"
-		else
-		endc
+Nem_EndEggman:
 		even
 Kos_EndFlowers:	incbin	"Data\Art\Kosinski\Flowers at Ending.bin" ; ending sequence animated flowers
 		even
@@ -2341,7 +2497,7 @@ CollArray2:	incbin	"Data\Levels\Collision\Collision Array (Rotated).bin"
 		even
 Col_GHZ:	incbin	"Data\Levels\Collision\GHZ.bin"	; GHZ index
 		even
-Col_LZ:		incbin	"Data\Levels\Collision\LZ.bin"	; LZ index
+Col_LZ:		
 		even
 Col_MZ:		incbin	"Data\Levels\Collision\MZ.bin"	; MZ index
 		even
@@ -2351,6 +2507,8 @@ Col_SYZ:	incbin	"Data\Levels\Collision\SYZ.bin"	; SYZ index
 		even
 Col_SBZ:	incbin	"Data\Levels\Collision\SBZ.bin"	; SBZ index
 		even
+Col_Zone7:		incbin	"Data\Levels\Collision\Zone 7.bin"	; Zone 7 index
+		even		
 ; ---------------------------------------------------------------------------
 ; Special Stage layouts
 ; ---------------------------------------------------------------------------
@@ -2362,15 +2520,9 @@ SS_3:		incbin	"Data\Levels\SpecialStages\3.bin"
 		even
 SS_4:		incbin	"Data\Levels\SpecialStages\4.bin"
 		even
-		if Revision=0
-SS_5:		incbin	"Data\Levels\SpecialStages\5.bin"
-		even
-SS_6:		incbin	"Data\Levels\SpecialStages\6.bin"
-		else
-	SS_5:		incbin	"Data\Levels\SpecialStages\5 (JP1).bin"
+SS_5:		incbin	"Data\Levels\SpecialStages\5 (JP1).bin"
 			even
-	SS_6:		incbin	"Data\Levels\SpecialStages\6 (JP1).bin"
-		endc
+SS_6:		incbin	"Data\Levels\SpecialStages\6 (JP1).bin"
 		even
 ; ---------------------------------------------------------------------------
 ; Animated uncompressed graphics
@@ -2424,12 +2576,18 @@ Level_Index:
 		dc.w Level_SBZ2-Level_Index, Level_SBZ2bg-Level_Index, Level_SBZ2bg-Level_Index
 		dc.w Level_SBZ2-Level_Index, Level_SBZ2bg-Level_Index, byte_6A2F8-Level_Index
 		dc.w byte_6A2FC-Level_Index, byte_6A2FC-Level_Index, byte_6A2FC-Level_Index
-		zonewarning Level_Index,24
 		; Ending
 		dc.w Level_End-Level_Index, Level_GHZbg-Level_Index, byte_6A320-Level_Index
 		dc.w Level_End-Level_Index, Level_GHZbg-Level_Index, byte_6A320-Level_Index
 		dc.w byte_6A320-Level_Index, byte_6A320-Level_Index, byte_6A320-Level_Index
 		dc.w byte_6A320-Level_Index, byte_6A320-Level_Index, byte_6A320-Level_Index
+		zonewarning Level_Index,24		
+		; Zone 7
+		dc.w Level_Zone7-Level_Index, Level_Zone7bg-Level_Index, Level_Zone7-Level_Index
+		dc.w byte_68F88-Level_Index, byte_68F88-Level_Index, byte_68F88-Level_Index
+		dc.w byte_68F88-Level_Index, byte_68F88-Level_Index, byte_68F88-Level_Index
+		dc.w byte_68F88-Level_Index, byte_68F88-Level_Index, byte_68F88-Level_Index
+		
 
 Level_GHZ1:	incbin	"Data\Levels\LevelData\ghz1.bin"
 		even
@@ -2516,6 +2674,11 @@ Level_End:	incbin	"Data\Levels\LevelData\ending.bin"
 		even
 byte_6A320:	dc.b 0,	0, 0, 0
 
+Level_Zone7:	incbin	"Data\Levels\LevelData\zone7.bin"
+		even
+Level_Zone7bg:	incbin	"Data\Levels\LevelData\zone7bg.bin"
+		even
+		
 Art_BigRing:	incbin	"Data\Art\Uncompressed\Giant Ring.bin"
 		even
 
@@ -2553,13 +2716,18 @@ ObjPos_Index:
 		dc.w ObjPos_SBZ2-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_FZ-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_SBZ1-ObjPos_Index, ObjPos_Null-ObjPos_Index
-		zonewarning ObjPos_Index,$10
 		; Ending
 		dc.w ObjPos_End-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_End-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_End-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_End-ObjPos_Index, ObjPos_Null-ObjPos_Index
+		zonewarning ObjPos_Index,$10		
 		; --- Put extra object data here. ---
+		dc.w ObjPos_Zone7-ObjPos_Index, ObjPos_Null-ObjPos_Index
+		dc.w ObjPos_Zone7-ObjPos_Index, ObjPos_Null-ObjPos_Index
+		dc.w ObjPos_Zone7-ObjPos_Index, ObjPos_Null-ObjPos_Index
+		dc.w ObjPos_Zone7-ObjPos_Index, ObjPos_Null-ObjPos_Index	
+		
 ObjPosLZPlatform_Index:
 		dc.w ObjPos_LZ1pf1-ObjPos_Index, ObjPos_LZ1pf2-ObjPos_Index
 		dc.w ObjPos_LZ2pf1-ObjPos_Index, ObjPos_LZ2pf2-ObjPos_Index
@@ -2659,21 +2827,28 @@ ObjPos_SBZ1pf6:	incbin	"Data\Levels\Objects\sbz1pf6.bin"
 		even
 ObjPos_End:	incbin	"Data\Levels\Objects\ending.bin"
 		even
+ObjPos_Zone7:	incbin	"Data\Levels\Objects\zone7.bin"
+		even		
 ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; VEPS Sound Driver
 ; ---------------------------------------------------------------------------
-		include	"VEPS\VEPS.asm"
-		include	"VEPS\MegaPCM.asm"
-		include	"VEPS\utils.asm"
+		include	"Engine\Audio\VEPS\VEPS.asm"
+		include	"Engine\Audio\MegaPCM\Main.asm"
+		include	"Engine\Audio\Utils.asm"
+
+TitleBGArt: 	incbin "Data/Art/Nemesis/Title Screen Background.bin"
+TitleBGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
+TitleFGArt: 	incbin "Data/Art/Nemesis/Title Screen Foreground.bin"
+TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen.bin"
+
+		include "Modes\Endscreen.asm"
 
 ; ---------------------------------------------------------------------------
 ; Error Handler
 ; ---------------------------------------------------------------------------
+		include	"ErrorHandler/Extras.asm"
 		include	"ErrorHandler/ErrorHandler.asm"
-
-		include	"Modes\TailsEasterEgg.asm"
-
 EndOfRom:	END

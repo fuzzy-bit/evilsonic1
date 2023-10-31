@@ -28,7 +28,7 @@ Pow_Main:	; Routine 0
 		movea.l	#Map_Monitor,a1
 		add.b	d0,d0
 		adda.w	(a1,d0.w),a1
-		addq.w	#1,a1
+		addq.w	#2,a1
 		move.l	a1,obMap(a0)
 
 Pow_Move:	; Routine 2
@@ -47,7 +47,12 @@ Pow_ChkEggman:
 		move.b	obAnim(a0),d0
 		cmpi.b	#1,d0		; does monitor contain Eggman?
 		bne.s	Pow_ChkSonic
-		rts			; Eggman monitor does nothing
+		move.l	a0, -(sp)
+		move.l	a0, a1
+		lea	v_player, a0
+		jsr	React_ChkHurt
+		move.l	(sp)+, a0
+		rts
 ; ===========================================================================
 
 Pow_ChkSonic:
@@ -98,6 +103,7 @@ Pow_ChkInvinc:
 		move.b	#3,(v_objspace+$280+obAnim).w
 		move.b	#id_ShieldItem,(v_objspace+$2C0).w ; load stars object ($3804)
 		move.b	#4,(v_objspace+$2C0+obAnim).w
+
 		tst.b	(f_lockscreen).w ; is boss mode on?
 		bne.s	Pow_NoMusic	; if yes, branch
 		if Revision=0
@@ -105,7 +111,8 @@ Pow_ChkInvinc:
 			cmpi.w	#$C,(v_air).w
 			bls.s	Pow_NoMusic
 		endc
-		music	mus_Invincibility; play invincibility music
+
+		music	mus_Invincibility	; play invincibility music
 ; ===========================================================================
 
 Pow_NoMusic:
@@ -115,6 +122,10 @@ Pow_NoMusic:
 Pow_ChkRings:
 		cmpi.b	#6,d0		; does monitor contain 10 rings?
 		bne.s	Pow_ChkS
+
+		move.b 	(v_difficulty).w, d1
+		cmpi.b 	#3, d1 ; is difficulty nightmare?
+		beq.s 	Pow_DenySound ; if yes, branch
 
 		addi.w	#10,(v_rings).w	; add 10 rings to the number of rings you have
 		ori.b	#1,(f_ringcount).w ; update the ring counter
@@ -130,18 +141,38 @@ Pow_ChkRings:
 	Pow_RingSound:
 		sfx	sfx_RingRight	; play ring sound
 		rts
+	
+	Pow_DenySound:
+		sfx sfx_error
+		rts
 ; ===========================================================================
 
 Pow_ChkS:
 		cmpi.b	#7,d0		; does monitor contain 'S'?
 		bne.s	Pow_ChkEnd
+
+		tst.b 	(v_secret).w ; secret enabled?
+		bne.s 	Pow_Horrible ; oh no
+
+		move.b 	(v_gamecomplete).w, d1
+		tst.b 	d1 				; is game completed?
+		beq.s 	Pow_DenySound 	; if not, branch
+		
+		move.b 	#7, (v_zone).w
+		move.b 	#1, (f_restart).w
+
 		nop	
 
 Pow_ChkEnd:
-		rts			; 'S' and goggles monitors do nothing
+		rts			; goggle monitors do nothing
 ; ===========================================================================
 
 Pow_Delete:	; Routine 4
 		subq.w	#1,obTimeFrame(a0)
 		bmi.w	DeleteObject	; delete after half a second
 		rts	
+
+Pow_Horrible:
+		move.b 	#137, (v_betaolve).w
+		move.b 	#$20, (v_gamemode).w
+		rts

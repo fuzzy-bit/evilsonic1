@@ -1,7 +1,11 @@
 s1built.md
 s1built.bin
+s1built.debug.bin
 *.lst
+*.sym
 *.log
+*.s
 SonLVL/SonLVL.log
-SonLVL/dllcache/
+SonLVL/dllcache/*
 S1SSEdit.undo
+.build/log/*

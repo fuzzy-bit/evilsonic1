@@ -68,7 +68,6 @@ SpecialStage:
 		bsr.w	PalCycle_SS
 		clr.w	(v_ssangle).w	; set stage angle to "upright"
 		move.w	#$40,(v_ssrotate).w ; set stage rotation speed
-		music	mus_SS		; play special stage BG	music
 		move.w	#0,(v_btnpushtime1).w
 		lea	(DemoDataPtr).l,a1
 		moveq	#6,d0
@@ -155,7 +154,7 @@ loc_47D4:
 		move.w	#$8400+(vram_bg>>13),(a6) ; set background nametable address
 		move.w	#$9001,(a6)		; 64-cell hscroll size
 		bsr.w	ClearScreen
-		locVRAM	$AD60
+		locVRAM	$AFC0
 		lea	(Nem_TitleCard).l,a0 ; load title card patterns
 		bsr.w	NemDec
 		jsr	(Hud_Base).l
@@ -171,7 +170,6 @@ loc_47D4:
 		move.w	(v_rings).w,d0
 		mulu.w	#10,d0		; multiply rings by 10
 		move.w	d0,(v_ringbonus).w ; set rings bonus
-		music	mus_GotThroughAct; play end-of-level music
 
 		lea	(v_objspace).w,a1
 		moveq	#0,d0
@@ -603,8 +601,8 @@ loc_1B210:
 		adda.w	(a1,d1.w),a1
 		movea.w	(a5)+,a3
 		moveq	#0,d1
-		move.b	(a1)+,d1
-		subq.b	#1,d1
+		move.w	(a1)+,d1
+		subq.w	#1,d1
 		bmi.s	loc_1B268
 		jsr	(BuildSpr_Normal).l
 

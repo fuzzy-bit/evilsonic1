@@ -1,5 +1,5 @@
 BldSpr_ScrPos:	dc.l 0				; blank
-		dc.l v_screenposx&$FFFFFF	; main screen x-position
+		dc.l v_screenposx_final&$FFFFFF	; main screen x-position
 		dc.l v_bgscreenposx&$FFFFFF	; background x-position	1
 		dc.l v_bg3screenposx&$FFFFFF	; background x-position	2
 ; ---------------------------------------------------------------------------
@@ -42,9 +42,8 @@ BuildSprites:
 		move.w	d3,d1
 		sub.w	d0,d1
 		cmpi.w	#320,d1
-		bge.s	@skipObject	; right edge out of bounds
+		bge.w	@skipObject	; right edge out of bounds
 		addi.w	#128,d3		; VDP sprites start at 128px
-
 		btst	#4,d4		; is assume height flag on?
 		beq.s	@assumeHeight	; if yes, branch
 		moveq	#0,d0
@@ -60,6 +59,8 @@ BuildSprites:
 		bge.s	@skipObject
 		addi.w	#128,d2		; VDP sprites start at 128px
 		bra.s	@drawObject
+
+		
 ; ===========================================================================
 
 	@screenCoords:
@@ -83,10 +84,11 @@ BuildSprites:
 		btst	#5,d4		; is static mappings flag on?
 		bne.s	@drawFrame	; if yes, branch
 		move.b	obFrame(a0),d1
-		add.b	d1,d1
+		add.w	d1,d1
 		adda.w	(a1,d1.w),a1	; get mappings frame address
-		move.b	(a1)+,d1	; number of sprite pieces
-		subq.b	#1,d1
+		moveq 	#0, d1
+		move.w	(a1)+,d1	; number of sprite pieces
+		subq.w	#1,d1
 		bmi.s	@setVisible
 
 	@drawFrame:
@@ -141,13 +143,10 @@ BuildSpr_Normal:
 		move.b	(a1)+,(a2)+	; write sprite size
 		addq.b	#1,d5		; increase sprite counter
 		move.b	d5,(a2)+	; set as sprite link
-		move.b	(a1)+,d0	; get art tile
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
+		move.w	(a1)+,d0	; get art tile
 		add.w	a3,d0		; add art tile offset
 		move.w	d0,(a2)+	; write to buffer
-		move.b	(a1)+,d0	; get x-offset
-		ext.w	d0
+		move.w	(a1)+,d0	; get x-offset
 		add.w	d3,d0		; add x-position
 		andi.w	#$1FF,d0	; keep within 512px
 		bne.s	@writeX
@@ -178,14 +177,11 @@ BuildSpr_FlipX:
 		move.b	d4,(a2)+
 		addq.b	#1,d5		; link
 		move.b	d5,(a2)+
-		move.b	(a1)+,d0	; art tile
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
+		move.w	(a1)+,d0	; art tile
 		add.w	a3,d0
 		eori.w	#$800,d0	; toggle flip-x in VDP
 		move.w	d0,(a2)+	; write to buffer
-		move.b	(a1)+,d0	; get x-offset
-		ext.w	d0
+		move.w	(a1)+,d0	; get x-offset
 		neg.w	d0			; negate it
 		add.b	d4,d4		; calculate flipped position by size
 		andi.w	#$18,d4
@@ -220,14 +216,11 @@ BuildSpr_FlipY:
 		move.b	(a1)+,(a2)+	; size
 		addq.b	#1,d5
 		move.b	d5,(a2)+	; link
-		move.b	(a1)+,d0	; art tile
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
+		move.w	(a1)+,d0	; art tile
 		add.w	a3,d0
 		eori.w	#$1000,d0	; toggle flip-y in VDP
 		move.w	d0,(a2)+
-		move.b	(a1)+,d0	; x-position
-		ext.w	d0
+		move.w	(a1)+,d0	; x-position
 		add.w	d3,d0
 		andi.w	#$1FF,d0
 		bne.s	@writeX
@@ -258,14 +251,11 @@ BuildSpr_FlipXY:
 		move.b	d4,(a2)+	; link
 		addq.b	#1,d5
 		move.b	d5,(a2)+	; art tile
-		move.b	(a1)+,d0
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
+		move.w	(a1)+,d0
 		add.w	a3,d0
 		eori.w	#$1800,d0	; toggle flip-x/y in VDP
 		move.w	d0,(a2)+
-		move.b	(a1)+,d0	; calculate flipped x
-		ext.w	d0
+		move.w	(a1)+,d0	; calculate flipped x
 		neg.w	d0
 		add.b	d4,d4
 		andi.w	#$18,d4

@@ -8,8 +8,9 @@ DebugList:
 	dc.w @SLZ-DebugList
 	dc.w @SYZ-DebugList
 	dc.w @SBZ-DebugList
-	zonewarning DebugList,2
 	dc.w @Ending-DebugList
+	zonewarning DebugList,2
+	dc.w @Zone7-DebugList
 
 dbug:	macro map,object,subtype,frame,vram
 	dc.l map+(object<<24)
@@ -33,7 +34,6 @@ dbug:	macro map,object,subtype,frame,vram
 	dbug	Map_Spring,	id_Springs,	0,	0,	$523
 	dbug	Map_Newt,	id_Newtron,	0,	0,	$249B
 	dbug	Map_Edge,	id_EdgeWalls,	0,	0,	$434C
-	dbug	Map_GBall,	id_Obj19,	0,	0,	$43AA
 	dbug	Map_Lamp,	id_Lamppost,	1,	0,	$7A0
 	dbug	Map_GRing,	id_GiantRing,	0,	0,	$2400
 	dbug	Map_Bonus,	id_HiddenBonus,	1,	1,	$84B6
@@ -194,4 +194,11 @@ dbug:	macro map,object,subtype,frame,vram
 	endc
 	@Endingend:
 
+	even
+	
+@Zone7: dc.w (@Zone7End-@Zone7-2)/8
+	dbug 	Map_Ring,	id_Rings,	0,	0,	$27B2
+	dbug	Map_Monitor,id_Monitor,	0,	0,	$680
+	dbug	Map_Mogeko,	id_Mogeko,	0,	0,	$6000/$20	
+	@Zone7End:
 	even

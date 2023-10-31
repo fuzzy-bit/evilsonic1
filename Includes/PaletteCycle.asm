@@ -24,8 +24,9 @@ PCycle_Index:	dc.w PCycle_GHZ-PCycle_Index
 		dc.w PalCycle_SLZ-PCycle_Index
 		dc.w PalCycle_SYZ-PCycle_Index
 		dc.w PalCycle_SBZ-PCycle_Index
-		zonewarning PCycle_Index,2
-		dc.w PCycle_GHZ-PCycle_Index	; Ending
+		dc.w PCycle_GHZ-PCycle_Index	; Ending		
+		zonewarning PCycle_Index,2		; Note: for new zones and the zone warning to work correctly, one of the palettes are to be placed after the supposed last one. I fucking hate this macro, and Sonic 1 too.
+		dc.w PCycle_Null-PCycle_Index
 
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
@@ -130,6 +131,7 @@ PCycLZ_Seq:	dc.b 1,	0, 0, 1, 0, 0, 1, 0
 ; ===========================================================================
 
 PCycle_MZ:
+PCycle_Null:
 		rts	
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||

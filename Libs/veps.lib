@@ -1,0 +1,12 @@
+
+	global	VEPS_Init
+	global	VEPS_LoadSampleTable
+	global	VEPS_PlaySound
+	global	VEPS_PlaySample
+	global	VEPS_Update
+
+	global	VEPS_RAM
+
+	global	MusicIndex
+	global	SoundIndex
+	global	PSGIndex

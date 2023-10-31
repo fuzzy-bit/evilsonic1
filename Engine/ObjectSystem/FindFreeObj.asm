@@ -5,12 +5,9 @@
 ;	a1 = free position in object RAM
 ; ---------------------------------------------------------------------------
 
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
-
-
 FindFreeObj:
 		lea	(v_objspace+$800).w,a1 ; start address for object RAM
-		move.w	#$5F,d0
+		moveq	#$5F,d0
 
 	FFree_Loop:
 		tst.b	(a1)		; is object RAM	slot empty?
@@ -22,6 +19,17 @@ FindFreeObj:
 		rts	
 
 ; End of function FindFreeObj
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+FindFreeObj__cdecl:
+		bsr.s	FindFreeObj
+		bne.s	@ReturnNull
+		move.l	a1, d0
+		rts
+@ReturnNull:
+		moveq	#0, d0
+		rts
 
 
 ; ---------------------------------------------------------------------------
@@ -52,3 +60,21 @@ FindNextFreeObj:
 		rts	
 
 ; End of function FindNextFreeObj
+
+; ---------------------------------------------------------------------------
+; Subroutine to find and setup a C++-based object
+; ---------------------------------------------------------------------------
+
+CreateCppObject__cdecl:
+		movea.l	4(sp), a0
+		bsr	FindNextFreeObj
+		bne.s	@ReturnNull
+		move.b	#id_CppObject, (a1)
+		move.l	8(sp), obCodePtr(a1)
+		move.l	a1, d0
+		rts	
+
+; ---------------------------------------------------------------------------
+@ReturnNull:
+		moveq	#0, d0
+		rts

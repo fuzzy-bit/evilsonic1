@@ -20,39 +20,6 @@ DrawChunks:
 		rts
 ; End of function DrawChunks
 
-		if Revision>=1
-	Draw_GHz_Bg:
-			moveq	#0,d4
-			moveq	#((224+16+16)/16)-1,d6
-	locj_7224:
-			movem.l	d4-d6,-(sp)
-			lea	(locj_724a),a0
-			move.w	(v_bgscreenposy).w,d0
-			add.w	d4,d0
-			andi.w	#$F0,d0
-			bsr.w	locj_72Ba
-			movem.l	(sp)+,d4-d6
-			addi.w	#16,d4
-			dbf	d6,locj_7224
-			rts
-	locj_724a:
-			dc.b $00,$00,$00,$00,$06,$06,$06,$04,$04,$04,$00,$00,$00,$00,$00,$00
-;-------------------------------------------------------------------------------
-	Draw_Mz_Bg:;locj_725a:
-			moveq	#-16,d4
-			moveq	#((224+16+16)/16)-1,d6
-	locj_725E:
-			movem.l	d4-d6,-(sp)
-			lea	(locj_6EF2+1),a0
-			move.w	(v_bgscreenposy).w,d0
-			subi.w	#$200,d0
-			add.w	d4,d0
-			andi.w	#$7F0,d0
-			bsr.w	locj_72Ba
-			movem.l	(sp)+,d4-d6
-			addi.w	#16,d4
-			dbf	d6,locj_725E
-			rts
 ;-------------------------------------------------------------------------------
 	Draw_SBz_Bg:;locj_7288:
 			moveq	#-16,d4
@@ -91,4 +58,3 @@ DrawChunks:
 			bsr.w	DrawBlocks_LR_3
 	locj_72EE:
 			rts
-		endc

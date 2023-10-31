@@ -13,12 +13,6 @@ LoadTilesFromStart:
 		move.w	#$6000,d2
 		if Revision=0
 		else
-			tst.b	(v_zone).w
-			beq.w	Draw_GHz_Bg
-			cmpi.b	#id_MZ,(v_zone).w
-			beq.w	Draw_Mz_Bg
 			cmpi.w	#(id_SBZ<<8)+0,(v_zone).w
 			beq.w	Draw_SBz_Bg
-			cmpi.b	#id_EndZ,(v_zone).w
-			beq.w	Draw_GHz_Bg
 		endc

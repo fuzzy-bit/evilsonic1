@@ -32,11 +32,15 @@
 		incbin	"Data\Levels\StartPositions\fz.bin"
 		dc.w	$80,$A8
 
-		zonewarning StartLocArray,$10
-
 		incbin	"Data\Levels\StartPositions\end1.bin"
 		incbin	"Data\Levels\StartPositions\end2.bin"
 		dc.w	$80,$A8
 		dc.w	$80,$A8
 
+		zonewarning StartLocArray,$10 ; Note:
+
+		incbin	"Data\Levels\StartPositions\zone7.bin"
+		dc.w	$80,$A8	; you said you didn't want to use the acts so i'm just making the one file
+		dc.w	$80,$A8
+		dc.w	$80,$A8
 		even
