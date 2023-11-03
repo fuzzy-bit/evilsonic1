@@ -6,6 +6,8 @@
 ; ---------------------------------------------------------------------------
 PalLoad1:
 		lea	(PalPointers).l,a1
+
+LoadUnindexedPalette1:
 		lsl.w	#3,d0
 		adda.w	d0,a1
 		movea.l	(a1)+,a2	; get palette data address
@@ -20,6 +22,8 @@ PalLoad1:
 
 PalLoad2:
 		lea	(PalPointers).l,a1
+
+LoadUnindexedPalette2:
 		lsl.w	#3,d0
 		adda.w	d0,a1
 		movea.l	(a1)+,a2	; get palette data address

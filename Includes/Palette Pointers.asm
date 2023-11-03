@@ -2,7 +2,7 @@
 ; Palette pointers
 ; ---------------------------------------------------------------------------
 
-palp:	macro paladdress,ramaddress,colours
+PalettePointer:	macro paladdress,ramaddress,colours
 	dc.l paladdress
 	dc.w ramaddress, (colours>>1)-1
 	endm
@@ -11,29 +11,29 @@ PalPointers:
 
 ; palette address, RAM address, colours
 
-ptr_Pal_SegaBG:		palp	Pal_SegaBG,v_pal_dry,$40		; 0 - Sega logo
-ptr_Pal_Title:		palp	Pal_Title,v_pal_dry,$40		; 1 - title screen
-ptr_Pal_LevelSel:	palp	Pal_LevelSel,v_pal_dry,$40		; 2 - level select
-ptr_Pal_Sonic:		palp	Pal_Sonic,v_pal_dry,$10		; 3 - Sonic
+ptr_Pal_SegaBG:		PalettePointer	Pal_SegaBG,v_pal_dry,$40		; 0 - Sega logo
+ptr_Pal_Title:		PalettePointer	Pal_Title,v_pal_dry,$40		; 1 - title screen
+ptr_Pal_LevelSel:	PalettePointer	Pal_LevelSel,v_pal_dry,$40		; 2 - level select
+ptr_Pal_Sonic:		PalettePointer	Pal_Sonic,v_pal_dry,$10		; 3 - Sonic
 Pal_Levels:
-ptr_Pal_GHZ:		palp	Pal_GHZ,v_pal_dry+$20, $30		; 4 - GHZ
-ptr_Pal_LZ:		palp	Pal_LZ,v_pal_dry+$20,$30		; 5 - LZ
-ptr_Pal_MZ:		palp	Pal_MZ,v_pal_dry+$20,$30		; 6 - MZ
-ptr_Pal_SLZ:		palp	Pal_SLZ,v_pal_dry+$20,$30		; 7 - SLZ
-ptr_Pal_SYZ:		palp	Pal_SYZ,v_pal_dry+$20,$30		; 8 - SYZ
-ptr_Pal_SBZ1:		palp	Pal_SBZ1,v_pal_dry+$20,$30		; 9 - SBZ1
-ptr_Pal_Zone7:		palp	Pal_Zone7,v_pal_dry+$20,$30		; 9 - Zone 7
+ptr_Pal_GHZ:		PalettePointer	Pal_GHZ,v_pal_dry+$20, $30		; 4 - GHZ
+ptr_Pal_LZ:		    PalettePointer	Pal_LZ,v_pal_dry+$20,$30		; 5 - LZ
+ptr_Pal_MZ:		    PalettePointer	Pal_MZ,v_pal_dry+$20,$30		; 6 - MZ
+ptr_Pal_SLZ:		PalettePointer	Pal_SLZ,v_pal_dry+$20,$30		; 7 - SLZ
+ptr_Pal_SYZ:		PalettePointer	Pal_SYZ,v_pal_dry+$20,$30		; 8 - SYZ
+ptr_Pal_SBZ1:		PalettePointer	Pal_SBZ1,v_pal_dry+$20,$30		; 9 - SBZ1
+ptr_Pal_Zone7:		PalettePointer	Pal_Zone7,v_pal_dry+$20,$30		; 9 - Zone 7
 			zonewarning Pal_Levels,8
-ptr_Pal_Special:	palp	Pal_Special,v_pal_dry,$40		; $A (10) - special stage
-ptr_Pal_LZWater:	palp	Pal_LZWater,v_pal_dry,$40		; $B (11) - LZ underwater
-ptr_Pal_SBZ3:		palp	Pal_SBZ3,v_pal_dry+$20,$30		; $C (12) - SBZ3
-ptr_Pal_SBZ3Water:	palp	Pal_SBZ3Water,v_pal_dry,$40		; $D (13) - SBZ3 underwater
-ptr_Pal_SBZ2:		palp	Pal_SBZ2,v_pal_dry+$20,$30		; $E (14) - SBZ2
-ptr_Pal_LZSonWater:	palp	Pal_LZSonWater,v_pal_dry,$10	; $F (15) - LZ Sonic underwater
-ptr_Pal_SBZ3SonWat:	palp	Pal_SBZ3SonWat,v_pal_dry,$10	; $10 (16) - SBZ3 Sonic underwater
-ptr_Pal_SSResult:	palp	Pal_SSResult,v_pal_dry,$40		; $11 (17) - special stage results
-ptr_Pal_Continue:	palp	Pal_Continue,v_pal_dry,$20		; $12 (18) - special stage results continue
-ptr_Pal_Ending:		palp	Pal_Ending,v_pal_dry,$40		; $13 (19) - ending sequence
+ptr_Pal_Special:	PalettePointer	Pal_Special,v_pal_dry,$40		; $A (10) - special stage
+ptr_Pal_LZWater:	PalettePointer	Pal_LZWater,v_pal_dry,$40		; $B (11) - LZ underwater
+ptr_Pal_SBZ3:		PalettePointer	Pal_SBZ3,v_pal_dry+$20,$30		; $C (12) - SBZ3
+ptr_Pal_SBZ3Water:	PalettePointer	Pal_SBZ3Water,v_pal_dry,$40		; $D (13) - SBZ3 underwater
+ptr_Pal_SBZ2:		PalettePointer	Pal_SBZ2,v_pal_dry+$20,$30		; $E (14) - SBZ2
+ptr_Pal_LZSonWater:	PalettePointer	Pal_LZSonWater,v_pal_dry,$10	; $F (15) - LZ Sonic underwater
+ptr_Pal_SBZ3SonWat:	PalettePointer	Pal_SBZ3SonWat,v_pal_dry,$10	; $10 (16) - SBZ3 Sonic underwater
+ptr_Pal_SSResult:	PalettePointer	Pal_SSResult,v_pal_dry,$40		; $11 (17) - special stage results
+ptr_Pal_Continue:	PalettePointer	Pal_Continue,v_pal_dry,$20		; $12 (18) - special stage results continue
+ptr_Pal_Ending:		PalettePointer	Pal_Ending,v_pal_dry,$40		; $13 (19) - ending sequence
 			even
 
 

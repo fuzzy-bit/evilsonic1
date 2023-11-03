@@ -27,7 +27,7 @@ Endscreen:
 		move.l  #$60000003, d0
 		moveq   #39, d1
 		moveq   #30, d2
-		jsr	   	TilemapToVRAM 	; mpaaings -> vram
+		jsr	   	TilemapToVRAM 	; mappings -> vram
 
 		move.l  #$68000000, ($FFC00004).l
 		lea     @Art, a0

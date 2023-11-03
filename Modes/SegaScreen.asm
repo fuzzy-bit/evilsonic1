@@ -101,7 +101,7 @@ SegaScreen:
 
 @NextScreen:
 		bsr.w	PaletteFadeOut
-		move.b	#id_Title, (v_gamemode).w
+		move.b	#$28, (v_gamemode).w
 		rts
 		
 ; ===========================================================================

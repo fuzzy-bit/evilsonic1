@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "9aab3f18-9822-4d1f-87f6-a5a76d45b0b1",
+    "node": "5f4abc6b-53b5-41b0-b278-cf1ef15c526e",
     "objects": [
         {
             "uuid": "0768ca43-290b-47b4-9512-c109cdf2e3b4",
@@ -125,17 +125,72 @@
             "name": "Retro Splash",
             "children": [
                 {
-                    "format": "Sonic 1.js",
-                    "name": "Sonic",
-                    "palettes": [],
+                    "format": "Sonic 3&K Player.js",
+                    "name": "Emerald",
+                    "palettes": [
+                        {
+                            "path": "Data/Palette/Sonic Retro.bin",
+                            "length": 2
+                        }
+                    ],
                     "art": {
-                        "path": "Data/Art/Nemesis/SRetroSonicWave.bin",
+                        "path": "Data/Art/Nemesis/Sonic Retro - Emerald.bin",
                         "compression": "Nemesis",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "Data/Mappings/TileMaps/RetroSonicWave.map",
+                        "path": "Data/Mappings/Sprites/RetroEmerald.asm",
+                        "label": "@Map_RetroEmerald"
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
                         "label": ""
+                    },
+                    "uuid": "1a21fc9b-a070-44eb-8bd1-6b8aa6544c74"
+                },
+                {
+                    "format": "Sonic 3&K Player.js",
+                    "name": "Sonic",
+                    "palettes": [
+                        {
+                            "path": "Data/Palette/Sonic Retro.bin",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "Data/Art/Nemesis/Sonic Retro - Sonic.bin",
+                        "compression": "Nemesis",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "Data/Mappings/Sprites/RetroSonic.asm",
+                        "label": "@Map_RetroSonic"
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "fc9ba070-14eb-4bd1-ab8a-a6544c743acc"
+                },
+                {
+                    "format": "Sonic 3&K Player.js",
+                    "name": "Retro Subtitle",
+                    "palettes": [
+                        {
+                            "path": "Data/Palette/Sonic Retro.bin",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "Data/Art/Nemesis/Sonic Retro - Logo.bin",
+                        "compression": "Nemesis",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "Data/Mappings/Sprites/RetroSubtitle.asm",
+                        "label": "@Map_RetroSubtitle"
                     },
                     "dplcs": {
                         "enabled": false,

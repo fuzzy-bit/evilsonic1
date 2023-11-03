@@ -241,11 +241,15 @@ GameModeArray:
 		ptr_GM_Cont:	bra.w	Continue	; Continue Screen ($18)
 		ptr_GM_Ending:	bra.w	Ending	; End of game sequence ($1C)
 		ptr_GM_Credits:	bra.w	Credits	; Credits ($20)
-		ptr_GM_Endscreen:	bra.w	@Endscreen	; Endscreen ($24)
+		ptr_GM_Endscreen:	bra.w	EndscreenJump	; Endscreen ($24)
+		ptr_GM_Retro:	bra.w	SonicRetroJump	; Sonic Retro ($28)
 		rts
 
-@Endscreen:
+EndscreenJump:
 		jmp		Endscreen
+
+SonicRetroJump:
+		jmp		SonicRetro
 
 ; ===========================================================================
 
@@ -2845,6 +2849,7 @@ TitleFGArt: 	incbin "Data/Art/Nemesis/Title Screen Foreground.bin"
 TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen.bin"
 
 		include "Modes\Endscreen.asm"
+		include "Modes\Retro.asm"
 
 ; ---------------------------------------------------------------------------
 ; Error Handler
