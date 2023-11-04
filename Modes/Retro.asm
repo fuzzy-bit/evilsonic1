@@ -44,9 +44,9 @@ SonicRetro:
         music   mus_retro
 
         ; Objects
-        move.b	#0, (v_objspace+$40).w          ; Emerald
-        move.b	#1, (v_objspace+$40*2).w      ; Sonic
-        move.b	#2, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
+        move.b	#1, (v_objspace+$40).w          ; Emerald
+        move.b	#2, (v_objspace+$40*2).w      ; Sonic
+        move.b	#3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
 
         ; Initialize
         bsr.w   @DrawLogo
@@ -100,16 +100,16 @@ SonicRetro:
 ; ===========================================================================			
 
 @ObjectIndex:
-        dc.l    @Emerald
-        dc.l    @Sonic
-        dc.l    @Subtitle
-        dc.l    DeleteObject
+        dc.l    @Emerald 		; $01
+        dc.l    @Sonic			; $02
+        dc.l    @Subtitle		; $03
+        dc.l    DeleteObject	; $04
         even
 
 ; ===========================================================================			
 
 ; ---------------------------------------------------------------------------
-; Object 00 - Emerald
+; Object 01 - Emerald
 ; ---------------------------------------------------------------------------			
 @Emerald:
         moveq	#0, d0
@@ -134,7 +134,7 @@ SonicRetro:
         jmp	DisplaySprite
 
 ; ---------------------------------------------------------------------------
-; Object 01 - Sonic
+; Object 02 - Sonic
 ; ---------------------------------------------------------------------------
 @NextFrame:     equ $30
 @FrameTimer:    equ $31
@@ -174,10 +174,9 @@ SonicRetro:
         jmp	DisplaySprite
 
 ; ---------------------------------------------------------------------------
-; Object 02 - 「ソニック・レトロ」
+; Object 03 - 「ソニック・レトロ」
 ; ---------------------------------------------------------------------------			
 @Subtitle:
-        RaiseError "it run"
         moveq	#0, d0
         move.b	obRoutine(a0), d0
         move.w	@SubtitleIndex(pc, d0.w), d1
