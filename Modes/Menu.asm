@@ -512,7 +512,7 @@ MainMenu_MenuElements:
 	dc.w	LevelSelectMenu-@L					; $04
 	dc.w	MainMenu_Locked-@L					; $05
 	dc.w	DifficultySelect_Locked-@L			; $06
-	dc.w	ShakeChoice-@L						; $03
+	dc.w	ShakeChoice-@L						; $07
 ; ---------------------------------------------------------------
 
 MainMenu_Full:
@@ -544,7 +544,7 @@ OptionsMenu:
 	dc.b	4				; Size
 	dc.w	$0003, $D0			; Index/Frame, Y-pos
 	dc.w	$0104, $F0			;
-	dc.w	$0213, $110			;
+	dc.w	$0217, $110			;
 	dc.w	$0306, $D0+$18*4+$10		;
 	
 OptionsMenu_Cmd:
