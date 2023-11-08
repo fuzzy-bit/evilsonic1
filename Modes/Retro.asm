@@ -44,7 +44,7 @@ SonicRetro:
         music   mus_retro
 
         ; Objects
-        move.b  #1, (v_objspace+$40).w          ; Emerald
+        move.b  #1, (v_objspace+$40).w        ; Emerald
         move.b  #2, (v_objspace+$40*2).w      ; Sonic
         move.b  #3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
 
@@ -152,7 +152,7 @@ SonicRetro:
         addq.b  #2, obRoutine(a0)               ; Next Action (Display)
         move.w  #$191, obX(a0)                  ; X Position
         move.w  #$E2, obScreenY(a0)             ; Y Position
-        move.l  #@SonicMappings, obMap(a0)     ; Mappings Set
+        move.l  #@SonicMappings, obMap(a0)      ; Mappings Set
         move.w  #$157, obGfx(a0)                ; Art Offset in VRAM
         move.b  #0, obRender(a0)                ; Action Flags
         move.b  #3, obPriority(a0)              ; Sprite Priority (0 = Front)

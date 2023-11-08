@@ -4,6 +4,31 @@
     "node": "9aab3f18-9822-4d1f-87f6-a5a76d45b0b1",
     "objects": [
         {
+            "format": "Sonic 3&K Player.js",
+            "name": "HUD",
+            "palettes": [
+                {
+                    "path": "Data/Palette/Sonic.bin",
+                    "length": 1
+                }
+            ],
+            "art": {
+                "path": "Data/Art/Nemesis/HUD.bin",
+                "compression": "Nemesis",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Data/Mappings/Objects/HUD.asm",
+                "label": "Map_HUD_internal"
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            },
+            "uuid": "f3e65092-730e-47f8-b363-51cb27989075"
+        },
+        {
             "uuid": "0768ca43-290b-47b4-9512-c109cdf2e3b4",
             "format": "Sonic 1.js",
             "name": "Credits Font",
@@ -118,7 +143,7 @@
                 }
             ],
             "isDirectory": true,
-            "expanded": true,
+            "expanded": false,
             "uuid": "1562c3ec-0442-45dd-9b1b-4167c69e2793"
         },
         {
@@ -201,55 +226,8 @@
                 }
             ],
             "isDirectory": true,
-            "expanded": true,
+            "expanded": false,
             "uuid": "a9255e4c-c048-48d0-8165-b06d27e5b90c"
-        },
-        {
-            "uuid": "26d7558b-4c2c-47d6-b1ba-daab20a2e044",
-            "format": "Sonic 3&K Object.js",
-            "name": "SS Walls",
-            "palettes": [
-                {
-                    "path": "Data\\Palette\\Special Stage.bin",
-                    "length": 1
-                }
-            ],
-            "art": {
-                "path": "Data\\Art\\Nemesis\\Special Walls.bin",
-                "compression": "Nemesis",
-                "offset": 0
-            },
-            "mappings": {
-                "path": "Data\\Mappings\\Objects\\SS Walls.asm",
-                "label": ""
-            },
-            "dplcs": {
-                "enabled": false,
-                "path": "",
-                "label": ""
-            },
-            "expanded": true
-        },
-        {
-            "uuid": "bf0f3dcf-9460-4bd6-8bc1-1342f2c7c52c",
-            "format": "Sonic 3&K Object.js",
-            "name": "TitleCardFontExtended",
-            "palettes": [],
-            "art": {
-                "path": "Data/Art/Nemesis/Title Screen Foreground.bin",
-                "compression": "Nemesis",
-                "offset": 0
-            },
-            "mappings": {
-                "path": "Data/Mappings/Objects/Title Card Font - Extended.asm",
-                "label": ""
-            },
-            "dplcs": {
-                "enabled": false,
-                "path": "",
-                "label": ""
-            },
-            "expanded": true
         },
         {
             "uuid": "d0cf8ded-0cd9-4ad9-97cd-c07639eb7679",
