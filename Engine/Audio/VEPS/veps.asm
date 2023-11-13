@@ -118,7 +118,7 @@ MusicIndex:
 		dc.l @SecretDrowning	; 9B
 		dc.l @SecretCredits		; 9C
 		dc.l @CIS			; 9D
-		dc.l @Monsquaz		; 9E
+		dc.l @Omen		    ; 9E
 		dc.l @Monsquaz		; 9F
 		dc.l @Monsquaz
 
@@ -183,6 +183,8 @@ MusicIndex:
 @SecretCredits:        incbin    Data\Audio\Music\SecretDifficulty\Credits.bin
 					   even
 @CIS:				   incbin    Data\Audio\Music\SecretDifficulty\CIS.bin
+					   even
+@Omen:				   incbin    Data\Audio\Music\Omen.bin
 					   even
 
 
@@ -340,6 +342,7 @@ mus_secretslz: equ	$96
 mus_secretsbz: equ	$97
 mus_secretfz: equ	$98
 mus_secretcredits: equ	$9C
+mus_omen: equ	$9E
 
 ; Control
 mus_fadeout: equ	$E0

@@ -503,7 +503,7 @@ MusicList:
 		dc.b mus_SBZ	; SBZ
 		dc.b mus_FZ	; Ending		
 		zonewarning MusicList,1	; Note: It's another one of those oddly placed macros.
-		dc.b mus_zone7pre
+		dc.b mus_omen
 		even
 
 SecretMusicList:
@@ -515,7 +515,7 @@ SecretMusicList:
 		dc.b mus_SecretSBZ	; SBZ
 		dc.b mus_SecretFZ	; Ending		
 		zonewarning SecretMusicList,1	; Note: It's another one of those oddly placed macros.
-		dc.b mus_zone7pre
+		dc.b mus_omen
 		even
 
 ; ===========================================================================

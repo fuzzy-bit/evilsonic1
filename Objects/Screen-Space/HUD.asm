@@ -16,7 +16,10 @@ HUD_Main:	; Routine 0
 		move.w	#$108,obScreenY(a0)
 		move.l	#Map_HUD,obMap(a0)
 		move.w	#$6CA,obGfx(a0)
-		
+
+        cmpi.b  #7, (v_zone).w
+        beq.s   @NoHUD
+
 		move.w	 #$90, d0
 		cmp.w	obX(a0),d0	; has item reached the target position?
 		bgt.w	@Move
@@ -29,6 +32,10 @@ HUD_Main:	; Routine 0
 		add.w	#2,obX(a0)	; change item's position
 		jmp	(DisplaySprite).l
 		rts
+
+@NoHUD:
+        jsr     DeleteObject
+        rts
 
 HUD_Flash:	; Routine 2
 		tst.w	(v_rings).w	; do you have any rings?

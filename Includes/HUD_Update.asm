@@ -10,6 +10,9 @@ hudVRAM:	macro loc
 
 
 HUD_Update:
+        cmpi.b  #7, (v_zone).w ; are we in zone 7?
+        beq.w   @finish        ; we don't need to update the hud
+
 		tst.b	(f_debugmode).w	; is debug mode	on?
 		bne.w	HudDebug	; if yes, branch
 		tst.b	(f_scorecount).w ; does the score need updating?
