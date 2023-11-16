@@ -44,7 +44,7 @@ SonicRetro:
         music   mus_retro
 
         jsr	RandomNumber
-        andi.w  #$02, d0
+        andi.l  #$04, d0
         
 	jsr	@InitRoutines(pc, d0)
         jmp     @Loop
