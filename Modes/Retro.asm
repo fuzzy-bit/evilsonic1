@@ -44,7 +44,7 @@ SonicRetro:
         music   mus_retro
 
         jsr	RandomNumber
-        andi.l  #$04, d0
+        andi.w  #$04, d0
         
 	jsr	@InitRoutines(pc, d0)
         jmp     @Loop
@@ -77,12 +77,17 @@ SonicRetro:
 @SonisRetros:
         ; Objects
         move.b  #1, (v_objspace+$40).w        ; Emerald
-        move.b  #2, (v_objspace+$40*2).w      ; Sonic
+        move.b  #4, (v_objspace+$40*2).w      ; Sonis
         move.b  #3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
+        move.b  #1, (v_objspace+$40*3+$1A)
 
         ; Initialize
         lea     @SonisLogoMappings, a0   ; Put the mappings into d0
         bsr.w   @DrawLogo
+
+        moveq   #0, d0
+        lea     (@SonisPalettePointer).l, a1
+        jsr     LoadUnindexedPalette1
 
         jsr     @ExecuteObjects
         jsr     BuildSprites
@@ -140,7 +145,7 @@ SonicRetro:
         dc.l    @Emerald   ; $01
         dc.l    @Sonic   ; $02
         dc.l    @Subtitle  ; $03
-        dc.l    DeleteObject ; $04
+        dc.l    @Sonis ; $04
         even
 
 ; ===========================================================================   
@@ -159,13 +164,13 @@ SonicRetro:
         dc.w @EmeraldDisplay-@EmeraldIndex
 
 @EmeraldMain:
-        addq.b #2, obRoutine(a0)                ; Next Action (Display)
-        move.w #$193, obX(a0)                   ; X Position
-        move.w #$102, obScreenY(a0)             ; Y Position
-        move.l #@EmeraldMappings, obMap(a0)     ; Mappings
-        move.w #$100, obGfx(a0)                 ; Art Offset in VRAM
-        move.b #0, obRender(a0)                 ; Render Flags
-        move.b #4, obPriority(a0)               ; Sprite Priority (0 = Front)
+        addq.b  #2, obRoutine(a0)                ; Next Action (Display)
+        move.w  #$193, obX(a0)                   ; X Position
+        move.w  #$102, obScreenY(a0)             ; Y Position
+        move.l  #@EmeraldMappings, obMap(a0)     ; Mappings
+        move.w  #$100, obGfx(a0)                 ; Art Offset in VRAM
+        move.b  #0, obRender(a0)                 ; Render Flags
+        move.b  #4, obPriority(a0)               ; Sprite Priority (0 = Front)
 
 @EmeraldDisplay:
         jmp DisplaySprite
@@ -219,7 +224,7 @@ SonicRetro:
         move.w  @SubtitleIndex(pc, d0.w), d1
         jmp     @SubtitleIndex(pc, d1.w)
 
-@SubtitleIndex: 
+@SubtitleIndex:
         dc.w @SubtitleMain-@SubtitleIndex
         dc.w @SubtitleDisplay-@SubtitleIndex
 
@@ -235,17 +240,57 @@ SonicRetro:
 @SubtitleDisplay:
         jmp     DisplaySprite
 
+; ---------------------------------------------------------------------------
+; Object 04 - Sonis
+; ---------------------------------------------------------------------------   
+@Sonis:
+        moveq   #0, d0
+        move.b  obRoutine(a0), d0
+        move.w  @SonisIndex(pc, d0.w), d1
+        jmp     @SonisIndex(pc, d1.w)
+
+@SonisIndex: 
+        dc.w @SonisMain-@SonisIndex
+        dc.w @SonisDisplay-@SonisIndex
+
+@SonisMain:
+        addq.b  #2, obRoutine(a0)               ; Next Action (Display)
+        move.w  #$191, obX(a0)                  ; X Position
+        move.w  #$E2, obScreenY(a0)             ; Y Position
+        move.l  #@SonicMappings, obMap(a0)      ; Mappings
+        move.w  #$157, obGfx(a0)                ; Art Offset in VRAM
+        move.b  #0, obRender(a0)                ; Action Flags
+        move.b  #3, obPriority(a0)              ; Sprite Priority (0 = Front)
+        move.b  #2, obFrame(a0)                 ; Mapping Frame
+
+@SonisDisplay:
+        add.b   #1, @FrameTimer(a0)
+        cmp.b   #$8, @FrameTimer(a0)
+        blt.w   @SonisDisplayGo
+
+        move.b  #0, @FrameTimer(a0)
+        add.b   #1, @NextFrame(a0)
+        cmp.b   #2, @NextFrame(a0)
+        bne.w   @SonisDisplayGo
+
+        move.b  #0, @NextFrame(a0)
+        
+@SonisDisplayGo:
+        move.b  @NextFrame(a0), obRender(a0)
+        jmp     DisplaySprite
+
+
 ; ====================================================================================
 
 @DrawLogo:
-        lea     ($FF0000), a1       ; ...and the location to decompress in a1
-        move.w  #0, d0              ; VRAM 0ffset (not per-tile)
-        jsr     EniDec.w            ; Decompress!
+        lea     ($FF0000), a1                   ; ...and the location to decompress in a1
+        move.w  #0, d0                          ; VRAM 0ffset (not per-tile)
+        jsr     EniDec.w                        ; Decompress!
 
-        move.l  #$60000003, d0      ; What plane? BG B!
-        moveq   #39, d1             ; Width
-        moveq   #30, d2             ; Height
-        jsr     TilemapToVRAM       ; And we're good to go~
+        move.l  #$60000003, d0                  ; What plane? BG B!
+        moveq   #39, d1                         ; Width
+        moveq   #30, d2                         ; Height
+        jsr     TilemapToVRAM                   ; And we're good to go~
         rts
 
 ; ====================================================================================
@@ -280,5 +325,10 @@ SonicRetro:
 
 @Palette: incbin "Data/Palette/Sonic Retro.bin"
     even
+@SonisPalette: incbin "Data/Palette/Sonis Retros.bin"
+    even
+
 @PalettePointer: PalettePointer @Palette, v_pal_dry, $2F
+    even
+@SonisPalettePointer: PalettePointer @SonisPalette, v_pal_dry, $2F
     even

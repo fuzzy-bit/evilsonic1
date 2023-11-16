@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "9aab3f18-9822-4d1f-87f6-a5a76d45b0b1",
+    "node": "fc9ba070-14eb-4bd1-ab8a-a6544c743acc",
     "objects": [
         {
             "format": "Sonic 3&K Player.js",
@@ -181,6 +181,10 @@
                         {
                             "path": "Data/Palette/Sonic Retro.bin",
                             "length": 3
+                        },
+                        {
+                            "path": "",
+                            "length": 1
                         }
                     ],
                     "art": {
@@ -226,7 +230,7 @@
                 }
             ],
             "isDirectory": true,
-            "expanded": false,
+            "expanded": true,
             "uuid": "a9255e4c-c048-48d0-8165-b06d27e5b90c"
         },
         {
