@@ -10,3 +10,4 @@ SonLVL/dllcache/*
 S1SSEdit.undo
 .build/log/*
 .idea/
+.vscode/

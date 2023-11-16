@@ -122,13 +122,13 @@ SonicRetro:
         dc.w @EmeraldDisplay-@EmeraldIndex
 
 @EmeraldMain:
-        addq.b #2, obRoutine(a0)               ; Next Action (Display)
-        move.w #$193, obX(a0)                  ; X Position
-        move.w #$102, obScreenY(a0)            ; Y Position
-        move.l #@EmeraldMappings, obMap(a0) ; Mappings Set
-        move.w #$100, obGfx(a0)                ; Art Offset in VRAM
-        move.b #0, obRender(a0)                ; Action Flags
-        move.b #4, obPriority(a0)              ; Sprite Priority (0 = Front)
+        addq.b #2, obRoutine(a0)                ; Next Action (Display)
+        move.w #$193, obX(a0)                   ; X Position
+        move.w #$102, obScreenY(a0)             ; Y Position
+        move.l #@EmeraldMappings, obMap(a0)     ; Mappings
+        move.w #$100, obGfx(a0)                 ; Art Offset in VRAM
+        move.b #0, obRender(a0)                 ; Render Flags
+        move.b #4, obPriority(a0)               ; Sprite Priority (0 = Front)
 
 @EmeraldDisplay:
         jmp DisplaySprite
@@ -152,7 +152,7 @@ SonicRetro:
         addq.b  #2, obRoutine(a0)               ; Next Action (Display)
         move.w  #$191, obX(a0)                  ; X Position
         move.w  #$E2, obScreenY(a0)             ; Y Position
-        move.l  #@SonicMappings, obMap(a0)      ; Mappings Set
+        move.l  #@SonicMappings, obMap(a0)      ; Mappings
         move.w  #$157, obGfx(a0)                ; Art Offset in VRAM
         move.b  #0, obRender(a0)                ; Action Flags
         move.b  #3, obPriority(a0)              ; Sprite Priority (0 = Front)
@@ -190,7 +190,7 @@ SonicRetro:
         addq.b  #2, obRoutine(a0)               ; Next Action (Display)
         move.w  #$124, obX(a0)                  ; X Position
         move.w  #$FF, obScreenY(a0)             ; Y Position
-        move.l  #@SubtitleMappings, obMap(a0)   ; Mappings Set
+        move.l  #@SubtitleMappings, obMap(a0)   ; Mappings
         move.w  #$0, obGfx(a0)                  ; Art Offset in VRAM
         move.b  #0, obRender(a0)                ; Action Flags
         move.b  #0, obPriority(a0)              ; Sprite Priority (0 = Front)
