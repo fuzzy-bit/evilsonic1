@@ -43,18 +43,55 @@ SonicRetro:
         ; Music
         music   mus_retro
 
+        jsr	RandomNumber
+        andi.w  #$02, d0
+        
+	jsr	@InitRoutines(pc, d0)
+        jmp     @Loop
+
+; ====================================================================================
+
+@InitRoutines:
+        bra.w   @Default
+        bra.w   @SonisRetros
+
+; ====================================================================================
+
+@Default:
         ; Objects
         move.b  #1, (v_objspace+$40).w        ; Emerald
         move.b  #2, (v_objspace+$40*2).w      ; Sonic
         move.b  #3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
 
         ; Initialize
+        lea     @LogoMappings, a0   ; Put the mappings into d0
         bsr.w   @DrawLogo
+
         jsr     @ExecuteObjects
         jsr     BuildSprites
         jsr     PaletteFadeIn
 
         move.w  #13*60, (v_demolength).w
+        rts
+
+@SonisRetros:
+        ; Objects
+        move.b  #1, (v_objspace+$40).w        ; Emerald
+        move.b  #2, (v_objspace+$40*2).w      ; Sonic
+        move.b  #3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
+
+        ; Initialize
+        lea     @SonisLogoMappings, a0   ; Put the mappings into d0
+        bsr.w   @DrawLogo
+
+        jsr     @ExecuteObjects
+        jsr     BuildSprites
+        jsr     PaletteFadeIn
+
+        move.w  #13*60, (v_demolength).w
+        rts
+
+; ====================================================================================
 
 @Loop:
         move.b  #$4, (v_vbla_routine).w
@@ -201,7 +238,6 @@ SonicRetro:
 ; ====================================================================================
 
 @DrawLogo:
-        lea     @LogoMappings, a0   ; Put the mappings into d0
         lea     ($FF0000), a1       ; ...and the location to decompress in a1
         move.w  #0, d0              ; VRAM 0ffset (not per-tile)
         jsr     EniDec.w            ; Decompress!
@@ -223,6 +259,8 @@ SonicRetro:
 ; ====================================================================================
 
 @LogoMappings: incbin "Data/Mappings/TileMaps/RetroLogo.bin"
+    even
+@SonisLogoMappings: incbin "Data/Mappings/TileMaps/RetroLogoSonis.bin"
     even
 @LogoArt: incbin "Data/Art/Nemesis/Sonic Retro - Logo.bin"
     even
