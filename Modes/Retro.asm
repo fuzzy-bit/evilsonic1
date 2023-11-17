@@ -35,6 +35,9 @@ SonicRetro:
         lea     (@SonicArt).l, a0
         jsr     NemDec
         
+        ; RESERVED DPLC GRAPHICS - RUNNING SONIC
+        ; TILE $184
+
         ; Palette
         moveq   #0, d0
         lea     (@PalettePointer).l, a1
@@ -43,10 +46,10 @@ SonicRetro:
         ; Music
         music   mus_retro
 
-        jsr	RandomNumber
-        andi.w  #$04, d0
+        jsr	    RandomNumber
+        andi.w  #$08, d0
         
-	jsr	@InitRoutines(pc, d0)
+	    jsr	    @InitRoutines(pc, d0)
         jmp     @Loop
 
 ; ====================================================================================
@@ -54,6 +57,8 @@ SonicRetro:
 @InitRoutines:
         bra.w   @Default
         bra.w   @SonisRetros
+        bra.w   @EmeraldFall
+        bra.w   @EmeraldFall
 
 ; ====================================================================================
 
@@ -64,7 +69,7 @@ SonicRetro:
         move.b  #3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
 
         ; Initialize
-        lea     @LogoMappings, a0   ; Put the mappings into d0
+        lea     @LogoMappings, a0
         bsr.w   @DrawLogo
 
         jsr     @ExecuteObjects
@@ -79,15 +84,32 @@ SonicRetro:
         move.b  #1, (v_objspace+$40).w        ; Emerald
         move.b  #4, (v_objspace+$40*2).w      ; Sonis
         move.b  #3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
-        move.b  #1, (v_objspace+$40*3+$1A)
+        move.b  #1, (v_objspace+$40*3+$1A)    ; ^ Frame
 
         ; Initialize
-        lea     @SonisLogoMappings, a0   ; Put the mappings into d0
+        lea     @SonisLogoMappings, a0
         bsr.w   @DrawLogo
 
         moveq   #0, d0
         lea     (@SonisPalettePointer).l, a1
         jsr     LoadUnindexedPalette1
+
+        jsr     @ExecuteObjects
+        jsr     BuildSprites
+        jsr     PaletteFadeIn
+
+        move.w  #13*60, (v_demolength).w
+        rts
+
+@EmeraldFall:
+        ; Objects
+        move.b  #1, (v_objspace+$40).w        ; Emerald
+        move.b  #5, (v_objspace+$40*2).w      ; Running Sonic
+        move.b  #3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
+
+        ; Initialize
+        lea     @LogoMappings, a0
+        bsr.w   @DrawLogo
 
         jsr     @ExecuteObjects
         jsr     BuildSprites
@@ -142,143 +164,12 @@ SonicRetro:
 ; ===========================================================================   
 
 @ObjectIndex:
-        dc.l    @Emerald   ; $01
-        dc.l    @Sonic   ; $02
-        dc.l    @Subtitle  ; $03
-        dc.l    @Sonis ; $04
+        dc.l    RetroEmerald   ; $01
+        dc.l    RetroSonic   ; $02
+        dc.l    RetroSubtitle  ; $03
+        dc.l    RetroSonis ; $04
+        dc.l    RetroRunningSonic ; $05
         even
-
-; ===========================================================================   
-
-; ---------------------------------------------------------------------------
-; Object 01 - Emerald
-; ---------------------------------------------------------------------------   
-@Emerald:
-        moveq   #0, d0
-        move.b  obRoutine(a0), d0
-        move.w  @EmeraldIndex(pc, d0.w), d1
-        jmp     @EmeraldIndex(pc, d1.w)
-
-@EmeraldIndex: 
-        dc.w @EmeraldMain-@EmeraldIndex
-        dc.w @EmeraldDisplay-@EmeraldIndex
-
-@EmeraldMain:
-        addq.b  #2, obRoutine(a0)                ; Next Action (Display)
-        move.w  #$193, obX(a0)                   ; X Position
-        move.w  #$102, obScreenY(a0)             ; Y Position
-        move.l  #@EmeraldMappings, obMap(a0)     ; Mappings
-        move.w  #$100, obGfx(a0)                 ; Art Offset in VRAM
-        move.b  #0, obRender(a0)                 ; Render Flags
-        move.b  #4, obPriority(a0)               ; Sprite Priority (0 = Front)
-
-@EmeraldDisplay:
-        jmp DisplaySprite
-
-; ---------------------------------------------------------------------------
-; Object 02 - Sonic
-; ---------------------------------------------------------------------------
-@NextFrame:     equ $30
-@FrameTimer:    equ $31
-@Sonic:
-        moveq   #0, d0
-        move.b  obRoutine(a0), d0
-        move.w  @SonicIndex(pc, d0.w), d1
-        jmp     @SonicIndex(pc, d1.w)
-
-@SonicIndex:
-        dc.w @SonicMain-@SonicIndex
-        dc.w @SonicDisplay-@SonicIndex
-
-@SonicMain:
-        addq.b  #2, obRoutine(a0)               ; Next Action (Display)
-        move.w  #$191, obX(a0)                  ; X Position
-        move.w  #$E2, obScreenY(a0)             ; Y Position
-        move.l  #@SonicMappings, obMap(a0)      ; Mappings
-        move.w  #$157, obGfx(a0)                ; Art Offset in VRAM
-        move.b  #0, obRender(a0)                ; Action Flags
-        move.b  #3, obPriority(a0)              ; Sprite Priority (0 = Front)
-
-@SonicDisplay:
-        add.b   #1, @FrameTimer(a0)
-        cmp.b   #$B, @FrameTimer(a0)
-        blt.w   @SonicDisplayGo
-
-        move.b  #0, @FrameTimer(a0)
-        add.b   #1, @NextFrame(a0)
-        cmp.b   #2, @NextFrame(a0)
-        bne.w   @SonicDisplayGo
-
-        move.b  #0, @NextFrame(a0)
-
-@SonicDisplayGo:
-        move.b  @NextFrame(a0), obFrame(a0)
-        jmp     DisplaySprite
-
-; ---------------------------------------------------------------------------
-; Object 03 - 「ソニック・レトロ」
-; ---------------------------------------------------------------------------   
-@Subtitle:
-        moveq   #0, d0
-        move.b  obRoutine(a0), d0
-        move.w  @SubtitleIndex(pc, d0.w), d1
-        jmp     @SubtitleIndex(pc, d1.w)
-
-@SubtitleIndex:
-        dc.w @SubtitleMain-@SubtitleIndex
-        dc.w @SubtitleDisplay-@SubtitleIndex
-
-@SubtitleMain:
-        addq.b  #2, obRoutine(a0)               ; Next Action (Display)
-        move.w  #$124, obX(a0)                  ; X Position
-        move.w  #$FF, obScreenY(a0)             ; Y Position
-        move.l  #@SubtitleMappings, obMap(a0)   ; Mappings
-        move.w  #$0, obGfx(a0)                  ; Art Offset in VRAM
-        move.b  #0, obRender(a0)                ; Action Flags
-        move.b  #0, obPriority(a0)              ; Sprite Priority (0 = Front)
-
-@SubtitleDisplay:
-        jmp     DisplaySprite
-
-; ---------------------------------------------------------------------------
-; Object 04 - Sonis
-; ---------------------------------------------------------------------------   
-@Sonis:
-        moveq   #0, d0
-        move.b  obRoutine(a0), d0
-        move.w  @SonisIndex(pc, d0.w), d1
-        jmp     @SonisIndex(pc, d1.w)
-
-@SonisIndex: 
-        dc.w @SonisMain-@SonisIndex
-        dc.w @SonisDisplay-@SonisIndex
-
-@SonisMain:
-        addq.b  #2, obRoutine(a0)               ; Next Action (Display)
-        move.w  #$191, obX(a0)                  ; X Position
-        move.w  #$E2, obScreenY(a0)             ; Y Position
-        move.l  #@SonicMappings, obMap(a0)      ; Mappings
-        move.w  #$157, obGfx(a0)                ; Art Offset in VRAM
-        move.b  #0, obRender(a0)                ; Action Flags
-        move.b  #3, obPriority(a0)              ; Sprite Priority (0 = Front)
-        move.b  #2, obFrame(a0)                 ; Mapping Frame
-
-@SonisDisplay:
-        add.b   #1, @FrameTimer(a0)
-        cmp.b   #$8, @FrameTimer(a0)
-        blt.w   @SonisDisplayGo
-
-        move.b  #0, @FrameTimer(a0)
-        add.b   #1, @NextFrame(a0)
-        cmp.b   #2, @NextFrame(a0)
-        bne.w   @SonisDisplayGo
-
-        move.b  #0, @NextFrame(a0)
-        
-@SonisDisplayGo:
-        move.b  @NextFrame(a0), obRender(a0)
-        jmp     DisplaySprite
-
 
 ; ====================================================================================
 
@@ -312,15 +203,7 @@ SonicRetro:
 
 @EmeraldArt: incbin "Data/Art/Nemesis/Sonic Retro - Emerald.bin"
     even
-@EmeraldMappings: include "Data/Mappings/Sprites/RetroEmerald.asm"
-    even
-
 @SonicArt: incbin "Data/Art/Nemesis/Sonic Retro - Sonic.bin"
-    even
-@SonicMappings: include "Data/Mappings/Sprites/RetroSonic.asm"
-    even
-
-@SubtitleMappings: include "Data/Mappings/Sprites/RetroSubtitle.asm"
     even
 
 @Palette: incbin "Data/Palette/Sonic Retro.bin"
@@ -331,4 +214,17 @@ SonicRetro:
 @PalettePointer: PalettePointer @Palette, v_pal_dry, $2F
     even
 @SonisPalettePointer: PalettePointer @SonisPalette, v_pal_dry, $2F
+    even
+
+; ====================================================================================
+
+    include "Objects/Extra/SonicRetro/Emerald.asm"
+    include "Objects/Extra/SonicRetro/Sonic.asm"
+    include "Objects/Extra/SonicRetro/Subtitle.asm"
+    include "Objects/Extra/SonicRetro/Sonis.asm"
+    include "Objects/Extra/SonicRetro/RunningSonic.asm"
+
+; ===========================================================================   
+
+RetroSonicMappings: include "Data/Mappings/Sprites/RetroSonic.asm"
     even

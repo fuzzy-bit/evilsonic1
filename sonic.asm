@@ -772,7 +772,7 @@ Map_CFlo:	include	"Data\Mappings\Objects\Collapsing Floors.asm"
 		include	"Objects\Level\Scenery.asm"
 Map_Scen:	include	"Data\Mappings\Objects\Scenery.asm"
 
-		include	"Objects\Unused\Unused Switch.asm"
+		include	"Objects\Extra\Unused\Unused Switch.asm"
 Map_Swi:	include	"Data\Mappings\Objects\Unused Switch.asm"
 
 		include	"Objects\Level\SBZ Small Door.asm"
@@ -1097,7 +1097,7 @@ Map_LWall:	include	"Data\Mappings\Objects\Wall of Lava.asm"
 		include	"Objects\Badniks\Moto Bug.asm" ; includes "Objects\sub RememberState.asm"
 		include	"Data\Animations\Moto Bug.asm"
 Map_Moto:	include	"Data\Mappings\Objects\Moto Bug.asm"
-		include	"Objects\Unused\4F.asm"
+		include	"Objects\Extra\Unused\4F.asm"
 
 		include "Data/Mappings/Objects/Mogeko.asm"
 		include "Data/Animations/Mogeko.asm"
@@ -1223,7 +1223,7 @@ ResumeMusic:
 Map_Drown:	include	"Data\Mappings\Objects\Drowning Countdown.asm"
 
 		include	"Objects\Gameplay\Shield and Invincibility.asm"
-		include	"Objects\Unused\Special Stage Entry (Unused).asm"
+		include	"Objects\Extra\Unused\Special Stage Entry (Unused).asm"
 		include	"Objects\Effects\Water Splash.asm"
 		include	"Data\Animations\Shield and Invincibility.asm"
 Map_Shield:	include	"Data\Mappings\Objects\Shield and Invincibility.asm"
@@ -1839,7 +1839,7 @@ Map_SS_Up:	include	"Data\Mappings\Objects\SS UP Block.asm"
 Map_SS_Down:	include	"Data\Mappings\Objects\SS DOWN Block.asm"
 		include	"Data\Mappings\Objects\SS Chaos Emeralds.asm"
 
-		include	"Objects\Unused\10.asm"
+		include	"Objects\Extra\Unused\10.asm"
 
 		include	"Includes\AnimateLevelGfx.asm"
 
