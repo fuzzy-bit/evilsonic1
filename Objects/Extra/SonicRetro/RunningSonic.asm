@@ -10,30 +10,52 @@ RetroRunningSonic:
 @Index:
         dc.w @Init-@Index
         dc.w @Main-@Index
+        dc.w @Crushed-@Index
 
 @Init:
         addq.b  #2, obRoutine(a0)               ; Next Action (Main)
-        move.w  #$191, obX(a0)                  ; X Position
-        move.w  #$E2, obScreenY(a0)             ; Y Position
-        move.l  #Map_Sonic, obMap(a0)           ; Mappings
+        move.w  #$172, obGfx(a0)                ; Art Offset in VRAM
+        move.w  #$20, obX(a0)                   ; X Position
+        move.w  #$102, obScreenY(a0)            ; Y Position
+        move.l  #RetroSonicMappings, obMap(a0)  ; Mappings
         move.b  #0, obRender(a0)                ; Action Flags
         move.b  #0, obPriority(a0)              ; Sprite Priority (0 = Front)
-		move.b	#0, obDPLCFrame(a0)
+        move.b  #$A, obVelX(a0)                 ; nyooom
 
 @Main:
-        move.b	#$FF, obDPLCFrame(a0)
-
-        lea     (SonAni_Run).l, a1
+        lea	    (@Animation).l, a1
         jsr     AnimateSprite
 
-		lea		@DPLCConfig(pc), a6
-		jsr		UpdateDPLC
-        
+        cmpi.w  #740, (v_demolength).w
+        bgt.s   @Display
+
+        cmpi.w  #$190, obX(a0)
+        bgt.s   @ModsCrushHisSkull
+
+        jsr     SpeedToPos
+        jsr     @Display
+
+        rts
+
+@ModsCrushHisSkull:
+        addq.b  #2, obRoutine(a0)
+		move.w	#0, obVelX(a0)
+		move.w	#-$500, obVelY(a0)
+        move.b  #7, obFrame(a0)
+        move.b  #4, (v_flashtimer).w
+        sfx     sfx_violence
+
+@Crushed:
+        cmpi.w  #$190, obScreenY(a0)
+        bgt.s   @Display
+
+        jsr     ScreenObjectFall
+
+@Display:
         jmp     DisplaySprite
 
 ; ====================================================================================
 
-@DPLCConfig:
-	dc.l	PLC_Sonic   ; DPLC pointer
-	dc.l	Art_Sonic   ; Art pointer
-	dc.w	$184*20     ; VRAM address
+@Animation: dc.w @Run-@Animation
+@Run:       dc.b afEnd, 3, 4, 5, 6, afEnd, afEnd, afEnd, afEnd, afEnd
+		even

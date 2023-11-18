@@ -19,7 +19,7 @@ RetroSonic:
         move.w  #$191, obX(a0)                  ; X Position
         move.w  #$E2, obScreenY(a0)             ; Y Position
         move.l  #RetroSonicMappings, obMap(a0)  ; Mappings
-        move.w  #$157, obGfx(a0)                ; Art Offset in VRAM
+        move.w  #$172, obGfx(a0)                ; Art Offset in VRAM
         move.b  #0, obRender(a0)                ; Action Flags
         move.b  #3, obPriority(a0)              ; Sprite Priority (0 = Front)
 

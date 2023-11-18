@@ -30,13 +30,10 @@ SonicRetro:
         jsr     NemDec
         
         ; Sonic
-        locVRAM $155*$20
-        move.l  #$6AE00000, (vdp_control_port).l
+        locVRAM $172*$20
         lea     (@SonicArt).l, a0
         jsr     NemDec
-        
-        ; RESERVED DPLC GRAPHICS - RUNNING SONIC
-        ; TILE $184
+        move.l  #$6AE00000, (vdp_control_port).l
 
         ; Palette
         moveq   #0, d0
@@ -47,7 +44,7 @@ SonicRetro:
         music   mus_retro
 
         jsr	    RandomNumber
-        andi.w  #$08, d0
+        andi.w  #$02*6, d0
         
 	    jsr	    @InitRoutines(pc, d0)
         jmp     @Loop
@@ -56,8 +53,10 @@ SonicRetro:
 
 @InitRoutines:
         bra.w   @Default
-        bra.w   @SonisRetros
+        bra.w   @Default
         bra.w   @EmeraldFall
+        bra.w   @SonisRetros
+        bra.w   @SonisRetros
         bra.w   @EmeraldFall
 
 ; ====================================================================================
@@ -83,7 +82,7 @@ SonicRetro:
         ; Objects
         move.b  #1, (v_objspace+$40).w        ; Emerald
         move.b  #4, (v_objspace+$40*2).w      ; Sonis
-        move.b  #3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
+        move.b  #3, (v_objspace+$40*3).w      ; 「ソ レトロ」
         move.b  #1, (v_objspace+$40*3+$1A)    ; ^ Frame
 
         ; Initialize
@@ -104,8 +103,12 @@ SonicRetro:
 @EmeraldFall:
         ; Objects
         move.b  #1, (v_objspace+$40).w        ; Emerald
+        move.b  #1, (v_objspace+$40+$1A)      ; ^ Frame
         move.b  #5, (v_objspace+$40*2).w      ; Running Sonic
         move.b  #3, (v_objspace+$40*3).w      ; 「ソニック・レトロ」
+        move.b  #1, (v_objspace+$40*4).w      ; Emerald
+        move.b  #1, (v_objspace+$40*4+$28)    ; ^ Subtype
+        move.b  #2, (v_objspace+$40*4+$1A)    ; ^ Frame
 
         ; Initialize
         lea     @LogoMappings, a0
@@ -211,9 +214,9 @@ SonicRetro:
 @SonisPalette: incbin "Data/Palette/Sonis Retros.bin"
     even
 
-@PalettePointer: PalettePointer @Palette, v_pal_dry, $2F
+@PalettePointer: PalettePointer @Palette, v_pal_dry, $30
     even
-@SonisPalettePointer: PalettePointer @SonisPalette, v_pal_dry, $2F
+@SonisPalettePointer: PalettePointer @SonisPalette, v_pal_dry, $30
     even
 
 ; ====================================================================================

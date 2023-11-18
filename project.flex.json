@@ -155,7 +155,7 @@
                     "palettes": [
                         {
                             "path": "Data/Palette/Sonic Retro.bin",
-                            "length": 2
+                            "length": 3
                         }
                     ],
                     "art": {
@@ -312,22 +312,22 @@
             "name": "Sonic Death",
             "palettes": [
                 {
-                    "path": "Data\\Palette\\Sonic.bin",
+                    "path": "Data/Palette/Sonic.bin",
                     "length": 1
                 }
             ],
             "art": {
-                "path": "Data\\Art\\Uncompressed\\Sonic Death.bin",
+                "path": "Data/Art/Uncompressed/Sonic Death.bin",
                 "compression": "Uncompressed",
                 "offset": 0
             },
             "mappings": {
-                "path": "Data\\Mappings\\Objects\\Sonic Death.asm",
+                "path": "Data/Mappings/Objects/Sonic Death.asm",
                 "label": "Map_SonicDeath"
             },
             "dplcs": {
                 "enabled": true,
-                "path": "Data\\DPLCs\\Sonic Death.asm",
+                "path": "Data/DPLCs/Sonic Death.asm",
                 "label": "PLC_SonicDeath"
             }
         },
