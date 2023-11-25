@@ -43,10 +43,10 @@ SonicRetro:
         ; Music
         music   mus_retro
 
-        jsr	    RandomNumber
+        jsr     RandomNumber
         andi.w  #$02*6, d0
         
-	    jsr	    @InitRoutines(pc, d0)
+        jsr     @InitRoutines(pc, d0)
         jmp     @Loop
 
 ; ====================================================================================

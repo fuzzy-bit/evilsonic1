@@ -23,7 +23,7 @@ RetroRunningSonic:
         move.b  #$A, obVelX(a0)                 ; nyooom
 
 @Main:
-        lea	    (@Animation).l, a1
+        lea	(@Animation).l, a1
         jsr     AnimateSprite
 
         cmpi.w  #740, (v_demolength).w
@@ -39,8 +39,8 @@ RetroRunningSonic:
 
 @ModsCrushHisSkull:
         addq.b  #2, obRoutine(a0)
-		move.w	#0, obVelX(a0)
-		move.w	#-$500, obVelY(a0)
+        move.w	#0, obVelX(a0)
+        move.w	#-$500, obVelY(a0)
         move.b  #7, obFrame(a0)
         move.b  #4, (v_flashtimer).w
         sfx     sfx_violence
@@ -58,4 +58,4 @@ RetroRunningSonic:
 
 @Animation: dc.w @Run-@Animation
 @Run:       dc.b afEnd, 3, 4, 5, 6, afEnd, afEnd, afEnd, afEnd, afEnd
-		even
+        even
