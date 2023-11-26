@@ -210,7 +210,7 @@ GameInit:
 		; Initialize sound subsystem
 		jsr	VEPS_Init
 		lea	SampleTable, a0
-		move.w	#(SampleTable_End-SampleTable)/$C-1, d0
+		move.w	#(SampleTable_End-SampleTable)/9-1, d0
 		jsr	VEPS_LoadSampleTable
 
 		jsr		InitSRAM

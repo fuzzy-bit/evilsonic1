@@ -1,19 +1,30 @@
 
 ; ---------------------------------------------------------------
 
-FLAGS_LOOP:	equ	$40
-FLAGS_PRIORITY:	equ	$80
+FLAGS_SFX:		equ	$01
+FLAGS_LOOP:		equ	$02
 
-TYPE_PCM:	equ	'P'
+FLAGS_PANR:		equ	$40
+FLAGS_PANL:		equ	$80
+FLAGS_PANLR:		equ	$C0
+
+TYPE_PCM:		equ	'P'
+TYPE_PCM_TURBO:		equ	'T'
+
+; ---------------------------------------------------------------
+z80word macro Value
+	dc.w	((\Value)&$FF)<<8|((\Value)&$FF00)>>8
+	endm
 
 ; ---------------------------------------------------------------
 dcSample:	macro	type, samplePtr, sampleRate, flags
-	dc.b	\type						; $00	- type
-	dc.b	\sampleRate*256/24000				; $01	- pitch
-	dc.l	\samplePtr					; $02	- start offset
-	dc.l	\samplePtr\_End					; $06	- end offset
-	dc.b	\flags+0					; $0A	- flags
-	dc.b	0						; $0B	- reserved
+	dc.b	\type							; $00	- type
+	dc.b	\flags+0						; $01	- flags
+	dc.b	(\sampleRate)*256/24686					; $02	- pitch
+	dc.b	((\samplePtr)>>15)&$FF					; $03	- start bank
+	dc.b	((\samplePtr\_End)>>15)&$FF				; $04	- end bank
+	z80word ((\samplePtr)|$8000)					; $05	- start offset
+	z80word ((\samplePtr\_End)|$8000)				; $07	- end length
 	endm
 
 ; ---------------------------------------------------------------
@@ -21,8 +32,10 @@ IncludeDAC macro Name,Extension
 \Name:
 	if strcmp('\extension','wav')
 		incbin	'Data\Audio\DAC/\Name\.\Extension\',$3A
+		even
 	else
 		incbin	'Data\Audio\DAC/\Name\.\Extension\'
+		even
 	endc
 \Name\_End:
 	endm
@@ -59,17 +72,17 @@ SampleTable:
 		dcSample	TYPE_PCM, Tom2, 			17808, 					; $99	- Tom-2 Hi-Mid
 		dcSample	TYPE_PCM, Tom2, 			14914, 					; $9A	- Tom-2 Lo-Mid
 		dcSample	TYPE_PCM, Tom2, 			11256, 					; $9B	- Tom-2 Low
-		dcSample	TYPE_PCM, SonicCD_Yes, 	22095, FLAGS_PRIORITY 	; $9C	- Sonic CD Yes
-		dcSample	TYPE_PCM, Winrar, 		20454, 					; $9D	- Winrar
-		dcSample	TYPE_PCM, Invalid, 		15768, 					; $9E	- oops
-		dcSample	TYPE_PCM, ChillToTheMax, 20454, 				; $9F	- Lightning_Splash - Chill To The Max
-		dcSample	TYPE_PCM, Mogege, 		7551, FLAGS_PRIORITY	; $A0	- Mogege~
-		dcSample	TYPE_PCM, Minnaaa, 		7551, FLAGS_PRIORITY	; $A1	- Minnaaa!
-		dcSample	TYPE_PCM, Mogegegege, 	7551, FLAGS_PRIORITY	; $A2	- Mogegegege
-		dcSample	TYPE_PCM, Strike, 		20454, FLAGS_PRIORITY	; $A3	- Strike
-		dcSample	TYPE_PCM, Scream, 		20454, FLAGS_PRIORITY	; $A4	- Scream
-		dcSample	TYPE_PCM, Ground, 		20454, FLAGS_PRIORITY	; $A5   - Ground Wave
-		dcSample	TYPE_PCM, ThankYou, 	22050, FLAGS_PRIORITY	; $A6   - Thank you <3
+		dcSample	TYPE_PCM, SonicCD_Yes, 	22095, FLAGS_SFX 	; $9C	- Sonic CD Yes
+		dcSample	TYPE_PCM, Winrar, 		22050, FLAGS_SFX			; $9D	- Winrar
+		dcSample	TYPE_PCM, Invalid, 		15768, FLAGS_SFX			; $9E	- oops
+		dcSample	TYPE_PCM, ChillToTheMax, 22050, FLAGS_SFX				; $9F	- Lightning_Splash - Chill To The Max
+		dcSample	TYPE_PCM, Mogege, 		7551, FLAGS_SFX	; $A0	- Mogege~
+		dcSample	TYPE_PCM, Minnaaa, 		7551, FLAGS_SFX	; $A1	- Minnaaa!
+		dcSample	TYPE_PCM, Mogegegege, 	7551, FLAGS_SFX	; $A2	- Mogegegege
+		dcSample	TYPE_PCM, Strike, 		20454, FLAGS_SFX	; $A3	- Strike
+		dcSample	TYPE_PCM, Scream, 		20454, FLAGS_SFX	; $A4	- Scream
+		dcSample	TYPE_PCM, Ground, 		20454, FLAGS_SFX	; $A5   - Ground Wave
+		dcSample	TYPE_PCM, ThankYou, 	22050, FLAGS_SFX	; $A6   - Thank you <3
 SampleTable_End:
 
 ; ---------------------------------------------------------------
