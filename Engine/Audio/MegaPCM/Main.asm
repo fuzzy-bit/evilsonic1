@@ -76,13 +76,13 @@ SampleTable:
 		dcSample	TYPE_PCM, Winrar, 		22050, FLAGS_SFX|FLAGS_PANLR; $9D	- Winrar
 		dcSample	TYPE_PCM, Invalid, 		15768, FLAGS_SFX			; $9E	- oops
 		dcSample	TYPE_PCM, ChillToTheMax, 22050, FLAGS_SFX|FLAGS_PANLR ; $9F	- Lightning_Splash - Chill To The Max
-		dcSample	TYPE_PCM, Mogege, 		7551, FLAGS_SFX	; $A0	- Mogege~
-		dcSample	TYPE_PCM, Minnaaa, 		7551, FLAGS_SFX	; $A1	- Minnaaa!
-		dcSample	TYPE_PCM, Mogegegege, 	7551, FLAGS_SFX	; $A2	- Mogegegege
-		dcSample	TYPE_PCM, Strike, 		20454, FLAGS_SFX	; $A3	- Strike
-		dcSample	TYPE_PCM, Scream, 		20454, FLAGS_SFX	; $A4	- Scream
-		dcSample	TYPE_PCM, Ground, 		20454, FLAGS_SFX	; $A5   - Ground Wave
-		dcSample	TYPE_PCM, ThankYou, 	22050, FLAGS_SFX	; $A6   - Thank you <3
+		dcSample	TYPE_PCM, Mogege, 		7551, FLAGS_SFX|FLAGS_PANLR	; $A0	- Mogege~
+		dcSample	TYPE_PCM, Minnaaa, 		7551, FLAGS_SFX|FLAGS_PANLR	; $A1	- Minnaaa!
+		dcSample	TYPE_PCM, Mogegegege, 	7551, FLAGS_SFX|FLAGS_PANLR	; $A2	- Mogegegege
+		dcSample	TYPE_PCM, Strike, 		20454, FLAGS_SFX|FLAGS_PANLR	; $A3	- Strike
+		dcSample	TYPE_PCM, Scream, 		20454, FLAGS_SFX|FLAGS_PANLR	; $A4	- Scream
+		dcSample	TYPE_PCM, Ground, 		20454, FLAGS_SFX|FLAGS_PANLR	; $A5   - Ground Wave
+		dcSample	TYPE_PCM, ThankYou, 	22050, FLAGS_SFX|FLAGS_PANLR	; $A6   - Thank you <3
 SampleTable_End:
 
 ; ---------------------------------------------------------------

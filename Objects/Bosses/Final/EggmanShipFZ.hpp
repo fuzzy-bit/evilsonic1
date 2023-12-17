@@ -21,8 +21,9 @@ struct ObjEggmanShipFZ : public LevelObject {
 	void generateProjectiles();
 
 	void script00_Intro();
-	void script01_Attack();
-	void script02_Defeated();
+	void script01_Phase1();
+	void script02_Phase2();
+	void script03_Defeated();
 };
 
 /* Use C-style exports to avoid name mangling */

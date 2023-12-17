@@ -26,11 +26,16 @@ void ObjEggmanShipFZ::executeMasterScript() {
 
 	case 0x01:
 		generateProjectiles();
-		script01_Attack();
+		script01_Phase1();
 		goto handleDamageAndMovement;
 
 	case 0x02:
-		script02_Defeated();
+		generateProjectiles();
+		script02_Phase2();
+		goto handleDamageAndMovement;
+
+	case 0x03:
+		script03_Defeated();
 		goto handleMovement;
 
 	handleDamageAndMovement:
@@ -81,7 +86,7 @@ void ObjEggmanShipFZ::script00_Intro() {
 			forceLaugh = true;		// we're laughin'
 
 			status_bits |= 1;		// turn right
-			health = 8;				// we're healthy
+			health = 0xF;			// we're healthy
 			genericCounter = 30;
 
 			scriptRoutineId++;
@@ -116,9 +121,14 @@ void ObjEggmanShipFZ::script00_Intro() {
 }
 
 
-void ObjEggmanShipFZ::script01_Attack() {
+void ObjEggmanShipFZ::script01_Phase1() {
 	const int16_t targetX = cameraBase.x + 320/2 + calcSine__cdecl(genericCounter++) / 8;
 	const int16_t targetY = cameraBase.y + 224/2 - 0x40;
+
+	if (health <= 8) {
+		collision_flag = 0x9A;
+		scriptRoutineId = 1;
+	}
 
 	if (position.x > targetX && velocity.xf > -0x200) {
 		velocity.xf -= 0x04;
@@ -140,7 +150,12 @@ void ObjEggmanShipFZ::script01_Attack() {
 }
 
 
-void ObjEggmanShipFZ::script02_Defeated() {
+void ObjEggmanShipFZ::script02_Phase2() {
+	script01_Phase1()
+}
+
+
+void ObjEggmanShipFZ::script03_Defeated() {
 	switch (scriptRoutineId) {
 	case 0x00:
 		genericCounter = 180;
@@ -190,7 +205,7 @@ void ObjEggmanShipFZ::script02_Defeated() {
 }
 
 void ObjEggmanShipFZ::generateProjectiles() {
-	if ((v_framecount & 0x3F) == 0) {
+	if ((v_framecount & 0x2F) == 0) {
 		auto plasmaBall = create_ObjPlasmaBall(this, ObjPlasmaBall::fallingAttack);
 		if (plasmaBall) {
 			plasmaBall->position.x = cameraBase.x + 0x10 + (randomNumber__cdecl() & 7) * 0x27;
