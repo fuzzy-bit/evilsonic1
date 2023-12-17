@@ -45,6 +45,7 @@ id_Continue:	equ ptr_GM_Cont-GameModeArray	; $18
 id_Ending:	equ ptr_GM_Ending-GameModeArray	; $1C
 id_Credits:	equ ptr_GM_Credits-GameModeArray; $20
 id_Endscreen:	equ ptr_GM_Endscreen-GameModeArray; $24
+id_Retro:	equ ptr_GM_Retro-GameModeArray; $28
 
 ; Levels
 id_GHZ:		equ 0

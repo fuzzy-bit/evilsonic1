@@ -164,7 +164,7 @@ SonicRetro:
         dbf     d7, @IterateObjects ; If we're still in object space, continue
         rts
 
-; ===========================================================================   
+; ====================================================================================   
 
 @ObjectIndex:
         dc.l    RetroEmerald   ; $01

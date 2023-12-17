@@ -72,7 +72,7 @@ void ObjPlasmaBoss::execute() {
 		anim_id = 1;
 		collision_flag = 0xB;
 		health = 14;
-		playSound__cdecl(0x8C);
+		playSound__cdecl(0x8B);
 		setNextActionFromScript();
 		//fallthrough
 

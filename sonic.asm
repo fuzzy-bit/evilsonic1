@@ -26,7 +26,7 @@ Revision:	equ 1
 ; Custom engine flags
 Respawn: 	equ 0
 SpeedCap: 	equ 0
-Cheats: 	equ 0
+Cheats: 	equ 1
 
 ZoneCount:	equ 7	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, and SBZ
 
@@ -285,12 +285,16 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 ; SRAM
 ; ---------------------------------------------------------------------------
 		include "Engine/SRAM.asm"
+		dc.b	" MY BUNNI WEIGHS 2 KILOS... WHAT DO YOU THINK FACELESS FOX? "
+		even
 		
 ; ---------------------------------------------------------------------------
 ; Input
 ; ---------------------------------------------------------------------------
 		include	"Engine\Input\JoypadInit.asm"
 		include	"Engine\Input\ReadJoypads.asm"
+		dc.b	" THE 32X IS AN ADVANCED GOATSE BUTTPLUG "
+		even
 
 ; ---------------------------------------------------------------------------
 ; ---------------------------------------------------------------------------
@@ -302,6 +306,8 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 		include	"Engine\Rendering\Fading.asm"
 		include	"Engine\Rendering\Palette.asm"
 		include	"Engine\Rendering\VDPDrawBuffer.asm"
+		dc.b	" N IS FOR SUPEREGG "
+		even
 
 ; ---------------------------------------------------------------------------
 ; Compression
@@ -315,6 +321,8 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 
 		include	"Includes\PaletteCycle.asm"
 		include	"Includes\PauseGame.asm"
+		dc.b	" HOME OF CHALLENGE PISSING "
+		even
 
 
 
@@ -2848,6 +2856,9 @@ TitleBGMap: 	incbin "Data/Mappings/TileMaps/Title Screen Background.bin"
 TitleFGArt: 	incbin "Data/Art/Nemesis/Title Screen Foreground.bin"
 TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen.bin"
 
+; ---------------------------------------------------------------------------
+; More Modes
+; ---------------------------------------------------------------------------
 		include "Modes\Endscreen.asm"
 		include "Modes\Retro.asm"
 

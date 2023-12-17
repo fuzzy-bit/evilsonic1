@@ -99,8 +99,8 @@ MusicIndex:
 		dc.l @Fatality      ; 88
 		dc.l @Title         ; 89
 		dc.l @Boss          ; 8A
-		dc.l @Final1        ; 8B
-		dc.l @Final2        ; 8C
+		dc.l @FinalBoss     ; 8B
+		dc.l @RainingBlood  ; 8C
 		dc.l @Monsquaz      ; 8D
 		dc.l @Ambience      ; 8E
 		dc.l @Endurance     ; 8F
@@ -146,9 +146,9 @@ MusicIndex:
 					   even
 @Boss:                 incbin    Data\Audio\Music\Boss.bin
 					   even
-@Final2:               incbin    Data\Audio\Music\FinalBoss2.bin
+@RainingBlood:         incbin    Data\Audio\Music\RainingBlood.bin
 					   even
-@Final1:               incbin    Data\Audio\Music\FinalBoss1.bin
+@FinalBoss:            incbin    Data\Audio\Music\FinalBoss.bin
 					   even
 @Monsquaz:             incbin    Data\Audio\Music\Monsquaz.bin
 					   even
@@ -323,7 +323,8 @@ mus_sbz: equ		$86
 mus_invincibility: equ	$87
 mus_title: equ		$89
 mus_boss: equ		$8A
-mus_final: equ		$8C
+mus_finalboss: equ		$8B
+mus_rainblood: equ		$8C
 mus_fz: equ		$8E
 mus_zone7pre: equ	$8E
 mus_zone7: equ	$8F

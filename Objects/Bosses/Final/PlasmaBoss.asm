@@ -210,7 +210,7 @@ _ZN13ObjPlasmaBoss7executeEv:
 	move.b	#3, 24(a2)
 	move.b	#1, 28(a2)
 	move.w	#2830, 32(a2)
-	move.w	#140, -(sp)
+	move.w	#139, -(sp)
 	jsr	playSound__cdecl
 	move.b	45(a2), d1
 	move.b	d1, d2
@@ -1789,7 +1789,7 @@ execute_ObjPlasmaBoss:
 	move.b	#3, 24(a2)
 	move.b	#1, 28(a2)
 	move.w	#2830, 32(a2)
-	move.w	#140, -(sp)
+	move.w	#139, -(sp)
 	jsr	playSound__cdecl
 	move.b	45(a2), d1
 	move.b	d1, d2
