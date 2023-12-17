@@ -17,7 +17,9 @@ struct ObjEggmanShipFZ : public LevelObject {
 	bool forceLaugh;			/* 0x2C */
 
 	void executeMasterScript();
-	void handleDamage();
+    void handleDamage();
+    void moveAround();
+    void explode();
 	void generateProjectiles();
 
 	void script00_Intro();

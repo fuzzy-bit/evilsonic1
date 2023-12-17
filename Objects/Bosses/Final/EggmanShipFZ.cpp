@@ -15,6 +15,8 @@ const Vector2_W ObjEggmanShipFZ::cameraBase = {
 	.y = 0x0580,
 };
 
+const int16_t initialHealth = 0xF;
+
 
 /* Entry point for Eggman ship's master script */
 void ObjEggmanShipFZ::executeMasterScript() {
@@ -75,6 +77,40 @@ void ObjEggmanShipFZ::handleDamage() {
 	}
 }
 
+void ObjEggmanShipFZ::moveAround() {
+    const int16_t targetX = cameraBase.x + 320/2 + calcSine__cdecl(genericCounter++) / 8;
+    const int16_t targetY = cameraBase.y + 224/2 - 0x40;
+
+    if (position.x > targetX && velocity.xf > -0x200) {
+        velocity.xf -= 0x04;
+        status_bits &= -2;
+    }
+    if (position.x < targetX && velocity.xf < 0x200) {
+        velocity.xf += 0x04;
+        status_bits |= 1;
+    }
+
+    if (position.y > targetY && velocity.yf >= -0x180) {
+        velocity.yf -= 0x02;
+    }
+    if (position.y < targetY && velocity.yf <= 0x100) {
+        velocity.yf += 0x02;
+    }
+
+    speedToPos();
+}
+
+void ObjEggmanShipFZ::explode() {
+    LevelObject * explosion = static_cast<LevelObject*>(findFreeObj__cdecl());
+
+    if (explosion) {
+        explosion->id = 0x3F;
+        explosion->position = position;
+        explosion->position.x += ((randomNumber__cdecl() & 0xFF) >> 2) - 0x20;
+        explosion->position.y += ((randomNumber__cdecl() & 0xFF) >> 3);
+    }
+}
+
 void ObjEggmanShipFZ::script00_Intro() {
 	switch (scriptRoutineId) {
 	case 0x00:
@@ -86,7 +122,7 @@ void ObjEggmanShipFZ::script00_Intro() {
 			forceLaugh = true;		// we're laughin'
 
 			status_bits |= 1;		// turn right
-			health = 0xF;			// we're healthy
+			health = initialHealth;	// we're healthy
 			genericCounter = 30;
 
 			scriptRoutineId++;
@@ -122,36 +158,42 @@ void ObjEggmanShipFZ::script00_Intro() {
 
 
 void ObjEggmanShipFZ::script01_Phase1() {
-	const int16_t targetX = cameraBase.x + 320/2 + calcSine__cdecl(genericCounter++) / 8;
-	const int16_t targetY = cameraBase.y + 224/2 - 0x40;
+    switch (scriptRoutineId) {
+        case 0x00: {
+            if (health <= 8) {
+                collision_flag = 0x9A;
+                genericCounter = 100;
+                scriptRoutineId++;
+            }
 
-	if (health <= 8) {
-		collision_flag = 0x9A;
-		scriptRoutineId = 1;
-	}
+            moveAround();
+            break;
+        }
 
-	if (position.x > targetX && velocity.xf > -0x200) {
-		velocity.xf -= 0x04;
-		status_bits &= -2;
-	}
-	if (position.x < targetX && velocity.xf < 0x200) {
-		velocity.xf += 0x04;
-		status_bits |= 1;
-	}
+        case 0x01: {
+            velocity = { .xf = 0, .yf = 0 };
+            forceLaugh = false;	// QUIT YAPPING
 
-	if (position.y > targetY && velocity.yf >= -0x180) {
-		velocity.yf -= 0x02;
-	}
-	if (position.y < targetY && velocity.yf <= 0x100) {
-		velocity.yf += 0x02;
-	}
+            if (genericCounter) {
+                if ((v_framecount & 3) == 0) {
+                    explode();
+                }
 
-	speedToPos();
+                if (!--genericCounter) {
+                    forceLaugh = true;
+                    collision_flag = 0xF;
+                    scriptId = 2;
+                }
+            }
+
+            break;
+        }
+    }
 }
 
 
 void ObjEggmanShipFZ::script02_Phase2() {
-	script01_Phase1()
+	moveAround();
 }
 
 
@@ -167,13 +209,7 @@ void ObjEggmanShipFZ::script03_Defeated() {
 	case 0x01:
 		// Boss defeated sequence
 		if ((v_framecount & 3) == 0) {
-			LevelObject * explosion = static_cast<LevelObject*>(findFreeObj__cdecl());
-			if (explosion) {
-				explosion->id = 0x3F;
-				explosion->position = position;
-				explosion->position.x += ((randomNumber__cdecl() & 0xFF) >> 2) - 0x20;
-				explosion->position.y += ((randomNumber__cdecl() & 0xFF) >> 3);
-			}
+            explode();
 		}
 		// Wait before fall
 		if (genericCounter) {

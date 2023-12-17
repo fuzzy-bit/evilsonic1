@@ -8,19 +8,15 @@ _ZN13ObjEggmanShip19executeMasterScriptEv:
 	cmp.b	#2, d0
 	beq	@L3
 	tst.b	d0
-	beq	@L16
-	illegal	
-	move.l	(sp)+, a2
-	rts	
-@L2:
+	bne	@L4
 	move.l	a2, -(sp)
-	jsr	_ZN13ObjEggmanShip22script01_ThrowSequenceEv
+	jsr	_ZN13ObjEggmanShip14script00_IntroEv
 	addq.l	#4, sp
 @L5:
 	tst.b	32(a2)
 	bne	@L6
 	move.b	42(a2), d0
-	beq	@L17
+	beq	@L16
 	subq.b	#1, d0
 	move.b	d0, 42(a2)
 	bne	@L9
@@ -34,14 +30,9 @@ _ZN13ObjEggmanShip19executeMasterScriptEv:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-@L18:
+@L1:
 	move.l	(sp)+, a2
 	rts	
-@L16:
-	move.l	a2, -(sp)
-	jsr	_ZN13ObjEggmanShip14script00_IntroEv
-	addq.l	#4, sp
-	bra	@L5
 @L3:
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjEggmanShip17script02_DefeatedEv
@@ -54,13 +45,22 @@ _ZN13ObjEggmanShip19executeMasterScriptEv:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-	bra	@L18
-@L17:
+	bra	@L1
+@L4:
+	illegal	
+	move.l	(sp)+, a2
+	rts	
+@L2:
+	move.l	a2, -(sp)
+	jsr	_ZN13ObjEggmanShip22script01_ThrowSequenceEv
+	addq.l	#4, sp
+	bra	@L5
+@L16:
 	move.w	#172, -(sp)
 	jsr	playSound__cdecl
 	addq.l	#2, sp
 	tst.b	34(a2)
-	blt	@L19
+	blt	@L17
 	move.b	#32, 42(a2)
 @L9:
 	move.w	#3822, d0
@@ -77,8 +77,8 @@ _ZN13ObjEggmanShip19executeMasterScriptEv:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-	bra	@L18
-@L19:
+	bra	@L1
+@L17:
 	move.w	#512, 40(a2)
 	move.w	16(a2), d0
 	ext.l	d0
@@ -88,39 +88,39 @@ _ZN13ObjEggmanShip19executeMasterScriptEv:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-	bra	@L18
+	bra	@L1
 	even
 _ZN13ObjEggmanShip12handleDamageEv:
 	move.l	a2, -(sp)
 	move.l	8(sp), a2
 	tst.b	32(a2)
-	bne	@L20
+	bne	@L18
 	move.b	42(a2), d0
-	beq	@L30
+	beq	@L28
 	subq.b	#1, d0
 	move.b	d0, 42(a2)
-	bne	@L24
+	bne	@L22
 	move.b	#15, 32(a2)
-@L20:
+@L18:
 	move.l	(sp)+, a2
 	rts	
-@L30:
+@L28:
 	move.w	#172, -(sp)
 	jsr	playSound__cdecl
 	addq.l	#2, sp
 	tst.b	34(a2)
-	blt	@L31
+	blt	@L29
 	move.b	#32, 42(a2)
-@L24:
+@L22:
 	move.w	#3822, d0
 	tst.w	-1246.w
-	beq	@L26
+	beq	@L24
 	clr.w	d0
-@L26:
+@L24:
 	move.w	d0, -1246.w
 	move.l	(sp)+, a2
 	rts	
-@L31:
+@L29:
 	move.w	#512, 40(a2)
 	move.l	(sp)+, a2
 	rts	
@@ -130,74 +130,74 @@ _ZN13ObjEggmanShip14script00_IntroEv:
 	move.l	8(sp), a2
 	move.b	41(a2), d0
 	cmp.b	#2, d0
-	beq	@L33
-	bhi	@L34
+	beq	@L31
+	bhi	@L32
 	tst.b	d0
-	beq	@L58
+	beq	@L56
 	move.w	12(a2), d0
 	sub.w	-2300.w, d0
 	cmp.w	#16, d0
-	ble	@L32
+	ble	@L30
 	move.w	18(a2), d0
-	bgt	@L59
+	bgt	@L57
 	clr.w	18(a2)
 	move.b	43(a2), d0
 	move.b	d0, d1
 	subq.b	#1, d1
 	move.b	d1, 43(a2)
 	tst.b	d0
-	bne	@L32
+	bne	@L30
 	clr.b	44(a2)
 	move.w	#-512, 16(a2)
 	move.w	#384, 18(a2)
 	move.b	#2, 41(a2)
-@L32:
+@L30:
 	move.l	(sp)+, a2
 	rts	
-@L34:
+@L32:
 	cmp.b	#3, d0
-	bne	@L32
+	bne	@L30
 	move.b	43(a2), d0
-	bne	@L60
+	bne	@L58
 	move.w	-2304.w, a1
 	lea	(208, a1), a1
 	move.w	-2300.w, d1
 	add.w	#32, d1
 	move.w	12(a2), a0
 	cmp.w	a0, d1
-	bge	@L45
+	bge	@L43
 	move.w	18(a2), d0
 	cmp.w	#-511, d0
-	bge	@L61
-@L47:
+	bge	@L59
+@L45:
 	move.w	d0, 18(a2)
 	move.w	8(a2), d0
 	cmp.w	a1, d0
-	ble	@L49
+	ble	@L47
 	move.w	16(a2), d0
 	cmp.w	#576, d0
-	ble	@L32
+	ble	@L30
 	add.w	#-12, d0
 	move.w	d0, 16(a2)
 	move.l	(sp)+, a2
 	rts	
-@L33:
+@L31:
 	move.w	16(a2), d0
 	cmp.w	#1023, d0
-	bgt	@L42
+	bgt	@L40
 	add.w	#24, d0
 	move.w	d0, 16(a2)
-@L42:
+@L40:
 	move.w	18(a2), d0
 	cmp.w	#-511, d0
-	blt	@L43
+	blt	@L41
 	subq.w	#8, d0
 	move.w	d0, 18(a2)
-@L43:
+@L41:
 	move.w	8(a2), d0
 	sub.w	-2304.w, d0
 	cmp.w	#256, d0
-	ble	@L32
+	ble	@L30
 	addq.b	#2, v_dle_routine
 	move.b	#1, f_timecount
 	move.w	#140, -(sp)
@@ -207,7 +207,7 @@ _ZN13ObjEggmanShip14script00_IntroEv:
 	addq.l	#2, sp
 	move.l	(sp)+, a2
 	rts	
-@L58:
+@L56:
 	move.w	-2304.w, d0
 	add.w	#160, d0
 	move.w	d0, 8(a2)
@@ -222,127 +222,125 @@ _ZN13ObjEggmanShip14script00_IntroEv:
 	move.b	#1, 41(a2)
 	sub.w	-2300.w, d0
 	cmp.w	#16, d0
-	ble	@L32
+	ble	@L30
 	move.w	#500, d0
 	move.w	d0, 18(a2)
-@L62:
+@L60:
 	move.l	(sp)+, a2
 	rts	
-@L60:
+@L58:
 	subq.b	#1, d0
 	move.b	d0, 43(a2)
 	move.l	(sp)+, a2
 	rts	
-@L45:
+@L43:
 	cmp.w	a0, d1
-	ble	@L54
+	ble	@L52
 	move.w	18(a2), d0
 	cmp.w	#511, d0
-	bgt	@L47
+	bgt	@L45
 	addq.w	#4, d0
-	bra	@L47
-@L49:
+	bra	@L45
+@L47:
 	cmp.w	a1, d0
-	blt	@L50
+	blt	@L48
 	move.w	#768, 16(a2)
 	cmp.w	a0, d1
-	bne	@L32
+	bne	@L30
 	cmp.l	#50331648, 16(a2)
-	bne	@L32
+	bne	@L30
 	move.w	#256, 40(a2)
 	move.l	(sp)+, a2
 	rts	
-@L61:
+@L59:
 	subq.w	#4, d0
-	bra	@L47
-@L50:
+	bra	@L45
+@L48:
 	move.w	16(a2), d0
 	cmp.w	#1279, d0
-	bgt	@L52
+	bgt	@L50
 	add.w	#12, d0
-@L52:
+@L50:
 	move.w	d0, 16(a2)
 	move.l	(sp)+, a2
 	rts	
-@L54:
+@L52:
 	clr.w	d0
-	bra	@L47
-@L59:
+	bra	@L45
+@L57:
 	add.w	#-12, d0
 	move.w	d0, 18(a2)
-	bra	@L62
+	bra	@L60
 	even
 _ZN13ObjEggmanShip22script01_ThrowSequenceEv:
 	movem.l	d2/d3/a2, -(sp)
 	move.l	16(sp), a2
 	move.b	41(a2), d0
-	beq	@L64
+	beq	@L62
 	cmp.b	#1, d0
-	bne	@L63
+	beq	@L81
+@L61:
+	movem.l	(sp)+, d2/d3/a2
+	rts	
+@L81:
 	move.w	8(a2), d0
 	move.w	12(a2), d3
 	move.w	16(a2), d1
+@L64:
 	move.w	d0, d2
 	sub.w	-2304.w, d2
 	sub.w	-2300.w, d3
 	move.w	18(a2), d0
 	cmp.w	#239, d2
-	bgt	@L67
-@L86:
+	bgt	@L65
 	addq.w	#2, d1
 	subq.w	#1, d0
+@L66:
 	move.w	d1, 16(a2)
 	move.w	d0, 18(a2)
 	cmp.w	#40, d3
-	ble	@L69
-@L85:
+	ble	@L67
 	tst.w	d0
-	ble	@L70
+	ble	@L68
 	subq.w	#6, d0
 	move.w	d0, 18(a2)
-@L70:
+@L68:
 	cmp.b	#8, 33(a2)
-	bhi	@L63
+	bhi	@L61
 	move.b	43(a2), d0
-	beq	@L79
+	beq	@L77
 	subq.b	#1, d0
 	move.b	d0, 43(a2)
 	cmp.b	#90, d0
-	beq	@L83
+	beq	@L82
 	cmp.b	#60, d0
-	beq	@L84
+	beq	@L83
 	tst.b	d0
-	beq	@L79
-@L63:
-	movem.l	(sp)+, d2/d3/a2
-	rts	
-@L67:
-	subq.w	#1, d1
-	addq.w	#1, d0
-	move.w	d1, 16(a2)
-	move.w	d0, 18(a2)
-	cmp.w	#40, d3
-	bgt	@L85
-@L69:
-	cmp.w	#11, d3
-	bgt	@L70
-	tst.w	d0
-	bge	@L70
-	addq.w	#8, d0
-	move.w	d0, 18(a2)
-	bra	@L70
-@L79:
+	bne	@L61
+@L77:
 	add.w	#-201, d2
 	cmp.w	#73, d2
-	bhi	@L63
+	bhi	@L61
 	add.w	#-33, d3
 	cmp.w	#43, d3
-	bhi	@L63
+	bhi	@L61
 	move.b	#120, 43(a2)
 	move.b	#1, 44(a2)
 	movem.l	(sp)+, d2/d3/a2
 	rts	
-@L64:
+@L67:
+	cmp.w	#11, d3
+	bgt	@L68
+	tst.w	d0
+	bge	@L68
+	addq.w	#8, d0
+	move.w	d0, 18(a2)
+	bra	@L68
+@L65:
+	subq.w	#1, d1
+	addq.w	#1, d0
+	bra	@L66
+@L62:
 	move.w	-2304.w, d0
 	add.w	#208, d0
 	move.w	d0, 8(a2)
@@ -351,112 +349,103 @@ _ZN13ObjEggmanShip22script01_ThrowSequenceEv:
 	move.w	d3, 12(a2)
 	move.b	#1, 41(a2)
 	move.w	#768, d1
-	move.w	d0, d2
-	sub.w	-2304.w, d2
-	sub.w	-2300.w, d3
-	move.w	18(a2), d0
-	cmp.w	#239, d2
-	bgt	@L67
-	bra	@L86
-@L84:
+	bra	@L64
+@L83:
 	clr.b	44(a2)
 	movem.l	(sp)+, d2/d3/a2
 	rts	
-@L83:
+@L82:
 	jsr	randomNumber__cdecl
 	btst	#0, d0
-	beq	@L80
+	beq	@L78
 	move.l	#execute_ObjGHZBossEggmanMonitor, d0
-@L76:
+@L74:
 	move.l	d0, -(sp)
 	move.l	a2, -(sp)
 	jsr	createCppObject__cdecl
 	move.l	d0, a0
 	addq.l	#8, sp
 	tst.l	d0
-	beq	@L77
+	beq	@L75
 	move.l	16(a2), 16(a0)
 	move.l	8(a2), d0
 	move.l	12(a2), d1
 	move.l	d0, 8(a0)
 	move.l	d1, 12(a0)
 	move.b	43(a2), d0
-	bne	@L63
-	bra	@L79
-@L80:
+	bne	@L61
+	bra	@L77
+@L78:
 	move.l	#execute_ObjGHZBossSpikedBall, d0
-	bra	@L76
-@L77:
+	bra	@L74
+@L75:
 	move.b	43(a2), d0
-	bne	@L63
-	bra	@L79
+	bne	@L61
+	bra	@L77
 	even
 _ZN13ObjEggmanShip17script02_DefeatedEv:
 	movem.l	d2/a2/a3/a4, -(sp)
 	move.l	20(sp), a2
 	move.b	41(a2), d0
 	cmp.b	#1, d0
-	beq	@L88
+	beq	@L85
 	cmp.b	#2, d0
-	beq	@L89
+	beq	@L86
 	tst.b	d0
-	beq	@L106
-@L87:
-	movem.l	(sp)+, d2/a2/a3/a4
-	rts	
-@L106:
+	bne	@L84
 	move.b	#-76, 43(a2)
 	clr.b	44(a2)
 	move.b	#1, 41(a2)
-@L88:
+@L85:
 	move.w	-2300.w, d1
 	add.w	#32, d1
 	move.w	16(a2), d0
 	move.w	-2304.w, d2
 	add.w	#160, d2
 	cmp.w	8(a2), d2
-	bge	@L91
+	bge	@L88
 	cmp.w	#256, d0
-	bgt	@L107
-@L93:
+	bgt	@L103
+@L90:
 	move.w	d0, 16(a2)
 	move.w	18(a2), d0
 	cmp.w	12(a2), d1
-	bge	@L95
-@L109:
+	bge	@L92
+@L105:
 	cmp.w	#-255, d0
-	blt	@L97
+	blt	@L94
 	subq.w	#4, d0
-@L97:
+@L94:
 	move.w	d0, 18(a2)
 	move.w	v_framecount, d0
 	and.w	#3, d0
-	beq	@L108
-@L100:
+	beq	@L104
+@L97:
 	move.b	43(a2), d0
-	beq	@L102
+	beq	@L99
 	subq.b	#1, d0
 	move.b	d0, 43(a2)
+@L84:
 	movem.l	(sp)+, d2/a2/a3/a4
 	rts	
-@L91:
+@L88:
 	cmp.w	#1023, d0
-	bgt	@L93
+	bgt	@L90
 	add.w	#14, d0
 	move.w	d0, 16(a2)
 	move.w	18(a2), d0
 	cmp.w	12(a2), d1
-	blt	@L109
-@L95:
+	blt	@L105
+@L92:
 	cmp.w	#255, d0
-	bgt	@L97
+	bgt	@L94
 	addq.w	#4, d0
 	move.w	d0, 18(a2)
 	move.w	v_framecount, d0
 	and.w	#3, d0
-	bne	@L100
-	bra	@L108
-@L89:
+	bne	@L97
+	bra	@L104
+@L86:
 	add.w	#32, 16(a2)
 	add.w	#-18, 18(a2)
 	move.b	43(a2), d0
@@ -464,7 +453,7 @@ _ZN13ObjEggmanShip17script02_DefeatedEv:
 	subq.b	#1, d1
 	move.b	d1, 43(a2)
 	tst.b	d0
-	bne	@L87
+	bne	@L84
 	clr.w	8(a2)
 	clr.w	12(a2)
 	move.w	#129, -(sp)
@@ -474,18 +463,18 @@ _ZN13ObjEggmanShip17script02_DefeatedEv:
 	addq.l	#2, sp
 	movem.l	(sp)+, d2/a2/a3/a4
 	rts	
-@L102:
+@L99:
 	move.b	#120, 43(a2)
 	move.w	#256, 16(a2)
 	move.w	#768, 18(a2)
 	addq.b	#1, 41(a2)
 	movem.l	(sp)+, d2/a2/a3/a4
 	rts	
-@L108:
+@L104:
 	jsr	findFreeObj__cdecl
 	move.l	d0, a3
 	tst.l	d0
-	beq	@L100
+	beq	@L97
 	move.b	#63, (a3)
 	move.l	8(a2), d0
 	move.l	12(a2), d1
@@ -504,10 +493,10 @@ _ZN13ObjEggmanShip17script02_DefeatedEv:
 	moveq	#31, d1
 	and.l	d1, d0
 	add.w	d0, 12(a3)
-	bra	@L100
-@L107:
+	bra	@L97
+@L103:
 	add.w	#-14, d0
-	bra	@L93
+	bra	@L90
 	even
 _ZN13ObjEggmanShip11throwObjectEPFvR11LevelObjectE:
 	move.l	a2, -(sp)
@@ -518,13 +507,13 @@ _ZN13ObjEggmanShip11throwObjectEPFvR11LevelObjectE:
 	move.l	d0, a0
 	addq.l	#8, sp
 	tst.l	d0
-	beq	@L110
+	beq	@L106
 	move.l	16(a2), 16(a0)
 	move.l	8(a2), d0
 	move.l	12(a2), d1
 	move.l	d0, 8(a0)
 	move.l	d1, 12(a0)
-@L110:
+@L106:
 	move.l	(sp)+, a2
 	rts	
 	even
@@ -533,28 +522,24 @@ executeMasterScript_ObjEggmanShip:
 	move.l	8(sp), a2
 	move.b	40(a2), d0
 	cmp.b	#1, d0
-	beq	@L115
+	beq	@L111
 	cmp.b	#2, d0
-	beq	@L116
+	beq	@L112
 	tst.b	d0
-	beq	@L129
-	illegal	
-	move.l	(sp)+, a2
-	rts	
-@L115:
+	bne	@L113
 	move.l	a2, -(sp)
-	jsr	_ZN13ObjEggmanShip22script01_ThrowSequenceEv
+	jsr	_ZN13ObjEggmanShip14script00_IntroEv
 	addq.l	#4, sp
-@L118:
+@L114:
 	tst.b	32(a2)
-	bne	@L119
+	bne	@L115
 	move.b	42(a2), d0
-	beq	@L130
+	beq	@L125
 	subq.b	#1, d0
 	move.b	d0, 42(a2)
-	bne	@L122
+	bne	@L118
 	move.b	#15, 32(a2)
-@L119:
+@L115:
 	move.w	16(a2), d0
 	ext.l	d0
 	lsl.l	#8, d0
@@ -563,15 +548,10 @@ executeMasterScript_ObjEggmanShip:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-@L131:
+@L110:
 	move.l	(sp)+, a2
 	rts	
-@L129:
-	move.l	a2, -(sp)
-	jsr	_ZN13ObjEggmanShip14script00_IntroEv
-	addq.l	#4, sp
-	bra	@L118
-@L116:
+@L112:
 	move.l	a2, -(sp)
 	jsr	_ZN13ObjEggmanShip17script02_DefeatedEv
 	addq.l	#4, sp
@@ -583,20 +563,29 @@ executeMasterScript_ObjEggmanShip:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-	bra	@L131
-@L130:
+	bra	@L110
+@L113:
+	illegal	
+	move.l	(sp)+, a2
+	rts	
+@L111:
+	move.l	a2, -(sp)
+	jsr	_ZN13ObjEggmanShip22script01_ThrowSequenceEv
+	addq.l	#4, sp
+	bra	@L114
+@L125:
 	move.w	#172, -(sp)
 	jsr	playSound__cdecl
 	addq.l	#2, sp
 	tst.b	34(a2)
-	blt	@L132
+	blt	@L126
 	move.b	#32, 42(a2)
-@L122:
+@L118:
 	move.w	#3822, d0
 	tst.w	-1246.w
-	beq	@L124
+	beq	@L120
 	clr.w	d0
-@L124:
+@L120:
 	move.w	d0, -1246.w
 	move.w	16(a2), d0
 	ext.l	d0
@@ -606,8 +595,8 @@ executeMasterScript_ObjEggmanShip:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-	bra	@L131
-@L132:
+	bra	@L110
+@L126:
 	move.w	#512, 40(a2)
 	move.w	16(a2), d0
 	ext.l	d0
@@ -617,4 +606,4 @@ executeMasterScript_ObjEggmanShip:
 	ext.l	d0
 	lsl.l	#8, d0
 	add.l	d0, 12(a2)
-	bra	@L131
+	bra	@L110
