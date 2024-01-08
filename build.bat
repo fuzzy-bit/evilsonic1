@@ -18,7 +18,7 @@ goto :Assemble
 
 		if not exist .build\log\sonic.obj pause & exit
 
-		.build\psylink.exe /p .build\log\sonic.obj Libs/veps.obj,s1built.bin,.build\log\s1built.sym
+		.build\psylink.exe /p .build\log\sonic.obj Libs/veps.obj Libs/debugger.obj,s1built.bin,.build\log\s1built.sym
 		if not exist s1built.bin pause & exit
 
 		.build\convsym.exe .build\log\s1built.debug.sym s1built.bin -a -ref 200
@@ -32,7 +32,7 @@ goto :Assemble
 
 		if not exist .build\log\sonic.debug.obj pause & exit
 
-		.build\psylink.exe /p .build\log\sonic.debug.obj Libs/veps.debug.obj,s1built.debug.bin,.build\log\s1built.debug.sym
+		.build\psylink.exe /p .build\log\sonic.debug.obj Libs/veps.debug.obj Libs/debugger.obj,s1built.debug.bin,.build\log\s1built.debug.sym
 		if not exist s1built.debug.bin pause & exit
 
 		.build\convsym.exe .build\log\s1built.debug.sym s1built.debug.bin -a -ref 200
