@@ -49,7 +49,7 @@ ResetSRAM2:
 ; ===========================================================================
 SRAMDefaults:
 		dc.b 0, 3, 1, 0 			; Zone, Lives, Difficulty, Secret Progression
-		dc.b 0, 0, 0, 0 			; Secret Enabled, Game Completed, Null, Null
+		dc.b 1, 1, 0, 0 			; Secret Enabled, Game Completed, Null, Null
 		even
 
 

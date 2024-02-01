@@ -60,10 +60,17 @@ Pow_ChkSonic:
 		bne.s	Pow_ChkShoes
 
 	ExtraLife:
+		tst.b 	(v_secret).w ; secret enabled?
+		bne.s 	@KILLBOT ; KILLBOT
 		addq.b	#1,(v_lives).w	; add 1 to the number of lives you have
 		addq.b	#1,(f_lifecount).w ; update the lives counter
 		sfx		sfx_register	; play extra life music
 		rts
+
+	@KILLBOT:
+		lea 	(v_player),a0
+		jmp 	KillSonic
+
 ; ===========================================================================
 
 Pow_ChkShoes:

@@ -960,6 +960,13 @@ Menu_PlayLevel:
 		else
 			move.l	#5000,(v_scorelife).w ; extra life is awarded at 50000 points
 		endc
+		
+		tst.b 	v_secret
+		beq.s 	@PlayNormally
+		
+		jmp 	CISSplash
+	
+@PlayNormally:
 		command	mus_FadeOut	; fade out music
 		rts
 
@@ -1405,4 +1412,3 @@ Pal_MenuMain:
 
 	; Line 2
 	incbin	'Data/Palette/Menu Font.bin'
-

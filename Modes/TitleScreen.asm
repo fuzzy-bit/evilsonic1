@@ -2,7 +2,7 @@
 ; Title	screen
 ; ---------------------------------------------------------------------------
 
-StartingZone: 	equ 7
+StartingZone: 	equ 0
 
 ; Gonna redo the whole title screen at some point
 	rsset	$FFFF8000
@@ -334,53 +334,6 @@ LevSel_Ending:
 		
 ; ===========================================================================
 
-LevSel_Level_SS:
-		add.w	d0,d0
-		move.w	LevSel_Ptrs(pc,d0.w),d0 ; load level number
-		bmi.w	LevelSelect
-		cmpi.w	#id_SS*$100,d0	; check	if level is 0700 (Special Stage)
-		bne.s	LevSel_Level	; if not, branch
-		move.b	#id_Special,(v_gamemode).w ; set screen mode to $10 (Special Stage)
-		clr.w	(v_zone).w	; clear	level
-		move.b	#3,(v_lives).w	; set lives to 3
-		moveq	#0,d0
-		move.w	d0,(v_rings).w	; clear rings
-		move.l	d0,(v_time).w	; clear time
-		move.l	d0,(v_score).w	; clear score
-		if Revision=0
-		else
-			move.l	#5000,(v_scorelife).w ; extra life is awarded at 50000 points
-		endc
-		rts
-; ===========================================================================
-
-LevSel_Level:
-		andi.w	#$3FFF,d0
-		move.w	d0,(v_zone).w	; set level number
-		else
-		jsr		ResetSRAM
-		RaiseError "STOP CHEATING LOL                     GET FUCKED"
-		rts
-		endc
-
-PlayLevel:
-		move.b	#id_Level,(v_gamemode).w ; set screen mode to $0C (level)
-		move.b	#3,(v_lives).w	; set lives to 3
-		moveq	#0,d0
-		move.w	d0,(v_rings).w	; clear rings
-		move.l	d0,(v_time).w	; clear time
-		move.l	d0,(v_score).w	; clear score
-		move.b	d0,(v_lastspecial).w ; clear special stage number
-		move.b	d0,(v_emeralds).w ; clear emeralds
-		move.l	d0,(v_emldlist).w ; clear emeralds
-		move.l	d0,(v_emldlist+4).w ; clear emeralds
-		move.b	d0,(v_continues).w ; clear continues
-		if Revision=0
-		else
-			move.l	#5000,(v_scorelife).w ; extra life is awarded at 50000 points
-		endc
-		command	mus_FadeOut	; fade out music
-		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Level	select - level pointers
@@ -431,6 +384,58 @@ LevSel_Ptrs:	if Revision=0
 		dc.b id_SS, 0		; Special Stage
 		dc.w $8000		; Sound Test
 		even
+
+; ===========================================================================
+
+LevSel_Level_SS:
+		add.w	d0,d0
+		move.w	LevSel_Ptrs(pc,d0.w),d0 ; load level number
+		bmi.w	LevelSelect
+		cmpi.w	#id_SS*$100,d0	; check	if level is 0700 (Special Stage)
+		bne.s	LevSel_Level	; if not, branch
+		move.b	#id_Special,(v_gamemode).w ; set screen mode to $10 (Special Stage)
+		clr.w	(v_zone).w	; clear	level
+		move.b	#3,(v_lives).w	; set lives to 3
+		moveq	#0,d0
+		move.w	d0,(v_rings).w	; clear rings
+		move.l	d0,(v_time).w	; clear time
+		move.l	d0,(v_score).w	; clear score
+		if Revision=0
+		else
+			move.l	#5000,(v_scorelife).w ; extra life is awarded at 50000 points
+		endc
+		rts
+; ===========================================================================
+
+LevSel_Level:
+		andi.w	#$3FFF,d0
+		move.w	d0,(v_zone).w	; set level number
+		else
+		jsr		ResetSRAM
+		RaiseError "STOP CHEATING LOL                     GET FUCKED"
+		rts
+		endc
+
+PlayLevel:
+		jsr 	LoadSRAM
+		move.b	#id_Level,(v_gamemode).w ; set screen mode to $0C (level)
+		move.b	#3,(v_lives).w	; set lives to 3
+		moveq	#0,d0
+		move.w	d0,(v_rings).w	; clear rings
+		move.l	d0,(v_time).w	; clear time
+		move.l	d0,(v_score).w	; clear score
+		move.b	d0,(v_lastspecial).w ; clear special stage number
+		move.b	d0,(v_emeralds).w ; clear emeralds
+		move.l	d0,(v_emldlist).w ; clear emeralds
+		move.l	d0,(v_emldlist+4).w ; clear emeralds
+		move.b	d0,(v_continues).w ; clear continues
+		if Revision=0
+		else
+			move.l	#5000,(v_scorelife).w ; extra life is awarded at 50000 points
+		endc
+		command	mus_FadeOut	; fade out music
+		rts
+
 ; ---------------------------------------------------------------------------
 ; Level	select codes
 ; ---------------------------------------------------------------------------
