@@ -6,14 +6,14 @@
 
 rom:	section	org(0),obj(0)
 
+	xdef	SymbolData_Ptr
+
 	include	"Constants.asm"
 	include	"Variables.asm"
 	include	"Macros.asm"
 
 	include	"Libs/debugger.lib"
 	include	"Libs/veps.lib"
-
-	include "ErrorHandler/debugger.asm"
 
 SRAMEnabled:	equ 1	; change to 1 to enable SRAM
 
@@ -46,10 +46,10 @@ HiddenMessage:
 ; ===========================================================================
 ; Crash/Freeze the 68000. Unlike Sonic 2, Sonic 1 uses the 68000 for playing music, so it stops too
 
-;ErrorTrap:
-;		nop
-;		nop
-;		bra.s	ErrorTrap
+ErrorTrap:
+		nop
+		nop
+		bra.s	ErrorTrap
 ; ===========================================================================
 
 EntryPoint:
@@ -2799,8 +2799,8 @@ TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen.bin"
 		include "Modes\Retro.asm"
 
 ; ---------------------------------------------------------------------------
-; Error Handler
+; Extra bindings for MD Debugger
 ; ---------------------------------------------------------------------------
-		include	"ErrorHandler/Extras.asm"
-		include	"ErrorHandler/ErrorHandler.asm"
+		include	"Engine/DebuggerExtras.asm"
+
 EndOfRom:	END
