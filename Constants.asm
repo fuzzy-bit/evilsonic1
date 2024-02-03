@@ -229,4 +229,5 @@ SecretProgression:  rs.w 1
 SecretEnabled:      rs.w 1
 GameCompleted:      rs.w 1
 ShakeDisabled:      rs.w 1
+SavedRandomNumber:  rs.w 4
 SRAMLength:         rs.w 0

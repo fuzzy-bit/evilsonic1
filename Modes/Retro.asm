@@ -4,6 +4,7 @@
 SonicRetro:
         music   mus_stop
         
+        jsr     LoadRandom
         jsr     PaletteFadeOut
         jsr     ClearScreen
         jsr     ClearPLC

@@ -217,13 +217,14 @@ GameInit:
 
 		bsr.w	JoypadInit
 		jsr	VDPDraw_Init
-		move.b	#id_Sega,(v_gamemode).w ; set Game Mode to Sega Screen
+		move.b	#id_Sega, (v_gamemode).w ; set Game Mode to Sega Screen
 
-MainGameLoop:
+MainGameLoop:		
 		move.b	(v_gamemode).w,d0 ; load Game Mode
 		andi.w	#$7C,d0	; limit Game Mode value to $1C max (change to a maximum of 7C to add more game modes)
 		jsr	GameModeArray(pc,d0.w) ; jump to apt location in ROM
 		bra.s	MainGameLoop	; loop indefinitely
+
 		dc.b	"HEY GUYS IM ARIF TODAY IM GOING TO KILL MYSELF"
 		
 ; ===========================================================================
@@ -253,26 +254,8 @@ SonicRetroJump:
 
 ; ===========================================================================
 
-CheckSumError:
-		bsr.w	VDPSetup
-		move.l	#$C0000000,(vdp_control_port).l ; set VDP to CRAM write
-		moveq	#$3F,d7
-
-	@fillred:
-		move.w	#cRed,(vdp_data_port).l ; fill palette with red
-		dbf	d7,@fillred	; repeat $3F more times
-		
-		moveq  	#$FFFFFFA6,d0
-		jsr    	PlaySample
-
-	@endlessloop:
-		bra.s	@endlessloop
-; ===========================================================================
-
 Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level select and debug mode
 		even
-
-
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -787,128 +770,10 @@ Map_Swi:	include	"Data\Mappings\Objects\Unused Switch.asm"
 		include	"Data\Animations\SBZ Small Door.asm"
 Map_ADoor:	include	"Data\Mappings\Objects\SBZ Small Door.asm"
 
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
-
-
-Obj44_SolidWall:
-		bsr.w	Obj44_SolidWall2
-		beq.s	loc_8AA8
-		bmi.w	loc_8AC4
-		tst.w	d0
-		beq.w	loc_8A92
-		bmi.s	loc_8A7C
-		tst.w	obVelX(a1)
-		bmi.s	loc_8A92
-		bra.s	loc_8A82
+; ===========================================================================
+		include	"Engine\ObjectSystem\SolidWall.asm"
 ; ===========================================================================
 
-loc_8A7C:
-		tst.w	obVelX(a1)
-		bpl.s	loc_8A92
-
-loc_8A82:
-		sub.w	d0,obX(a1)
-		move.w	#0,obInertia(a1)
-		move.w	#0,obVelX(a1)
-
-loc_8A92:
-		btst	#1,obStatus(a1)
-		bne.s	loc_8AB6
-		bset	#5,obStatus(a1)
-		bset	#5,obStatus(a0)
-		rts
-; ===========================================================================
-
-loc_8AA8:
-		btst	#5,obStatus(a0)
-		beq.s	locret_8AC2
-		move.w	#id_Run,obAnim(a1)
-
-loc_8AB6:
-		bclr	#5,obStatus(a0)
-		bclr	#5,obStatus(a1)
-
-locret_8AC2:
-		rts
-; ===========================================================================
-
-loc_8AC4:
-		tst.w	obVelY(a1)
-		bpl.s	locret_8AD8
-		tst.w	d3
-		bpl.s	locret_8AD8
-		sub.w	d3,obY(a1)
-		move.w	#0,obVelY(a1)
-
-locret_8AD8:
-		rts
-; End of function Obj44_SolidWall
-
-
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
-
-
-Obj44_SolidWall2:
-		lea	(v_player).w,a1
-		move.w	obX(a1),d0
-		sub.w	obX(a0),d0
-		add.w	d1,d0
-		bmi.s	loc_8B48
-		move.w	d1,d3
-		add.w	d3,d3
-		cmp.w	d3,d0
-		bhi.s	loc_8B48
-		move.b	obHeight(a1),d3
-		ext.w	d3
-		add.w	d3,d2
-		move.w	obY(a1),d3
-		sub.w	obY(a0),d3
-		add.w	d2,d3
-		bmi.s	loc_8B48
-		move.w	d2,d4
-		add.w	d4,d4
-		cmp.w	d4,d3
-		bhs.s	loc_8B48
-		tst.b	(f_lockmulti).w
-		bmi.s	loc_8B48
-		cmpi.b	#6,(v_player+obRoutine).w
-		bhs.s	loc_8B48
-		tst.w	(v_debuguse).w
-		bne.s	loc_8B48
-		move.w	d0,d5
-		cmp.w	d0,d1
-		bhs.s	loc_8B30
-		add.w	d1,d1
-		sub.w	d1,d0
-		move.w	d0,d5
-		neg.w	d5
-
-loc_8B30:
-		move.w	d3,d1
-		cmp.w	d3,d2
-		bhs.s	loc_8B3C
-		sub.w	d4,d3
-		move.w	d3,d1
-		neg.w	d1
-
-loc_8B3C:
-		cmp.w	d1,d5
-		bhi.s	loc_8B44
-		moveq	#1,d4
-		rts
-; ===========================================================================
-
-loc_8B44:
-		moveq	#-1,d4
-		rts
-; ===========================================================================
-
-loc_8B48:
-		moveq	#0,d4
-		rts
-; End of function Obj44_SolidWall2
-
-; ===========================================================================
 		include	"Objects\Badniks\Ball Hog.asm"
 		include	"Objects\Badniks\Cannonball.asm"
 		include	"Objects\Effects\Explosions.asm"

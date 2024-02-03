@@ -274,6 +274,21 @@ DisableSRAM:	macro
 	endm
 
 ; ---------------------------------------------------------------------------
+; Template macros for SRAM-related routines
+; ---------------------------------------------------------------------------
+OperateInSRAM:	macro
+		move.w	sr, -(sp)
+		move	#$2700, sr
+		stopZ80
+		EnableSRAM
+		endm
+
+ExitSRAM:		macro
+		DisableSRAM
+		startZ80
+		move.w	(sp)+, sr
+		endm
+; ---------------------------------------------------------------------------
 ; compare the size of an index with ZoneCount constant
 ; (should be used immediately after the index)
 ; input: index address, element size

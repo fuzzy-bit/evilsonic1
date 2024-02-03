@@ -312,7 +312,7 @@ Level_MainLoop:
 		bsr.w	OscillateNumDo
 		bsr.w	SynchroAnimate
 		bsr.w	SignpostArtLoad
-
+		
 		cmpi.b	#id_Demo,(v_gamemode).w
 		beq.s	Level_ChkDemo	; if mode is 8 (demo), branch
 		if Revision=0
@@ -320,9 +320,16 @@ Level_MainLoop:
 		bne.w	Level	; if yes, branch
 		else
 		endc
+
+		add.w 	#$1000/8, v_autosave
+		bcc.s	@Continue
+		bsr.w 	SaveRandom
+
+@Continue:
 		cmpi.b	#id_Level,(v_gamemode).w
 		beq.w	Level_MainLoop	; if mode is $C (level), branch
 		rts
+
 ; ===========================================================================
 
 Level_ChkDemo:

@@ -277,7 +277,7 @@ v_title_dcount:	equ $FFFFFFE4	; number of times the d-pad is pressed on title sc
 v_title_ccount:	equ $FFFFFFE6	; number of times C is pressed on title screen (2 bytes)
 v_creditsnum:	equ $FFFFFFE8	; credits index number (2 bytes)
 
-v_autosave:		equ $FFFFFFEA	; overflow counter for autosaving a pseudorandom number
+v_autosave:		equ $FFFFFFEA	; overflow counter for autosaving a pseudorandom number (2 bytes)
 
 v_csum_addr:	equ $FFFFFFEC	; the checksum address we're checking (4 bytes)
 v_csum_value:	equ $FFFFFFF0	; the accumulated value of checksum check (2 bytes)

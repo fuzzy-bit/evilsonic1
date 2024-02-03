@@ -45,8 +45,6 @@ SegaScreen:
 		ori.b	#$40, d0				; enable display
 		move.w	d0, (vdp_control_port).l
 
-		bsr.w 	DoChecksum
-
 		lea		(v_objspace).w, a1
 		moveq	#0, d0
 		move.w	#$7FF, d1
@@ -86,8 +84,6 @@ SegaScreen:
 		move.b	#2, (v_vbla_routine).w 	; demo time routine
 		jsr		WaitForVBla
 
-		bsr.w 	DoChecksum
-
 		jsr 	(ExecuteObjects).l
 		jsr		(BuildSprites).l
 
@@ -105,8 +101,6 @@ SegaScreen:
 		rts
 		
 ; ===========================================================================
-		include		"Engine/Checksum.asm"
-
 		include "Data\Mappings\Sprites\Sega Logo.asm"
 
 Art_Sega: 	incbin "Data\Art\Nemesis\Sega Logo Sprites.bin"

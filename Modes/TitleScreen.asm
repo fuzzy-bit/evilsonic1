@@ -152,17 +152,10 @@ Tit_MainLoop:
 		add.b	#1, (v_bgscroll_buffer).w
 		move.w	#$10, (v_scrposy_dup+2).w
 
-		; bsr.w	PCycle_Title
-		; bsr.w	RunPLC
-		move.w	(v_objspace+obX).w,d0
-		addq.w	#2,d0
+		add.w 	#$1000/8, v_autosave
+		bcc.s	Tit_ChkRegion
+		bsr.w 	SaveRandom
 
-		; move.w	d0,(v_objspace+obX).w ; move Sonic to the right
-		cmpi.w	#$1C00,d0	; has Sonic object passed $1C00 on x-axis?
-		blo.s	Tit_ChkRegion	; if not, branch
-
-		move.b	#id_Sega,(v_gamemode).w ; go to Sega screen
-		rts
 ; ===========================================================================
 
 Tit_ChkRegion:

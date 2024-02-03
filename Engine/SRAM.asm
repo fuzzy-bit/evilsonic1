@@ -4,11 +4,7 @@
 ; ===========================================================================
 
 InitSRAM:
-		move.w	sr, -(sp)
-		move	#$2700, sr
-		stopZ80
-		EnableSRAM
-
+		OperateInSRAM
 		KDebug.WriteLine "Initializing SRAM..."
 		lea 	($200001).l, a0     ; Load SRAM memory into a0 (Change the last digit to 0 if you're using even SRAM)
 
@@ -16,19 +12,13 @@ InitSRAM:
 		cmp.l   #"KINO", d0			; Was it already in SRAM?
 		bne.s   ResetSRAM2			; If so, skip
 
-		DisableSRAM
-		startZ80
-		move.w	(sp)+, sr
+		ExitSRAM
 		rts
 
 ; ===========================================================================
 
 ResetSRAM:
-		move.w	sr, -(sp)
-		move	#$2700, sr
-		stopZ80
-		EnableSRAM
-
+		OperateInSRAM
 		lea		($200001).l, a0
 
 ResetSRAM2:
@@ -41,15 +31,15 @@ ResetSRAM2:
 		move.l	SRAMDefaults+4(pc), d0
 		movep.l	d0, $10(a0)			; SRAM => Secret Enabled, Game Completed, Null, Null
 
-		DisableSRAM
-		startZ80
-		move.w	(sp)+, sr
+		ExitSRAM
 		rts
 
 ; ===========================================================================
+
 SRAMDefaults:
 		dc.b 0, 3, 1, 0 			; Zone, Lives, Difficulty, Secret Progression
-		dc.b 1, 1, 0, 0 			; Secret Enabled, Game Completed, Null, Null
+		dc.b 0, 0, 0, 0 			; Secret Enabled, Game Completed, Shake Disabled, RNG
+		dc.b 0, 0, 0, 0 			; RNG, RNG, RNG, Null
 		even
 
 
@@ -57,11 +47,7 @@ SRAMDefaults:
 ; SRAM loading and saving routines
 ; ===========================================================================
 LoadSRAM:
-		move.w	sr, -(sp)
-		move	#$2700, sr
-		stopZ80
-		EnableSRAM
-
+		OperateInSRAM
 		KDebug.WriteLine "Loading from SRAM..."
 
 		lea 	($200001).l, a0
@@ -73,18 +59,13 @@ LoadSRAM:
 		move.b 	GameCompleted(a0), (v_gamecomplete).w
 		move.b 	ShakeDisabled(a0), (v_shake).W
 		
-		DisableSRAM
-		startZ80
-		move.w	(sp)+, sr
+		ExitSRAM
 		rts
 
 ; ===========================================================================
-SaveSRAM:
-		move.w	sr, -(sp)
-		move	#$2700, sr
-		stopZ80
-		EnableSRAM
 
+SaveSRAM:
+		OperateInSRAM
 		KDebug.WriteLine "Saving to SRAM..."
 
 		lea 	($200001).l, a0
@@ -96,7 +77,30 @@ SaveSRAM:
 		move.b 	(v_gamecomplete).w, GameCompleted(a0)
 		move.b 	(v_shake).w, ShakeDisabled(a0)
 
-		DisableSRAM
-		startZ80
-		move.w	(sp)+, sr
+		ExitSRAM
+		rts
+
+; ===========================================================================
+
+SaveRandom:
+		OperateInSRAM
+		
+		lea 	($200001).l, a0
+		move.l 	(v_random).w, d0
+		movep.l d0, SavedRandomNumber(a0)
+
+		ExitSRAM
+		rts
+
+
+; ===========================================================================
+
+LoadRandom:
+		OperateInSRAM
+		
+		lea 	($200001).l, a0
+		movep.l SavedRandomNumber(a0), d0
+		move.l 	d0, (v_random).w
+
+		ExitSRAM
 		rts
