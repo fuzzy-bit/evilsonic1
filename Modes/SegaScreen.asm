@@ -23,6 +23,7 @@ SegaScreen:
 		jsr 	SaveSRAM
 
 @NotGameOver:
+        jsr     LoadRandom
 		clr.b	(f_wtr_state).w
 
 		disable_ints

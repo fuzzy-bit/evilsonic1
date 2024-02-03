@@ -4,7 +4,6 @@
 SonicRetro:
         music   mus_stop
         
-        jsr     LoadRandom
         jsr     PaletteFadeOut
         jsr     ClearScreen
         jsr     ClearPLC
@@ -130,6 +129,12 @@ SonicRetro:
         jsr     @ExecuteObjects
         jsr     BuildSprites
 
+        add.w 	#$1000/2, v_autosave
+        bcc.w	@DontSaveRandom
+        
+        jsr     SaveRandom
+
+@DontSaveRandom:
         tst.b   Joypad|Press
         bmi.w   @Exit
 
