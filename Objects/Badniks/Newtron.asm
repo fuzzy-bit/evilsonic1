@@ -98,7 +98,7 @@ Newt_Action:	; Routine 2
 
 	@pppppppp:
 		move.b	#$D,obColType(a0)
-		move.w	#$200,obVelX(a0) ; move newtron horizontally
+		move.w	#$400,obVelX(a0) ; move newtron horizontally
 		btst	#0,obStatus(a0)
 		bne.s	@keepfalling
 		neg.w	obVelX(a0)

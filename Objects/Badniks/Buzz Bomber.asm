@@ -79,10 +79,10 @@ Buzz_Action:	; Routine 2
 	@noflip2:
 		add.w	d0,obX(a1)
 		move.b	obStatus(a0),obStatus(a1)
-		move.w	#$E,buzz_timedelay(a1)
+		move.w	#8,buzz_timedelay(a1)
 		move.l	a0,buzz_parent(a1)
 		move.b	#1,buzz_buzzstatus(a0) ; set to "already fired" to prevent refiring
-		move.w	#59,buzz_timedelay(a0)
+		move.w	#30,buzz_timedelay(a0)
 		move.b	#2,obAnim(a0)	; use "firing" animation
 
 	@fail:
@@ -106,7 +106,7 @@ Buzz_Action:	; Routine 2
 		tst.b	obRender(a0)
 		bpl.s	@keepgoing
 		move.b	#2,buzz_buzzstatus(a0) ; set Buzz Bomber to "near Sonic"
-		move.w	#29,buzz_timedelay(a0) ; set time delay to half a second
+		move.w	#5,buzz_timedelay(a0) ; set time delay to half a second
 		bra.s	@stop
 ; ===========================================================================
 

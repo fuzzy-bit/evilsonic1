@@ -29,7 +29,9 @@ ResetSRAM2:
 		move.l	SRAMDefaults(pc), d0
 		movep.l	d0, 8(a0)			; SRAM => Zone, Lives, Difficulty, Secret Progression
 		move.l	SRAMDefaults+4(pc), d0
-		movep.l	d0, $10(a0)			; SRAM => Secret Enabled, Game Completed, Null, Null
+		movep.l	d0, $10(a0)			; SRAM => Secret Enabled, Game Completed, Shake Disabled, RNG
+		move.l	SRAMDefaults+8(pc), d0
+		movep.l	d0, $18(a0)			; SRAM => RNG, RNG, RNG, Null
 
 		ExitSRAM
 		rts
