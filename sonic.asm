@@ -2251,7 +2251,7 @@ Col_SBZ:	incbin	"Data\Levels\Collision\SBZ.bin"	; SBZ index
 Col_Zone7:		incbin	"Data\Levels\Collision\Zone 7.bin"	; Zone 7 index
 		even		
 ; ---------------------------------------------------------------------------
-; SpecialStage layouts
+; Special Stage layouts
 ; ---------------------------------------------------------------------------
 SS_1:		incbin	"Data\Levels\SpecialStages\1.bin"
 		even
