@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-./make-cpp.py
+./.build/make-cpp.py
 
 echo RELEASE build: Assembling and linking...
 wine .build/asm68k.exe /g /l /k /m /o ws+,op+,os+,ow+,oz+,oaq+,osq+,omq+,ae-,v+ sonic.asm, .build/log/sonic.obj, , .build/log/sonic.lst
