@@ -289,6 +289,7 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 		include	"Engine\Rendering\Fading.asm"
 		include	"Engine\Rendering\Palette.asm"
 		include	"Engine\Rendering\VDPDrawBuffer.asm"
+		include	"Engine\Rendering\PaletteCycle.asm"
 		dc.b	" N IS FOR SUPEREGG "
 		even
 
@@ -302,89 +303,14 @@ Art_Text:	incbin	"Data\Art\Uncompressed\menutext.bin" ; text used in level selec
 
 		include	"Engine\PLC\PatternLoadCues.asm"
 
-		include	"Includes\PaletteCycle.asm"
-		include	"Includes\PauseGame.asm"
 		dc.b	" HOME OF CHALLENGE PISSING "
 		even
 
-
-
 ; ---------------------------------------------------------------------------
-; Palette Cycling
+; Palette Data
 ; ---------------------------------------------------------------------------
-Pal_TitleCyc:	incbin	"Data\Palette\Cycle - Title Screen Water.bin"
-Pal_GHZCyc:	incbin	"Data\Palette\Cycle - GHZ.bin"
-Pal_LZCyc1:	incbin	"Data\Palette\Cycle - LZ Waterfall.bin"
-Pal_LZCyc2:	incbin	"Data\Palette\Cycle - LZ Conveyor Belt.bin"
-Pal_LZCyc3:	incbin	"Data\Palette\Cycle - LZ Conveyor Belt Underwater.bin"
-Pal_SBZ3Cyc1:	incbin	"Data\Palette\Cycle - SBZ3 Waterfall.bin"
-Pal_SLZCyc:	incbin	"Data\Palette\Cycle - SLZ.bin"
-Pal_SYZCyc1:	incbin	"Data\Palette\Cycle - SYZ1.bin"
-Pal_SYZCyc2:	incbin	"Data\Palette\Cycle - SYZ2.bin"
-
-		include	"Includes\SBZ Palette Scripts.asm"
-
-Pal_SBZCyc1:	incbin	"Data\Palette\Cycle - SBZ 1.bin"
-Pal_SBZCyc2:	incbin	"Data\Palette\Cycle - SBZ 2.bin"
-Pal_SBZCyc3:	incbin	"Data\Palette\Cycle - SBZ 3.bin"
-Pal_SBZCyc4:	incbin	"Data\Palette\Cycle - SBZ 4.bin"
-Pal_SBZCyc5:	incbin	"Data\Palette\Cycle - SBZ 5.bin"
-Pal_SBZCyc6:	incbin	"Data\Palette\Cycle - SBZ 6.bin"
-Pal_SBZCyc7:	incbin	"Data\Palette\Cycle - SBZ 7.bin"
-Pal_SBZCyc8:	incbin	"Data\Palette\Cycle - SBZ 8.bin"
-Pal_SBZCyc9:	incbin	"Data\Palette\Cycle - SBZ 9.bin"
-Pal_SBZCyc10:	incbin	"Data\Palette\Cycle - SBZ 10.bin"
-
-
-; ===========================================================================
-
-Pal_Sega1:	incbin	"Data\Palette\Sega1.bin"
-Pal_Sega2:	incbin	"Data\Palette\Sega2.bin"
-
-; ===========================================================================
-
-		include	"Includes\Palette Pointers.asm"
-
-; ---------------------------------------------------------------------------
-; Palette data
-; ---------------------------------------------------------------------------
-Pal_SegaBG:	incbin	"Data\Palette\Sega.bin"
-Pal_Title:	incbin	"Data\Palette\Title Screen.bin"
-Pal_LevelSel:	incbin	"Data\Palette\Level Select.bin"
-Pal_Sonic:	incbin	"Data\Palette\Sonic.bin"
-Pal_GHZ:	incbin	"Data\Palette\Green Hill Zone.bin"
-Pal_LZ:		incbin	"Data\Palette\Labyrinth Zone.bin"
-Pal_LZWater:	incbin	"Data\Palette\Labyrinth Zone Underwater.bin"
-Pal_MZ:		incbin	"Data\Palette\Marble Zone.bin"
-Pal_SLZ:	incbin	"Data\Palette\Star Light Zone.bin"
-Pal_SYZ:	incbin	"Data\Palette\Spring Yard Zone.bin"
-Pal_SBZ1:	incbin	"Data\Palette\SBZ Act 1.bin"
-Pal_SBZ2:	incbin	"Data\Palette\SBZ Act 2.bin"
-Pal_Special:	incbin	"Data\Palette\Special Stage.bin"
-Pal_SBZ3:	incbin	"Data\Palette\SBZ Act 3.bin"
-Pal_SBZ3Water:	incbin	"Data\Palette\SBZ Act 3 Underwater.bin"
-Pal_LZSonWater:	incbin	"Data\Palette\Sonic - LZ Underwater.bin"
-Pal_SBZ3SonWat:	incbin	"Data\Palette\Sonic - SBZ3 Underwater.bin"
-Pal_SSResult:	incbin	"Data\Palette\Special Stage Results.bin"
-Pal_Continue:	incbin	"Data\Palette\Special Stage Continue Bonus.bin"
-Pal_Ending:	incbin	"Data\Palette\Ending.bin"
-Pal_Zone7:	incbin	"Data\Palette\Zone 7.bin"
-
-; ---------------------------------------------------------------------------
-; Subroutine to	wait for VBlank routines to complete
-; ---------------------------------------------------------------------------
-
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
-
-
-WaitForVBla:
-		enable_ints
-
-	@wait:
-		tst.b	(v_vbla_routine).w ; has VBlank routine finished?
-		bne.s	@wait		; if not, branch
-		rts
-; End of function WaitForVBla
+        include "Data\Palette\Main.asm"
+        include "Data\Palette\Cycling.asm"
 
 ; ---------------------------------------------------------------------------
 ; Math
@@ -392,6 +318,7 @@ WaitForVBla:
 		include	"Engine\Math\RandomNumber.asm"
 		include	"Engine\Math\CalcSine.asm"
 		include	"Engine\Math\CalcAngle.asm"
+		include	"Engine\Math\Oscillatory Routines.asm"
 
 ; ---------------------------------------------------------------------------
 ; Modes
@@ -408,6 +335,7 @@ WaitForVBla:
 ; ---------------------------------------------------------------------------
 ; Level System
 ; ---------------------------------------------------------------------------
+		include	"Engine\Level\PauseGame.asm"
 		include	"Engine\Level\LoadTilesAsYouMove.asm"
 		include	"Engine\Level\LoadBGScrollBlocks.asm"
 		include	"Engine\Level\DrawBlocks.asm"
@@ -1853,9 +1781,9 @@ Art_LivesNums:	incbin	"Data\Art\Uncompressed\Lives Counter Numbers.bin" ; 8x8 pi
 		include	"Objects\Bosses\Final\PlasmaBall.asm"	; WARNING! Auto-generated
 
 		include	"Objects\DebugMode.asm"
-		include	"Includes\DebugList.asm"
-		include	"Includes\LevelHeaders.asm"
-		include	"Includes\Pattern Load Cues.asm"
+		include	"Data\Levels\DebugList.asm"
+		include	"Data\Levels\LevelHeaders.asm"
+		include	"Data\Pattern Load Cues.asm"
 
 		if Revision=0
 Nem_SegaLogo:	incbin	"Data\Art\Nemesis\Sega Logo.bin"	; large Sega logo
@@ -2323,7 +2251,7 @@ Col_SBZ:	incbin	"Data\Levels\Collision\SBZ.bin"	; SBZ index
 Col_Zone7:		incbin	"Data\Levels\Collision\Zone 7.bin"	; Zone 7 index
 		even		
 ; ---------------------------------------------------------------------------
-; Special Stage layouts
+; SpecialStage layouts
 ; ---------------------------------------------------------------------------
 SS_1:		incbin	"Data\Levels\SpecialStages\1.bin"
 		even

@@ -406,8 +406,6 @@ ColPointers:	dc.l Col_GHZ
 		zonewarning ColPointers,4	; did i already mention why i don't like this macro
 		dc.l Col_Zone7
 
-		include	"Includes\Oscillatory Routines.asm"
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to	change synchronised animation variables (rings, giant rings)
 ; ---------------------------------------------------------------------------

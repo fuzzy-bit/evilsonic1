@@ -1,4 +1,3 @@
-; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Vertical interrupt
 ; ---------------------------------------------------------------------------
@@ -295,3 +294,15 @@ sub_106E:
 		writeVRAM	v_hscrolltablebuffer,$380,vram_hscroll
 		rts
 ; End of function sub_106E
+
+; ---------------------------------------------------------------------------
+; Subroutine to	wait for VBlank routines to complete
+; ---------------------------------------------------------------------------
+WaitForVBla:
+		enable_ints
+
+	@wait:
+		tst.b	(v_vbla_routine).w ; has VBlank routine finished?
+		bne.s	@wait		; if not, branch
+		rts
+; End of function WaitForVBla

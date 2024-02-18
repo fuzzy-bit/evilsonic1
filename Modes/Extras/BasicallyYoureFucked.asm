@@ -62,5 +62,5 @@ BasicallyYoureFucked:
 	even
 @Art: incbin "Data/Art/Nemesis/Special Game Over.bin"
 	even
-@Palette: incbin "Data/Palette/Special Game Over.bin"
+@Palette: incbin "Data/Palette/Misc/Special Game Over.bin"
 	even

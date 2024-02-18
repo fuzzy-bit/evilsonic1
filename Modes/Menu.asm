@@ -1405,10 +1405,10 @@ Obj_SRAMChoice_QuestionMark:
 
 Pal_MenuMain:
 	; Line 0
-	incbin	'Data/Palette/Menu Font Alt.bin'
+	incbin	'Data/Palette/Menu/Menu Font Alt.bin'
 
 	; Line 1
-	incbin	'Data/Palette/Menu Font Highlighted.bin'
+	incbin	'Data/Palette/Menu/Menu Font Highlighted.bin'
 
 	; Line 2
-	incbin	'Data/Palette/Menu Font.bin'
+	incbin	'Data/Palette/Menu/Menu Font.bin'

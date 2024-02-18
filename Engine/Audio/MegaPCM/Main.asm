@@ -74,7 +74,7 @@ SampleTable:
 		dcSample	TYPE_PCM, Tom2, 			11256, 					; $9B	- Tom-2 Low
 		dcSample	TYPE_PCM, SonicCD_Yes, 	22095, FLAGS_SFX 	; $9C	- Sonic CD Yes
 		dcSample	TYPE_PCM, Winrar, 		22050, FLAGS_SFX|FLAGS_PANLR; $9D	- Winrar
-		dcSample	TYPE_PCM, Invalid, 		15768, FLAGS_SFX			; $9E	- oops
+		dcSample	TYPE_PCM, IGuessThatsIt, 		22050, FLAGS_SFX	; $9E	- Ronnie
 		dcSample	TYPE_PCM, ChillToTheMax, 22050, FLAGS_SFX|FLAGS_PANLR ; $9F	- Lightning_Splash - Chill To The Max
 		dcSample	TYPE_PCM, Mogege, 		7551, FLAGS_SFX|FLAGS_PANLR	; $A0	- Mogege~
 		dcSample	TYPE_PCM, Minnaaa, 		7551, FLAGS_SFX|FLAGS_PANLR	; $A1	- Minnaaa!
@@ -118,7 +118,7 @@ SampleTable_End:
 
 		; Fuzzy ------------------------------
 		IncludeDAC		Winrar, wav
-		IncludeDAC		Invalid, bin
+		IncludeDAC		IGuessThatsIt, wav
 		IncludeDAC		ChillToTheMax, wav
 		IncludeDAC		Mogege, wav
 		IncludeDAC		Minnaaa, wav

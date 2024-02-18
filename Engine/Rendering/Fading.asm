@@ -190,7 +190,7 @@ FadeOut_DecColour:
 ; End of function FadeOut_DecColour
 
 ; ---------------------------------------------------------------------------
-; Subroutine to	fade in from white (Special Stage)
+; Subroutine to	fade in from white (SpecialStage)
 ; ---------------------------------------------------------------------------
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
@@ -295,7 +295,7 @@ WhiteIn_DecColour:
 ; End of function WhiteIn_DecColour
 
 ; ---------------------------------------------------------------------------
-; Subroutine to fade to white (Special Stage)
+; Subroutine to fade to white (SpecialStage)
 ; ---------------------------------------------------------------------------
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||

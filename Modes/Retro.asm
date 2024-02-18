@@ -215,9 +215,9 @@ SonicRetro:
 @SonicArt: incbin "Data/Art/Nemesis/Sonic Retro - Sonic.bin"
     even
 
-@Palette: incbin "Data/Palette/Sonic Retro.bin"
+@Palette: incbin "Data/Palette/Retro/Sonic Retro.bin"
     even
-@SonisPalette: incbin "Data/Palette/Sonis Retros.bin"
+@SonisPalette: incbin "Data/Palette/Retro/Sonis Retros.bin"
     even
 
 @PalettePointer: PalettePointer @Palette, v_pal_dry, $30

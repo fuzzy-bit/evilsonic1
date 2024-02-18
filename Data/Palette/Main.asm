@@ -1,7 +1,37 @@
 ; ---------------------------------------------------------------------------
+; Palette data
+; ---------------------------------------------------------------------------
+Pal_Sega1:	incbin	"Data\Palette\Sega\Sega1.bin"
+Pal_Sega2:	incbin	"Data\Palette\Sega\Sega2.bin"
+Pal_SegaBG:	incbin	"Data\Palette\Sega\Sega.bin"
+
+Pal_Title:	incbin	"Data\Palette\Title\Title Screen.bin"
+Pal_LevelSel:	incbin	"Data\Palette\Title\Level Select.bin"
+
+Pal_Sonic:	incbin	"Data\Palette\Sonic\Sonic.bin"
+Pal_LZSonWater:	incbin	"Data\Palette\Sonic\LZ Underwater.bin"
+Pal_SBZ3SonWat:	incbin	"Data\Palette\Sonic\SBZ3 Underwater.bin"
+
+Pal_GHZ:	incbin	"Data\Palette\Levels\Green Hill Zone.bin"
+Pal_LZ:		incbin	"Data\Palette\Levels\Labyrinth Zone.bin"
+Pal_LZWater:	incbin	"Data\Palette\Levels\Labyrinth Zone Underwater.bin"
+Pal_MZ:		incbin	"Data\Palette\Levels\Marble Zone.bin"
+Pal_SLZ:	incbin	"Data\Palette\Levels\Star Light Zone.bin"
+Pal_SYZ:	incbin	"Data\Palette\Levels\Spring Yard Zone.bin"
+Pal_SBZ1:	incbin	"Data\Palette\Levels\SBZ Act 1.bin"
+Pal_SBZ2:	incbin	"Data\Palette\Levels\SBZ Act 2.bin"
+Pal_SBZ3:	incbin	"Data\Palette\Levels\SBZ Act 3.bin"
+Pal_SBZ3Water:	incbin	"Data\Palette\Levels\SBZ Act 3 Underwater.bin"
+Pal_Ending:	incbin	"Data\Palette\Levels\Ending.bin"
+Pal_Zone7:	incbin	"Data\Palette\Levels\Zone 7.bin"
+
+Pal_Special:	incbin	"Data\Palette\SpecialStage\Special Stage.bin"
+Pal_SSResult:	incbin	"Data\Palette\SpecialStage\Results.bin"
+Pal_Continue:	incbin	"Data\Palette\SpecialStage\Continue Bonus.bin"
+
+; ---------------------------------------------------------------------------
 ; Palette pointers
 ; ---------------------------------------------------------------------------
-
 PalettePointer:	macro paladdress,ramaddress,colours
 	dc.l paladdress
 	dc.w ramaddress, (colours>>1)-1
@@ -10,7 +40,6 @@ PalettePointer:	macro paladdress,ramaddress,colours
 PalPointers:
 
 ; palette address, RAM address, colours
-
 ptr_Pal_SegaBG:		PalettePointer	Pal_SegaBG,v_pal_dry,$40		; 0 - Sega logo
 ptr_Pal_Title:		PalettePointer	Pal_Title,v_pal_dry,$40		; 1 - title screen
 ptr_Pal_LevelSel:	PalettePointer	Pal_LevelSel,v_pal_dry,$40		; 2 - level select
@@ -36,7 +65,9 @@ ptr_Pal_Continue:	PalettePointer	Pal_Continue,v_pal_dry,$20		; $12 (18) - specia
 ptr_Pal_Ending:		PalettePointer	Pal_Ending,v_pal_dry,$40		; $13 (19) - ending sequence
 			even
 
-
+; ---------------------------------------------------------------------------
+; Palette IDs
+; ---------------------------------------------------------------------------
 palid_SegaBG:		equ (ptr_Pal_SegaBG-PalPointers)/8
 palid_Title:		equ (ptr_Pal_Title-PalPointers)/8
 palid_LevelSel:		equ (ptr_Pal_LevelSel-PalPointers)/8

@@ -77,5 +77,5 @@ CISSplash:
 	even
 @Mappings: incbin "Data/Mappings/TileMaps/CIS.bin"
 	even
-@Palette: incbin "Data/Palette/CIS.bin"
+@Palette: incbin "Data/Palette/Misc/CIS.bin"
 	even

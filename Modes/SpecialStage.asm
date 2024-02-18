@@ -1,5 +1,5 @@
 ; ---------------------------------------------------------------------------
-; Special Stage
+; SpecialStage
 ; ---------------------------------------------------------------------------
 
 SpecialStage:
@@ -92,7 +92,7 @@ SpecialStage:
 		bsr.w	PaletteWhiteIn
 
 ; ---------------------------------------------------------------------------
-; Main Special Stage loop
+; Main SpecialStage loop
 ; ---------------------------------------------------------------------------
 
 SS_MainLoop:
@@ -382,11 +382,6 @@ byte_4A3C:	dc.b 3,	0, 7, $92, 3, 0, 7, $90, 3, 0, 7, $8E, 3, 0, 7,	$8C
 		dc.b $FF, 6, 6,	$3C, $FF, 6, 6,	$3C, 7,	4, 6, $30, 7, 2, 6, $24
 		even
 byte_4ABC:	dc.b $10, 1, $18, 0, $18, 1, $20, 0, $20, 1, $28, 0, $28, 1
-		even
-
-Pal_SSCyc1:	incbin	"Data\Palette\Cycle - Special Stage 1.bin"
-		even
-Pal_SSCyc2:	incbin	"Data\Palette\Cycle - Special Stage 2.bin"
 		even
 
 ; ---------------------------------------------------------------------------
@@ -954,7 +949,7 @@ SS_LayoutIndex:
 ; ---------------------------------------------------------------------------
 ; Special stage start locations
 ; ---------------------------------------------------------------------------
-SS_StartLoc:	include	"Includes\Start Location Array - Special Stages.asm"
+SS_StartLoc:	include	"Data\Levels\Start Location Array - Special Stages.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	load special stage layout

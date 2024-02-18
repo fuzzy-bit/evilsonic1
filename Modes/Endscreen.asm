@@ -81,5 +81,5 @@ Endscreen:
 	even
 @Art: incbin "Data/Art/Nemesis/Endscreen.bin"
 	even
-@Palette: incbin "Data/Palette/Endscreen.bin"
+@Palette: incbin "Data/Palette/Misc/Endscreen.bin"
 	even
