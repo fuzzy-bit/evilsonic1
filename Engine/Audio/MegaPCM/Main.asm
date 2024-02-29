@@ -29,7 +29,7 @@ SampleTable:
 		dcSample	TYPE_PCM, Tom2, 		11256, 					; $9B	- Tom-2 Low
 		dcSample	TYPE_PCM, SonicCD_Yes, 	22095, FLAGS_SFX 		; $9C	- Sonic CD Yes
 		dcSample	TYPE_PCM, Winrar, 		22050, FLAGS_SFX		; $9D	- Winrar
-		dcSample	TYPE_PCM, IGuessThatsIt,22050, FLAGS_SFX		; $9E	- Ronnie
+		dcSample	TYPE_PCM, Tom2,         22050, FLAGS_SFX		; $9E	- Nah
 		dcSample	TYPE_PCM, ChillToTheMax,22050, FLAGS_SFX 		; $9F	- Lightning_Splash - Chill To The Max
 		dcSample	TYPE_PCM, Mogege, 		7551, FLAGS_SFX			; $A0	- Mogege~
 		dcSample	TYPE_PCM, Minnaaa, 		7551, FLAGS_SFX			; $A1	- Minnaaa!
@@ -73,7 +73,6 @@ SampleTable:
 
 		; Fuzzy ------------------------------
 		incdac	Winrar, "Data\Audio\DAC\Winrar.wav"
-		incdac	IGuessThatsIt, "Data\Audio\DAC\IGuessThatsIt.wav"
 		incdac	ChillToTheMax, "Data\Audio\DAC\ChillToTheMax.wav"
 		incdac	Mogege, "Data\Audio\DAC\Mogege.wav"
 		incdac	Minnaaa, "Data\Audio\DAC\Minnaaa.wav"

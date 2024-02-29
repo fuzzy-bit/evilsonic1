@@ -8,8 +8,8 @@ InitSRAM:
 		KDebug.WriteLine "Initializing SRAM..."
 		lea 	($200001).l, a0     ; Load SRAM memory into a0 (Change the last digit to 0 if you're using even SRAM)
 
-		movep.l Kino(a0), d0		; Get the existing string at the start of SRAM
-		cmp.l   #"KINO", d0			; Was it already in SRAM?
+		movep.l InitString(a0), d0		; Get the existing string at the start of SRAM
+		cmp.l   #"LEGA", d0			; Was it already in SRAM?
 		bne.s   ResetSRAM2			; If so, skip
 
 		ExitSRAM
@@ -24,8 +24,8 @@ ResetSRAM:
 ResetSRAM2:
 		KDebug.WriteLine "Resetting SRAM..."
 
-		move.l	#"KINO", d0
-		movep.l	d0, 0(a0)			; SRAM => "KINO"
+		move.l	#"LEGA", d0
+		movep.l	d0, 0(a0)			; SRAM => "LEGA"
 		move.l	SRAMDefaults(pc), d0
 		movep.l	d0, 8(a0)			; SRAM => Zone, Lives, Difficulty, Secret Progression
 		move.l	SRAMDefaults+4(pc), d0

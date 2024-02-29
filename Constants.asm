@@ -221,7 +221,7 @@ Up		equ 	1
 ; ---------------------------------------------------------------
 	rsset	0
 
-Kino:               rs.w 4
+InitString:         rs.w 4
 ZoneSave:           rs.w 1
 LivesSave:          rs.w 1
 DifficultySave:     rs.w 1

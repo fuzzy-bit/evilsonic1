@@ -120,9 +120,6 @@ LevSel_Level:
 		music   mus_stop
 		jsr     WaitForVBla
 
-		moveq  	#$FFFFFF9E,d0
-		jsr    	PlaySample
-
 		jsr		ResetSRAM
 		RaiseError "STOP CHEATING LOL                     GET FUCKED"
 
