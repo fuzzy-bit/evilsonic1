@@ -212,6 +212,10 @@ GameInit:
 		jsr	VEPS_Init
 		lea	SampleTable, a0
 		jsr	VEPS_LoadSampleTable
+		tst.w	d0
+		beq.s	@SampleTableOk
+		RaiseError "Bad sample table (code %<.b d0>)"
+	@SampleTableOk:
 
 		jsr		InitSRAM
 
