@@ -1,0 +1,155 @@
+
+; ==============================================================================
+; ------------------------------------------------------------------------------
+; Mega PCM 2.0 - DAC Sound Driver
+;
+; (c) 2012-2024, Vladikcomper
+; ------------------------------------------------------------------------------
+
+; ==============================================================================
+; ------------------------------------------------------------------------------
+; Constants
+; ------------------------------------------------------------------------------
+
+
+; ------------------------------------------------------------------------------
+; Definitions for sample table
+; ------------------------------------------------------------------------------
+
+FLAGS_SFX:		equ	$01		; sample is SFX, normal drums cannot interrupt it
+FLAGS_LOOP:		equ	$02		; loop sample indefinitely
+
+TYPE_NONE:		equ	$00
+TYPE_PCM:		equ	'P'
+TYPE_PCM_TURBO:	equ	'T'
+TYPE_DPCM:		equ	'D'
+
+; ------------------------------------------------------------------------------
+; Maximum playback rates:
+TYPE_PCM_TURBO_MAX_RATE:	equ	32000 ; Hz
+TYPE_PCM_MAX_RATE:			equ	25100 ; Hz
+TYPE_DPCM_MAX_RATE:			equ	20600 ; Hz
+
+; Internal driver's base rates for pitched playback.
+; NOTICE: Actual max rates are slightly lower,
+; because the highest pitch is 255/256, not 256/256.
+TYPE_PCM_BASE_RATE:			equ	25208 ; Hz
+TYPE_DPCM_BASE_RATE:		equ	20691 ; Hz
+
+
+; ------------------------------------------------------------------------------
+; Return error codes for `MegaPCM_LoadSampleTable`
+; ------------------------------------------------------------------------------
+
+MPCM_ST_TOO_MANY_SAMPLES:			equ	$01
+MPCM_ST_UNKNOWN_SAMPLE_TYPE:		equ	$02
+
+MPCM_ST_PITCH_NOT_SET:				equ	$10
+
+MPCM_ST_WAVE_INVALID_HEADER:		equ	$20
+MPCM_ST_WAVE_BAD_AUDIO_FORMAT:		equ	$21
+MPCM_ST_WAVE_NOT_MONO:				equ	$22
+MPCM_ST_WAVE_NOT_8BIT:				equ	$23
+MPCM_ST_WAVE_BAD_SAMPLE_RATE:		equ	$24
+MPCM_ST_WAVE_MISSING_DATA_CHUNK:	equ	$25
+
+; ------------------------------------------------------------------------------
+; Z80 equates
+; ------------------------------------------------------------------------------
+
+Z_MPCM_DriverReady:	equ $1fc3
+Z_MPCM_CommandInput:	equ $1fc2
+Z_MPCM_VolumeInput:	equ $1fc4
+Z_MPCM_SFXVolumeInput:	equ $1fc5
+Z_MPCM_PanInput:	equ $1fc6
+Z_MPCM_SFXPanInput:	equ $1fc7
+Z_MPCM_ActiveSamplePitch:	equ $1fdc
+Z_MPCM_VBlankActive:	equ $1fe2
+Z_MPCM_CalibrationApplied:	equ $1fe3
+Z_MPCM_CalibrationScore_ROM:	equ $1fe4
+Z_MPCM_CalibrationScore_RAM:	equ $1fe6
+Z_MPCM_LastErrorCode:	equ $1fe8
+Z_MPCM_SampleTable:	equ $1976
+Z_MPCM_COMMAND_STOP:	equ $1
+Z_MPCM_COMMAND_PAUSE:	equ $2
+Z_MPCM_ERROR__BAD_INTERRUPT:	equ $2
+Z_MPCM_ERROR__BAD_SAMPLE_TYPE:	equ $1
+Z_MPCM_ERROR__UNKNOWN_COMMAND:	equ $80
+
+; ==============================================================================
+; ------------------------------------------------------------------------------
+; Macros
+; ------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------
+; Macro to generate sample record in a sample table
+; ------------------------------------------------------------------------------
+
+dcSample: macro	type, samplePtr, sampleRate, flags
+	dc.b	\type					; $00	- type
+
+	if \type=TYPE_PCM
+		if \sampleRate+0>TYPE_PCM_MAX_RATE
+			inform 2, "Invalid sample rate: \sampleRate\. TYPE_PCM only supports sample rates <= \#TYPE_PCM_MAX_RATE Hz"
+		endif
+		dc.b	\flags+0								; $01	- flags (optional)
+		dc.b	(\sampleRate+0)*256/TYPE_PCM_BASE_RATE	; $02	- pitch (optional for .WAV files)
+		dc.b	0										; $03	- <RESERVED>
+		dc.l	\samplePtr								; $04	- start offset
+		dc.l	\samplePtr\_End							; $08	- end offset
+
+	elseif \type=TYPE_PCM_TURBO
+		if (\sampleRate+0<>TYPE_PCM_TURBO_MAX_RATE)&(\sampleRate+0<>0)
+			inform 2, "Invalid sample rate: \sampleRate\. TYPE_PCM_TURBO only supports sample rate of \#TYPE_PCM_TURBO_MAX_RATE Hz"
+		endif
+		dc.b	\flags+0								; $01	- flags (optional)
+		dc.b	$FF										; $02	- pitch (optional for .WAV files)
+		dc.b	0										; $03	- <RESERVED>
+		dc.l	\samplePtr								; $04	- start offset
+		dc.l	\samplePtr\_End							; $08	- end offset
+
+	elseif \type=TYPE_DPCM
+		if \sampleRate>TYPE_DPCM_BASE_RATE
+			inform 2, "Invalid sample rate: \sampleRate\. TYPE_DPCM only supports sample rates <= \#TYPE_DPCM_BASE_RATE Hz"
+		endif
+		dc.b	\flags+0								; $01	- flags (optional)
+		dc.b	(\sampleRate)*256/TYPE_DPCM_BASE_RATE	; $02	- pitch
+		dc.b	0										; $03	- <RESERVED>
+		dc.l	\samplePtr								; $04	- start offset
+		dc.l	\samplePtr\_End							; $08	- end offset
+
+	elseif \type=TYPE_NONE
+		dc.b	0, 0, 0
+		dc.l	0, 0
+
+	else
+		inform 2, "Unknown sample type. Please use one of: TYPE_PCM, TYPE_DPCM, TYPE_PCM_TURBO, TYPE_NONE"
+	endif
+	endm
+
+; ------------------------------------------------------------------------------
+; Macro to include a sample file
+; ------------------------------------------------------------------------------
+
+incdac:	macro name, path
+		even
+	\name:
+		incbin	\path
+	\name\_End:
+	endm
+
+; ==============================================================================
+; ------------------------------------------------------------------------------
+; Mega PCM API
+; ------------------------------------------------------------------------------
+
+	xref	MegaPCM_LoadDriver
+	xref	MegaPCM_LoadSampleTable
+	xref	MegaPCM_PlaySample
+	xref	MegaPCM_PausePlayback
+	xref	MegaPCM_UnpausePlayback
+	xref	MegaPCM_StopPlayback
+	xref	MegaPCM_SetVolume
+	xref	MegaPCM_SetSFXVolume
+	xref	MegaPCM_SetPan
+	xref	MegaPCM_SetSFXPan

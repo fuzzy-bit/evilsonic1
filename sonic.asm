@@ -4,7 +4,7 @@
 
 ; ===========================================================================
 
-rom:	section	org(0),obj(0)
+	section	rom
 
 	xdef	SymbolData_Ptr
 
@@ -13,6 +13,7 @@ rom:	section	org(0),obj(0)
 	include	"Macros.asm"
 
 	include	"Libs/debugger.lib"
+	include	"Libs/megapcm.lib"
 	include	"Libs/veps.lib"
 
 SRAMEnabled:	equ 1	; change to 1 to enable SRAM
@@ -210,7 +211,6 @@ GameInit:
 		; Initialize sound subsystem
 		jsr	VEPS_Init
 		lea	SampleTable, a0
-		move.w	#(SampleTable_End-SampleTable)/9-1, d0
 		jsr	VEPS_LoadSampleTable
 
 		jsr		InitSRAM
