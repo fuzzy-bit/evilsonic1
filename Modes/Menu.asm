@@ -59,6 +59,9 @@ Menu:
 	move.w	#$8134,(a6)			; disable display
 	jsr	ClearScreen
 
+	jsr	Menu_InitScrolling
+	jsr	Menu_UpdateScrolling
+
 	; Clear objects RAM
 	lea	v_objspace, a0
 	move.w	#$2000/$10-1, d0
@@ -98,7 +101,6 @@ Menu:
 	; Setup screen
 	jsr	Menu_GenerateFG
 	jsr	Menu_GenerateBG
-	jsr	Menu_InitScrolling
 
 	; Enable display
 	move.w	(v_vdp_buffer1).w, d0
@@ -985,7 +987,7 @@ Menu_InitScrolling:
 
 ; ---------------------------------------------------------------
 Menu_UpdateScrolling:
-	addq.w	#1, v_bgscreenposx
+	addq.w	#3, v_bgscreenposx
 	addq.w	#1, v_bgscreenposy
 
 	; Update VScroll
@@ -993,14 +995,47 @@ Menu_UpdateScrolling:
 
 	; Update HScroll
 	lea	v_hscrolltablebuffer, a0
-	move.w	#224-1, d1
-	moveq	#0, d0
-	move.w	v_bgscreenposx, d0
-	neg.w	d0
+	move.w	#224-1, d3
 
-	@loop:
-		move.l	d0, (a0)+
-		dbf	d1, @loop
+	; Clear some registers for use in the loop
+	moveq	#0, d0
+	moveq	#0, d2
+	moveq	#0, d5
+
+	; Move scroll buffer to d6
+	move.b	(v_bgscroll_buffer).w, d6
+
+	; Move X screen position to d4
+	move.w	v_bgscreenposx, d4
+	neg.w	d4
+
+	@Loop:
+		; Sine shit
+		move.b	d6, d0	; scroll buffer -> d0
+		add.w	d5, d0	; d0 + timer 
+
+		bsr.w	CalcSine
+		asr.w	#4, d1
+
+		; Add our screen position
+		add.w	d4, d1
+
+		; Shift based on line we're on
+		move.w	d3, d0
+		add.w 	d0, d1
+
+		; Negate scroll buffer
+		bchg.l  #7, d6
+		move.b 	d6, (v_bgscroll_buffer).w
+
+		; Increment timer and address 
+		addq.w	#1, d5
+		move.l	d1, (a0)+
+
+		dbra	d3, @Loop
+
+	; Do some funny stuff to the scroll buffer
+	add.b	#255-1, (v_bgscroll_buffer).w
 
 	; Apply higlighter, if available
 	tst.b	Menu_HighlightHeight

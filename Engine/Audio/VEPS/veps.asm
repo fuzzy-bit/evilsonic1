@@ -8,6 +8,7 @@ PSGIndex:
 	dc.l vPSG1, vPSG2, vPSG3
 	dc.l vPSG4, vPSG5, vPSG6
 	dc.l vPSG7, vPSG8, vPSG9
+    dc.l vPSGA
 
 vPSG1:	incbin	"Data/Audio/PSG/psg1.bin"
 vPSG2:	incbin	"Data/Audio/PSG/psg2.bin"
@@ -18,6 +19,7 @@ vPSG5:	incbin	"Data/Audio/PSG/psg5.bin"
 vPSG7:	incbin	"Data/Audio/PSG/psg7.bin"
 vPSG8:	incbin	"Data/Audio/PSG/psg8.bin"
 vPSG9:	incbin	"Data/Audio/PSG/psg9.bin"
+vPSGA:	incbin	"Data/Audio/PSG/GameCan.bin"
 
 ; ------------------------------------------------------
 ; Sound table
@@ -101,7 +103,7 @@ MusicIndex:
 		dc.l @Boss          ; 8A
 		dc.l @FinalBoss     ; 8B
 		dc.l @RainingBlood  ; 8C
-		dc.l @Monsquaz      ; 8D
+		dc.l @Menu      ; 8D
 		dc.l @Ambience      ; 8E
 		dc.l @Endurance     ; 8F
 		dc.l @Retro         ; 90
@@ -119,8 +121,8 @@ MusicIndex:
 		dc.l @SecretCredits		; 9C
 		dc.l @CIS			; 9D
 		dc.l @Omen		    ; 9E
-		dc.l @Monsquaz		; 9F
-		dc.l @Monsquaz
+		dc.l @Menu	        ; 9F
+		dc.l @Menu
 
 ; ===============================================================
 ; Music data
@@ -150,7 +152,7 @@ MusicIndex:
 					   even
 @FinalBoss:            incbin    Data\Audio\Music\FinalBoss.bin
 					   even
-@Monsquaz:             incbin    Data\Audio\Music\Monsquaz.bin
+@Menu:             incbin    Data\Audio\Music\Menu.bin
 					   even
 @Retro:                incbin    Data\Audio\Music\SonicRetro.bin
 					   even    
@@ -186,6 +188,7 @@ MusicIndex:
 					   even
 @Omen:				   incbin    Data\Audio\Music\Omen.bin
 					   even
+
 
 
 
