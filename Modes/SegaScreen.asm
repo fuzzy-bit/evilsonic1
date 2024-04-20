@@ -94,7 +94,7 @@ SegaScreen:
 		bne.s 	@SecretCheck
 
 		cmp.w 	#(4*60)-10, v_demolength
-		bge.s 	@StartCheck
+		blt.s 	@StartCheck
 
 		cmp.b	#btnABC, (v_jpadhold1).w
 		bne.s	@StartCheck
