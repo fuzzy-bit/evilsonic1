@@ -50,12 +50,17 @@ ShowHiddenImage:
 		move.l  (a0)+, (a1)+
 		dbf 	d0, @PaletteLoop
 
+		bsr.s 	@Deform
 		jsr 	PaletteFadeIn
 
 @Loop:
         move.b  #2, (v_vbla_routine).w
         jsr     WaitForVBla
 
+		bsr.s 	@Deform
+        bra.s   @Loop
+
+@Deform:
 		; Update HScroll
 		lea	v_hscrolltablebuffer, a0
 		move.w	#224-1, d3
@@ -87,7 +92,7 @@ ShowHiddenImage:
 			dbra	d3, @DeformLoop
 
 		add.b	#255-1, (v_bgscroll_buffer).w
-        bra.s   @Loop
+		rts
 
 @Art: incbin "Data/Art/Nemesis/HiddenImage.bin"
 	even
