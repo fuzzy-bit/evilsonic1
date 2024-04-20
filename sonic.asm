@@ -2594,6 +2594,7 @@ TitleFGMap: 	incbin "Data/Mappings/TileMaps/Title Screen.bin"
 ; ---------------------------------------------------------------------------
 		include "Modes\Endscreen.asm"
 		include "Modes\Retro.asm"
+		include "Modes/Extras/HiddenImage.asm"
 
 ; ---------------------------------------------------------------------------
 ; Extra bindings for MD Debugger

@@ -1,6 +1,11 @@
 ; ---------------------------------------------------------------------------
 ; Sega screen
 ; ---------------------------------------------------------------------------
+SegaScreen_RAM:	equ	$FFFFA000
+
+		rsset	SegaScreen_RAM
+SegaScreen_Secret:			rs.b	1	; Secret enabled
+SegaScreen_SecretPlaying:	rs.b	1	; Secret playing (lol)
 
 SegaScreen:
 		command	mus_Stop
@@ -79,20 +84,46 @@ SegaScreen:
 		move.w	#-$400+64, $3A(a1)
 		; End of suckage
 
-		move.w	#4*60, (v_demolength).w ; set delay time (3 seconds on a 60hz system)
+		add.w	#4*60, (v_demolength).w ; set delay time (3 seconds on a 60hz system)
 
 @Loop:
 		move.b	#2, (v_vbla_routine).w 	; demo time routine
-		jsr		WaitForVBla
+		jsr 	WaitForVBla
 
-		jsr 	(ExecuteObjects).l
-		jsr		(BuildSprites).l
+		tst.b 	SegaScreen_Secret
+		bne.s 	@SecretCheck
 
+		cmp.w 	#(4*60)-10, v_demolength
+		bge.s 	@StartCheck
+
+		cmp.b	#btnABC, (v_jpadhold1).w
+		bne.s	@StartCheck
+
+		move.b 	#1, SegaScreen_Secret
+		add.w 	#7*60, v_demolength
+		bra.s 	@StartCheck
+
+@SecretCheck:
+		tst.b 	SegaScreen_SecretPlaying
+		bne.s 	@StartCheck
+		
+		cmp.w 	#(8*60), v_demolength
+		bge.s 	@StartCheck
+
+		move.b 	#1, SegaScreen_SecretPlaying
+		
+		moveq  	#$FFFFFF9C,d0
+		jsr    	PlaySample
+
+@StartCheck:
 		tst.b	(v_jpadpress1).w		; have we pressed the start button?
 		bmi.s	@NextScreen 			; if yes, go to the next screen
 
 		tst.w	(v_demolength).w
 		beq.s	@NextScreen
+
+		jsr 	(ExecuteObjects).l
+		jsr 	(BuildSprites).l
 
 		bra.s 	@Loop
 

@@ -12,6 +12,7 @@ SegaLetter:
 ; ===========================================================================
 @Index:	dc.w @Init-@Index
 		dc.w @Fall-@Index
+		dc.w @SecondFall-@Index
 ; ===========================================================================
 
 @Init:	; Routine 0
@@ -39,8 +40,21 @@ SegaLetter:
 		jmp		DisplaySprite
 
 @Lock:
+		cmp.w 	#45, v_demolength
+		bge.s 	@ContinueLocking
+
+		addq.b	#2, obRoutine(a0)
+		bra.s 	@SecondFall
+
+@ContinueLocking:
 		move.w 	#$EE, obScreenY(a0)
 		jmp		DisplaySprite
+
+@SecondFall:
+		jsr 	ScreenObjectFall
+		jmp		DisplaySprite
+
+; ===========================================================================
 
 @Display:
 		jmp		DisplaySprite

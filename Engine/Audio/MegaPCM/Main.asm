@@ -27,7 +27,7 @@ SampleTable:
 		dcSample	TYPE_PCM, Tom2, 		17808, 					; $99	- Tom-2 Hi-Mid
 		dcSample	TYPE_PCM, Tom2, 		14914, 					; $9A	- Tom-2 Lo-Mid
 		dcSample	TYPE_PCM, Tom2, 		11256, 					; $9B	- Tom-2 Low
-		dcSample	TYPE_PCM, SonicCD_Yes, 	22095, FLAGS_SFX 		; $9C	- Sonic CD Yes
+		dcSample	TYPE_PCM, GenesisDoes, 	11256, FLAGS_SFX 		; $9C	- Sonic CD Yes
 		dcSample	TYPE_PCM, Winrar, 		22050, FLAGS_SFX		; $9D	- Winrar
 		dcSample	TYPE_PCM, Tom2,         22050, FLAGS_SFX		; $9E	- Nah
 		dcSample	TYPE_PCM, ChillToTheMax,22050, FLAGS_SFX 		; $9F	- Lightning_Splash - Chill To The Max
@@ -69,7 +69,7 @@ SampleTable:
 		; Vladikcomper -----------------------
 		incdac	FallSFX, "Data\Audio\DAC\FallSFX.snd"
 		incdac	SegaPCM, "Data\Audio\DAC\SegaPCM.bin"
-		incdac	SonicCD_Yes, "Data\Audio\DAC\SonicCD_Yes.snd"
+		incdac	GenesisDoes, "Data\Audio\DAC\GenesisDoes.raw"
 
 		; Fuzzy ------------------------------
 		incdac	Winrar, "Data\Audio\DAC\Winrar.wav"

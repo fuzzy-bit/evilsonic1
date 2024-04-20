@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "",
-    "node": "fc9ba070-14eb-4bd1-ab8a-a6544c743acc",
+    "node": "9aab3f18-9822-4d1f-87f6-a5a76d45b0b1",
     "objects": [
         {
             "format": "Sonic 3&K Player.js",
@@ -421,7 +421,7 @@
                     "name": "Items",
                     "palettes": [
                         {
-                            "path": "Data/Palette/Menu Font.bin",
+                            "path": "Data/Palette/Menu/Menu Font.bin",
                             "length": 1
                         }
                     ],

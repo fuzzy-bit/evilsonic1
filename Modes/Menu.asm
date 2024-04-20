@@ -24,7 +24,7 @@ _VRAM_MenuFont_Pat = (_VRAM_MenuFont/$20)
 Menu_RAM:	equ	$FFFFA000
 
 		rsset	Menu_RAM
-Menu_ID:			rs.b	1	; Currently selected menu
+Menu_ID:				rs.b	1	; Currently selected menu
 Menu_ItemID:			rs.b	1	; Currently selected menu item
 Menu_NumItems:			rs.b	1	; Number of items in the menu	  
 Menu_Status:			rs.b 	1	; Indicates menu status ($80 - working, indicates number of objects remain)
@@ -32,7 +32,8 @@ Menu_Anim_In: 			rs.b	1	; Menu appear animation
 Menu_Anim_Out:			rs.b	1	; Menu hide animation
 Menu_HighlightPos:		rs.w	1	; Menu highlighter position
 Menu_HighlightHeight:		rs.b	1	; Menu highlighter height
-Menu_HighlightLastItemID:	rs.b	1	;
+Menu_HighlightLastItemID:	rs.b	1	; Menu highlighter last item ID
+Menu_CheatInput:			rs.w	1	; Cheat input state
 
 ; ===============================================================
 ; ---------------------------------------------------------------
@@ -214,6 +215,25 @@ MainMenu_MenuHideLoop2:
 @Quit:	jsr	PaletteFadeOut
 	move.w	#$8C81, vdp_control_port	; turn off S&H
 	rts
+
+; ---------------------------------------------------------------
+; Menu secret loop
+; ---------------------------------------------------------------
+MainMenu_SecretLoop:
+	move.b	#2, (v_vbla_routine).w
+	jsr	WaitForVBla
+
+	tst.w 	(v_demolength).w
+	beq.s 	@Die
+
+	jsr	ExecuteObjects
+	jsr	BuildSprites
+	jsr	Menu_UpdateScrolling
+	jmp	MainMenu_MenuExecute
+
+@Die:
+	jsr PaletteFadeOut
+	jmp	ShowHiddenImage
 
 ; ===============================================================
 
@@ -422,16 +442,62 @@ Menu_UpdateHighlighter:
 @Quit:	rts
 
 
-; ===============================================================
+
 ; ---------------------------------------------------------------
 ; Subroutine to control menu 'n' shit
+; and cheats hiiiiiiiiii <3
 ; ---------------------------------------------------------------
-
 MainMenu_ControlMenu:
 	move.b	v_jpadpress1, d3
+	beq.s 	@Return
+
 	move.b	Menu_ItemID, d1
 	move.b	Menu_NumItems, d2
+	
+	lea		(@CheatCode), a1
+	move.w	Menu_CheatInput, d4
+	adda.w 	d4, a1
 
+	cmp.b	(a1), d3
+	bne.s	@ResetCheat
+	adda.w 	#2, a1
+
+	tst.b	(a1)
+	beq.s 	@Activate
+	
+	addq.w	#1, Menu_CheatInput
+	bra.s 	@CheckInputs
+
+@ResetCheat:
+	move.w	#0, Menu_CheatInput
+	bsr.s 	@CheckInputs
+
+@Return:
+	rts
+
+; ---------------------------------------------------------------
+
+@Activate:
+	sfx	sfx_Goal
+	
+	move.w  #$90, (v_demolength).w
+
+	; sex is now real
+	move.b	#$08, Menu_ID			; change menus
+	jsr 	MainMenu_LoadMenu
+	
+	rts
+
+; ---------------------------------------------------------------
+
+@CheatCode:
+		; 'ABABCBCA'
+		dc.b btnA, btnB, btnA, btnB, btnC, btnB, btnC, btnA, 1, 0
+		even
+
+; ---------------------------------------------------------------
+
+@CheckInputs:
 	btst	#bitDn, d3			; Down pressed?
 	beq.s	@ChkUp				; if not, branch
 	addq.b	#1,d1
@@ -453,8 +519,10 @@ MainMenu_ControlMenu:
 	sfx	sfx_switch	
 
 @ChkSelect:
-	andi.b	#btnABC+btnStart, d3		; A/B/C/Start pressed?
+	andi.b	#btnStart, d3		; A/B/C/Start pressed?
 	rts
+
+
 
 ; ===============================================================
 ; ---------------------------------------------------------------
@@ -505,6 +573,7 @@ MainMenu_MenuCommands:
 	dc.w	MainMenu_Locked_Cmd-@L				; $05
 	dc.w	DifficultySelect_Locked_Cmd-@L		; $06
 	dc.w	ShakeChoice_Cmd-@L					; $07
+	dc.w	Sataivlis_Cmd-@L					; $08
 
 MainMenu_MenuElements:
 @L	dc.w	MainMenu_Full-@L					; $00
@@ -515,6 +584,7 @@ MainMenu_MenuElements:
 	dc.w	MainMenu_Locked-@L					; $05
 	dc.w	DifficultySelect_Locked-@L			; $06
 	dc.w	ShakeChoice-@L						; $07
+	dc.w	SataivlisMsg-@L					; $08
 ; ---------------------------------------------------------------
 
 MainMenu_Full:
@@ -763,6 +833,31 @@ ShakeChoice_Cmd:
 	dc.l	Hwnd_ShakeChoice_No		; MainMenu_MenuHide2 Code handler
 
 ; ---------------------------------------------------------------
+
+SataivlisMsg:
+	dc.b	0				; Default Item
+	dc.b	3				; Size
+	dc.w	$0018, $E0-8			; Index/Frame, Y-pos
+	dc.w	$0119, $F0			;
+	dc.w	$021A, $108			;
+		
+Sataivlis_Cmd:
+	; R18
+	dc.b	_FromLeft,_ToBottom			; In/Out anim
+	dc.l	MainMenu_SecretLoop		; Loop handler
+	dc.l	Hwnd_Universal_Nothing		; Code handler
+
+	; SATAIVLIS
+	dc.b	_FromRight,_ToRight				; In/Out anim
+	dc.l	MainMenu_SecretLoop		; Loop handler
+	dc.l	Hwnd_Universal_Nothing	; Code handler
+
+	; FUNTIME
+	dc.b	_FromBottom,_ToLeft		; In/Out anim
+	dc.l	MainMenu_SecretLoop		; Loop handler
+	dc.l	Hwnd_Universal_Nothing		; Code handler
+
+; ---------------------------------------------------------------
 ; Menu Handlers
 ; ---------------------------------------------------------------
 
@@ -943,6 +1038,9 @@ Hwnd_LevelSelectMenu_Back:
 ; ---------------------------------------------------------------
 Hwnd_Universal_Locked:
 	sfx sfx_error
+	rts
+
+Hwnd_Universal_Nothing:
 	rts
 
 ; ===============================================================
