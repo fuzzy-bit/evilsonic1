@@ -176,7 +176,7 @@ SegaScreen:
 		dc.b 	btnB, $A2
 		dc.w 	60
 
-		; Oh Jeez
+		; The One And Only
 		dc.b 	btnC, $A5
 		dc.w 	4*60
 
