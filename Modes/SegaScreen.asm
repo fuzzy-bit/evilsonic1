@@ -6,6 +6,9 @@ SegaScreen_RAM:	equ	$FFFFA000
 		rsset	SegaScreen_RAM
 SegaScreen_Secret:			rs.b	1	; Secret enabled
 SegaScreen_SecretPlaying:	rs.b	1	; Secret playing (lol)
+SegaScreen_SampleId:		rs.b 	1	; Sample ID
+							rs.b 	1	;
+SegaScreen_AdditionalTime:	rs.w 	1	; Additional time
 
 SegaScreen:
 		command	mus_Stop
@@ -84,7 +87,7 @@ SegaScreen:
 		move.w	#-$400+64, $3A(a1)
 		; End of suckage
 
-		add.w	#4*60, (v_demolength).w ; set delay time (3 seconds on a 60hz system)
+		add.w	#4*60, (v_demolength).w ; set delay time (4 seconds on a 60hz system)
 
 @Loop:
 		move.b	#2, (v_vbla_routine).w 	; demo time routine
@@ -96,23 +99,44 @@ SegaScreen:
 		cmp.w 	#(4*60)-10, v_demolength
 		blt.s 	@StartCheck
 
-		cmp.b	#btnABC, (v_jpadhold1).w
-		bne.s	@StartCheck
+		lea		@ButtonCombinations, a0
+		move.w 	#$FFFF, d3
+		move.b 	(v_jpadhold1).w, d4
 
-		move.b 	#1, SegaScreen_Secret
-		add.w 	#7*60, v_demolength
-		bra.s 	@StartCheck
+	@ButtonCheckLoop:
+			move.b 	(a0)+, d0 ; Buttons
+			move.b 	(a0)+, d1 ; Sample ID
+			move.w 	(a0)+, d2 ; Time
+
+			cmp.w 	d2, d3
+			beq.s 	@StartCheck
+
+			cmp.b	d0, d4
+			bne.s	@ButtonCheckLoop
+
+			move.b 	#1, SegaScreen_Secret
+
+			move.b 	d1, SegaScreen_SampleId
+			move.w 	d2, SegaScreen_AdditionalTime
+			add.w 	d2, v_demolength
+			bra.s 	@StartCheck
 
 @SecretCheck:
 		tst.b 	SegaScreen_SecretPlaying
 		bne.s 	@StartCheck
 		
-		cmp.w 	#(8*60), v_demolength
-		bge.s 	@StartCheck
+		move.w 	v_demolength, d0
+		move.w 	v_demolength, d1
+		move.w 	SegaScreen_AdditionalTime, d2
+		sub.w 	#$40, d1
+		sub.w 	d2, d1
+
+		tst.w 	d1
+		bne.s 	@StartCheck
 
 		move.b 	#1, SegaScreen_SecretPlaying
 		
-		moveq  	#$FFFFFF9C,d0
+		move.b  SegaScreen_SampleId, d0
 		jsr    	PlaySample
 
 @StartCheck:
@@ -125,13 +149,39 @@ SegaScreen:
 		jsr 	(ExecuteObjects).l
 		jsr 	(BuildSprites).l
 
-		bra.s 	@Loop
+		bra.w 	@Loop
 
 @NextScreen:
 		bsr.w	PaletteFadeOut
 		move.b	#$28, (v_gamemode).w
 		rts
 		
+; ===========================================================================
+
+@ButtonCombinations:
+		; Buttons ; Sample
+		; Time
+
+		; Genesis Does
+		dc.b 	btnABC, $9C
+		dc.w 	7*60
+
+		; もげーたんと
+		; いいことしよ？
+		; Moge-tan to... Ii koto shi yo?
+		dc.b 	btnA, $A1
+		dc.w 	2*60
+
+		; Oh Jeez
+		dc.b 	btnB, $A2
+		dc.w 	60
+
+		; Oh Jeez
+		dc.b 	btnC, $A5
+		dc.w 	4*60
+
+		dc.l	$FFFFFFFFF
+
 ; ===========================================================================
 		include "Data\Mappings\Sprites\Sega Logo.asm"
 
