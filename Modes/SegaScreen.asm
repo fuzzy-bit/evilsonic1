@@ -100,26 +100,25 @@ SegaScreen:
 		blt.s 	@StartCheck
 
 		lea		@ButtonCombinations, a0
-		move.w 	#$FFFF, d3
-		move.b 	(v_jpadhold1).w, d4
+		move.b 	(v_jpadhold1).w, d3
 
-	@ButtonCheckLoop:
-			move.b 	(a0)+, d0 ; Buttons
-			move.b 	(a0)+, d1 ; Sample ID
-			move.w 	(a0)+, d2 ; Time
+@ButtonCheckLoop:
+		move.w 	(a0)+, d2	; load time into d2
+		bmi.s  @StartCheck	; exit if we're at the end of the table (time entry is negative)
 
-			cmp.w 	d2, d3
-			beq.s 	@StartCheck
+		cmp.b	(a0)+, d3	; check button combination
+		beq.s	@FoundMatchingButtons	; if v_jpadhold1 == (a0), branch
 
-			cmp.b	d0, d4
-			bne.s	@ButtonCheckLoop
+		addq.w	#1, a0		; skip sample id
+		bra.s	@ButtonCheckLoop	; loop back
 
-			move.b 	#1, SegaScreen_Secret
+@FoundMatchingButtons:
+		move.b 	(a0), SegaScreen_SampleId
+		move.w 	d2, SegaScreen_AdditionalTime
+		add.w 	d2, v_demolength
 
-			move.b 	d1, SegaScreen_SampleId
-			move.w 	d2, SegaScreen_AdditionalTime
-			add.w 	d2, v_demolength
-			bra.s 	@StartCheck
+		move.b 	#1, SegaScreen_Secret
+		bra.s 	@StartCheck
 
 @SecretCheck:
 		tst.b 	SegaScreen_SecretPlaying
@@ -159,28 +158,28 @@ SegaScreen:
 ; ===========================================================================
 
 @ButtonCombinations:
-		; Buttons ; Sample
 		; Time
+		; Buttons ; Sample
 
 		; Genesis Does
-		dc.b 	btnABC, $9C
 		dc.w 	7*60
+		dc.b 	btnABC, $9C
 
 		; もげーたんと
 		; いいことしよ？
 		; Moge-tan to... Ii koto shi yo?
-		dc.b 	btnA, $A1
 		dc.w 	2*60
+		dc.b 	btnA, $A1
 
 		; Oh Jeez
-		dc.b 	btnB, $A2
 		dc.w 	60
+		dc.b 	btnB, $A2
 
 		; The One And Only
-		dc.b 	btnC, $A5
 		dc.w 	4*60
+		dc.b 	btnC, $A5
 
-		dc.l	$FFFFFFFFF
+		dc.w	$FFFF
 
 ; ===========================================================================
 		include "Data\Mappings\Sprites\Sega Logo.asm"
